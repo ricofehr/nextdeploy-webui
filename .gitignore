@@ -1,0 +1,11 @@
+# Ignore .swp
+*.swp
+
+# Ignore bundler config.
+.bundle
+
+#rubymine folder
+.idea
+
+# Ignore application.js who must be generated
+/javascripts/application.js
