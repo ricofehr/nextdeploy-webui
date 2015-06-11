@@ -259,8 +259,6 @@ var UsersNewController = Ember.ObjectController.extend({
           user.get('group').get('users').removeObject(user);
           user.setProperties(data);
 
-          Ember.Logger.debug(user) ;
-
           selectedGroup.get('users').pushObject(user);
           user.save();
         });

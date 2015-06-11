@@ -1,8 +1,4 @@
 var SshkeysNewController = Ember.ObjectController.extend({
-  //user combobox
-  //computeSorting: ['email'],
-  //transitionList: false,
-
   //validation variables
   errorName: false,
   errorKey: false,
@@ -34,8 +30,6 @@ var SshkeysNewController = Ember.ObjectController.extend({
   formIsValid: function() {
     this.checkName() ;
     this.checkKey() ;
-
-    Ember.Logger.debug(this.get('user'));
     
     if (!this.get('errorName') &&
         !this.get('errorKey')) return true ;
@@ -72,13 +66,7 @@ var SshkeysNewController = Ember.ObjectController.extend({
         sshkey.save() ;
       }
 
-      // if (this.get('transitionList')) {
-      //   // Return to keys list page
-      //   router.transitionTo('sshkeys.list');
-      // } else {
-      //   // Return to user profile page
-        router.transitionTo('users.edit', this.get('user.id'));
-      //}
+      router.transitionTo('users.edit', this.get('user.id'));
     }
   }
 });
