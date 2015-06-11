@@ -28,6 +28,14 @@ var ApplicationController = Ember.Controller.extend({
     if (access_level >= 40) return true ;
     return false ;
   }.property('App.AuthManager.apiKey'),
+
+  // Return true if user is a Dev or more
+  isDev: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 30) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
 });
 
 module.exports = ApplicationController;

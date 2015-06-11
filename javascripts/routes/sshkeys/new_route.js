@@ -4,20 +4,14 @@ var AuthenticatedRoute = require('../authenticated_route');
 var SshkeysNewRoute = AuthenticatedRoute.extend({
   // Return all users for the sshkey create form
   model: function() {
-    return Ember.RSVP.hash({
-      userlist: this.store.all('user')
-    });
+    return this.store.find('user', params.user_id);
   },
 
   // Setup the controller with the model
   setupController: function(controller, model) {
-    this._super(controller, model);
-
-    content = Ember.Object.create() ;
-    content.set('user', {content: null}) ;
-    content.set('transitionList', true) ;
-    this.controllerFor('sshkeys.new').setProperties({model: content,
-                                                      userlist: model.userlist}) ;
+    content = Ember.Object.create();
+    content.set('user', model);
+    controller.set('model', content);
   }
 });
 

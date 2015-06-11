@@ -34,7 +34,7 @@ var UsersNewController = Ember.ObjectController.extend({
     var group_access = 0;
     var project = null ;
 
-    if (this.get('id') && this.get('id') != null) group_access = this.get('group').get('access_level');
+    if (this.get('group') && this.get('group') != null) group_access = this.get('group').get('content.access_level');
     if (access_level < 50 || group_access == 50) readonly = true ;
 
     if(projects) {
@@ -203,6 +203,23 @@ var UsersNewController = Ember.ObjectController.extend({
     if (current_id == form_id) return true ;
     return false ;
   }.property('App.AuthManager.apiKey'),
+
+  // show only if form user is allowed by ssh key
+  isSSH: function() {
+    var access_level_user ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var current_id = App.AuthManager.get('apiKey.user') ;
+    var user_id = this.get('id');
+
+    if (user_id == null || !user_id) return false;
+
+    access_level_user = this.get('group').get('content.access_level');
+    if (access_level_user < 30) return false;
+    
+    if (access_level >= 50) return true ;
+    if (current_id == user_id) return true ;
+    return false;
+  }.property('id'),
 
   // actions binding with user event
   actions: {

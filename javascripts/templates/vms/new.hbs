@@ -107,10 +107,12 @@
   {{/if}}
 
   <div class="form-group">
+  {{#if isDev}}
   {{#if advancedForm}}
   <button {{action "toggleAdvanced"}} class="btn btn-default"><span class="glyphicon glyphicon-collapse-up"></span> Standard Mode</button><br/>
   {{else}}
   <button {{action "toggleAdvanced"}} class="btn btn-default"><span class="glyphicon glyphicon-collapse-down"></span> Advanced Mode</button><br/>
+  {{/if}}
   {{/if}}
   <label class="control-label col-sm-2">
     <button type="submit" class="btn btn-primary">Submit</button>

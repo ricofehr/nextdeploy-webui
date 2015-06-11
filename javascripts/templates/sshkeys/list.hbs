@@ -8,7 +8,7 @@
     </tr>
 </thead>
 <tbody>
-    {{#each}}
+    {{#each sshkeys}}
     <tr>
         <td>{{input type="checkbox" checked=todelete}}</td>
         <td>{{#linkTo 'sshkeys.edit' id}}{{name}}{{/linkTo}}</td>

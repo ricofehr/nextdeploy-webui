@@ -1,7 +1,8 @@
 // Ember controller for list users into html array
 var UsersListController = Ember.ArrayController.extend({
   // Sort order
-  sortProperties: ['company', 'email'],
+  sortProperties: ['company', 'group', 'email'],
+  sortAscending: true,
   
   // Show / hide on html side
   isShowingDeleteConfirmation: false,

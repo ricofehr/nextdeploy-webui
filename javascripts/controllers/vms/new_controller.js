@@ -129,6 +129,14 @@ var VmsNewController = Ember.ObjectController.extend({
     this.set('selectedSizing', null) ;
   },
 
+  // Return true if user is a Dev or more
+  isDev: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 30) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
+
   // project change event
   projectChange: function() {
     var store = this.store;

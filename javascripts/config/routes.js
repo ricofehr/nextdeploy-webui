@@ -35,10 +35,10 @@ App.Router.map(function() {
 
   // Sshkey routes
   this.resource('sshkeys', function() {
-    this.route('list');
-    this.route('byuser', { path:'/byuser/:user_id' });
-    this.route('bygroup', { path:'/bygroup/:group_id' });
-    this.route('new');
+    this.route('list', { path:'/list/:user_id' });
+    //this.route('byuser', { path:'/byuser/:user_id' });
+    //this.route('bygroup', { path:'/bygroup/:group_id' });
+    this.route('new', { path:'/new/:user_id' });
     this.route('edit', { path:'/edit/:sshkey_id' });
   })
 

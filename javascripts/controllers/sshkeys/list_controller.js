@@ -1,7 +1,7 @@
 // Ember controller for list ssh keys into html array
-var SshkeysListController = Ember.ArrayController.extend({
+var SshkeysListController = Ember.ObjectController.extend({
   // Sort order
-  sortProperties: ['user.group', 'user.email', 'name'],
+  //sortProperties: ['name'],
 
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
@@ -12,7 +12,9 @@ var SshkeysListController = Ember.ArrayController.extend({
     // action for delete event
     deleteItems: function() {
       var router = this.get('target');
-      var items = this.filterProperty('todelete', true) ;
+      var model = this.get('model') ;
+      var sshkeys = model.get('sshkeys');
+      var items = sshkeys.filterProperty('todelete', true) ;
 
       for(i=0; i<items.length; i++) {
         if (items[i].todelete) { items[i].destroyRecord() ; }
@@ -29,8 +31,9 @@ var SshkeysListController = Ember.ArrayController.extend({
 
     // Action for add a new item, change current page to create form
     newItem: function() {
-      var router = this.get('target') ;
-      router.transitionTo('sshkeys.new') ;
+      var router = this.get('target');
+      var model = this.get('model');
+      router.transitionTo('sshkeys.new', model) ;
     },
 
     // Toggle or untoggle all items

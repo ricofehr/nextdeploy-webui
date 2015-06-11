@@ -225,6 +225,12 @@ var ProjectsNewController = Ember.ObjectController.extend({
       this.set('gitpath', gitpath.toLowerCase()) ;
   }.observes('brand.content', 'name'),
 
+  // Disable if edit item
+  isDisableEdit: function() {
+    if(this.get('id')) return true ;
+    else return false ;
+  },
+
   // Check if current user is admin and can change properties
   isDisableAdmin: function() {
     var access_level = App.AuthManager.get('apiKey.accessLevel') ;
