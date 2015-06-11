@@ -23,7 +23,7 @@
         <td>{{input type="checkbox" checked=project.todelete}}</td>
       {{/if}}
 
-      {{#if isLead}}
+      {{#if isAdmin}}
         <td>{{#linkTo 'projects.edit' project.id}}{{project.name}}{{/linkTo}}</td>
       {{else}}
         <td>{{project.name}}</td>

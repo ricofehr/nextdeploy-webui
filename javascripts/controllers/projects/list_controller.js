@@ -2,6 +2,7 @@
 var ProjectsListController = Ember.ArrayController.extend({
   // Sort order
   sortProperties: ['brand', 'name'],
+  sortAscending: true,
   
   // Show / hide on html side
   isShowingDeleteConfirmation: false,

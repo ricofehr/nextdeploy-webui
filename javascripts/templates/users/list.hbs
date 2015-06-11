@@ -58,16 +58,7 @@
         <td>{{user.vms.length}}</td>
       {{/if}}
     {{/if}}
-
-    {{#if isAdmin}}
-      <td>{{#linkTo 'sshkeys.byuser' user.id}}{{user.sshkeys.length}}{{/linkTo}}</td>
-    {{else}}
-      {{#if user.isCurrent}}
-        <td>{{#linkTo 'sshkeys.byuser' user.id}}{{user.sshkeys.length}}{{/linkTo}}</td>
-      {{else}}
-        <td>{{user.sshkeys.length}}</td>
-      {{/if}}
-    {{/if}}
+      <td>{{user.sshkeys.length}}</td>
   </tr>
   {{/each}}
 </tbody>

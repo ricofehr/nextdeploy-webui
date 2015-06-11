@@ -1,7 +1,8 @@
 // Ember controller for list vm into html array
 var VmsListController = Ember.ArrayController.extend({
   // Sort order
-  sortProperties: ['project', 'commit'],
+  sortProperties: ['project', 'user.email'],
+  sortAscending: true,
   
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
@@ -26,6 +27,14 @@ var VmsListController = Ember.ArrayController.extend({
     var access_level = App.AuthManager.get('apiKey.accessLevel') ;
 
     if (access_level == 50) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
+
+  // Check if current user can launch vm
+  isVm: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 20) return true ;
     return false ;
   }.property('App.AuthManager.apiKey'),
 

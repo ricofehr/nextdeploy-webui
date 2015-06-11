@@ -15,8 +15,10 @@
 
           {{#if isAuthenticated}}
             {{#linkTo 'vms.list' tagName='li' href=false}}<a href="">Vms</a>{{/linkTo}}
-            {{#linkTo 'projects.list' tagName='li' href=false}}<a href="">Projects</a>{{/linkTo}}
-
+            {{#if isDev}}
+              {{#linkTo 'projects.list' tagName='li' href=false}}<a href="">Projects</a>{{/linkTo}}
+            {{/if}}
+            
             {{#if isLead}}
               {{#linkTo 'users.list' tagName='li' href=false}}<a href="">Users</a>{{/linkTo}}
             {{/if}}

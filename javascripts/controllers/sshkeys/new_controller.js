@@ -1,11 +1,9 @@
 var SshkeysNewController = Ember.ObjectController.extend({
   //user combobox
-  computeSorting: ['email'],
-  usersSort: Ember.computed.sort('userlist', 'computeSorting'),
-  transitionList: false,
+  //computeSorting: ['email'],
+  //transitionList: false,
 
   //validation variables
-  errorUser: false,
   errorName: false,
   errorKey: false,
 
@@ -21,17 +19,6 @@ var SshkeysNewController = Ember.ObjectController.extend({
     this.set('errorName', errorName) ;
   }.observes('name'),
 
-  checkUser: function() {
-    var user = this.get('user.content') ;
-    var errorUser = false ;
-
-    if (!user) {
-      errorUser = true ;
-    }
-
-    this.set('errorUser', errorUser) ;
-  }.observes('user.content'),
-
   checkKey: function() {
     var key = this.get('key') ;
     var errorKey = false ;
@@ -45,12 +32,12 @@ var SshkeysNewController = Ember.ObjectController.extend({
 
   //check form before submit
   formIsValid: function() {
-    this.checkUser() ;
     this.checkName() ;
     this.checkKey() ;
 
-    if (!this.get('errorUser') &&
-        !this.get('errorName') &&
+    Ember.Logger.debug(this.get('user'));
+    
+    if (!this.get('errorName') &&
         !this.get('errorKey')) return true ;
     return false ;
   }.observes('model'),
@@ -58,7 +45,6 @@ var SshkeysNewController = Ember.ObjectController.extend({
   //clear form
   clearForm: function() {
     this.set('name', null) ;
-    this.set('user.content', null) ;
     this.set('key', null) ;
   },
 
@@ -73,7 +59,7 @@ var SshkeysNewController = Ember.ObjectController.extend({
         return ;
       }
 
-      data['user'] = this.get('user.content') ;
+      data['user'] = this.get('user') ;
 
       //if id is present, so update item, else create new one
       if(data['id']) {
@@ -86,13 +72,13 @@ var SshkeysNewController = Ember.ObjectController.extend({
         sshkey.save() ;
       }
 
-      if (this.get('transitionList')) {
-        // Return to keys list page
-        router.transitionTo('sshkeys.list');
-      } else {
-        // Return to user profile page
-        router.transitionTo('users.edit', this.get('user.content.id'));
-      }
+      // if (this.get('transitionList')) {
+      //   // Return to keys list page
+      //   router.transitionTo('sshkeys.list');
+      // } else {
+      //   // Return to user profile page
+        router.transitionTo('users.edit', this.get('user.id'));
+      //}
     }
   }
 });

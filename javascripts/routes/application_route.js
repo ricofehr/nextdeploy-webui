@@ -19,9 +19,10 @@ var ApplicationRoute = Ember.Route.extend({
       }
 
       // Redirect to login page
-      App.AuthManager.reset().then(function() {
-        this.transitionTo('index') ;
-      }) ;
+      App.AuthManager.reset();
+      // .then(function() {
+      //   this.transitionTo('index') ;
+      // }) ;
     }
   }
 });

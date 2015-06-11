@@ -108,9 +108,7 @@
   </div>
 </form>
 
-{{#if isEnable}}
-{{#if id}}
+{{#if isSSH}}
   <legend>SSh Keys</legend>
-  {{render 'sshkeys.list' sshkeys}}
-{{/if}}
+  {{render 'sshkeys.list' model}}
 {{/if}}
