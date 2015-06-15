@@ -4,6 +4,7 @@
         {{#if isVm}}<th><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
         <th>Commit</th>
         <th>Uri</th>
+        <th>Status</th>
         <th>Project</th>
         <th>System</th>
         <th>User</th>
@@ -18,6 +19,9 @@
         {{#if isVm}}<td>{{input type="checkbox" checked=vm.todelete}}</td>{{/if}}
         <td>{{vm.commit.short_id}}</td>
         <td><span {{action "showUri" vm.name vm.project.login vm.project.password}} class="glyphicon glyphicon-new-window"></span></td>
+        {{#if vm.sucStatus}}<td class="success">{{vm.textStatus}}</td>{{/if}}
+        {{#if vm.warnStatus}}<td class="warning">{{vm.textStatus}}</td>{{/if}}
+        {{#if vm.dangStatus}}<td class="danger">{{vm.textStatus}}</td>{{/if}}
         <td>{{vm.project.name}}</td>
         <td>{{vm.systemimage.name}}</td>
         <td>{{vm.user.email}}</td>

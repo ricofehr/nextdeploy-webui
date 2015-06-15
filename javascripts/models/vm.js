@@ -4,6 +4,7 @@ var Vm = DS.Model.extend({
   name: DS.attr('string'),
   nova_id: DS.attr('string'),
   floating_ip: DS.attr('string'),
+  status: DS.attr('number'),
   user: DS.belongsTo('user', {async: true}),
   project: DS.belongsTo('project', {async: true}),
   systemimage: DS.belongsTo('systemimage', {async: true}),
