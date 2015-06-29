@@ -1,6 +1,6 @@
 # mvmc-webui
 
-Webui  for mvmc project (repo here: https://github.com/ricofehr/mvmc)
+Webui  for [mvmc project](https://github.com/ricofehr/mvmc)
 
 The Web Gui is developed with Ember framework.
 The Ember stack is localised in rails standard location, into public folder.
