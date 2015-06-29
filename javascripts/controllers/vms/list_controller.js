@@ -57,14 +57,25 @@ var VmsListController = Ember.ArrayController.extend({
   // actions binding with user event
   actions: {
     // action to show vm uri into popin modal
-    showUri: function(uri, login, password) {
+    showUri: function(uri, login, password, technos) {
+      var technonjs = technos.findBy('name', 'nodejs');
       var modal = $('#textModal');
       modal.find('.modal-title').text('Urls');
-      modal.find('.modal-body').html(
-        '<a href="http://' + login + ':' + password + '@' + uri + '" target="_blank">'+ uri + '</a><br/>' +
-        '<a href="http://' + login + ':' + password + '@' + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
-        '<a href="http://' + login + ':' + password + '@' + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>'
-      );
+
+      if (technonjs) {
+        modal.find('.modal-body').html(
+          '<a href="http://' + login + ':' + password + '@' + uri + '" target="_blank">'+ uri + '</a><br/>' +
+          '<a href="http://' + login + ':' + password + '@' + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
+          '<a href="http://' + login + ':' + password + '@' + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>' +
+          '<a href="http://' + login + ':' + password + '@' + 'nodejs.' + uri + '" target="_blank">nodejs.'+ uri + '</a><br/>'
+        );
+      } else {
+        modal.find('.modal-body').html(
+          '<a href="http://' + login + ':' + password + '@' + uri + '" target="_blank">'+ uri + '</a><br/>' +
+          '<a href="http://' + login + ':' + password + '@' + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
+          '<a href="http://' + login + ':' + password + '@' + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>'
+        );
+      }
       modal.modal();
     },
 
