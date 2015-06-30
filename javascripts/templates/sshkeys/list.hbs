@@ -2,18 +2,16 @@
  <thead>
     <tr>
         <th><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>
-        <th>SShkey</th>
-        <th>Email</th>
-        <th>Group</th>
+        <th>Name</th>
+        <th>Key</th>
     </tr>
 </thead>
 <tbody>
     {{#each sshkeys}}
     <tr>
         <td>{{input type="checkbox" checked=todelete}}</td>
-        <td>{{#linkTo 'sshkeys.edit' id}}{{name}}{{/linkTo}}</td>
-        <td>{{#linkTo 'users.edit' user.id}}{{user.email}}{{/linkTo}}</td>
-        <td>{{user.group.name}}</td>
+        <td>{{name}}</td>
+        <td>{{key}}</td>
     </tr>
     {{/each}}
 </tbody>

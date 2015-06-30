@@ -39,7 +39,7 @@ App.Router.map(function() {
     //this.route('byuser', { path:'/byuser/:user_id' });
     //this.route('bygroup', { path:'/bygroup/:group_id' });
     this.route('new', { path:'/new/:user_id' });
-    this.route('edit', { path:'/edit/:sshkey_id' });
+    //this.route('edit', { path:'/edit/:sshkey_id' });
   })
 
   // Brand routes

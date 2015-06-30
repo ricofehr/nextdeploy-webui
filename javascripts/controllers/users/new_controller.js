@@ -172,7 +172,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
     if (access_level >= 40) return false ;
     return true ;
-  }.property('App.AuthManager.apiKey'),
+  }.property('id'),
 
   // Check if current user is admin and can change properties
   isDisableAdmin: function() {
@@ -180,7 +180,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
     if (access_level >= 50) return false ;
     return true ;
-  }.property('App.AuthManager.apiKey'),
+  }.property('id'),
 
   // Check if current user is same as current form / or admin and can change properties
   isDisable: function() {
@@ -191,7 +191,7 @@ var UsersNewController = Ember.ObjectController.extend({
     if (access_level >= 50) return false ;
     if (current_id == form_id) return false ;
     return true ;
-  }.property('App.AuthManager.apiKey'),
+  }.property('id'),
 
   // show only if current user is same as current form / or admin
   isEnable: function() {
@@ -202,7 +202,7 @@ var UsersNewController = Ember.ObjectController.extend({
     if (access_level >= 50) return true ;
     if (current_id == form_id) return true ;
     return false ;
-  }.property('App.AuthManager.apiKey'),
+  }.property('id'),
 
   // show only if form user is allowed by ssh key
   isSSH: function() {
