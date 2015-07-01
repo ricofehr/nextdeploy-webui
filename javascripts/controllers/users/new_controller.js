@@ -221,8 +221,105 @@ var UsersNewController = Ember.ObjectController.extend({
     return false;
   }.property('id'),
 
+  // return trie if current id is equal to authenticated user
+  isSelf: function() {
+    var current_id = App.AuthManager.get('apiKey.user') ;
+    var user_id = this.get('id');
+
+    if (user_id == current_id) return true;
+    return false
+  }.property('id'),
+
   // actions binding with user event
   actions: {
+    // get openvpn server ca
+    dlOvpnCa: function() {
+      var self = this;
+
+      $.ajax({
+        url: '/api/v1/user/ovpnca',
+        type: "GET",
+        headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
+        /**
+         * A function to be called if the request fails. 
+         */
+        error: function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status == 401) self.set('error401', true) ;
+          else self.set('error500', true) ;
+        },
+
+        success: function(results, textStatus, jqXHR) {
+           self.set('ovpn_ca', results);
+        }
+      });
+    },
+
+    // get openvpn client key
+    dlOvpnKey: function() {
+      var self = this;
+
+      $.ajax({
+        url: '/api/v1/user/ovpnkey',
+        type: "GET",
+        headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
+        /**
+         * A function to be called if the request fails. 
+         */
+        error: function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status == 401) self.set('error401', true) ;
+          else self.set('error500', true) ;
+        },
+
+        success: function(results, textStatus, jqXHR) {
+           self.set('ovpn_key', results);
+        }
+      });
+    },
+
+    // get openvpn client crt
+    dlOvpnCrt: function() {
+      var self = this;
+
+      $.ajax({
+        url: '/api/v1/user/ovpncrt',
+        type: "GET",
+        headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
+        /**
+         * A function to be called if the request fails. 
+         */
+        error: function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status == 401) self.set('error401', true) ;
+          else self.set('error500', true) ;
+        },
+
+        success: function(results, textStatus, jqXHR) {
+           self.set('ovpn_crt', results);
+        }
+      });
+    },
+
+    // get openvpn setting file
+    dlOvpnConf: function() {
+      var self = this;
+
+      $.ajax({
+        url: '/api/v1/user/ovpnconf',
+        type: "GET",
+        headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
+        /**
+         * A function to be called if the request fails. 
+         */
+        error: function(jqXHR, textStatus, errorThrown) {
+          if (jqXHR.status == 401) self.set('error401', true) ;
+          else self.set('error500', true) ;
+        },
+
+        success: function(results, textStatus, jqXHR) {
+           self.set('ovpn_conf', results);
+        }
+      });
+    },
+
     postItem: function() {
       var router = this.get('target');
       var data = this.getProperties('id', 'email', 'company', 'password', 'password_confirmation', 'quotavm');

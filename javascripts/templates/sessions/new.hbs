@@ -1,5 +1,60 @@
 {{#if isAuthenticated}}
-Welcome {{currentUser.email}}, you are authenticated !
+<p>
+Welcome {{currentUser.email}}<br/>
+You are well authenticated to Mvmc<br><br>
+
+<strong>Vm tab</strong>
+<ul>
+  <li>See your vms launched</li>
+  <li>Get the uri with credentials for the http access to your environments</li>
+{{#if isPM}}
+  <li>Launch a new vm</li>
+{{/if}}
+</ul>
+{{#if isDEV}}
+<strong>Project tab</strong>
+<ul>
+{{#if isAdmin}}
+  <li>Create / Modify / Delete a project</li>
+{{/if}}
+  <li>List of your projects</li>
+  <li>Get the path for git access to the project</li>
+{{/if}}
+</ul>
+{{#if isAdmin}}
+<strong>Brand tab</strong>
+<ul>
+  <li>Create / Modify / Delete a brand</li>
+</ul>
+{{/if}}
+{{#if isLead}}
+<strong>User tab</strong>
+<ul>
+{{#if isAdmin}}
+  <li>Create / Modify / Delete an user</li>
+{{/if}}
+  <li>List users binded to your projects</li>
+</ul>
+{{/if}}
+<strong>Your profile</strong>
+<ul>
+  <li>Edit your user setting</li>
+{{#if isDEV}}
+  <li>Manage your ssh keys</li>
+  <li>Download Openvpn client files</li>
+{{/if}}
+</ul>
+
+{{#if isPM}}
+<strong>Mvmc tools</strong>
+<ul>
+{{#if isDEV}}
+  <li>Mvmc Cli (Download archive, extract and laucn install.sh): <a href="http://cli.mvmc.services-pm.fr/" target="_blank">http://cli.mvmc.services-pm.fr</a></li>
+{{/if}}
+  <li>Mmvc Android App: <a href="http://apk.mvmc.service-pm.fr/" target="_blank">http://apk.mvmc.services-pm.fr/</a></li>
+</ul>
+{{/if}}
+</p>
 {{else}}
 <form {{action "loginUser" on="submit"}} class="form-horizontal">
   <legend>Please login</legend>

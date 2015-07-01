@@ -7,11 +7,11 @@
     </tr>
 </thead>
 <tbody>
-    {{#each sshkeys}}
+    {{#each sshkey in sshkeys}}
     <tr>
-        <td>{{input type="checkbox" checked=todelete}}</td>
-        <td>{{name}}</td>
-        <td>{{key}}</td>
+        <td>{{input type="checkbox" checked=sshkey.todelete}}</td>
+        <td>{{sshkey.name}}</td>
+        <td>{{sshkey.key_short}}</td>
     </tr>
     {{/each}}
 </tbody>
