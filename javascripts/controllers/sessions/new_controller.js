@@ -13,6 +13,38 @@ var SessionsNewController = Ember.ObjectController.extend({
     return App.AuthManager.isAuthenticated()
   }.property('App.AuthManager.apiKey'),
 
+  // Check if current user is admin
+  isAdmin: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level == 50) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
+
+  // Check if current user is at least lead
+  isLead: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 40) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
+
+  // Check if current user is at least dev
+  isDEV: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 30) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
+
+  // Check if current user is at least PM
+  isPM: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 20) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
+
   // load model datas if authentification is success
   redirectToTransition: function() {
     var self = this;

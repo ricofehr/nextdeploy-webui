@@ -7,6 +7,18 @@ var SshkeysListController = Ember.ObjectController.extend({
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
 
+  // Filter model values for html display
+  sshkeys: Ember.computed.map('model.sshkeys', function(model){
+    var key = model.get('key');
+    var key_l = key.length;
+    var key_s = key;
+
+    // crop key for display it into array
+    if (key_l>70) { key_s=key.substring(0,30)+'...'+key.substring(key_l-40, key_l); }
+    model.set('key_short', key_s) ;
+    return model ;
+  }),
+
   // actions binding with user event
   actions: {
     // action for delete event

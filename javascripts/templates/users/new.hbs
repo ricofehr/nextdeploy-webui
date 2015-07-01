@@ -111,4 +111,26 @@
 {{#if isSSH}}
   <legend>SSh Keys</legend>
   {{render 'sshkeys.list' model}}
+
+  {{#if isSelf}}
+  <br><br>
+  <legend>Openvpn</legend>
+  An openvpn connection is mandatory for ssh access into your virtual web servers.<br>
+  Firstly, you need an openvpn client software:
+  <ul>
+    <li>On ubuntu: apt-get install openvpn</li>
+    <li>On MacOs: https://code.google.com/p/tunnelblick/</li>
+    <li>On windows: https://openvpn.net/index.php/open-source/downloads.html</li>
+  </ul>
+  <br/>
+  After it, you need to download the setting file and import this one into your openvpn client software.<br>
+  The 3 others files (server crt, client key and client crt) must be downloaded and copied in specific emplacement on your filesystem.<br>
+  Please change the path of this 3 files into the setting file if the destination folder is not the same than this one.<br>
+  <ul>
+    <li><button {{action "dlOvpnConf"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client openvpn setting file{{#if ovpn_conf}}, copy/paste into your vpn client setting file (for example: mvmc.conf)<br/><pre>{{ovpn_conf}}</pre>{{/if}}</li>
+    <li><button {{action "dlOvpnCa"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The server crt file{{#if ovpn_ca}}, copy/paste into a crt file named ca.crt<br/><pre>{{ovpn_ca}}</pre>{{/if}}</li>
+    <li><button {{action "dlOvpnKey"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client key file{{#if ovpn_key}}, copy/paste into a key file named {{email}}.key<br/><pre>{{ovpn_key}}</pre>{{/if}}</li>
+    <li><button {{action "dlOvpnCrt"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client crt file{{#if ovpn_crt}}, copy/paste into a crt file named {{email}}.crt<br/><pre>{{ovpn_crt}}</pre>{{/if}}</li>
+  </ul>
+  {{/if}}
 {{/if}}
