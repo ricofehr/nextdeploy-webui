@@ -36,7 +36,7 @@ var VmsListController = Ember.ArrayController.extend({
     }) ;
 
     this.set('vms', vms) ;
-  }.observes('model'),
+  }.observes('model.[]'),
 
   // Check if current user is admin
   isAdmin: function() {
