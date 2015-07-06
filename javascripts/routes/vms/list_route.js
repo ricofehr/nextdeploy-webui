@@ -5,7 +5,7 @@ var VmsListRoute = AuthenticatedRoute.extend({
   // Init model for the list
   model: function() {
     // Get all vms from ember datas
-    return this.store.find('vm').filterBy('project').sort(['project']) ;
+    return this.store.all('vm') ;
   },
   setupController: function(controller, model){
     this._super(controller, model);
@@ -13,12 +13,13 @@ var VmsListRoute = AuthenticatedRoute.extend({
   },
   startRefreshing: function(){
     this.set('refreshing', true);
-    Ember.run.later(this, this.refresh, 30000);
+    Ember.run.later(this, this.refresh, 10000);
   },
   refresh: function(){
     if(!this.get('refreshing')) return;
-    this.store.find('vm').filterBy('project').sort(['project']);
-    Em.run.later(this, this.refresh, 30000);
+    this.store.find('vm');
+    
+    Ember.run.later(this, this.refresh, 30000);
   },
   actions:{
     willTransition: function(){

@@ -13,7 +13,7 @@ var VmsListController = Ember.ArrayController.extend({
     var model = this.get('model') ;
     var vmsFilter = model.filterBy('nova_id') ;
     var vmsSort = vmsFilter.sort('sortProperties') ;
-    var vms = vmsSort.map(function (model) {
+    vmsSort.map(function (model) {
       var textStatus = '';
       var warnStatus = false;
       var dangStatus = false;
@@ -32,11 +32,11 @@ var VmsListController = Ember.ArrayController.extend({
       model.set('warnStatus', warnStatus);
       model.set('dangStatus', dangStatus);
 
-      return model ;
+      //return model ;
     }) ;
 
-    this.set('vms', vms) ;
-  }.observes('model.[]'),
+    //this.set('vms', vms) ;
+  }.observes('model'),
 
   // Check if current user is admin
   isAdmin: function() {
@@ -82,7 +82,7 @@ var VmsListController = Ember.ArrayController.extend({
     // action for delete event
     deleteItems: function() {
       var router = this.get('target');
-      var vms = this.get('vms') ;
+      var vms = this.get('model.[]') ;
       var items = this.filterProperty('todelete', true) ;
 
       items.forEach(function(model) {
