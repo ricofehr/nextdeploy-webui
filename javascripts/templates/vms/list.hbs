@@ -14,20 +14,20 @@
     </tr>
 </thead>
 <tbody>
-  {{#each vm in vms}}
+  {{#each}}
     <tr>
-        {{#if isVm}}<td>{{input type="checkbox" checked=vm.todelete}}</td>{{/if}}
-        <td>{{vm.commit.short_id}}</td>
-        <td><span {{action "showUri" vm.name vm.project.login vm.project.password vm.project.technos}} class="glyphicon glyphicon-new-window"></span></td>
-        {{#if vm.sucStatus}}<td class="success">{{vm.textStatus}}</td>{{/if}}
-        {{#if vm.warnStatus}}<td class="warning">{{vm.textStatus}}</td>{{/if}}
-        {{#if vm.dangStatus}}<td class="danger">{{vm.textStatus}}</td>{{/if}}
-        <td>{{vm.project.name}}</td>
-        <td>{{vm.systemimage.name}}</td>
-        <td>{{vm.user.email}}</td>
-        <td>{{vm.floating_ip}}</td>
-        <td>{{vm.vmsize.title}}</td>
-        <td>{{vm.created_at_short}}</td>
+        {{#if controller.isVm}}<td>{{input type="checkbox" checked=todelete}}</td>{{/if}}
+        <td>{{commit.short_id}}</td>
+        <td><span {{action "showUri" name project.login project.password project.technos}} class="glyphicon glyphicon-new-window"></span></td>
+        {{#if sucStatus}}<td class="success">{{textStatus}}</td>{{/if}}
+        {{#if warnStatus}}<td class="warning">{{textStatus}}</td>{{/if}}
+        {{#if dangStatus}}<td class="danger">{{textStatus}}</td>{{/if}}
+        <td>{{project.name}}</td>
+        <td>{{systemimage.name}}</td>
+        <td>{{user.email}}</td>
+        <td>{{floating_ip}}</td>
+        <td>{{vmsize.title}}</td>
+        <td>{{created_at_short}}</td>
     </tr>
     {{/each}}
 </tbody>
