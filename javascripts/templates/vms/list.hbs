@@ -14,7 +14,7 @@
     </tr>
 </thead>
 <tbody>
-  {{#each}}
+  {{#each vms}}
     <tr>
         {{#if controller.isVm}}<td>{{input type="checkbox" checked=todelete}}</td>{{/if}}
         <td>{{commit.short_id}}</td>

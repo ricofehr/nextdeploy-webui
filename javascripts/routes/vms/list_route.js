@@ -5,8 +5,9 @@ var VmsListRoute = AuthenticatedRoute.extend({
   // Init model for the list
   model: function() {
     // Get all vms from ember datas
-    return this.store.all('vm') ;
+    return this.store.all('vm').filterBy('project').sort(['project', 'user.email']) 
   },
+  /*
   setupController: function(controller, model){
     this._super(controller, model);
     this.startRefreshing();
@@ -26,6 +27,7 @@ var VmsListRoute = AuthenticatedRoute.extend({
       this.set('refreshing', false);
     }
   }
+  */
 });
 
 module.exports = VmsListRoute;
