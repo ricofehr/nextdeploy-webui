@@ -8,12 +8,38 @@ var VmsListController = Ember.ArrayController.extend({
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
 
+  // // Filter model values for html display
+  // sortModel: function() {
+  //   var model = this.get('model') ;
+  //   var vmsFilter = model.filterBy('nova_id') ;
+  //   var vmsSort = vmsFilter.sort('sortProperties') ;
+  //   vmsSort.map(function (model) {
+  //     var textStatus = '';
+  //     var warnStatus = false;
+  //     var dangStatus = false;
+  //     var sucStatus = false;
+  //     var status = model.get('status');
+
+  //     if (status == 0) { textStatus = 'SETUP'; warnStatus = true; }
+  //     if (status == 1) { textStatus = 'RUNNING'; sucStatus = true; }
+  //     if (status == 2) { textStatus = 'ERROR'; dangStatus = true; }
+
+  //     model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth() + 1) + "/" + model.get('created_at').getFullYear()) ;
+      
+  //     model.set('todelete', false) ;
+  //     model.set('textStatus', textStatus);
+  //     model.set('sucStatus', sucStatus);
+  //     model.set('warnStatus', warnStatus);
+  //     model.set('dangStatus', dangStatus);
+
+  //     //return model ;
+  //   }) ;
+
+  //   //this.set('vms', vms) ;
+  // }.observes('model.[]'),
+
   // Filter model values for html display
-  sortModel: function() {
-    var model = this.get('model') ;
-    var vmsFilter = model.filterBy('nova_id') ;
-    var vmsSort = vmsFilter.sort('sortProperties') ;
-    vmsSort.map(function (model) {
+  vms: Ember.computed.map('model', function(model){
       var textStatus = '';
       var warnStatus = false;
       var dangStatus = false;
@@ -32,11 +58,8 @@ var VmsListController = Ember.ArrayController.extend({
       model.set('warnStatus', warnStatus);
       model.set('dangStatus', dangStatus);
 
-      //return model ;
-    }) ;
-
-    //this.set('vms', vms) ;
-  }.observes('model'),
+      return model ;
+  }),
 
   // Check if current user is admin
   isAdmin: function() {
