@@ -11,18 +11,8 @@ var ApplicationRoute = Ember.Route.extend({
   events: {
     // Unload all objects in ember memory
     logout: function() {
-      var models = ['branche', 'brand', 'commit', 'framework', 'group', 'project',
-       'sshkey', 'systemimage', 'systemimagetype', 'techno', 'user', 'vm'] ;
-
-      for (var i=0; i<models.length; i++) {
-        this.store.unloadAll(models[i]) ;
-      }
-
-      // Redirect to login page
+      // Redirect to login page and clear data store
       App.AuthManager.reset();
-      // .then(function() {
-      //   this.transitionTo('index') ;
-      // }) ;
     }
   }
 });

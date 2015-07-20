@@ -108,10 +108,10 @@ var SessionsNewController = Ember.ObjectController.extend({
     }) ;
   },
 
-  // Empty all ember datas
+  // Empty all ember datas, no need i mean ?
   resetModel: function() {
     var models = ['branche', 'brand', 'commit', 'flavor', 'framework', 'group', 'project',
-       'sshkey', 'systemimage', 'systemimagetype', 'techno', 'user', 'vm'] ;
+       'sshkey', 'systemimage', 'systemimagetype', 'techno', 'user', 'vm', 'vmsize'] ;
 
     for (var i=0; i<models.length; i++) {
       this.store.unloadAll(models[i]) ;
