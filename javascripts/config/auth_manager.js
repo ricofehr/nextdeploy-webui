@@ -51,8 +51,6 @@ var AuthManager = Ember.Object.extend({
   },
 
   authenticate: function(accessToken) {
-    var store = App.store ;
-
     this.ajaxSetup(accessToken) ;
     $.get('/api/v1/user', [], function(results) {
       var user = results.user.id ;
@@ -68,12 +66,12 @@ var AuthManager = Ember.Object.extend({
 
   // Log out the user
   reset: function() {
-    App.__container__.lookup("route:application").transitionTo('sessions.new');
-    Ember.run.sync();
-    Ember.run.next(this, function(){
-      this.set('apiKey', null);
-      this.ajaxSetup('none') ;
-    });
+    this.set('apiKey', null);
+    this.ajaxSetup('none') ;
+    // reset app for to be sure to empty all data store (ember issue known)
+    App.reset();
+    // ugly hack ... because after app.rest we need to reload page
+    window.location.href = window.location.toString().substr(0, window.location.toString().indexOf('#'));
   },
 
   // Ensure that when the apiKey changes, we store the data in cookies in order for us to load

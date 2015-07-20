@@ -58,14 +58,18 @@ var VmsNewController = Ember.ObjectController.extend({
   }.observes('selectedUser'),
 
   checkBranch: function() {
-    var branch = this.get('selectedBranch') ;
-    var errorBranch = false ;
+    var branch = this.get('selectedBranch');
+    var errorBranch = true;
+    var selectedCommit = null;
 
-    if (!branch) {
-      errorBranch = true ;
+    if (branch) {
+      errorBranch = false;
+      selectedCommit = branch.get('commits').toArray()[0];
     }
 
-    this.set('errorBranch', errorBranch) ;
+    this.set('errorBranch', errorBranch);
+    // set default commit
+    this.set('selectedCommit', selectedCommit);
   }.observes('selectedBranch'),
 
   checkCommit: function() {
@@ -127,6 +131,7 @@ var VmsNewController = Ember.ObjectController.extend({
     this.set('selectedCommit', null) ;
     this.set('selectedOs', null) ;
     this.set('selectedSizing', null) ;
+    this.set('advancedForm', false) ;
   },
 
   // Return true if user is a Dev or more
@@ -190,7 +195,6 @@ var VmsNewController = Ember.ObjectController.extend({
     //init default branch and commit
     store.find('branche', this.get('selectedProject').get('id') + '-master').then(function (branch) {
       self.set('selectedBranch', branch);
-      self.set('selectedCommit', branch.get('commits').toArray()[0]);
     });
   }.observes('selectedProject'),
 
