@@ -221,7 +221,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
   updateGitpath: function() {
       var gitpath ;
       if (!this.get('brand.content') || !this.get('name')) return ;
-      gitpath = this.get('brand.content').get('name') + "-" + this.get('name').replace(/[\. ]/g,'-') ;
+      gitpath = this.get('brand.content').get('name').replace(/[\. ]/g,'') + "-" + this.get('name').replace(/[\. ]/g,'-') ;
       this.set('gitpath', gitpath.toLowerCase()) ;
   }.observes('brand.content', 'name'),
 
