@@ -30,7 +30,7 @@ var SshkeysNewController = Ember.ObjectController.extend({
   formIsValid: function() {
     this.checkName() ;
     this.checkKey() ;
-    
+
     if (!this.get('errorName') &&
         !this.get('errorKey')) return true ;
     return false ;

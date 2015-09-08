@@ -3,7 +3,7 @@ var VmsListController = Ember.ArrayController.extend({
   // Sort order
   sortProperties: ['project', 'user.email'],
   sortAscending: true,
-  
+
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
@@ -25,7 +25,7 @@ var VmsListController = Ember.ArrayController.extend({
   //     if (status == 2) { textStatus = 'ERROR'; dangStatus = true; }
 
   //     model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth() + 1) + "/" + model.get('created_at').getFullYear()) ;
-      
+
   //     model.set('todelete', false) ;
   //     model.set('textStatus', textStatus);
   //     model.set('sucStatus', sucStatus);
@@ -51,7 +51,7 @@ var VmsListController = Ember.ArrayController.extend({
       if (status == 2) { textStatus = 'ERROR'; dangStatus = true; }
 
       model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth() + 1) + "/" + model.get('created_at').getFullYear()) ;
-      
+
       model.set('todelete', false) ;
       model.set('textStatus', textStatus);
       model.set('sucStatus', sucStatus);

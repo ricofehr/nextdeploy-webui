@@ -2,7 +2,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 
 // Project Ember Route Class (inherit from auth route because restricted)
 var ProjectsEditRoute = AuthenticatedRoute.extend({
-  // This controller needs lot of datas: brands, frameworks, technos, flavors, users 
+  // This controller needs lot of datas: brands, frameworks, technos, flavors, users
   // and ofcourse the project following the parameter
   model: function(params) {
     return Ember.RSVP.hash({
@@ -37,7 +37,7 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
                                                       userlist: model.userlist,
                                                       systemlist: model.systemlist});
   },
-  
+
 });
 
 module.exports = ProjectsEditRoute;

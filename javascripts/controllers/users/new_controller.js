@@ -215,7 +215,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
     access_level_user = this.get('group').get('content.access_level');
     if (access_level_user < 30) return false;
-    
+
     if (access_level >= 50) return true ;
     if (current_id == user_id) return true ;
     return false;
@@ -241,7 +241,7 @@ var UsersNewController = Ember.ObjectController.extend({
         type: "GET",
         headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
         /**
-         * A function to be called if the request fails. 
+         * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
           if (jqXHR.status == 401) self.set('error401', true) ;
@@ -263,7 +263,7 @@ var UsersNewController = Ember.ObjectController.extend({
         type: "GET",
         headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
         /**
-         * A function to be called if the request fails. 
+         * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
           if (jqXHR.status == 401) self.set('error401', true) ;
@@ -285,7 +285,7 @@ var UsersNewController = Ember.ObjectController.extend({
         type: "GET",
         headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
         /**
-         * A function to be called if the request fails. 
+         * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
           if (jqXHR.status == 401) self.set('error401', true) ;
@@ -307,7 +307,7 @@ var UsersNewController = Ember.ObjectController.extend({
         type: "GET",
         headers: { 'Authorization': 'Token token=' + $.cookie('access_token') },
         /**
-         * A function to be called if the request fails. 
+         * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
           if (jqXHR.status == 401) self.set('error401', true) ;
@@ -330,7 +330,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
       // get group selected
       data['group'] = selectedGroup;
-      
+
       // check if form is valid
       if (!this.formIsValid()) {
         return

@@ -30,7 +30,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
       readonly: readonly
     });
   }),
-  
+
   //technos checkboxes
   technosSort: Ember.computed.sort('technolist', 'computeSorting'),
   checkedTechnos: Ember.computed.map('technosSort', function(model){

@@ -7,7 +7,7 @@ var UsersEditRoute = AuthenticatedRoute.extend({
     return Ember.RSVP.hash({
       grouplist: this.store.all('group'),
       projectlist: this.store.all('project'),
-      user: this.store.find('user', params.user_id) 
+      user: this.store.find('user', params.user_id)
     });
   },
 

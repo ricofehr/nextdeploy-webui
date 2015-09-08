@@ -12,7 +12,7 @@ var UsersBygroupRoute = AuthenticatedRoute.extend({
     this.render('users/list') ;
   },
 
-  // Setup the controller for users.list with this model 
+  // Setup the controller for users.list with this model
   setupController: function(controller, model) {
     this.controllerFor('users.list').setProperties({content:model});
   },

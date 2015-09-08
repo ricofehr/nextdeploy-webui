@@ -2,7 +2,7 @@
 var BrandsListController = Ember.ArrayController.extend({
   // Sort order
   sortProperties: ['name'],
-  
+
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,

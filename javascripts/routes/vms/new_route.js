@@ -19,14 +19,14 @@ var VmsNewRoute = AuthenticatedRoute.extend({
 
     // Create a content empty object
     content = Ember.Object.create() ;
-    
+
     // Bind models to the controller
     controller.set('model', content);
     controller.set('projects', model.projects);
     controller.set('users', model.users);
     controller.set('systemimages', model.systemimages);
     controller.set('vmsizes', model.vmsizes);
-    
+
     // Clear form
     controller.clearForm() ;
 

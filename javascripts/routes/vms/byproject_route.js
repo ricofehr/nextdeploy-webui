@@ -12,7 +12,7 @@ var VmsByprojectRoute = AuthenticatedRoute.extend({
     this.render('vms/list') ;
   },
 
-  // Setup the controller for vms.list with this model 
+  // Setup the controller for vms.list with this model
   setupController: function(controller, model) {
     this.controllerFor('vms.list').setProperties({content:model});
   },
