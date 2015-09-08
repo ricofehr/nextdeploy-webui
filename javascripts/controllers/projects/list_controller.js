@@ -3,7 +3,7 @@ var ProjectsListController = Ember.ArrayController.extend({
   // Sort order
   sortProperties: ['brand', 'name'],
   sortAscending: true,
-  
+
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
@@ -15,7 +15,7 @@ var ProjectsListController = Ember.ArrayController.extend({
 
     return model ;
   }),
-  
+
   // Check if current user is admin
   isAdmin: function() {
     var access_level = App.AuthManager.get('apiKey.accessLevel') ;

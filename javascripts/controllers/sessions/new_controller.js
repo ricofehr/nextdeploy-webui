@@ -137,7 +137,7 @@ var SessionsNewController = Ember.ObjectController.extend({
             dataType: "json",
             data: data,
             /**
-             * A function to be called if the request fails. 
+             * A function to be called if the request fails.
              */
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 401) self.set('error401', true) ;

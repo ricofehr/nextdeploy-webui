@@ -5,7 +5,7 @@ var VmsListRoute = AuthenticatedRoute.extend({
   // Init model for the list
   model: function() {
     // Get all vms from ember datas
-    return this.store.all('vm').filterBy('project').sort(['project', 'user.email']) 
+    return this.store.all('vm').filterBy('project').sort(['project', 'user.email'])
   },
   /*
   setupController: function(controller, model){
@@ -19,7 +19,7 @@ var VmsListRoute = AuthenticatedRoute.extend({
   refresh: function(){
     if(!this.get('refreshing')) return;
     this.store.find('vm');
-    
+
     Ember.run.later(this, this.refresh, 30000);
   },
   actions:{

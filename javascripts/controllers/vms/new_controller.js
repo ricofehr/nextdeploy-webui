@@ -25,7 +25,7 @@ var VmsNewController = Ember.ObjectController.extend({
   usersList: null,
   vmsizesList: null,
   selectedSizing: null,
-  
+
   //validation variables
   errorProject: false,
   errorUser: false,
@@ -225,7 +225,7 @@ var VmsNewController = Ember.ObjectController.extend({
       data['user'] = selectedUser;
       data['systemimage'] = selectedOs;
       data['vmsize'] = selectedVmsize;
-      
+
       // create a vm object for the rest post request
       vm = store.createRecord('vm', data);
 

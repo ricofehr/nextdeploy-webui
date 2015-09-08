@@ -2,7 +2,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 
 // User Ember Route Class (inherit from auth route because restricted)
 var UsersNewRoute = AuthenticatedRoute.extend({
-  // This controller needs lot of datas: brands, frameworks, technos, flavors, users 
+  // This controller needs lot of datas: brands, frameworks, technos, flavors, users
   model: function() {
     return Ember.RSVP.hash({
       grouplist: this.store.all('group'),

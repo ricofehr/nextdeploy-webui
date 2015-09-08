@@ -3,7 +3,7 @@ var UsersListController = Ember.ArrayController.extend({
   // Sort order
   sortProperties: ['company', 'group', 'email'],
   sortAscending: true,
-  
+
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
