@@ -18,7 +18,7 @@
     <tr>
         {{#if controller.isVm}}<td>{{input type="checkbox" checked=todelete}}</td>{{/if}}
         <td>{{commit.short_id}}</td>
-        <td><span {{action "showUri" name project.login project.password project.technos}} class="glyphicon glyphicon-new-window"></span></td>
+        <td><span {{action "showUri" name project.login project.password project.technos project.framework.name}} class="glyphicon glyphicon-new-window"></span></td>
         {{#if sucStatus}}<td class="success">{{textStatus}}</td>{{/if}}
         {{#if warnStatus}}<td class="warning">{{textStatus}}</td>{{/if}}
         {{#if dangStatus}}<td class="danger">{{textStatus}}</td>{{/if}}

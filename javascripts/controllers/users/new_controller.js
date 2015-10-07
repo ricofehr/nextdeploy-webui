@@ -34,7 +34,7 @@ var UsersNewController = Ember.ObjectController.extend({
     var group_access = 0;
     var project = null ;
 
-    if (this.get('group') && this.get('group') != null) group_access = this.get('group').get('content.access_level');
+    if (this.get('group') && this.get('group').get instanceof Function) group_access = this.get('group').get('content.access_level');
     if (access_level < 50 || group_access == 50) readonly = true ;
 
     if(projects) {
