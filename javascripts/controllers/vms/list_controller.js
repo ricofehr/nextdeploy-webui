@@ -8,36 +8,6 @@ var VmsListController = Ember.ArrayController.extend({
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
 
-  // // Filter model values for html display
-  // sortModel: function() {
-  //   var model = this.get('model') ;
-  //   var vmsFilter = model.filterBy('nova_id') ;
-  //   var vmsSort = vmsFilter.sort('sortProperties') ;
-  //   vmsSort.map(function (model) {
-  //     var textStatus = '';
-  //     var warnStatus = false;
-  //     var dangStatus = false;
-  //     var sucStatus = false;
-  //     var status = model.get('status');
-
-  //     if (status == 0) { textStatus = 'SETUP'; warnStatus = true; }
-  //     if (status == 1) { textStatus = 'RUNNING'; sucStatus = true; }
-  //     if (status == 2) { textStatus = 'ERROR'; dangStatus = true; }
-
-  //     model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth() + 1) + "/" + model.get('created_at').getFullYear()) ;
-
-  //     model.set('todelete', false) ;
-  //     model.set('textStatus', textStatus);
-  //     model.set('sucStatus', sucStatus);
-  //     model.set('warnStatus', warnStatus);
-  //     model.set('dangStatus', dangStatus);
-
-  //     //return model ;
-  //   }) ;
-
-  //   //this.set('vms', vms) ;
-  // }.observes('model.[]'),
-
   // Filter model values for html display
   vms: Ember.computed.map('model', function(model){
       var textStatus = '';
@@ -80,25 +50,43 @@ var VmsListController = Ember.ArrayController.extend({
   // actions binding with user event
   actions: {
     // action to show vm uri into popin modal
-    showUri: function(uri, login, password, technos) {
-      var technonjs = technos.findBy('name', 'nodejs');
+    showUri: function(uri, login, password, technos, framework) {
+      var authcredentials = '';
+      var linepmtools = '';
+      var linejs = '';
       var modal = $('#textModal');
-      modal.find('.modal-title').text('Urls');
+      
+      if (login && login != '') {
+        modal.find('.modal-title').text('Urls & Tools');
 
-      if (technonjs) {
-        modal.find('.modal-body').html(
-          '<a href="http://' + login + ':' + password + '@' + uri + '" target="_blank">'+ uri + '</a><br/>' +
-          '<a href="http://' + login + ':' + password + '@' + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
-          '<a href="http://' + login + ':' + password + '@' + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>' +
-          '<a href="http://' + login + ':' + password + '@' + 'nodejs.' + uri + '" target="_blank">nodejs.'+ uri + '</a><br/>'
-        );
+        authcredentials = login + ':' + password + '@';
+        linepmtools = '<br>' +
+        '<a href="http://' + authcredentials + uri + '/pm_tools/gitsync/" target="_blank">Gitpull</a><br/>' +
+        '<a href="http://' + authcredentials + uri + '/pm_tools/phpmyadmin/" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>' +
+        '<a href="http://' + authcredentials + uri + '/pm_tools/tail/" target="_blank">Apache logs</a><br/>' +
+        '<a href="http://' + authcredentials + uri + '/pm_tools/pminfo/" target="_blank">Phpinfo</a><br/>' +
+        '<a href="http://' + authcredentials + uri + '/pm_tools/clearvarnish/" target="_blank">Flush varnish Cache</a><br/>';
+        if (framework == 'Symfony2') {
+          linepmtools = linepmtools + '<a href="http://' + authcredentials + uri + '/pm_tools/composerinstall/" target="_blank">Composer Install</a><br/>' +
+          '<a href="http://' + authcredentials + uri + '/pm_tools/sf2/" target="_blank">Sf2 commands: cc, assets, assetic, updb</a><br/>' +
+          '<a href="http://' + authcredentials + uri + '/pm_tools/tailsf2/" target="_blank">Sf2 logs</a><br/>';
+        }
       } else {
-        modal.find('.modal-body').html(
-          '<a href="http://' + login + ':' + password + '@' + uri + '" target="_blank">'+ uri + '</a><br/>' +
-          '<a href="http://' + login + ':' + password + '@' + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
-          '<a href="http://' + login + ':' + password + '@' + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>'
-        );
+        modal.find('.modal-title').text('Urls');
       }
+
+      if (technos.findBy('name', 'nodejs')) {
+         linejs = '<a href="http://' + authcredentials + 'nodejs.' + uri + '" target="_blank">nodejs.'+ uri + '</a><br/>';
+      }
+
+      modal.find('.modal-body').html(
+        '<a href="http://' + authcredentials + uri + '" target="_blank">'+ uri + '</a><br/>' +
+        '<a href="http://' + authcredentials + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
+        '<a href="http://' + authcredentials + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>' + 
+        linejs +
+        linepmtools
+        );
+
       modal.modal();
     },
 
