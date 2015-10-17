@@ -5,9 +5,7 @@
         <th>Name</th>
         <th>Brand</th>
         <th>System</th>
-        <th>Gitpath</th>
-        <th>Login</th>
-        <th>Password</th>
+        <th>?</th>
         <th>Framework</th>
         <th>Technos</th>
         <th>Enabled</th>
@@ -36,9 +34,7 @@
       {{/if}}
 
       <td>{{project.systemimagetype.name}}</td>
-      <td><span {{action "showGitpath" project.gitpath_href}} class="glyphicon glyphicon-new-window"></span></td>
-      <td>{{project.login}}</td>
-      <td>{{project.password}}</td>
+      <td><span {{action "showDetails" project.gitpath_href project.gitpath project.login project.password}} class="glyphicon glyphicon-new-window"></span></td>
       <td>{{project.framework.name}}</td>
       <td>{{#each project.technos}}{{name}}<br>{{/each}}</td>
       <td>{{project.enabled}}</td>
