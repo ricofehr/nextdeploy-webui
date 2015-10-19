@@ -124,8 +124,15 @@ var VmsListController = Ember.ArrayController.extend({
         });
     },
 
-    // action to show vm uri into popin modal
-    showUri: function(uri, login, password, technos, framework, sucstatus, floating_ip, systemimage, sizing) {
+    // action to show vm uri and tools into popin modal
+    showUri: function(model) {
+      var uri = model.get('name');
+      var login = model.get('project.login');
+      var password = model.get('project.password');
+      var technos = model.get('project.technos');
+      var framework = model.get('project.framework.name');
+      var sucstatus = model.get('sucStatus');
+
       var authcredentials = '';
       var linepmtools = '';
       var linesystem = '';
@@ -140,13 +147,7 @@ var VmsListController = Ember.ArrayController.extend({
         return
       }
 
-      // system details are displaying only for at least dev user
-      if (access_level >= 30) {
-        linesystem = '<b>System</b><br>' + 'Image: ' + systemimage + 
-        '<br>Sizing: ' + sizing + 
-        '<br>Ssh access: ssh modem@' + floating_ip + '<br><br>';
-      }
-
+      // no tools if login is empty
       if (login && login != '') {
         modal.find('.modal-title').text('Urls & Tools');
         // system details are displaying only for at least dev user
@@ -155,10 +156,11 @@ var VmsListController = Ember.ArrayController.extend({
         }
 
         authcredentials = login + ':' + password + '@';
-        linepmtools = '<br><b>Tools</b><br>' +
-        '<a href="http://' + authcredentials + uri + '/pm_tools/gitsync/" target="_blank">Gitpull</a><br/>' +
-        '<a href="http://' + authcredentials + uri + '/pm_tools/phpmyadmin/" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>' +
-        '<a href="http://' + authcredentials + uri + '/pm_tools/tail/" target="_blank">Apache logs</a><br/>' +
+        linepmtools = '<br><b>Tools</b><br>' + '<a href="http://' + authcredentials + uri + '/pm_tools/gitsync/" target="_blank">Gitpull</a><br/>';
+        if (technos.findBy('name', 'mysql')) {
+          linepmtools = linepmtools + '<a href="http://' + authcredentials + uri + '/pm_tools/phpmyadmin/" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>';
+        }
+        linepmtools = linepmtools + '<a href="http://' + authcredentials + uri + '/pm_tools/tail/" target="_blank">Apache logs</a><br/>' +
         '<a href="http://' + authcredentials + uri + '/pm_tools/pminfo/" target="_blank">Phpinfo</a><br/>' +
         '<a href="http://' + authcredentials + uri + '/pm_tools/clearvarnish/" target="_blank">Flush varnish Cache</a><br/>';
         if (framework == 'Symfony2') {
@@ -168,10 +170,6 @@ var VmsListController = Ember.ArrayController.extend({
         }
       } else {
         modal.find('.modal-title').text('Urls');
-        // system details are displaying only for at least dev user
-        if (access_level >= 30) {
-          modal.find('.modal-title').text('System & Urls');
-        }
       }
 
       if (technos.findBy('name', 'nodejs')) {
@@ -179,14 +177,59 @@ var VmsListController = Ember.ArrayController.extend({
       }
 
       modal.find('.modal-body').html(
-        linesystem +
         '<b>URIS</b><br><a href="http://' + authcredentials + uri + '" target="_blank">'+ uri + '</a><br/>' +
         '<a href="http://' + authcredentials + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
         '<a href="http://' + authcredentials + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>' + 
-        linejs +
+        linejs + '<br><i>Htaccess (login / password): </i>' + login + ' / ' + password + '<br>' +
         linepmtools
         );
 
+      modal.modal();
+    },
+
+    // action to show commit and system details
+    showDetails: function(model) {
+      var login = model.get('project.login');
+      var password = model.get('project.password');
+      var sucstatus = model.get('sucStatus');
+      var floating_ip = model.get('floating_ip');
+      var systemimage = model.get('systemimage.name');
+      var sizing = model.get('vmsize.title') + ' (' + model.get('vmsize.description')  + ')';
+      var commit_hash = model.get('commit.commit_hash');
+      var commit_msg = model.get('commit.message').replace('\n', '');
+      // issue whan i try to get branche object, so this ugly tip ...
+      var branch = model.get('commit.id').replace(/^[0-9]+-/,'').replace(/-[a-zA-Z0-9]+$/,'');
+      var author = model.get('commit.author_email');
+
+      var linesystem = '';
+      var linecommit = '';
+      
+      var modal = $('#textModal');
+      
+      if (!sucstatus) {
+        modal.find('.modal-title').text('Please try again later');
+        modal.find('.modal-body').html("<b>Vm is not on running status.</b>") ;
+        modal.modal();
+        return
+      }
+
+      linesystem = '<b>System</b><br>' + 'Image: ' + systemimage + 
+        '<br><i>Sizing: </i>' + sizing + 
+        '<br><i>Ssh access: </i>ssh modem@' + floating_ip + 
+        '<br><i>Htaccess: </i>' + login + ' / ' + password + '<br><br>';
+
+      linecommit = '<b>Commit</b><br>' + 'Hash: ' + commit_hash +
+        '<br><i>Branche: </i>' + branch +
+        '<br><i>Author: </i>' + author +
+        '<br><i>Message: </i>' + commit_msg + '<br>' ;
+
+      modal.find('.modal-body').html(
+        linesystem +
+        linecommit);
+
+      modal.find('.modal-title').text('Details');
+
+      
       modal.modal();
     },
 
