@@ -156,7 +156,7 @@ var VmsListController = Ember.ArrayController.extend({
         }
 
         authcredentials = login + ':' + password + '@';
-        linepmtools = '<br><b>Tools</b><br>' + '<a href="http://' + authcredentials + uri + '/pm_tools/gitsync/" target="_blank">Gitpull</a><br/>';
+        linepmtools = '<b>Tools</b><br>' + '<a href="http://' + authcredentials + uri + '/pm_tools/gitsync/" target="_blank">Gitpull</a><br/>';
         if (technos.findBy('name', 'mysql')) {
           linepmtools = linepmtools + '<a href="http://' + authcredentials + uri + '/pm_tools/phpmyadmin/" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>';
         }
@@ -180,7 +180,7 @@ var VmsListController = Ember.ArrayController.extend({
         '<b>URIS</b><br><a href="http://' + authcredentials + uri + '" target="_blank">'+ uri + '</a><br/>' +
         '<a href="http://' + authcredentials + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
         '<a href="http://' + authcredentials + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>' + 
-        linejs + '<br><i>Htaccess (login / password): </i>' + login + ' / ' + password + '<br>' +
+        linejs + '<br><b>Http Access</b> (setted by default in URIS list before)<br>Login: ' + login + '<br>Password: ' + password + '<br><br>' +
         linepmtools
         );
 
@@ -214,14 +214,14 @@ var VmsListController = Ember.ArrayController.extend({
       }
 
       linesystem = '<b>System</b><br>' + 'Image: ' + systemimage + 
-        '<br><i>Sizing: </i>' + sizing + 
-        '<br><i>Ssh access: </i>ssh modem@' + floating_ip + 
-        '<br><i>Htaccess: </i>' + login + ' / ' + password + '<br><br>';
+        '<br>Sizing: ' + sizing + 
+        '<br>Ssh access: ssh modem@' + floating_ip + 
+        '<br>Htaccess: ' + login + ' / ' + password + '<br><br>';
 
       linecommit = '<b>Commit</b><br>' + 'Hash: ' + commit_hash +
-        '<br><i>Branche: </i>' + branch +
-        '<br><i>Author: </i>' + author +
-        '<br><i>Message: </i>' + commit_msg + '<br>' ;
+        '<br>Branche: ' + branch +
+        '<br>Author: ' + author +
+        '<br>Message: ' + commit_msg + '<br>' ;
 
       modal.find('.modal-body').html(
         linesystem +
