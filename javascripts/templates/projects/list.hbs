@@ -34,7 +34,7 @@
       {{/if}}
 
       <td>{{project.systemimagetype.name}}</td>
-      <td><span {{action "showDetails" project.gitpath_href project.gitpath project.login project.password}} class="glyphicon glyphicon-new-window"></span></td>
+      <td><button {{action "showDetails" project.gitpath_href project.gitpath project.login project.password}} class="btn btn-default"><span  class="glyphicon glyphicon-new-window"></span></button></td>
       <td>{{project.framework.name}}</td>
       <td>{{#each project.technos}}{{name}}<br>{{/each}}</td>
       <td>{{project.enabled}}</td>
