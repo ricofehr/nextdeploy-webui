@@ -362,10 +362,12 @@ var ProjectsNewController = Ember.ObjectController.extend({
         selectedFramework.get('projects').pushObject(project) ;
         selectedSystem.get('projects').pushObject(project) ;
 
-        this.set('loadingButton', true) ;
+        //loader because between 1 and 5min to complete create project
+        $('#waitingModal').modal();
         project.save().then(function() {
           // Return to projects list page
           router.transitionTo('projects.list');
+          $('#waitingModal').modal('hide');
         }) ;
       }
     }
