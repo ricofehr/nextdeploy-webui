@@ -91,21 +91,21 @@ var SessionsNewController = Ember.ObjectController.extend({
                         store.findAll('vm').then(function() {
                           var attemptedTrans = self.get('attemptedTransition');
                           if (attemptedTrans) {
-                            attemptedTrans.retry() ;
+                            attemptedTrans.retry();
                             self.set('attemptedTransition', null);
                           }
-                          $('#waitingModal').modal('hide') ;
-                        }) ;
-                      }) ;
-                    }) ;
-                  }) ;
-                }) ;
-              }) ;
-            }) ;
-          }) ;
-        }) ;
-      }) ;
-    }) ;
+                          $('#waitingModal').modal('hide');
+                        });
+                      });
+                    });
+                  });
+                });
+              });
+            });
+          });
+        });
+      });
+    });
   },
 
   // Empty all ember datas, no need i mean ?

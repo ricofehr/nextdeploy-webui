@@ -56,7 +56,7 @@ var AuthManager = Ember.Object.extend({
       var user = results.user.id ;
       var group = results.user.group ;
       var auth_token = results.user.authentication_token ;
-      App.AuthManager.initUser(user, group, auth_token, 0) ;
+      //App.AuthManager.initUser(user, group, auth_token, 0) ;
 
       $.get('/api/v1/group', [], function(results) {
         App.AuthManager.initUser(user, group, auth_token, results.group.access_level) ;
