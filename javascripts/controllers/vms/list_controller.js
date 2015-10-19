@@ -100,10 +100,24 @@ var VmsListController = Ember.ArrayController.extend({
           model.set('textStatus', 'RUNNING');
           model.set('sucStatus', true);
           model.set('warnStatus', false);
+          model.set('dangStatus', false);
         })
         .fail(function(data) {
           model.set('status', data.responseText);
           model.set('timeStatus', -parseInt(data.responseText));
+          
+          // check if error or setup
+          if (parseInt(data.responseText) == 1) {
+            model.set('textStatus', 'ERROR');
+            model.set('sucStatus', false);
+            model.set('warnStatus', false);
+            model.set('dangStatus', true);
+          } else {
+            model.set('textStatus', 'SETUP');
+            model.set('sucStatus', false);
+            model.set('warnStatus', true);
+            model.set('dangStatus', false);
+          }
         })
         .always(function() {
           setTimeout($('#waitingModal').modal('hide'), 2000);
