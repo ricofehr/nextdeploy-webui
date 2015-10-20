@@ -1,20 +1,26 @@
 // Ember controller for list projects into html array
 var ProjectsListController = Ember.ArrayController.extend({
-  // Sort order
-  sortProperties: ['brand', 'name'],
-  sortAscending: true,
-
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
 
-  //filter projects array only with valid item for current user
-  projects: Ember.computed.map('model', function(model){
-    model.set('gitpath_href', "git@" + model.get('gitpath')) ;
-    model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth()+1) + "/" + model.get('created_at').getFullYear()) ;
+  // Return model array sorted
+  sortModel: function() {
+    var model = this.get('model') ;
+    // sort projects by id
+    var projectsSort = model.sort(function(a, b) {
+        return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
+    }).reverse() ;
+    var self = this;
 
-    return model ;
-  }),
+    //filter projects array only with valid item for current user
+    this.set('projects', projectsSort.map(function(model){
+      model.set('gitpath_href', "git@" + model.get('gitpath')) ;
+      model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth()+1) + "/" + model.get('created_at').getFullYear()) ;
+
+      return model ;
+    }));
+  }.observes('model'),
 
   // Check if current user is admin
   isAdmin: function() {

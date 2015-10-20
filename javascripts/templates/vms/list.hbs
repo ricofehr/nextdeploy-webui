@@ -20,9 +20,9 @@
         {{#if isDev}}<td>{{vm.commit.short_id}}</td>{{/if}}
         <td><button {{action "showUri" vm}} class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span></button></td>
         {{#if isDev}}<td><button {{action "showDetails" vm}} class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span></button></td>{{/if}}
-        {{#if vm.sucStatus}}<td class="success">{{vm.textStatus}}</td><td class="success">{{vm.timeStatus}}s</td>{{/if}}
+        {{#if vm.sucStatus}}<td class="success">&nbsp;{{vm.textStatus}}</td><td class="success">{{vm.timeStatus}}s</td>{{/if}}
         {{#if vm.warnStatus}}<td class="warning"><button {{action "checkStatus" vm}} class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button></td><td class="warning">{{vm.timeStatus}}s</td>{{/if}}
-        {{#if vm.dangStatus}}<td class="danger">{{vm.textStatus}}</td><td class="danger"><button {{action "checkStatus" vm}} class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button></td>{{/if}}
+        {{#if vm.dangStatus}}<td class="danger">&nbsp;{{vm.textStatus}}</td><td class="danger"><button {{action "checkStatus" vm}} class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button></td>{{/if}}
         {{#if isLead}}<td>{{vm.user.email}}</td>{{/if}}
         <td>{{vm.created_at_short}}</td>
     </tr>
