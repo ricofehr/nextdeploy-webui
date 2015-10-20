@@ -4,7 +4,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 var ProjectsListRoute = AuthenticatedRoute.extend({
   // Get all projects object, but name must be valid
   model: function() {
-    return this.store.all('project').filterBy('name').sort(['brand.name', 'name']) ;
+    return this.store.all('project').filterBy('name').sort('id').reverse() ;
   }
 });
 
