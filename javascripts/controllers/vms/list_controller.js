@@ -4,8 +4,16 @@ var VmsListController = Ember.ArrayController.extend({
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
 
-  // Filter model values for html display
-  vms: Ember.computed.map('model', function(model){
+  // Return model array sorted
+  sortModel: function() {
+    var model = this.get('model') ;
+    // sort vms by id
+    var vmsSort = model.sort(function(a, b) {
+        return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
+    }).reverse() ;
+    var self = this;
+
+    this.set('vms', vmsSort.map(function(model){
       var textStatus = '';
       var warnStatus = false;
       var dangStatus = false;
@@ -20,7 +28,7 @@ var VmsListController = Ember.ArrayController.extend({
         warnStatus = true;
         //if status is negative => setup in progress
         model.set('timeStatus', -parseInt(status)); 
-        setTimeout(this.getStatus(model), 1500); 
+        setTimeout(self.getStatus(model), 1500); 
       }
       if (status > 1) { textStatus = 'RUNNING'; sucStatus = true; model.set('timeStatus', (status)); }
       if (status == 1) { textStatus = 'ERROR'; dangStatus = true; }
@@ -29,9 +37,10 @@ var VmsListController = Ember.ArrayController.extend({
       model.set('sucStatus', sucStatus);
       model.set('warnStatus', warnStatus);
       model.set('dangStatus', dangStatus);
-
       return model ;
-  }),
+    })) ;
+
+  }.observes('model'),
 
   getStatus: function(model) {
     $.get("/api/v1/vms/" + model.get('id') + "/setupcomplete")
@@ -232,7 +241,7 @@ var VmsListController = Ember.ArrayController.extend({
     // action for delete event
     deleteItems: function() {
       var router = this.get('target');
-      var vms = this.get('model.[]') ;
+      var vms = this.get('vms') ;
       var items = this.filterProperty('todelete', true) ;
 
       items.forEach(function(model) {
