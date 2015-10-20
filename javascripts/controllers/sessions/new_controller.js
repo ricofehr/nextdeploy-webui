@@ -131,6 +131,9 @@ var SessionsNewController = Ember.ObjectController.extend({
       self.set('error401', false) ;
       self.set('error500', false) ;
 
+      //loading popin
+      $('#waitingModal').modal() ;
+
       $.ajax({
             url: '/api/v1/users/sign_in',
             type: "POST",
@@ -142,6 +145,7 @@ var SessionsNewController = Ember.ObjectController.extend({
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 401) self.set('error401', true) ;
                 else self.set('error500', true) ;
+                $('#waitingModal').modal('hide');
             },
 
             /**
@@ -165,7 +169,10 @@ var SessionsNewController = Ember.ObjectController.extend({
                   } else {
                     router.transitionTo('index');
                   }
-                }, 'json');
+                }, 'json')
+                .fail(function() {
+                  $('#waitingModal').modal('hide');
+                });
             }
         });
 

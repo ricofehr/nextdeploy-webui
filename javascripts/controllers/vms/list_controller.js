@@ -1,9 +1,5 @@
 // Ember controller for list vm into html array
 var VmsListController = Ember.ArrayController.extend({
-  // Sort order
-  sortProperties: ['project', 'user.email'],
-  sortAscending: true,
-
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,

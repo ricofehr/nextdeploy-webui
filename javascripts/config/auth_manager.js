@@ -47,27 +47,28 @@ var AuthManager = Ember.Object.extend({
           accessLevel: access_level
     }) ;
 
-    this.set('apiKey', apiKey) ;
+    this.set('apiKey', apiKey);
   },
 
   authenticate: function(accessToken) {
-    this.ajaxSetup(accessToken) ;
+    this.ajaxSetup(accessToken);
+    
     $.get('/api/v1/user', [], function(results) {
-      var user = results.user.id ;
-      var group = results.user.group ;
-      var auth_token = results.user.authentication_token ;
+      var user = results.user.id;
+      var group = results.user.group;
+      var auth_token = results.user.authentication_token;
       //App.AuthManager.initUser(user, group, auth_token, 0) ;
 
       $.get('/api/v1/group', [], function(results) {
-        App.AuthManager.initUser(user, group, auth_token, results.group.access_level) ;
-      });
+        App.AuthManager.initUser(user, group, auth_token, results.group.access_level);
+      })
     });
   },
 
   // Log out the user
   reset: function() {
     this.set('apiKey', null);
-    this.ajaxSetup('none') ;
+    this.ajaxSetup('none');
     // reset app for to be sure to empty all data store (ember issue known)
     App.reset();
     // ugly hack ... because after app.rest we need to reload page
