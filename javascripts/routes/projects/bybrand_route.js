@@ -4,7 +4,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 var ProjectsBybrandRoute = AuthenticatedRoute.extend({
   // Get the projects following an brand_id
   model: function(params) {
-    return this.store.find('project', { brand_id: params.brand_id }).filterBy('name') ;
+    return this.store.find('project', { brand_id: params.brand_id });
   },
 
   // Same template than the standard list
@@ -14,7 +14,7 @@ var ProjectsBybrandRoute = AuthenticatedRoute.extend({
 
   // Setup the controller "projects.list" with this model
   setupController: function(controller, model) {
-    this.controllerFor('projects.list').setProperties({content:model});
+    this.controllerFor('projects.list').setProperties(model);
   },
 });
 
