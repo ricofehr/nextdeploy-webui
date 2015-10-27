@@ -4,7 +4,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 var ProjectsBybrandRoute = AuthenticatedRoute.extend({
   // Get the projects following an brand_id
   model: function(params) {
-    return this.store.find('project', { brand_id: params.brand_id }) ;
+    return this.store.find('project', { brand_id: params.brand_id }).filterBy('name') ;
   },
 
   // Same template than the standard list
