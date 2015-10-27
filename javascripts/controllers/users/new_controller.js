@@ -62,6 +62,28 @@ var UsersNewController = Ember.ObjectController.extend({
     this.set('errorEmail', errorEmail);
   }.observes('email'),
 
+  checkFirstname: function() {
+    var firstname = this.get('firstname');
+    var errorFirstname = false;
+
+    if (!firstname) {
+      errorFirstname = true;
+    }
+
+    this.set('errorFirstname', errorFirstname) ;
+  }.observes('firstname'),
+
+  checkLastname: function() {
+    var lastname = this.get('lastname');
+    var errorLastname = false;
+
+    if (!lastname) {
+      errorLastname = true;
+    }
+
+    this.set('errorLastname', errorLastname) ;
+  }.observes('lastname'),
+
   checkCompany: function() {
     var company = this.get('company');
     var errorCompany = false;
@@ -140,6 +162,8 @@ var UsersNewController = Ember.ObjectController.extend({
 
   //check form before submit
   formIsValid: function() {
+    this.checkFirstname();
+    this.checkLastname();
     this.checkEmail();
     this.checkCompany();
     this.checkGroup();
@@ -147,7 +171,9 @@ var UsersNewController = Ember.ObjectController.extend({
     this.checkPasswordConfirmation();
     this.checkSamePassword();
 
-    if (!this.get('errorEmail') &&
+    if (!this.get('errorFirstname') &&
+        !this.get('errorLastname') &&
+        !this.get('errorEmail') &&
         !this.get('errorCompany') &&
         !this.get('errorGroup') &&
         !this.get('errorPassword') &&
@@ -159,6 +185,8 @@ var UsersNewController = Ember.ObjectController.extend({
   //clear form
   clearForm: function() {
     this.set('email', null);
+    this.set('firstname', null);
+    this.set('lastname', null);
     this.set('company', null);
     this.set('quotavm', null);
     this.set('password', null);
@@ -322,7 +350,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
     postItem: function() {
       var router = this.get('target');
-      var data = this.getProperties('id', 'email', 'company', 'password', 'password_confirmation', 'quotavm');
+      var data = this.getProperties('id', 'email', 'firstname', 'lastname', 'company', 'password', 'password_confirmation', 'quotavm');
       var store = this.store;
       var selectedGroup = this.get('group.content');
       var projects = this.get('checkedProjects').filterBy('checked', true).mapBy('content');
