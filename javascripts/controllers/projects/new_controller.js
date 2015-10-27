@@ -269,7 +269,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
       //if id is present, so update item, else create new one
       if(data['id']) {
-        this.set('loadingButton', true) ;
         store.find('project', data['id']).then(function (project) {
           var vmsizes_p = project.get('vmsizes').toArray(),
           technos_p = project.get('technos').toArray(),
@@ -318,9 +317,11 @@ var ProjectsNewController = Ember.ObjectController.extend({
           selectedFramework.get('projects').pushObject(project) ;
           selectedSystem.get('projects').pushObject(project) ;
 
+          $('#waitingModal').modal();
           project.save().then(function() {
             // Return to projects list page
             router.transitionTo('projects.list');
+            $('#waitingModal').modal('hide');
           }) ;
 
         });
