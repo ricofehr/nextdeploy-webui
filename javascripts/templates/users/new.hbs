@@ -12,6 +12,28 @@
   </div>
 
   <div class="form-group">
+    {{#if errorFirstname}}
+      <label class="control-label alert-danger col-sm-2">Can't be blank !</label>
+    {{else}}
+      <label class="control-label alert-success col-sm-2">Firstname</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" value=firstname placeholder="Firstname" disabled=isDisable}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorLastname}}
+      <label class="control-label alert-danger col-sm-2">Can't be blank !</label>
+    {{else}}
+      <label class="control-label alert-success col-sm-2">Lastname</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" value=lastname placeholder="Lastname" disabled=isDisable}}
+    </div>
+  </div>
+
+  <div class="form-group">
     {{#if errorCompany}}
       <label class="control-label alert-danger col-sm-2">Can't be blank !</label>
     {{else}}
