@@ -7,11 +7,12 @@ var VmsListController = Ember.ArrayController.extend({
   // Return model array sorted
   sortModel: function() {
     var model = this.get('model') ;
+    var self = this;
+  
     // sort vms by id
     var vmsSort = model.sort(function(a, b) {
         return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
     }).reverse() ;
-    var self = this;
 
     this.set('vms', vmsSort.map(function(model){
       var textStatus = '';

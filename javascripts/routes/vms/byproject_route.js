@@ -4,7 +4,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 var VmsByprojectRoute = AuthenticatedRoute.extend({
   // Get the vms following an project_id
   model: function(params) {
-    return this.store.find('vm', { project_id: params.project_id }) ;
+    return this.store.find('vm', { project_id: params.project_id }).filterBy('project') ;
   },
 
   // Same template than the standard list of vms
