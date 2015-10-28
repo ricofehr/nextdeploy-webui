@@ -186,7 +186,7 @@ var VmsListController = Ember.ArrayController.extend({
         '<b>URIS</b><br><a href="http://' + authcredentials + uri + '" target="_blank">'+ uri + '</a><br/>' +
         '<a href="http://' + authcredentials + 'admin.' + uri + '" target="_blank">admin.'+ uri + '</a><br/>' +
         '<a href="http://' + authcredentials + 'm.' + uri + '" target="_blank">m.'+ uri + '</a><br/>' + 
-        linejs + '<br><b>Http Access</b> (setted by default in URIS list before)<br>Login: ' + login + '<br>Password: ' + password + '<br><br>' +
+        linejs + '<br><b>Http Access</b> (setted by default in URIS)<br>Login: ' + login + '<br>Password: ' + password + '<br><br>' +
         linepmtools
         );
 
