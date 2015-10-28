@@ -153,13 +153,9 @@ var VmsListController = Ember.ArrayController.extend({
         return
       }
 
-      // no tools if login is empty
-      if (login && login != '') {
+      // no tools if login is empty or current user < dev
+      if (access_level >= 30 && login && login != '') {
         modal.find('.modal-title').text('Urls & Tools');
-        // system details are displaying only for at least dev user
-        if (access_level >= 30) {
-          modal.find('.modal-title').text('System & Urls & Tools');
-        }
 
         authcredentials = login + ':' + password + '@';
         linepmtools = '<b>Tools</b><br>' + '<a href="http://' + authcredentials + uri + '/pm_tools/gitsync/" target="_blank">Gitpull</a><br/>';
