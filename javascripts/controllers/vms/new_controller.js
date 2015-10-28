@@ -159,14 +159,24 @@ var VmsNewController = Ember.ObjectController.extend({
     //first, change users combobox
     var users = this.get('selectedProject').get('users').toArray();
     var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var user_id = App.AuthManager.get('apiKey.user');
+    var user_index = 0;
     var systemtype = null;
 
     if (access_level < 40) {
       this.get('selectedProject').get('users').toArray().forEach(function (user){
-        if (user && user.id != App.AuthManager.get('apiKey.user')) {
+        if (user && user.id != user_id) {
               users.removeObject(user);
         }
       });
+    }
+
+    // set default index in users array
+    for (var i = 0; i < users.length; i++) {
+      if (users[i].id == user_id) { 
+        user_index = i;
+        break; 
+      }
     }
 
     this.set('usersList', users);
@@ -188,7 +198,7 @@ var VmsNewController = Ember.ObjectController.extend({
     this.set('osSort', systemimages);
 
     //init default values
-    this.set('selectedUser', users[0]);
+    this.set('selectedUser', users[user_index]);
     this.set('selectedOs', systemimages[0]);
     this.set('selectedSizing', vmsizes.toArray()[0]);
 
