@@ -44,15 +44,18 @@
   </nav>
 
   {{outlet}}
+  {{outlet 'modaluris'}}
+  {{outlet 'modalvm'}}
+  {{outlet 'modalproject'}}
 
-<!-- Footer -->
-<br/><br/>
-<footer class="footer">
+  <!-- Footer -->
+  <br/><br/>
+  <footer class="footer">
       <div>&copy;2015 Eric Fehr&nbsp;-&nbsp;Publicis-Nurun&nbsp;-&nbsp;MVMC BETA v0.9.2</div>
-</footer
+  </footer
 
-<!-- Loading Modal -->
-<div class="modal" id="waitingModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-hidden="true">
+  <!-- Loading Modal -->
+  <div class="modal" id="waitingModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header text-center">
@@ -62,19 +65,4 @@
     </div>
   </div>
 
-<!-- Text Modal -->
-<div class="modal" id="textModal" tabindex="-1"  data-backdrop="static" role="dialog" data-keyboard="false" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title"></h4>
-        </div>
-        <div class="modal-body">
-
-        </div>
-      </div>
-    </div>
-  </div>
 </div>
