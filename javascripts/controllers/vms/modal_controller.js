@@ -67,69 +67,93 @@ var VmsModalController = Ember.ObjectController.extend({
     openVmURI: function(uritype) {
       var login = this.get('project.login');
       var password = this.get('project.password');
-      var uri = this.get('name');
-      var openuri = '';
       var authcreds = login + ":" + password + "@";
+      var uri = this.get('name');
+      var uri_with_creds = '';
+      var uri_xmlhttp_req = '';
+      var uri_status = 'http://' + uri + '/status_ok';
+      var popup = null;
+      
 
       switch(uritype) {
         case 'main':
-          openuri = 'http://' + authcreds + uri + '/';
+          uri_with_creds = 'http://' + authcreds + uri + '/';
+          uri_xmlhttp_req = 'http://' + uri + '/';
           break;
         case 'admin':
-          openuri = 'http://' + authcreds + 'admin.' + uri + '/';
+          uri_with_creds = 'http://' + authcreds + 'admin.' + uri + '/';
+          uri_xmlhttp_req = 'http://admin.' + uri +'/';
           break;
         case 'mobile':
-          openuri = 'http://' + authcreds + 'm.' + uri +'/';
+          uri_with_creds = 'http://' + authcreds + 'm.' + uri +'/';
+          uri_xmlhttp_req = 'http://m.' + uri +'/';
           break;
         case 'html':
-          openuri = 'http://' + authcreds + uri + '/_html/';
+          uri_with_creds = 'http://' + authcreds + uri + '/_html/';
+          uri_xmlhttp_req = 'http://' + uri + '/_html/';
           break;
         case 'nodejs':
-          openuri = 'http://' + authcreds + 'nodejs.' + uri + '/';
+          uri_with_creds = 'http://' + authcreds + 'nodejs.' + uri + '/';
+          uri_xmlhttp_req = 'http://nodejs.' + uri + '/';
           break;
         case 'gitpull':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/gitsync/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/gitsync/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/gitsync/';
           break;
         case 'phpmyadmin':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/phpmyadmin/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/phpmyadmin/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/phpmyadmin/';
           break;
         case 'tail':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/tail/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/tail/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/tail/';
           break;
         case 'phpinfo':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/pminfo/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/pminfo/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/pminfo/';
           break;
         case 'clearvarnish':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/clearvarnish/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/clearvarnish/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/clearvarnish/';
           break;
         case 'composerinstall':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/composerinstall/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/composerinstall/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/composerinstall/';
           break;
         case 'sf2cmds':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/sf2/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/sf2/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/sf2/';
           break;
         case 'sf2logs':
-          openuri = 'http://' + authcreds + uri + '/pm_tools/tailsf2/';
+          uri_with_creds = 'http://' + authcreds + uri + '/pm_tools/tailsf2/';
+          uri_xmlhttp_req = 'http://' + uri + '/pm_tools/tailsf2/';
           break;
       }
       
-      if (openuri == '') {
+      if (uri_with_creds == '') {
         return;
       }
 
-      /*
-      xmlHttp=new XMLHttpRequest();
-      xmlHttp.withCredentials = true;
-      xmlHttp.mozBackgroundRequest = true;
-      xmlHttp.open("GET", openuri, true);
-      xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + password));
-      xmlHttp.send(null);
+      popup = window.open(uri_status);
+      // if no popup-blocker, open the uri thanks to xmlhttprequest
+      // else open with credentials into uri
+      if (popup) {
 
-      xmlHttp.onload = function() {
-        window.open(openuri);
+        xmlHttp=new XMLHttpRequest();
+        xmlHttp.withCredentials = true;
+        xmlHttp.mozBackgroundRequest = true;
+        xmlHttp.open("GET", uri_xmlhttp_req, true);
+        xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + password));
+        xmlHttp.send(null);
+
+        xmlHttp.onload = function() {
+          popup.location.href = uri_xmlhttp_req;
+          //popup.close();
+          //window.open(uri_xmlhttp_req);
+        }
+      } else {
+        window.open(uri_with_creds);
       }
-      */
-      window.open(openuri);
     }
   }
 });

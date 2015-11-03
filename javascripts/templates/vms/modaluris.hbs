@@ -16,7 +16,7 @@
           <a href="" {{action 'openVmURI' 'admin'}}>The admin apps (if exists)</a><br/>
           <a href="" {{action 'openVmURI' 'mobile'}}>The mobile version (if exists)</a><br/>
           <a href="" {{action 'openVmURI' 'html'}}>The html version (if exists)</a><br/>
-          {{#if isMysql}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps</a><br/>{{/if}}
+          {{#if isNodejs}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps</a><br/>{{/if}}
 
           <br><b>Http Access</b><br>
           Login: {{project.login}}<br>
