@@ -89,6 +89,17 @@
   </div>
 
   <div class="form-group">
+    <div class="col-sm-5">
+    {{textarea
+            readonly="true"
+            classNames="form-control"
+            rows=7
+            value=selectedCommit.message
+            placeholder="Commit Msg"}}
+     </div>
+  </div>
+
+  <div class="form-group">
     {{#if errorOs}}
       <label class="control-label col-sm-2 alert-danger">System</label>
     {{else}}
