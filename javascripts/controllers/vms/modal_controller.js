@@ -134,26 +134,26 @@ var VmsModalController = Ember.ObjectController.extend({
         return;
       }
 
-      popup = window.open(uri_status);
+      //popup = window.open(uri_status);
       // if no popup-blocker, open the uri thanks to xmlhttprequest
       // else open with credentials into uri
-      if (popup) {
+      //if (popup) {
 
-        xmlHttp=new XMLHttpRequest();
-        xmlHttp.withCredentials = true;
-        xmlHttp.mozBackgroundRequest = true;
-        xmlHttp.open("GET", uri_xmlhttp_req, true);
-        xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + password));
-        xmlHttp.send(null);
+      //  xmlHttp=new XMLHttpRequest();
+      //  xmlHttp.withCredentials = true;
+      //  xmlHttp.mozBackgroundRequest = true;
+      //  xmlHttp.open("GET", uri_xmlhttp_req, true);
+      //  xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + password));
+      //  xmlHttp.send(null);
 
-        xmlHttp.onload = function() {
-          popup.location.href = uri_xmlhttp_req;
+      //  xmlHttp.onload = function() {
+      //    popup.location.href = uri_xmlhttp_req;
           //popup.close();
           //window.open(uri_xmlhttp_req);
-        }
-      } else {
+      //  }
+      //} else {
         window.open(uri_with_creds);
-      }
+      //}
     }
   }
 });
