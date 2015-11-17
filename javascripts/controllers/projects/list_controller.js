@@ -13,6 +13,10 @@ var ProjectsListController = Ember.ArrayController.extend({
     }).reverse() ;
     var self = this;
 
+    // reset delete toggle
+    this.set('isAllDelete', false);
+    this.set('isShowingDeleteConfirmation', false);
+
     //filter projects array only with valid item for current user
     this.set('projects', projectsSort.map(function(model){
       model.set('gitpath_href', "git@" + model.get('gitpath')) ;
@@ -40,25 +44,6 @@ var ProjectsListController = Ember.ArrayController.extend({
 
   // actions binding with user event
   actions: {
-    // action to show gitpath into popin modal
-    // showDetails: function(gitpath_href, gitpath, username, password) {
-    //   var modal = $('#textModal') ;
-    //   var ftppasswd = 'mvmc' ;
-
-    //   if (password && password.length > 0) {
-    //     ftppasswd = password.substring(0,8) ;
-    //   }
-
-    //   modal.find('.modal-title').text('Project details') ;
-    //   modal.find('.modal-body').html('<b>Git</b><br>git clone ' + gitpath_href + 
-    //     '<br><br><b>Http access</b><br>User: ' + username + '<br>Password: ' + password +
-    //     '<br><br><b>Ftp Assets & Dump*</b><br>User: ' + gitpath.replace(/.*\//g, "") + '<br>Password: ' + ftppasswd + '<br>Host: ' + 'f.' + window.location.hostname +
-    //     '<br><br>*The goal of this ftp repository is to provide datas and assets import for the project during vm creation.<br>Dont import prod datas !! Only a fixtures snapshot for provide some use cases.<br>Files bigger than 100Mo will be deleted.'
-    //     ) ;
-
-    //   modal.modal() ;
-    // },
-
     // action for delete event
     deleteItems: function() {
       var router = this.get('target');
