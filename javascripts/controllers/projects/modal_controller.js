@@ -57,7 +57,7 @@ var ProjectsModalController = Ember.ObjectController.extend({
 
   // Return ftp password for the current project
   getFtpPassword: function() {
-    var ftppasswd = 'mvmc';
+    var ftppasswd = 'nextdeploy';
     var password = this.get('password');
 
     if (password && password.length > 0) {
