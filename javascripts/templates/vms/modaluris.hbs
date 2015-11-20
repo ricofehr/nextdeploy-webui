@@ -11,17 +11,17 @@
         </div>
         <div class="modal-body">
         {{#if isRunning}}
-          <b>URIS</b><br>
+          <b>URIS</b><br/>
           <a href="" {{action 'openVmURI' 'main'}}>Your website</a><br/>
           <a href="" {{action 'openVmURI' 'admin'}}>The admin apps (if exists)</a><br/>
           <a href="" {{action 'openVmURI' 'mobile'}}>The mobile version (if exists)</a><br/>
           <a href="" {{action 'openVmURI' 'html'}}>The html version (if exists)</a><br/>
           {{#if isNodejs}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps</a><br/>{{/if}}
+          <br/><b>HTTPS</b>&nbsp;<a href="" {{action 'toggleHTTPS'}}>{{#if isHTTPS}}ON{{else}}OFF{{/if}}</a><br/>
+          <br/><b>Http & CMS Access</b><br/>
+          Login: {{project.login}}<br/>
+          Password: {{project.password}}<br/><br/>
 
-          <br><b>Http Access</b><br>
-          Login: {{project.login}}<br>
-          Password: {{project.password}}<br><br>
-        
           {{#if isDev}}
             <b>Tools</b><br>
             <a href="" {{action 'openVmURI' 'gitpull'}}>Gitpull</a><br/>

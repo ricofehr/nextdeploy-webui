@@ -96,7 +96,7 @@ var VmsListController = Ember.ArrayController.extend({
     checkStatus: function(model) {
       var vm_id = model.get('id') ;
       //loader for display an action on the screen
-      $('#waitingModal').modal();
+      //$('#waitingModal').modal();
 
       // jquery get setupcomplete
       $.get("/api/v1/vms/" + vm_id + "/setupcomplete")
@@ -124,10 +124,10 @@ var VmsListController = Ember.ArrayController.extend({
             model.set('warnStatus', true);
             model.set('dangStatus', false);
           }
-        })
-        .always(function() {
-          setTimeout($('#waitingModal').modal('hide'), 2000);
         });
+        //.always(function() {
+          //setTimeout($('#waitingModal').modal('hide'), 2000);
+        //});
     },
 
     // action for delete event
