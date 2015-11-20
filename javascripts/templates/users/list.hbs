@@ -2,7 +2,7 @@
  <thead>
   <tr>
     {{#if isAdmin}}
-    <th><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>
+    <th>&nbsp;</th>
     {{/if}}
     <th>Email</th>
     <th>Group</th>
@@ -18,7 +18,13 @@
   {{#each user in users}}
   <tr>
     {{#if isAdmin}}
-    <td>{{input type="checkbox" checked=user.todelete}}</td>
+    <td>
+      {{#if user.isCurrent}}
+        &nbsp;
+      {{else}}
+        {{input type="checkbox" checked=user.todelete}}
+      {{/if}}
+    </td>
     {{/if}}
     {{#if isLead}}
       <td>{{#linkTo 'users.edit' user.id}}{{user.email}}{{/linkTo}}</td>
