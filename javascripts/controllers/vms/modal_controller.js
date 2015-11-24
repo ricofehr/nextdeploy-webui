@@ -62,6 +62,16 @@ var VmsModalController = Ember.ObjectController.extend({
     return false;    
   }.property('project'),
 
+  // Check if we have drupal
+  isDrupal: function() {
+    var framework = this.get('project.framework.name');
+    if (framework.match(/^Drupal/)) {
+      return true;
+    }
+
+    return false;    
+  }.property('project'),
+
   // reset isHTTPS property
   resetHTTPS: function () {
     this.set('isHTTPS', false);
@@ -135,14 +145,26 @@ var VmsModalController = Ember.ObjectController.extend({
           uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/composerinstall/';
           uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/composerinstall/';
           break;
-        case 'sf2cmds':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/sf2/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/sf2/';
+        case 'sf2schema':
+          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/sf2schema/';
+          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/sf2schema/';
+          break;
+        case 'sf2migrate':
+          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/sf2migrate/';
+          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/sf2migrate/';
           break;
         case 'sf2logs':
           uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/tailsf2/';
           uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/tailsf2/';
           break;
+        case 'drupalcc':
+          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/drupalcc/';
+          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/drupalcc/';
+          break;
+       case 'drupalupdb':
+          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/drupalupdb/';
+          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/drupalupdb/';
+          break; 
       }
       
       if (uri_with_creds == '') {
