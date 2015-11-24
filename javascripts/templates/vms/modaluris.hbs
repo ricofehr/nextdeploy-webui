@@ -33,9 +33,15 @@
             <a href="" {{action 'openVmURI' 'phpinfo'}}>Phpinfo</a><br/>
             <a href="" {{action 'openVmURI' 'clearvarnish'}}>Clearvarnish</a><br/>
             
+            {{#if isDrupal}}
+            <a href="" {{action 'openVmURI' 'drupalcc'}}>Clear all caches</a><br/>
+            <a href="" {{action 'openVmURI' 'drupalupdb'}}>Execute updb command</a><br/>
+            {{/if}}
+
             {{#if isSf2}}
             <a href="" {{action 'openVmURI' 'composerinstall'}}>ComposerInstall</a><br/>
-            <a href="" {{action 'openVmURI' 'sf2cmds'}}>Sf2 commands: cc, assets, assetic, updb</a><br/>
+            <a href="" {{action 'openVmURI' 'sf2schema'}}>Sf2 Doctrine Schema: cc, assets, assetic, schema-update</a><br/>
+            <a href="" {{action 'openVmURI' 'sf2migrate'}}>Sf2 Doctrine Migration: cc, assets, assetic, migrate</a><br/>
             <a href="" {{action 'openVmURI' 'sf2logs'}}>Sf2 Logs</a><br/>
             {{/if}}
           {{/if}}
