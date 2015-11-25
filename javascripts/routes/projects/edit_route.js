@@ -12,7 +12,8 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
       vmsizelist: this.store.all('vmsize'),
       userlist: this.store.all('user'),
       systemlist: this.store.all('systemimagetype'),
-      project: this.store.find('project', params.project_id)
+      project: this.store.find('project', params.project_id),
+      projects: this.store.all('project').filterBy('name')
     });
 
   },
@@ -35,7 +36,8 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
                                                       technolist: model.technolist,
                                                       vmsizelist: model.vmsizelist,
                                                       userlist: model.userlist,
-                                                      systemlist: model.systemlist});
+                                                      systemlist: model.systemlist,
+                                                      projects: model.projects});
   },
 
 });

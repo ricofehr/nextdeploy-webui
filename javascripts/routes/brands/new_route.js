@@ -4,13 +4,16 @@ var AuthenticatedRoute = require('../authenticated_route');
 var BrandsNewRoute = AuthenticatedRoute.extend({
   // Empty model
   model: function() {
-    return Ember.Object.create();
+    return Ember.RSVP.hash({
+      brands: this.store.all('brand').filterBy('name')
+    });
   },
 
   // Setup controller
   setupController: function(controller, model) {
-    this._super(controller, model) ;
+    content = Ember.Object.create() ;
     this.controllerFor('brands.new').clearForm() ;
+    this.controllerFor('brands.new').setProperties({content:content, brands: model.brands});
   },
 });
 

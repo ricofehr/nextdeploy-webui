@@ -90,6 +90,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
   //validation variables
   errorBrand: false,
   errorName: false,
+  errorName2: false,
   errorLogin: false,
   errorPassword: false,
   errorFramework: false,
@@ -119,6 +120,27 @@ var ProjectsNewController = Ember.ObjectController.extend({
     }
 
     this.set('errorName', errorName) ;
+  }.observes('name'),
+
+  // check projectname
+  checkName2: function() {
+    var projects = this.get('projects');
+    var name = this.get('name');
+    var current_id = this.get('id');
+    var self = this;
+    var errorName2 = false;
+
+    if (!projects || projects.length == 0) return;
+
+    projects.forEach(function (item) {
+      if (item.id != current_id) {
+        if (item.get('name') == name) {
+          errorName2 = true;
+        }
+      }
+    });
+
+    self.set('errorName2', errorName2);
   }.observes('name'),
 
   checkLogin: function() {
@@ -195,6 +217,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
     if (!this.get('errorBrand') &&
         !this.get('errorName') &&
+        !this.get('errorName2') &&
         !this.get('errorLogin') &&
         !this.get('errorPassword') &&
         !this.get('errorFramework') &&
@@ -219,10 +242,10 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
   //events when projectname or brand changes
   updateGitpath: function() {
-      var gitpath ;
-      if (!this.get('brand.content') || !this.get('name')) return ;
-      gitpath = this.get('brand.content').get('name').replace(/[\. ]/g,'') + "-" + this.get('name').replace(/[\. ]/g,'-') ;
-      this.set('gitpath', gitpath.toLowerCase()) ;
+    var gitpath ;
+    if (!this.get('brand.content') || !this.get('name')) return ;
+    gitpath = this.get('brand.content').get('name').replace(/[\. ]/g,'') + "-" + this.get('name').replace(/[\. ]/g,'-') ;
+    this.set('gitpath', gitpath.toLowerCase()) ;
   }.observes('brand.content', 'name'),
 
   // Disable if edit item

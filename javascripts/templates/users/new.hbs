@@ -4,7 +4,11 @@
     {{#if errorEmail}}
         <label class="control-label alert-danger col-sm-2">Invalid Email !</label>
     {{else}}
+      {{#if errorEmail2}}
+        <label class="control-label col-sm-2 alert-danger">Already taken</label>
+      {{else}}
         <label class="control-label alert-success col-sm-2">Email Address</label>
+      {{/if}}
     {{/if}}
     <div class="col-sm-3">
     {{input type="email" classNames="form-control" value=email placeholder="Email Address" disabled=isDisable}}

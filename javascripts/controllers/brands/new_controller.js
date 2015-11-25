@@ -2,6 +2,7 @@
 var BrandsNewController = Ember.ObjectController.extend({
   //validation variables
   errorName: false,
+  errorName2: false,
 
   //validation function
   checkName: function() {
@@ -13,6 +14,27 @@ var BrandsNewController = Ember.ObjectController.extend({
     }
 
     this.set('errorName', errorName) ;
+  }.observes('name'),
+
+  // check projectname
+  checkName2: function() {
+    var brands = this.get('brands');
+    var name = this.get('name');
+    var current_id = this.get('id');
+    var self = this;
+    var errorName2 = false;
+
+    if (!brands || brands.length == 0) return;
+
+    brands.forEach(function (item) {
+      if (item.id != current_id) {
+        if (item.get('name') == name) {
+          errorName2 = true;
+        }
+      }
+    });
+
+    self.set('errorName2', errorName2);
   }.observes('name'),
 
   //check form before submit

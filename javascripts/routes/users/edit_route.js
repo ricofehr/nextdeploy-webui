@@ -7,7 +7,8 @@ var UsersEditRoute = AuthenticatedRoute.extend({
     return Ember.RSVP.hash({
       grouplist: this.store.all('group'),
       projectlist: this.store.all('project'),
-      user: this.store.find('user', params.user_id)
+      user: this.store.find('user', params.user_id),
+      users: this.store.all('user').filterBy('email')
     });
   },
 
@@ -23,7 +24,8 @@ var UsersEditRoute = AuthenticatedRoute.extend({
     this.controllerFor('users.new').setProperties({content: model.user,
                                                   grouplist: model.grouplist,
                                                   user_projects: model.user.get('projects'),
-                                                  projectlist: model.projectlist});
+                                                  projectlist: model.projectlist,
+                                                  users: model.users});
   },
 });
 
