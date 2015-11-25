@@ -11,26 +11,28 @@ var ProjectsNewRoute = AuthenticatedRoute.extend({
       vmsizelist: this.store.all('vmsize'),
       userlist: this.store.all('user'),
       systemlist: this.store.all('systemimagetype'),
-      groups: this.store.all('group')
+      groups: this.store.all('group'),
+      projects: this.store.all('project').filterBy('name')
     });
   },
 
   // Setup the controller with thie model
   setupController: function(controller, model) {
-    content = Ember.Object.create() ;
-    content.set('brand', {content: null}) ;
-    content.set('framework', {content: null}) ;
-    content.set('systemimagetype', {content: null}) ;
+    content = Ember.Object.create();
+    content.set('brand', {content: null});
+    content.set('framework', {content: null});
+    content.set('systemimagetype', {content: null});
 
-    this.controllerFor('projects.new').setProperties({model: content}) ;
-    this.controllerFor('projects.new').clearForm() ;
+    this.controllerFor('projects.new').setProperties({model: content});
+    this.controllerFor('projects.new').clearForm();
     this.controllerFor('projects.new').setProperties({brandlist: model.brandlist,
                                                       frameworklist: model.frameworklist,
                                                       technolist: model.technolist,
                                                       vmsizelist: model.vmsizelist,
                                                       userlist: model.userlist,
                                                       systemlist: model.systemlist,
-                                                      groups: model.groups});
+                                                      groups: model.groups,
+                                                      projects: model.projects});
   }
 });
 

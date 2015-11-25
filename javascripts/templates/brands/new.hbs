@@ -4,7 +4,11 @@
     {{#if errorName}}
       <label class="control-label col-sm-2 alert-danger">Name</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Name</label>
+      {{#if errorName2}}
+        <label class="control-label col-sm-2 alert-danger">Already taken</label>
+      {{else}}
+        <label class="control-label col-sm-2 alert-success">Name</label>
+      {{/if}}
     {{/if}}
     <div class="col-sm-3">
     {{input type="text" classNames="form-control" value=name placeholder="Brand Title"}}

@@ -4,7 +4,10 @@ var AuthenticatedRoute = require('../authenticated_route');
 var BrandsEditRoute = AuthenticatedRoute.extend({
   // Get the bran following the parameter
   model: function(params) {
-    return this.store.find('brand', params.brand_id) ;
+    return Ember.RSVP.hash({
+      brand: this.store.find('brand', params.brand_id),
+      brands: this.store.all('brand').filterBy('name')
+    });
   },
 
   // Same template than the create form
@@ -14,7 +17,7 @@ var BrandsEditRoute = AuthenticatedRoute.extend({
 
   // Setup the controller "brands.new" with this model
   setupController: function(controller, model) {
-    this.controllerFor('brands.new').setProperties({content:model});
+    this.controllerFor('brands.new').setProperties({content:model.brand, brands: model.brands});
   },
 });
 

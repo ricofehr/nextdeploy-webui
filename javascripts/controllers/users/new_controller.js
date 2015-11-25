@@ -10,6 +10,7 @@ var UsersNewController = Ember.ObjectController.extend({
   //validation variables
   errorCompany: false,
   errorEmail: false,
+  errorEmail2: false,
 
   errorPassword: false,
   successPassword: false,
@@ -60,6 +61,27 @@ var UsersNewController = Ember.ObjectController.extend({
     }
 
     this.set('errorEmail', errorEmail);
+  }.observes('email'),
+
+  // check projectname
+  checkEmail2: function() {
+    var users = this.get('users');
+    var email = this.get('email');
+    var current_id = this.get('id');
+    var self = this;
+    var errorEmail2 = false;
+
+    if (!users || users.length == 0) return;
+
+    users.forEach(function (item) {
+      if (item.id != current_id) {
+        if (item.get('email') == email) {
+          errorEmail2 = true;
+        }
+      }
+    });
+
+    self.set('errorEmail2', errorEmail2);
   }.observes('email'),
 
   checkFirstname: function() {
@@ -165,6 +187,7 @@ var UsersNewController = Ember.ObjectController.extend({
     this.checkFirstname();
     this.checkLastname();
     this.checkEmail();
+    this.checkEmail2();
     this.checkCompany();
     this.checkGroup();
     this.checkPassword();
@@ -174,6 +197,7 @@ var UsersNewController = Ember.ObjectController.extend({
     if (!this.get('errorFirstname') &&
         !this.get('errorLastname') &&
         !this.get('errorEmail') &&
+        !this.get('errorEmail2') &&
         !this.get('errorCompany') &&
         !this.get('errorGroup') &&
         !this.get('errorPassword') &&
