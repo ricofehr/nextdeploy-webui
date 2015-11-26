@@ -27,28 +27,36 @@ var UsersNewController = Ember.ObjectController.extend({
   //project checkboxes array
   projectSorting: ['name'],
   projectSort: Ember.computed.sort('projectlist', 'projectSorting'),
-  checkedProjects: Ember.computed.map('projectSort', function(model){
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
-    var checked = false ;
-    var readonly = false ;
-    var projects = this.get('user_projects') ;
-    var group_access = 0;
-    var project = null ;
 
-    if (this.get('group') && this.get('group').get instanceof Function) group_access = this.get('group').get('content.access_level');
-    if (access_level < 50 || group_access == 50) readonly = true ;
+  listProjects: function() {
+    var model = this.get('model');
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var self = this;
 
-    if(projects) {
-      project = projects.findBy('id', model.id) ;
-      if(project) checked = true ;
-    }
+    this.set('checkedProjects', this.get('projectSort').map(function(model) {
+      var checked = false ;
+      var readonly = false ;
+      var projects = self.get('user_projects') ;
+      var group_access = 0;
+      var project = null ;
 
-    return Ember.ObjectProxy.create({
-      content: model,
-      checked: checked,
-      readonly: readonly
-    });
-  }),
+      if (self.get('group.content.access_level')) group_access = self.get('group.content.access_level');
+      if (access_level < 50 || group_access == 50) readonly = true ;
+
+      if(projects) {
+        project = projects.findBy('id', model.id) ;
+        if(project) checked = true ;
+      }
+
+      if (group_access == 50) checked = true ;
+
+      return Ember.ObjectProxy.create({
+        content: model,
+        checked: checked,
+        readonly: readonly
+      });
+    }));
+  }.observes('group.content'),
 
   //validation function
   checkEmail: function() {
