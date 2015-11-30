@@ -121,50 +121,9 @@ var VmsModalController = Ember.ObjectController.extend({
           uri_with_creds = scheme + '://' + authcreds + 'nodejs.' + uri + '/';
           uri_xmlhttp_req = scheme + '://nodejs.' + uri + '/';
           break;
-        case 'gitpull':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/gitsync/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/gitsync/';
-          break;
-        case 'phpmyadmin':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/phpmyadmin/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/phpmyadmin/';
-          break;
-        case 'tail':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/tail/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/tail/';
-          break;
-        case 'phpinfo':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/pminfo/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/pminfo/';
-          break;
-        case 'clearvarnish':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/clearvarnish/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/clearvarnish/';
-          break;
-        case 'composerinstall':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/composerinstall/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/composerinstall/';
-          break;
-        case 'sf2schema':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/sf2schema/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/sf2schema/';
-          break;
-        case 'sf2migrate':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/sf2migrate/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/sf2migrate/';
-          break;
-        case 'sf2logs':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/tailsf2/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/tailsf2/';
-          break;
-        case 'drupalcc':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/drupalcc/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/drupalcc/';
-          break;
-       case 'drupalupdb':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/drupalupdb/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/drupalupdb/';
-          break; 
+        default:
+          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/' + uritype + '/';
+          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/' + uritype + '/';
       }
       
       if (uri_with_creds == '') {

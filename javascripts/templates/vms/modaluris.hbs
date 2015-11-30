@@ -24,13 +24,13 @@
 
           {{#if isDev}}
             <b>Tools</b><br>
-            <a href="" {{action 'openVmURI' 'gitpull'}}>Gitpull</a><br/>
-
+            <a href="" {{action 'openVmURI' 'gitsync'}}>Gitpull</a><br/>
+            <a href="" {{action 'openVmURI' 'npmsh'}}>Npm / Grunt / Bower / Gulp</a><br/>
             {{#if isMysql}}
             <a href="" {{action 'openVmURI' 'phpmyadmin'}}>Phpmyadmin (s_bdd/s_bdd)</a><br/>
             {{/if}}
             <a href="" {{action 'openVmURI' 'tail'}}>Apache logs</a><br/>
-            <a href="" {{action 'openVmURI' 'phpinfo'}}>Phpinfo</a><br/>
+            <a href="" {{action 'openVmURI' 'pminfo'}}>Phpinfo</a><br/>
             <a href="" {{action 'openVmURI' 'clearvarnish'}}>Clearvarnish</a><br/>
             
             {{#if isDrupal}}
@@ -42,7 +42,7 @@
             <a href="" {{action 'openVmURI' 'composerinstall'}}>ComposerInstall</a><br/>
             <a href="" {{action 'openVmURI' 'sf2schema'}}>Sf2 Doctrine Schema: cc, assets, assetic, schema-update</a><br/>
             <a href="" {{action 'openVmURI' 'sf2migrate'}}>Sf2 Doctrine Migration: cc, assets, assetic, migrate</a><br/>
-            <a href="" {{action 'openVmURI' 'sf2logs'}}>Sf2 Logs</a><br/>
+            <a href="" {{action 'openVmURI' 'tailsf2'}}>Sf2 Logs</a><br/>
             {{/if}}
           {{/if}}
         {{else}}
