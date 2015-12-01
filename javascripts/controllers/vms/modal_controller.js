@@ -55,7 +55,7 @@ var VmsModalController = Ember.ObjectController.extend({
   // Check if we have mysql into model
   isSf2: function() {
     var framework = this.get('project.framework.name');
-    if (framework == "Symfony2") {
+    if (framework.match(/^Symfony/)) {
       return true;
     }
 
