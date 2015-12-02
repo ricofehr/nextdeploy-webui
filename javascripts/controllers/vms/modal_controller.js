@@ -98,7 +98,6 @@ var VmsModalController = Ember.ObjectController.extend({
       if (this.get('isHTTPS')) {
         scheme = 'https';
       }
-      
 
       switch(uritype) {
         case 'main':
@@ -135,28 +134,6 @@ var VmsModalController = Ember.ObjectController.extend({
       } else {
         window.open(uri_xmlhttp_req);
       }
-
-      //popup = window.open(uri_status);
-      // if no popup-blocker, open the uri thanks to xmlhttprequest
-      // else open with credentials into uri
-      //if (popup) {
-
-      //  xmlHttp=new XMLHttpRequest();
-      //  xmlHttp.withCredentials = true;
-      //  xmlHttp.mozBackgroundRequest = true;
-      //  xmlHttp.open("GET", uri_xmlhttp_req, true);
-      //  xmlHttp.setRequestHeader("Authorization", "Basic " + btoa(login + ":" + password));
-      //  xmlHttp.send(null);
-
-      //  xmlHttp.onload = function() {
-      //    popup.location.href = uri_xmlhttp_req;
-          //popup.close();
-          //window.open(uri_xmlhttp_req);
-      //  }
-      //} else {
-      //  window.open(uri_with_creds);
-      //}
-      //
     }
   }
 });

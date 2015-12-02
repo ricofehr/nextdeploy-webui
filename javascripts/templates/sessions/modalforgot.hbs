@@ -1,0 +1,28 @@
+<!-- Text Modal -->
+<div class="modal fade" id="modalforgot" tabindex="-1"  data-backdrop="static" role="dialog" data-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" {{action 'closeForgot'}}><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Forgot Password</h4>
+        </div>
+        <div class="modal-body">
+          {{#if emailSend}}
+            <b>An email is sending to your Inbox*. Please check this last one and your spam inbox too.</b><br><br>
+            *Only if you have a valid record
+          {{else}}
+            {{#if errorMail}}
+              <b>Please fill the "Email Address" field</b>
+            {{else}}
+              {{#if errorPass}}
+                <b>Only fill the "Email Address" field.<br/>The password field must be empty.</b>
+              {{else}}
+                <b>Email is sending ...</b>
+              {{/if}}
+            {{/if}}  
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>

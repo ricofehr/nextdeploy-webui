@@ -36,6 +36,14 @@ var ApplicationController = Ember.Controller.extend({
     if (access_level >= 30) return true ;
     return false ;
   }.property('App.AuthManager.apiKey'),
+
+  // Return true if user is a Pm or more
+  isPM: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 20) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
 });
 
 module.exports = ApplicationController;
