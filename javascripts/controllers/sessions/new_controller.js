@@ -175,32 +175,6 @@ var SessionsNewController = Ember.ObjectController.extend({
                 });
             }
         });
-
-
-
-      // Post rest request for sign-in
-      /*
-      $.post('/api/v1/users/sign_in', data, function(results) {
-        var user = results.user.id ;
-        var group = results.user.group ;
-        var auth_token = results.user.authentication_token ;
-
-        App.AuthManager.ajaxSetup(auth_token) ;
-        // Get rest request for getting group value
-        $.get('/api/v1/group', [], function(results) {
-          // Init authmanager object for record session
-          App.AuthManager.initUser(user, group, auth_token, results.group.access_level) ;
-
-          // Redirect to targetting page
-          if (attemptedTrans) {
-            attemptedTrans.retry();
-            self.set('attemptedTransition', null);
-          } else {
-            router.transitionTo('index');
-          }
-        }, 'json');
-      }, 'json');
-      */
     }
   }
 });

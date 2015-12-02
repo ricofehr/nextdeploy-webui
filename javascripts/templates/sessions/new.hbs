@@ -1,7 +1,7 @@
 {{#if isAuthenticated}}
 <p>
-Welcome {{currentUser.email}}<br/>
-You are well authenticated to NextDeploy<br><br>
+Welcome {{currentUser.firstname}} {{currentUser.lastname}}<br/>
+You are well authenticated onto NextDeploy<br><br>
 
 <strong>Vm tab</strong>
 <ul>
@@ -74,6 +74,9 @@ You are well authenticated to NextDeploy<br><br>
 
   <div class="form-group">
     <div class="control-label col-sm-2">
+      <button {{action "forgotPassword" email password}} class="btn btn-warning pull-right">Forgot</button>
+    </div>
+    <div class="control-label col-sm-3">
       <button type="submit" class="btn btn-primary">Submit</button>
     </div>
   </div>
