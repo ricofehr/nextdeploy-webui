@@ -6,7 +6,7 @@ var VmsNewRoute = AuthenticatedRoute.extend({
   model: function() {
     // Get all prjects, users and systemimages
     return Ember.RSVP.hash({
-      projects: this.store.all('project'),
+      projects: this.store.all('project').filterBy('name'),
       users: this.store.all('user'),
       vmsizes: this.store.all('vmsize'),
       systemimages: this.store.all('systemimage'),

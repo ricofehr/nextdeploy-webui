@@ -52,7 +52,7 @@ var SshkeysListController = Ember.ObjectController.extend({
     toggleDeleteAll: function() {
       if (this.get('isAllDelete')) this.set('isAllDelete', false) ;
       else this.set('isAllDelete', true) ;
-      this.setEach('todelete', this.get('isAllDelete'));
+      this.get('sshkeys').setEach('todelete', this.get('isAllDelete'));
     }
   }
 });

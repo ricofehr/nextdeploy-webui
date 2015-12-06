@@ -155,12 +155,13 @@ var SessionsNewController = Ember.ObjectController.extend({
                 var user = results.user.id ;
                 var group = results.user.group ;
                 var auth_token = results.user.authentication_token ;
+                var is_project_create = results.user.is_project_create;
 
                 App.AuthManager.ajaxSetup(auth_token) ;
                 // Get rest request for getting group value
                 $.get('/api/v1/group', [], function(results) {
                   // Init authmanager object for record session
-                  App.AuthManager.initUser(user, group, auth_token, results.group.access_level) ;
+                  App.AuthManager.initUser(user, group, auth_token, results.group.access_level, is_project_create) ;
 
                   // Redirect to targetting page
                   if (attemptedTrans) {

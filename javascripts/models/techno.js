@@ -3,7 +3,7 @@ var Techno = DS.Model.extend({
   name: DS.attr('string'),
   puppetclass: DS.attr('string'),
   hiera: DS.attr('string'),
-  projects: DS.hasMany('project', {async: true})
+  projects: DS.hasMany('project', {async: true, inverse: 'technos'})
 });
 
 module.exports = Techno;

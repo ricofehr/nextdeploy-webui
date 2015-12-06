@@ -15,7 +15,7 @@
        selection=brand.content
        action="updateGitpath"
        prompt="Please select a Brand"
-       disabled=isDisableEdit}}
+       disabled=isDisableAdmin}}
      </div>
   </div>
 
@@ -26,7 +26,11 @@
       {{#if errorName2}}
         <label class="control-label col-sm-2 alert-danger">Already taken</label>
       {{else}}
-        <label class="control-label col-sm-2 alert-success">Name</label>
+        {{#if errorName3}}
+          <label class="control-label col-sm-2 alert-danger"> >5 chars !</label>
+        {{else}}
+          <label class="control-label col-sm-2 alert-success">Name</label>
+        {{/if}}
       {{/if}}
     {{/if}}
     <div class="col-sm-3">
@@ -94,7 +98,7 @@
        optionLabelPath="content.name"
        selection=framework.content
        prompt="Please select a Framework"
-       disabled=isDisableAdmin}}
+       disabled=isDisableCreate}}
      </div>
   </div>
 
@@ -159,11 +163,7 @@
 
   <div class="form-group">
     <div class="control-label col-sm-2">
-      {{#if loadingButton}}
-        <button class="btn btn-lg btn-warning"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</button>
-      {{else}}
         <button type="submit" class="btn btn-primary">Submit</button>
-      {{/if}}
     </div>
   </div>
 </form>

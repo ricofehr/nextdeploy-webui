@@ -4,13 +4,15 @@ var User = DS.Model.extend({
   firstname: DS.attr('string'),
   lastname: DS.attr('string'),
   authentication_token: DS.attr('string'),
+  is_project_create: DS.attr('boolean'),
   company: DS.attr('string'),
   quotavm: DS.attr('number'),
   password: DS.attr('string'),
   password_confirmation: DS.attr('string'),
   group: DS.belongsTo('group', {async: true}),
   vms: DS.hasMany('vm', {async: true}),
-  projects: DS.hasMany('project', {async: true}),
+  projects: DS.hasMany('project', {async: true, inverse: 'users'}),
+  own_projects: DS.hasMany('project', {async: true, inverse: 'owner'}),
   sshkeys: DS.hasMany('sshkey', {async: true})
 });
 

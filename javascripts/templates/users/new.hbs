@@ -66,6 +66,14 @@
      </div>
   </div>
 
+  {{#if isLead}}
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">Project Creation</label>
+    <div class="col-sm-3">
+      <label>{{input type="checkbox" checked=is_project_create disabled=is_project_create_ro}}</label>
+    </div>
+  </div>
+  {{/if}}
 
   <div class="form-group">
     <label class="control-label alert-success col-sm-2">Quotavm</label>
@@ -87,7 +95,7 @@
       {{/if}}
     {{else}}
       {{#if errorPassword}}
-        <label class="control-label alert-danger col-sm-2"> >= 8 chars !</label>
+        <label class="control-label alert-danger col-sm-2"> > 7 chars !</label>
       {{else}}
         <label class="control-label col-sm-2">Password</label>
       {{/if}}

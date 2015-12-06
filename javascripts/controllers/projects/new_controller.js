@@ -12,16 +12,16 @@ var ProjectsNewController = Ember.ObjectController.extend({
   vmsizeSorting: ['title:desc'],
   vmsizesSort: Ember.computed.sort('vmsizelist', 'vmsizeSorting'),
   checkedVmsizes: Ember.computed.map('vmsizesSort', function(model){
-    var checked = false ;
-    var readonly = false ;
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
-    var vmsizes = this.get('project_vmsizes') ;
+    var checked = false;
+    var readonly = false;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var vmsizes = this.get('project_vmsizes');
 
-    if (access_level < 50) readonly = true ;
+    if (access_level < 50) readonly = true;
 
     if (vmsizes) {
-      var vmsize = vmsizes.findBy('id', model.id) ;
-      if (vmsize) checked = true ;
+      var vmsize = vmsizes.findBy('id', model.get('id'));
+      if (vmsize) checked = true;
     }
 
     return Ember.ObjectProxy.create({
@@ -34,21 +34,22 @@ var ProjectsNewController = Ember.ObjectController.extend({
   //technos checkboxes
   technosSort: Ember.computed.sort('technolist', 'computeSorting'),
   checkedTechnos: Ember.computed.map('technosSort', function(model){
-    var checked = false ;
-    var readonly = false ;
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
-    var technos = this.get('project_technos') ;
+    var checked = false;
+    var readonly = false;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var technos = this.get('project_technos');
+    var user_id = App.AuthManager.get('apiKey.user');
 
-    if (access_level < 50) readonly = true ;
+    if (access_level < 50 && this.get('owner').get('id') != user_id) readonly = true;
 
     if (technos) {
-      var techno = technos.findBy('id', model.id) ;
-      if (techno) checked = true ;
+      var techno = technos.findBy('id', model.get('id'));
+      if (techno) checked = true;
     }
 
     if (/.*varnish.*/.test(model.get('name'))) {
-      checked = true ;
-      readonly = true ;
+      checked = true;
+      readonly = true;
     }
 
     return Ember.ObjectProxy.create({
@@ -84,8 +85,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
       readonly: readonly
     });
   }),
-
-  loadingButton: true,
 
   //validation variables
   errorBrand: false,
@@ -130,15 +129,34 @@ var ProjectsNewController = Ember.ObjectController.extend({
     var self = this;
     var errorName2 = false;
 
-    if (!projects || projects.length == 0) return;
+    // if projectname < 6, return
+    if (name && name.length < 6) {
+      self.set('errorName2', false);
+      self.set('errorName3', true);
+      return;
+    }
+    self.set('errorName3', false);
 
-    projects.forEach(function (item) {
-      if (item.id != current_id) {
-        if (item.get('name') == name) {
+    // set id to 0 if we create a new project
+    if (current_id == null) { current_id = 0 }
+
+    if (!projects || projects.length == 0) {
+      $.get("/api/v1/projects/name/" + current_id + "/" + name)
+        .done(function(data) {
+          errorName2 = false;
+        })
+        .fail(function(data) {
           errorName2 = true;
+        })
+    } else {
+      projects.forEach(function (item) {
+        if (item.id != current_id) {
+          if (item.get('name') == name) {
+            errorName2 = true;
+          }
         }
-      }
-    });
+      });
+    }
 
     self.set('errorName2', errorName2);
   }.observes('name'),
@@ -218,6 +236,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
     if (!this.get('errorBrand') &&
         !this.get('errorName') &&
         !this.get('errorName2') &&
+        !this.get('errorName3') &&
         !this.get('errorLogin') &&
         !this.get('errorPassword') &&
         !this.get('errorFramework') &&
@@ -230,7 +249,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
   //clear form
   clearForm: function() {
-    this.set('loadingButton', false) ;
     this.set('brand', {content: null}) ;
     this.set('name', null) ;
     this.set('gitpath', null) ;
@@ -248,6 +266,11 @@ var ProjectsNewController = Ember.ObjectController.extend({
     this.set('gitpath', gitpath.toLowerCase()) ;
   }.observes('brand.content', 'name'),
 
+  // Check if current user can create project
+  isProjectCreate: function() {
+    return App.AuthManager.get('apiKey.is_project_create') ;
+  }.property('App.AuthManager.apiKey'),
+
   // Disable if edit item
   isDisableEdit: function() {
     if(this.get('id')) return true ;
@@ -256,9 +279,19 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
   // Check if current user is admin and can change properties
   isDisableAdmin: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
     if (access_level >= 50) return false ;
+    return true ;
+  }.property('App.AuthManager.apiKey'),
+
+  // Check if current user is admin or edit his own project and can change properties
+  isDisableCreate: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var user_id = App.AuthManager.get('apiKey.user');
+
+    if (access_level >= 50) return false ;
+    if (this.get('owner').id == user_id) return false ;
     return true ;
   }.property('App.AuthManager.apiKey'),
 
@@ -269,7 +302,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
       var router = this.get('target');
       var self = this;
       var store = this.store;
-      var data = this.getProperties('id', 'name', 'gitpath', 'login', 'password') ;
+      var data = this.getProperties('name', 'gitpath', 'login', 'password', 'owner') ;
       var selectedBrand = this.get('brand.content') ;
       var selectedFramework = this.get('framework.content') ;
       var selectedSystem = this.get('systemimagetype.content') ;
@@ -279,23 +312,28 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
       var project ;
 
+      // set id only if different of 0
+      if (this.get('id') != 0) {
+        data['id'] = this.get('id');
+      }
+
       // check if form is valid
       if (!this.formIsValid()) {
         return
       }
 
       // format value for the post request
-      data['brand'] = selectedBrand ;
-      data['framework'] = selectedFramework ;
-      data['systemimagetype'] = selectedSystem ;
-      data['enabled'] = true ;
+      data['brand'] = selectedBrand;
+      data['framework'] = selectedFramework;
+      data['systemimagetype'] = selectedSystem;
+      data['enabled'] = true;
 
       //if id is present, so update item, else create new one
       if(data['id']) {
         store.find('project', data['id']).then(function (project) {
           var vmsizes_p = project.get('vmsizes').toArray(),
           technos_p = project.get('technos').toArray(),
-          users_p = project.get('users').toArray() ;
+          users_p = project.get('users').toArray();
 
           // reset old values from object
           vmsizes_p.forEach(function (item) {

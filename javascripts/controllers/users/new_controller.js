@@ -2,6 +2,7 @@ var UsersNewController = Ember.ObjectController.extend({
   quotavmlist: [0,1,2,3,4,5,6,7,8,9,10,15,20,30,50,100],
   password: null,
   password_confirmation: null,
+  is_project_create_ro: true,
 
   // sort group
   computeSorting: ['name'],
@@ -136,6 +137,27 @@ var UsersNewController = Ember.ObjectController.extend({
     this.set('errorGroup', errorGroup);
   }.observes('group.content'),
 
+  checkProjectCreate: function() {
+    var access_level_user = this.get('group.content.access_level');
+    var access_level_current = App.AuthManager.get('apiKey.accessLevel');
+
+    // default is never creat project
+    this.set('is_project_create_ro', true);
+    // an admin can always create project
+    if (access_level_user >= 50) {
+      this.set('is_project_create', true);
+    }
+
+    if (access_level_user < 40) {
+      this.set('is_project_create', false);
+    }
+
+    // Only ProjectLead can have project-creation right
+    if (access_level_current >= 50 && access_level_user < 50 && access_level_user >= 40) {
+      this.set('is_project_create_ro', false);
+    }
+  }.observes('group.content'),
+
   checkPassword: function() {
     var password = this.get('password');
     var errorPassword = false;
@@ -224,6 +246,8 @@ var UsersNewController = Ember.ObjectController.extend({
     this.set('password', null);
     this.set('password_confirmation', null);
     this.set('group', {content: null});
+    this.set('is_project_create', false);
+    this.set('is_project_create_ro', true);
   },
 
   // Check if current user is lead and can change properties
@@ -252,6 +276,14 @@ var UsersNewController = Ember.ObjectController.extend({
     if (current_id == form_id) return false ;
     return true ;
   }.property('id'),
+
+  // Check if current user is admin
+  isLead: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+
+    if (access_level >= 40) return true ;
+    return false ;
+  }.property('App.AuthManager.apiKey'),
 
   // show only if current user is same as current form / or admin
   isEnable: function() {
@@ -382,7 +414,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
     postItem: function() {
       var router = this.get('target');
-      var data = this.getProperties('id', 'email', 'firstname', 'lastname', 'company', 'password', 'password_confirmation', 'quotavm');
+      var data = this.getProperties('id', 'email', 'firstname', 'lastname', 'company', 'password', 'password_confirmation', 'quotavm', 'is_project_create');
       var store = this.store;
       var selectedGroup = this.get('group.content');
       var projects = this.get('checkedProjects').filterBy('checked', true).mapBy('content');

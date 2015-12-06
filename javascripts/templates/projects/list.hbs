@@ -1,7 +1,7 @@
 <table class="table">
  <thead>
     <tr>
-        {{#if isAdmin}}<th>&nbsp;</span></th>{{/if}}
+        <th>&nbsp;</span></th>
         <th>Name</th>
         <th>Brand</th>
         <th>System</th>
@@ -17,8 +17,10 @@
 <tbody>
   {{#each project in projects}}
     <tr>
-      {{#if isAdmin}}
+      {{#if project.owner}}
         <td>{{input type="checkbox" checked=project.todelete}}</td>
+      {{else}}
+        <td>&nbsp;</td>
       {{/if}}
 
       {{#if isAdmin}}
@@ -52,7 +54,7 @@
   {{/each}}
 </tbody>
 </table>
-{{#if isAdmin}}
+{{#if isProjectCreate}}
 <div class="btn-group" style="margin: 9px 0 5px;">
     <button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
   {{#if isShowingDeleteConfirmation}}
@@ -60,6 +62,7 @@
   {{else}}
     <button {{action "showDeleteConfirmation"}} class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
   {{/if}}
+  
 </div>
 {{/if}}
 

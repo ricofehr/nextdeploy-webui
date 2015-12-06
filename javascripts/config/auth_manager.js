@@ -20,6 +20,16 @@ var AuthManager = Ember.Object.extend({
     return this.get('apiKey.access_level') ;
   },
 
+  // get project creation right
+  is_project_create: function() {
+    var apiKey = this.get('apiKey') ;
+    if(!apiKey) {
+      this.init() ;
+    }
+
+    return this.get('apiKey.is_project_create') ;
+  },
+
   // Determine if the user is currently authenticated.
   isAuthenticated: function() {
     return !Ember.isEmpty(this.get('apiKey.accessToken')) && !Ember.isEmpty(this.get('apiKey.user'));
@@ -39,12 +49,13 @@ var AuthManager = Ember.Object.extend({
   },
 
   //init apikey object from user model
-  initUser: function(user, group, access_token, access_level) {
+  initUser: function(user, group, access_token, access_level, is_project_create) {
     var apiKey = App.ApiKey.create({
           accessToken: access_token,
           user: user,
           group: group,
-          accessLevel: access_level
+          accessLevel: access_level,
+          is_project_create: is_project_create
     }) ;
 
     this.set('apiKey', apiKey);
@@ -56,11 +67,12 @@ var AuthManager = Ember.Object.extend({
     $.get('/api/v1/user', [], function(results) {
       var user = results.user.id;
       var group = results.user.group;
+      var is_project_create = results.user.is_project_create;
       var auth_token = results.user.authentication_token;
       //App.AuthManager.initUser(user, group, auth_token, 0) ;
 
       $.get('/api/v1/group', [], function(results) {
-        App.AuthManager.initUser(user, group, auth_token, results.group.access_level);
+        App.AuthManager.initUser(user, group, auth_token, results.group.access_level, is_project_create);
       })
     });
   },
