@@ -6,12 +6,13 @@ var Project = DS.Model.extend({
   login: DS.attr('string'),
   password: DS.attr('string'),
   created_at: DS.attr('date'),
+  owner: DS.belongsTo('user', {async: true, inverse: 'own_projects'}),
   brand: DS.belongsTo('brand', {async: true}),
   framework: DS.belongsTo('framework', {async: true}),
   systemimagetype: DS.belongsTo('systemimagetype', {async: true}),
-  technos: DS.hasMany('techno', {async: true}),
+  technos: DS.hasMany('techno', {async: true, inverse: 'projects'}),
   vmsizes: DS.hasMany('vmsize', {async: true}),
-  users: DS.hasMany('user', {async: true}),
+  users: DS.hasMany('user', {async: true, inverse: 'projects'}),
   vms: DS.hasMany('vm', {async: true}),
   branches: DS.hasMany('branche', {async: true})
 });

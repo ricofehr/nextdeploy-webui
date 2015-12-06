@@ -34,6 +34,15 @@ var ProjectsListController = Ember.ArrayController.extend({
     return false ;
   }.property('App.AuthManager.apiKey'),
 
+  // Check if current user can create project
+  isProjectCreate: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    if (access_level == 50) return true ;
+    
+    return App.AuthManager.get('apiKey.is_project_create') ;
+  }.property('App.AuthManager.apiKey'),
+
+
   // Check if current user is lead
   isLead: function() {
     var access_level = App.AuthManager.get('apiKey.accessLevel') ;
