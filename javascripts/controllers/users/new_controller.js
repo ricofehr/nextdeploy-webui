@@ -166,6 +166,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
     // default is never creat project
     this.set('is_project_create_ro', true);
+    this.set('is_project_create_display', false);
     // an admin can always create project
     if (access_level_user >= 50) {
       this.set('is_project_create', true);
@@ -173,6 +174,8 @@ var UsersNewController = Ember.ObjectController.extend({
 
     if (access_level_user < 40) {
       this.set('is_project_create', false);
+    } else {
+      this.set('is_project_create_display', true);
     }
 
     // Only ProjectLead can have project-creation right

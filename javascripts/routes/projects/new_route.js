@@ -41,6 +41,7 @@ model: function() {
           });
           content.set('project_technos', technos);
         });
+        
     $.ajaxSetup({ async: true });
 
     if (access_level == 50) {
@@ -59,10 +60,10 @@ model: function() {
       return Ember.RSVP.hash({
         brandlist: this.store.all('brand'),
         frameworklist: this.store.all('framework'),
-        technolist: this.store.find('techno').filter(function(item, index, self) {
+        technolist: this.store.all('techno').filter(function(item, index, self) {
           if (technoids.contains(parseInt(item.get("id")))) { return true; }
         }),
-        vmsizelist: this.store.find('vmsize').filter(function(item, index, self) {
+        vmsizelist: this.store.all('vmsize').filter(function(item, index, self) {
          if (vmsizeids.contains(parseInt(item.get("id")))) { return true; }
         }),
         userlist: this.store.all('user'),
