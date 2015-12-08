@@ -74,23 +74,46 @@ var UsersNewController = Ember.ObjectController.extend({
 
   // check projectname
   checkEmail2: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
     var users = this.get('users');
     var email = this.get('email');
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    var errorEmail = false;
+    var errorEmail2 = false;
     var current_id = this.get('id');
     var self = this;
-    var errorEmail2 = false;
+    
+    // set id to 0 if we create a new user
+    if (current_id == null) { current_id = 0 }
 
-    if (!users || users.length == 0) return;
+    if (!re.test(email)) {
+      errorEmail = true;
+      self.set('errorEmail2', errorEmail2);
+    }
+    else {
+      if (access_level == 50) {
+        if (!users || users.length == 0) return;
 
-    users.forEach(function (item) {
-      if (item.id != current_id) {
-        if (item.get('email') == email) {
-          errorEmail2 = true;
-        }
+        users.forEach(function (item) {
+          if (item.id != current_id) {
+            if (item.get('email') == email) {
+              errorEmail2 = true;
+            }
+          }
+        });
+        self.set('errorEmail2', errorEmail2);
+      } else {
+        $.get("/api/v1/users/" + current_id + "/email/" + email)
+        .done(function(data) {
+          self.set('errorEmail2', false);
+        })
+        .fail(function(data) {
+          self.set('errorEmail2', true);
+        })
       }
-    });
+    }
 
-    self.set('errorEmail2', errorEmail2);
+    this.set('errorEmail', errorEmail);
   }.observes('email'),
 
   checkFirstname: function() {
