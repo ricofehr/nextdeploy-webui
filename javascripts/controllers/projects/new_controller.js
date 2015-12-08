@@ -141,12 +141,12 @@ var ProjectsNewController = Ember.ObjectController.extend({
     if (current_id == null) { current_id = 0 }
 
     if (!projects || projects.length == 0) {
-      $.get("/api/v1/projects/name/" + current_id + "/" + name)
+      $.get("/api/v1/projects/" + current_id + "/name/" + name)
         .done(function(data) {
-          errorName2 = false;
+          self.set('errorName2', false);
         })
         .fail(function(data) {
-          errorName2 = true;
+          self.set('errorName2', true);
         })
     } else {
       projects.forEach(function (item) {
@@ -156,9 +156,8 @@ var ProjectsNewController = Ember.ObjectController.extend({
           }
         }
       });
+      self.set('errorName2', errorName2);
     }
-
-    self.set('errorName2', errorName2);
   }.observes('name'),
 
   checkLogin: function() {
