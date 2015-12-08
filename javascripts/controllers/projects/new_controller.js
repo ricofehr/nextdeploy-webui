@@ -130,7 +130,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
     var errorName2 = false;
 
     // if projectname < 6, return
-    if (name && name.length < 6) {
+    if (!name || name.length < 6) {
       self.set('errorName2', false);
       self.set('errorName3', true);
       return;
@@ -138,7 +138,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
     self.set('errorName3', false);
 
     // set id to 0 if we create a new project
-    if (current_id == null) { current_id = 0 }
+    if (current_id == null || isNaN(current_id)) { current_id = 0 }
 
     if (!projects || projects.length == 0) {
       $.get("/api/v1/projects/" + current_id + "/name/" + name)
