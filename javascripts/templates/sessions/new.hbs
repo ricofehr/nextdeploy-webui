@@ -46,7 +46,7 @@ You are well authenticated onto NextDeploy<br><br>
 </ul>
 
 {{#if isPM}}
-<strong>Mvmc tools</strong>
+<strong>NextDeploy tools</strong>
 <ul>
 {{#if isDEV}}
   <li>NextDeploy Cli, copy/paste this line into your terminal<br><pre>curl –sSL http://cli.nextdeploy.io/ | bash</pre></li>
@@ -74,10 +74,10 @@ You are well authenticated onto NextDeploy<br><br>
 
   <div class="form-group">
     <div class="control-label col-sm-2">
-      <button {{action "forgotPassword" email password}} class="btn btn-warning pull-right">Forgot</button>
+      <button type="submit" class="btn btn-primary">Submit</button>
     </div>
     <div class="control-label col-sm-3">
-      <button type="submit" class="btn btn-primary">Submit</button>
+      <a {{action "forgotPassword" email password}} href="">forgot your password</a>
     </div>
   </div>
 
