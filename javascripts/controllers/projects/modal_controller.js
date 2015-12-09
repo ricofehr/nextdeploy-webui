@@ -69,7 +69,7 @@ var ProjectsModalController = Ember.ObjectController.extend({
 
   // Return ftp host for current project
   getFtpHost: function() {
-    return 'f.' + window.location.hostname;
+    return 'f.' + window.location.hostname.replace(/^ui\./,'');
   }.property('gitpath')
 });
 
