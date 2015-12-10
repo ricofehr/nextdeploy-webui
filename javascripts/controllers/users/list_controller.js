@@ -1,8 +1,8 @@
 // Ember controller for list users into html array
 var UsersListController = Ember.ArrayController.extend({
   // Sort order
-  sortProperties: ['company', 'group', 'email'],
-  sortAscending: true,
+  sortProperties: ['email:desc'],
+  sortedUsers: Ember.computed.sort('model', 'sortProperties'),
 
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
@@ -10,17 +10,13 @@ var UsersListController = Ember.ArrayController.extend({
 
   // Return model array with email setted, sorted by email and with isCurrent parameter
   sortModel: function() {
-    var model = this.get('model') ;
-    var usersFilter = model.filterBy('email') ;
-    var usersSort = usersFilter.sort('sortProperties') ;
-
-    this.set('users', usersSort.map(function(model){
+    this.set('users', this.get('sortedUsers').map(function(model){
       var user_id = model.get('id') ;
       var current_id = App.AuthManager.get('apiKey.user') ;
 
       model.set('isCurrent', (user_id == current_id)) ;
       return model ;
-    })) ;
+    }).sortBy('isCurrent').reverse());
 
   }.observes('model'),
 
