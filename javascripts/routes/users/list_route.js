@@ -4,7 +4,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 var UsersListRoute = AuthenticatedRoute.extend({
   // Get all users for thie model
   model: function() {
-    return this.store.all('user') ;
+    return this.store.all('user').filterBy('email') ;
   },
 
   // Setup the controller
