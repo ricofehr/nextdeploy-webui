@@ -10,7 +10,7 @@ var UsersListController = Ember.ArrayController.extend({
 
   // Return model array with email setted, sorted by email and with isCurrent parameter
   sortModel: function() {
-    this.set('users', this.get('sortedUsers').map(function(model){
+    this.set('users', this.get('sortedUsers').filterBy('email').map(function(model){
       var user_id = model.get('id') ;
       var current_id = App.AuthManager.get('apiKey.user') ;
 
