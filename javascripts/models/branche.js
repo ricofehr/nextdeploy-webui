@@ -2,7 +2,7 @@
 var Branche = DS.Model.extend({
   name: DS.attr('string'),
   project: DS.belongsTo('project', {async: true}),
-  commits: DS.hasMany('commit', {async: true})
+  commits: DS.hasMany('commit', {async: true, inverse: 'branche'})
 });
 
 module.exports = Branche;

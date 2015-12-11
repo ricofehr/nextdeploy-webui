@@ -147,6 +147,7 @@ var VmsNewController = Ember.ObjectController.extend({
     var store = this.store;
     var self = this;
     var cp = 0;
+    var project = null;
 
     //if selectedproject was flushed, flush usersList
     if (!this.get('selectedProject')) {
@@ -156,58 +157,65 @@ var VmsNewController = Ember.ObjectController.extend({
       return ;
     }
 
-    //first, change users combobox
-    var users = this.get('selectedProject').get('users').toArray();
-    var access_level = App.AuthManager.get('apiKey.accessLevel');
-    var user_id = App.AuthManager.get('apiKey.user');
-    var user_index = 0;
-    var systemtype = null;
+    //update project datas
+    project = this.get('selectedProject');
+    project.reload().then(function (project) {
 
-    if (access_level < 40) {
-      this.get('selectedProject').get('users').toArray().forEach(function (user){
-        if (user && user.id != user_id) {
-              users.removeObject(user);
-        }
-      });
-    }
+      //first, change users combobox
+      var users = project.get('users').toArray();
+      var access_level = App.AuthManager.get('apiKey.accessLevel');
+      var user_id = App.AuthManager.get('apiKey.user');
+      var user_index = 0;
+      var systemtype = null;
 
-    // set default index in users array
-    for (var i = 0; i < users.length; i++) {
-      if (users[i].id == user_id) { 
-        user_index = i;
-        break; 
+      if (access_level < 40) {
+        project.get('users').toArray().forEach(function (user){
+          if (user && user.id != user_id) {
+                users.removeObject(user);
+          }
+        });
       }
-    }
 
-    this.set('usersList', users);
+      // set default index in users array
+      for (var i = 0; i < users.length; i++) {
+        if (users[i].id == user_id) {
+          user_index = i;
+          break;
+        }
+      }
 
-    //vmsize combobox
-    var vmsizesid = this.get('selectedProject').get('vmsizes').mapBy('id');
-    var vmsizes = [];
-    vmsizesid.forEach(function(vmsizeid){
-      vmsizes[cp++] = self.get('vmsizes').filterBy('id', vmsizeid).toArray()[0];
-    });
+      self.set('usersList', users);
 
-    vmsizes = this.get('selectedProject').get('vmsizes');
-    this.set('vmsizesList', vmsizes);
+      //vmsize combobox
+      var vmsizesid = project.get('vmsizes').mapBy('id');
+      var vmsizes = [];
+      vmsizesid.forEach(function(vmsizeid){
+        vmsizes[cp++] = self.get('vmsizes').filterBy('id', vmsizeid).toArray()[0];
+      });
 
-    //and the system combobox
-    var systemimages = null;
-    systemtype = this.get('selectedProject').get('systemimagetype');
-    systemimages = this.get('systemimages').filterBy('systemimagetype.id', systemtype.get('id')).toArray();
-    this.set('osSort', systemimages);
+      vmsizes = project.get('vmsizes');
+      self.set('vmsizesList', vmsizes);
 
-    //init default values
-    this.set('selectedUser', users[user_index]);
-    this.set('selectedOs', systemimages[0]);
-    this.set('selectedSizing', vmsizes.toArray()[0]);
+      //and the system combobox
+      var systemimages = null;
+      systemtype = project.get('systemimagetype');
+      systemimages = self.get('systemimages').filterBy('systemimagetype.id', systemtype.get('id')).toArray();
+      self.set('osSort', systemimages);
 
-    //init default branch and commit
-    store.find('branche', this.get('selectedProject').get('id') + '-master').then(function (branch) {
-      self.set('selectedBranch', branch);
+      //init default values
+      self.set('selectedUser', users[user_index]);
+      self.set('selectedOs', systemimages[0]);
+      self.set('selectedSizing', vmsizes.toArray()[0]);
+
+      //init default branch and commit
+      project.get('branches').forEach(function(branch) {
+        branch.reload().then(function (branchup) {
+          if (branchup.id == project.get('id') + '-master') { self.set('selectedBranch', branchup); }
+       });
+      });
+
     });
   }.observes('selectedProject'),
-
 
   actions: {
     // Submit form
