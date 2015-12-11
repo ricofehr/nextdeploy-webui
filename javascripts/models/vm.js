@@ -1,6 +1,6 @@
 // Ember model for vm object
 var Vm = DS.Model.extend({
-  commit: DS.belongsTo('commit', {async: true}),
+  commit: DS.belongsTo('commit', {async: true, inverse: 'vms'}),
   name: DS.attr('string'),
   nova_id: DS.attr('string'),
   floating_ip: DS.attr('string'),

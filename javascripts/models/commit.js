@@ -7,8 +7,8 @@ var Commit = DS.Model.extend({
   author_email: DS.attr('string'),
   message: DS.attr('string'),
   created_at: DS.attr('date'),
-  branche: DS.belongsTo('branche', {async: true}),
-  vms: DS.hasMany('vm', {async: true})
+  branche: DS.belongsTo('branche', {async: true, inverse: 'commits'}),
+  vms: DS.hasMany('vm', {async: true, inverse: 'commit'})
 });
 
 module.exports = Commit;
