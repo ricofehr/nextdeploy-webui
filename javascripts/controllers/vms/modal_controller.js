@@ -93,6 +93,7 @@ var VmsModalController = Ember.ObjectController.extend({
       var uri_status = 'http://' + uri + '/status_ok';
       var popup = null;
       var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+      var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
       var scheme = 'http';
 
       if (this.get('isHTTPS')) {
@@ -129,7 +130,7 @@ var VmsModalController = Ember.ObjectController.extend({
         return;
       }
 
-      if (is_chrome) {
+      if (is_chrome || is_ff) {
         window.open(uri_with_creds);
       } else {
         window.open(uri_xmlhttp_req);
