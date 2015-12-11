@@ -4,13 +4,13 @@ var AuthenticatedRoute = require('../authenticated_route');
 var UsersListRoute = AuthenticatedRoute.extend({
   // Get all users for thie model
   model: function() {
-    return this.store.all('user').filterBy('email') ;
+    return this.store.all('user');
   },
 
   // Setup the controller
   setupController: function(controller, model) {
     this._super(controller, model);
-    controller.sortModel() ;
+    controller.sortModel();
   }
 });
 

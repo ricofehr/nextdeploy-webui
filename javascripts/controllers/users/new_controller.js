@@ -475,7 +475,10 @@ var UsersNewController = Ember.ObjectController.extend({
           user.setProperties(data);
 
           selectedGroup.get('users').pushObject(user);
-          user.save();
+          user.save().then(function() {
+            // Return to users list page
+            router.transitionTo('users.list');
+          });
         });
       } else {
         user = store.createRecord('user', data);
@@ -487,11 +490,11 @@ var UsersNewController = Ember.ObjectController.extend({
         });
 
         selectedGroup.get('users').pushObject(user);
-        user.save();
+        user.save().then(function() {
+          // Return to users list page
+          router.transitionTo('users.list');
+        });
       }
-
-      // Return to users list page
-      router.transitionTo('users.list');
     }
   }
 });
