@@ -13,7 +13,7 @@ var ProjectsListController = Ember.ArrayController.extend({
     var model = this.get('model') ;
     var userId = parseInt(this.get('userId'), 10);
     var brandId = parseInt(this.get('brandId'), 10);
-    var projects = model.filterBy('name');
+    var projects = model.filterBy('created_at').filterBy('brand');
 
     // if brandId parameter exists
     if (brandId != 0) {
@@ -48,7 +48,7 @@ var ProjectsListController = Ember.ArrayController.extend({
 
       return model ;
     }));
-  }.observes('model', 'userId', 'brandId'),
+  }.observes('model.[]', 'model.@each.created_at', 'model.@each.name', 'model.@each.technos',  'model.@each.users', 'model.@each.vms', 'userId', 'brandId'),
 
   // Check if current user is admin
   isAdmin: function() {

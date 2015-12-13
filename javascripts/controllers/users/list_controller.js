@@ -2,7 +2,7 @@
 var UsersListController = Ember.ArrayController.extend({
   // Sort order
   sortProperties: ['email:desc'],
-  sortedUsers: Ember.computed.sort('model', 'sortProperties'),
+  //sortedUsers: Ember.computed.sort('model', 'sortProperties'),
 
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
@@ -16,7 +16,8 @@ var UsersListController = Ember.ArrayController.extend({
   sortModel: function() {
     var groupId = parseInt(this.get('groupId'), 10);
     var projectId = parseInt(this.get('projectId'), 10);
-    var users = this.get('sortedUsers').filterBy('email');
+    // get users who has already created (filter on created_at field) and not remove since (filter on group field)
+    var users = this.get('model').filterBy('created_at').filterBy('group').sort('sortProperties');
 
     // if groupId parameter exists
     if (groupId != 0) {
@@ -42,7 +43,7 @@ var UsersListController = Ember.ArrayController.extend({
       return model ;
     }).sortBy('isCurrent').reverse());
 
-  }.observes('model', 'projectId', 'groupId'),
+  }.observes('model.[]', 'model.@each.created_at', 'model.@each.group', 'model.@each.email', 'model.@each.company', 'model.@each.projects', 'model.@each.vms', 'projectId', 'groupId'),
 
   // Check if current user is admin
   isAdmin: function() {

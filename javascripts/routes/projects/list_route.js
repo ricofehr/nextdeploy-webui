@@ -20,7 +20,7 @@ var ProjectsListRoute = AuthenticatedRoute.extend({
 
   // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('projects.list').setProperties({content: model, 
+    this.controllerFor('projects.list').setProperties({model: model, 
                                                   userId: 0,
                                                   brandId: 0});
   },

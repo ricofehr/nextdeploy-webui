@@ -9,7 +9,7 @@ var UsersListRoute = AuthenticatedRoute.extend({
 
   // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('users.list').setProperties({content: model, 
+    this.controllerFor('users.list').setProperties({model: model, 
                                                   groupId: 0,
                                                   projectId: 0});
   }

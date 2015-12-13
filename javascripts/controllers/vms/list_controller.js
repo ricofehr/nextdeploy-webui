@@ -10,11 +10,10 @@ var VmsListController = Ember.ArrayController.extend({
 
   // Return model array sorted
   sortModel: function() {
-    var model = this.get('model');
     var self = this;
     var userId = parseInt(this.get('userId'), 10);
     var projectId = parseInt(this.get('projectId'), 10);
-    var vms = model.filterBy('project');
+    var vms = self.get('model').filterBy('created_at');
 
     // if userId parameter exists
     if (userId != 0) {
@@ -61,7 +60,7 @@ var VmsListController = Ember.ArrayController.extend({
       return model ;
     })) ;
 
-  }.observes('model', 'userId', 'projectId'),
+  }.observes('model.@each.created_at', 'model.@each.status', 'model.[]', 'userId', 'projectId'),
 
   getStatus: function(model) {
     $.get("/api/v1/vms/" + model.get('id') + "/setupcomplete")
