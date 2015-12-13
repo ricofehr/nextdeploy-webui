@@ -4,7 +4,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 var ProjectsListRoute = AuthenticatedRoute.extend({
   // Get all projects object, but name must be valid
   model: function() {
-    return this.store.all('project').filterBy('name');
+    return this.store.all('project');
   },
 
   renderTemplate:function () {
@@ -20,7 +20,7 @@ var ProjectsListRoute = AuthenticatedRoute.extend({
 
   actions: {
     showDetails: function(model) {
-      this.controllerFor('projects.modal').setProperties({model:model});
+      this.controllerFor('projects.modal').setProperties({content:model});
       this.controllerFor('projects.modal').showDetails();
     },
 
