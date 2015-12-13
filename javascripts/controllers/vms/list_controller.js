@@ -10,7 +10,7 @@ var VmsListController = Ember.ArrayController.extend({
     var self = this;
   
     // sort vms by id
-    var vmsSort = model.sort(function(a, b) {
+    var vmsSort = model.filterBy('project').sort(function(a, b) {
         return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
     }).reverse() ;
 
@@ -29,7 +29,6 @@ var VmsListController = Ember.ArrayController.extend({
         warnStatus = true;
         //if status is negative => setup in progress
         model.set('timeStatus', -parseInt(status)); 
-        setTimeout(self.getStatus(model), 1500); 
       }
       if (status > 1) { textStatus = 'RUNNING'; sucStatus = true; model.set('timeStatus', (status)); }
       if (status == 1) { textStatus = 'ERROR'; dangStatus = true; }

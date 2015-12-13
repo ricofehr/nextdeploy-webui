@@ -8,7 +8,7 @@ var ProjectsListController = Ember.ArrayController.extend({
   sortModel: function() {
     var model = this.get('model') ;
     // sort projects by id
-    var projectsSort = model.sort(function(a, b) {
+    var projectsSort = model.filterBy('name').sort(function(a, b) {
         return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
     }).reverse() ;
     var self = this;
