@@ -27,7 +27,7 @@ var VmsListRoute = AuthenticatedRoute.extend({
 
   // Setup the controller for vms.list with this model
   setupController: function(controller, model) {
-    this.controllerFor('vms.list').setProperties({content: model, 
+    this.controllerFor('vms.list').setProperties({model: model, 
                                                   userId: 0,
                                                   projectId: 0});
   },

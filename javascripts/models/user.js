@@ -9,6 +9,7 @@ var User = DS.Model.extend({
   quotavm: DS.attr('number'),
   password: DS.attr('string'),
   password_confirmation: DS.attr('string'),
+  created_at: DS.attr('date'),
   group: DS.belongsTo('group', {async: true}),
   vms: DS.hasMany('vm', {async: true}),
   projects: DS.hasMany('project', {async: true, inverse: 'users'}),
