@@ -4,7 +4,10 @@ var AuthenticatedRoute = require('../authenticated_route');
 var UsersByprojectRoute = AuthenticatedRoute.extend({
   // Get the users following an project_id
   model: function(params) {
-    return this.store.find('user', { project_id: params.project_id }) ;
+    return Ember.RSVP.hash({
+      projectId: params.project_id,
+      users: this.store.all('user')
+    });
   },
 
   // Same template than the standard list of users
@@ -12,10 +15,12 @@ var UsersByprojectRoute = AuthenticatedRoute.extend({
     this.render('users/list') ;
   },
 
-  // Setup the controller for users.list with this model
+  // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('users.list').setProperties({content:model});
-  },
+    this.controllerFor('users.list').setProperties({content: model.users, 
+                                                  groupId: 0,
+                                                  projectId: model.projectId});
+  }
 });
 
 module.exports = UsersByprojectRoute;

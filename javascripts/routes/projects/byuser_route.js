@@ -2,9 +2,12 @@ var AuthenticatedRoute = require('../authenticated_route');
 
 // Project Ember Route Class (inherit from auth route because restricted)
 var ProjectsByuserRoute = AuthenticatedRoute.extend({
-  // Get the projects following an user_id
+  // Get the projects following an brand_id
   model: function(params) {
-    return this.store.find('project', { user_id: params.user_id });
+    return Ember.RSVP.hash({
+      userId: params.user_id,
+      projects: this.store.all('project')
+    });
   },
 
   // Same template than the standard list
@@ -12,9 +15,11 @@ var ProjectsByuserRoute = AuthenticatedRoute.extend({
     this.render('projects/list');
   },
 
-  // Setup the controller "projects.list" with this model
+  // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('projects.list').setProperties({content: model});
+    this.controllerFor('projects.list').setProperties({content: model.projects, 
+                                                  userId: model.userId,
+                                                  brandId: 0});
   },
 });
 

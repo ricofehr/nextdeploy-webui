@@ -18,6 +18,13 @@ var ProjectsListRoute = AuthenticatedRoute.extend({
     });
   },
 
+  // Setup the controller
+  setupController: function(controller, model) {
+    this.controllerFor('projects.list').setProperties({content: model, 
+                                                  userId: 0,
+                                                  brandId: 0});
+  },
+
   actions: {
     showDetails: function(model) {
       this.controllerFor('projects.modal').setProperties({content:model});
