@@ -4,11 +4,35 @@ var ProjectsListController = Ember.ArrayController.extend({
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
 
+  // filters param
+  userId: 0,
+  brandId: 0,
+
   // Return model array sorted
   sortModel: function() {
     var model = this.get('model') ;
+    var userId = parseInt(this.get('userId'), 10);
+    var brandId = parseInt(this.get('brandId'), 10);
+    var projects = model.filterBy('name');
+
+    // if brandId parameter exists
+    if (brandId != 0) {
+      projects = projects.filter(function(item, index, enumerable){
+        return parseInt(item.get('brand.id'), 10) == brandId;
+      });
+    }
+
+    // if userId parameter exists
+    if (userId != 0) {
+      projects = projects.filter(function(item, index, enumerable){
+        return item.get('users').any(function(item, index, enumerable){ 
+          return parseInt(item.get('id'), 10) == userId;
+        });
+      });
+    }
+
     // sort projects by id
-    var projectsSort = model.filterBy('name').sort(function(a, b) {
+    var projectsSort = projects.sort(function(a, b) {
         return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
     }).reverse() ;
     var self = this;
@@ -24,7 +48,7 @@ var ProjectsListController = Ember.ArrayController.extend({
 
       return model ;
     }));
-  }.observes('model'),
+  }.observes('model', 'userId', 'brandId'),
 
   // Check if current user is admin
   isAdmin: function() {

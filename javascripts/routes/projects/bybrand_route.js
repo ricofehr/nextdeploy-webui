@@ -4,7 +4,10 @@ var AuthenticatedRoute = require('../authenticated_route');
 var ProjectsBybrandRoute = AuthenticatedRoute.extend({
   // Get the projects following an brand_id
   model: function(params) {
-    return this.store.find('project', { brand_id: params.brand_id });
+    return Ember.RSVP.hash({
+      brandId: params.brand_id,
+      projects: this.store.all('project')
+    });
   },
 
   // Same template than the standard list
@@ -12,9 +15,11 @@ var ProjectsBybrandRoute = AuthenticatedRoute.extend({
     this.render('projects/list') ;
   },
 
-  // Setup the controller "projects.list" with this model
+  // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('projects.list').setProperties({content: model});
+    this.controllerFor('projects.list').setProperties({content: model.projects, 
+                                                  userId: 0,
+                                                  brandId: model.brandId});
   },
 });
 

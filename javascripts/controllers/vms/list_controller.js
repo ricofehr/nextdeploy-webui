@@ -3,16 +3,37 @@ var VmsListController = Ember.ArrayController.extend({
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
+  
+  // filters param
+  userId: 0,
+  projectId: 0,
 
   // Return model array sorted
   sortModel: function() {
-    var model = this.get('model') ;
+    var model = this.get('model');
     var self = this;
-  
+    var userId = parseInt(this.get('userId'), 10);
+    var projectId = parseInt(this.get('projectId'), 10);
+    var vms = model.filterBy('project');
+
+    // if userId parameter exists
+    if (userId != 0) {
+      vms = vms.filter(function(item, index, enumerable){
+        return parseInt(item.get('user.id'), 10) == userId;
+      });
+    }
+
+    // if projectId != 0
+    if (projectId != 0) {
+      vms = vms.filter(function(item, index, enumerable){
+        return parseInt(item.get('project.id'), 10) == projectId;
+      });
+    }
+
     // sort vms by id
-    var vmsSort = model.filterBy('project').sort(function(a, b) {
+    var vmsSort = vms.sort(function(a, b) {
         return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
-    }).reverse() ;
+    }).reverse();
 
     this.set('vms', vmsSort.map(function(model){
       var textStatus = '';
@@ -40,7 +61,7 @@ var VmsListController = Ember.ArrayController.extend({
       return model ;
     })) ;
 
-  }.observes('model'),
+  }.observes('model', 'userId', 'projectId'),
 
   getStatus: function(model) {
     $.get("/api/v1/vms/" + model.get('id') + "/setupcomplete")

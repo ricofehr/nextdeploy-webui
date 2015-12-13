@@ -8,9 +8,33 @@ var UsersListController = Ember.ArrayController.extend({
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
 
+  // Filters by input param
+  projectId: 0,
+  groupId: 0,
+
   // Return model array with email setted, sorted by email and with isCurrent parameter
   sortModel: function() {
-    this.set('users', this.get('sortedUsers').filterBy('email').map(function(model){
+    var groupId = parseInt(this.get('groupId'), 10);
+    var projectId = parseInt(this.get('projectId'), 10);
+    var users = this.get('sortedUsers').filterBy('email');
+
+    // if groupId parameter exists
+    if (groupId != 0) {
+      users = users.filter(function(item, index, enumerable){
+        return parseInt(item.get('group.id'), 10) == groupId;
+      });
+    }
+
+    // if projectId parameter exists
+    if (projectId != 0) {
+      users = users.filter(function(item, index, enumerable){
+        return item.get('projects').any(function(item, index, enumerable){ 
+          return parseInt(item.get('id'), 10) == projectId;
+        });
+      });
+    }
+
+    this.set('users', users.map(function(model){
       var user_id = model.get('id') ;
       var current_id = App.AuthManager.get('apiKey.user') ;
 
@@ -18,7 +42,7 @@ var UsersListController = Ember.ArrayController.extend({
       return model ;
     }).sortBy('isCurrent').reverse());
 
-  }.observes('model'),
+  }.observes('model', 'projectId', 'groupId'),
 
   // Check if current user is admin
   isAdmin: function() {
