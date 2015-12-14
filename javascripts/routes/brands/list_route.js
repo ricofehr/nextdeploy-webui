@@ -4,7 +4,7 @@ var AuthenticatedRoute = require('../authenticated_route');
 var BrandsListRoute = AuthenticatedRoute.extend({
   // Get all brands ember object
   model: function() {
-    return this.store.all('brand') ;
+    return this.store.all('brand');
   }
 });
 

@@ -25,8 +25,9 @@ var BrandsNewController = Ember.ObjectController.extend({
     var errorName2 = false;
 
     if (!brands || brands.length == 0) return;
+    if (!name || name.length == 0) return;
 
-    brands.forEach(function (item) {
+    brands.filterBy('name').forEach(function (item) {
       if (item.id != current_id) {
         if (item.get('name') == name) {
           errorName2 = true;
