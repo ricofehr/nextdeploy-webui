@@ -35,12 +35,12 @@ var VmsListRoute = AuthenticatedRoute.extend({
   actions: {
     // Display modals on the fly
     showUri: function(model) {
-      this.controllerFor('vms.modal').setProperties({model:model});
+      this.controllerFor('vms.modal').setProperties({model: model, isHTTPS: false});
       this.controllerFor('vms.modal').showUri();
     },
 
     showDetails: function(model) {
-      this.controllerFor('vms.modal').setProperties({model:model});
+      this.controllerFor('vms.modal').setProperties({model: model});
       this.controllerFor('vms.modal').showDetails();
     },
 

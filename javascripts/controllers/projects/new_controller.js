@@ -115,10 +115,12 @@ var ProjectsNewController = Ember.ObjectController.extend({
     var errorName = false ;
 
     if (!name) {
-      errorName = true ;
+      errorName = true;
+    } else {
+      this.set('name', this.get('name').replace(/-/g,'.'));
     }
 
-    this.set('errorName', errorName) ;
+    this.set('errorName', errorName);
   }.observes('name'),
 
   // check projectname
