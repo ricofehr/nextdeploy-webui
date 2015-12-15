@@ -82,6 +82,7 @@ var VmsModalController = Ember.ObjectController.extend({
     toggleHTTPS: function() {
       this.toggleProperty('isHTTPS') ;
     },
+
     // open vm uri
     openVmURI: function(uritype) {
       var login = this.get('project.login');
