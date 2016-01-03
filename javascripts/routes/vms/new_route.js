@@ -18,7 +18,7 @@ var VmsNewRoute = AuthenticatedRoute.extend({
     this._super(controller, model);
 
     // Create a content empty object
-    content = Ember.Object.create() ;
+    content = Ember.Object.create();
 
     // Bind models to the controller
     controller.set('model', content);
@@ -28,10 +28,10 @@ var VmsNewRoute = AuthenticatedRoute.extend({
     controller.set('vmsizes', model.vmsizes);
 
     // Clear form
-    controller.clearForm() ;
+    controller.clearForm();
 
     // Check form
-    controller.formIsValid() ;
+    controller.formIsValid();
   }
 });
 

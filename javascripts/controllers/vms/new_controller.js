@@ -36,25 +36,25 @@ var VmsNewController = Ember.ObjectController.extend({
 
   //validation function
   checkProject: function() {
-    var project = this.get('selectedProject') ;
-    var errorProject = false ;
+    var project = this.get('selectedProject');
+    var errorProject = false;
 
     if (!project) {
-      errorProject = true ;
+      errorProject = true;
     }
 
-    this.set('errorProject', errorProject) ;
+    this.set('errorProject', errorProject);
   }.observes('selectedProject'),
 
   checkUser: function() {
-    var user = this.get('selectedUser') ;
-    var errorUser = false ;
+    var user = this.get('selectedUser');
+    var errorUser = false;
 
     if (user == null) {
-      errorUser = true ;
+      errorUser = true;
     }
 
-    this.set('errorUser', errorUser) ;
+    this.set('errorUser', errorUser);
   }.observes('selectedUser'),
 
   checkBranch: function() {
@@ -73,73 +73,73 @@ var VmsNewController = Ember.ObjectController.extend({
   }.observes('selectedBranch'),
 
   checkCommit: function() {
-    var commit = this.get('selectedCommit') ;
-    var errorCommit = false ;
+    var commit = this.get('selectedCommit');
+    var errorCommit = false;
 
     if (!commit) {
-      errorCommit = true ;
+      errorCommit = true;
     }
 
-    this.set('errorCommit', errorCommit) ;
+    this.set('errorCommit', errorCommit);
   }.observes('selectedCommit'),
 
   checkOs: function() {
-    var os = this.get('selectedOs') ;
-    var errorOs = false ;
+    var os = this.get('selectedOs');
+    var errorOs = false;
 
     if (!os) {
-      errorOs = true ;
+      errorOs = true;
     }
 
-    this.set('errorOs', errorOs) ;
+    this.set('errorOs', errorOs);
   }.observes('selectedOs'),
 
   checkVmsize: function() {
-    var vmsize = this.get('selectedSizing') ;
-    var errorVmsize = false ;
+    var vmsize = this.get('selectedSizing');
+    var errorVmsize = false;
 
     if (!vmsize) {
-      errorVmsize = true ;
+      errorVmsize = true;
     }
 
-    this.set('errorVmsize', errorVmsize) ;
+    this.set('errorVmsize', errorVmsize);
   }.observes('selectedSizing'),
 
   //check form before submit
   formIsValid: function() {
-    this.checkProject() ;
-    this.checkUser() ;
-    this.checkBranch() ;
-    this.checkCommit() ;
-    this.checkOs() ;
-    this.checkVmsize() ;
+    this.checkProject();
+    this.checkUser();
+    this.checkBranch();
+    this.checkCommit();
+    this.checkOs();
+    this.checkVmsize();
 
     if (!this.get('errorProject') &&
         !this.get('errorUser') &&
         !this.get('errorBranch') &&
         !this.get('errorCommit') &&
         !this.get('errorOs') &&
-        !this.get('errorVmsize')) return true ;
-    return false ;
+        !this.get('errorVmsize')) return true;
+    return false;
   },
 
   //clear form
   clearForm: function() {
-    this.set('selectedProject', null) ;
-    this.set('selectedUser', null) ;
-    this.set('selectedBranch', null) ;
-    this.set('selectedCommit', null) ;
-    this.set('selectedOs', null) ;
-    this.set('selectedSizing', null) ;
-    this.set('advancedForm', false) ;
+    this.set('selectedProject', null);
+    this.set('selectedUser', null);
+    this.set('selectedBranch', null);
+    this.set('selectedCommit', null);
+    this.set('selectedOs', null);
+    this.set('selectedSizing', null);
+    this.set('advancedForm', false);
   },
 
   // Return true if user is a Dev or more
   isDev: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 30) return true ;
-    return false ;
+    if (access_level >= 30) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // project change event
@@ -151,10 +151,10 @@ var VmsNewController = Ember.ObjectController.extend({
 
     //if selectedproject was flushed, flush usersList
     if (!this.get('selectedProject')) {
-      this.set('usersList', []) ;
-      this.set('osSort', []) ;
-      this.set('vmsizesList', []) ;
-      return ;
+      this.set('usersList', []);
+      this.set('osSort', []);
+      this.set('vmsizesList', []);
+      return;
     }
 
     //update project datas

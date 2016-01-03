@@ -11,10 +11,10 @@ var ProjectsModalController = Ember.ObjectController.extend({
 
   // Return true if authentified user is a Dev or more
   isDev: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 30) return true ;
-    return false ;
+    if (access_level >= 30) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if we have mysql into model
@@ -24,7 +24,7 @@ var ProjectsModalController = Ember.ObjectController.extend({
       return true;
     }
 
-    return false;    
+    return false;
   }.property('technos'),
 
   // Check if we have mysql into model
@@ -34,7 +34,7 @@ var ProjectsModalController = Ember.ObjectController.extend({
       return true;
     }
 
-    return false;    
+    return false;
   }.property('technos'),
 
   // Check if we have mysql into model
@@ -44,14 +44,14 @@ var ProjectsModalController = Ember.ObjectController.extend({
       return true;
     }
 
-    return false;    
+    return false;
   }.property('framework'),
 
   // Return ftp username for current project
   getFtpUser: function() {
     var gitpath = this.get('gitpath');
     if (! gitpath) return "";
-    
+
     return gitpath.replace(/.*\//g, "");
   }.property('gitpath'),
 

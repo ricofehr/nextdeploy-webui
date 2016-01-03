@@ -23,7 +23,7 @@ var AuthenticatedRoute = Ember.Route.extend({
   events: {
     // Log an error
     error: function(reason, transition) {
-      Ember.Logger.debug(reason) ;
+      Ember.Logger.debug(reason);
       this.redirectToLogin(transition);
     }
   }

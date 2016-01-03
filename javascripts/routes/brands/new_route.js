@@ -11,9 +11,9 @@ var BrandsNewRoute = AuthenticatedRoute.extend({
 
   // Setup controller
   setupController: function(controller, model) {
-    content = Ember.Object.create() ;
-    this.controllerFor('brands.new').setProperties({model: content}) ;
-    this.controllerFor('brands.new').clearForm() ;
+    content = Ember.Object.create();
+    this.controllerFor('brands.new').setProperties({model: content});
+    this.controllerFor('brands.new').clearForm();
     this.controllerFor('brands.new').setProperties({model: content, brands: model.brands});
   },
 });

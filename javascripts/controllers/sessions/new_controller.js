@@ -4,8 +4,8 @@ var SessionsNewController = Ember.ObjectController.extend({
 
   // Get current user
   currentUser: function() {
-    var userId = App.AuthManager.get('apiKey.user') ;
-    return this.store.find('user', userId) ;
+    var userId = App.AuthManager.get('apiKey.user');
+    return this.store.find('user', userId);
   }.property('App.AuthManager.apiKey'),
 
   // Return true if authenticated
@@ -15,34 +15,34 @@ var SessionsNewController = Ember.ObjectController.extend({
 
   // Check if current user is admin
   isAdmin: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level == 50) return true ;
-    return false ;
+    if (access_level == 50) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user is at least lead
   isLead: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 40) return true ;
-    return false ;
+    if (access_level >= 40) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user is at least dev
   isDEV: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 30) return true ;
-    return false ;
+    if (access_level >= 30) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user is at least PM
   isPM: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 20) return true ;
-    return false ;
+    if (access_level >= 20) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // load model datas if authentification is success
@@ -52,8 +52,8 @@ var SessionsNewController = Ember.ObjectController.extend({
     var router = this.get('target');
 
     if (App.AuthManager.isAuthenticated()) {
-      $('#waitingModal').modal() ;
-      this.loadModel() ;
+      $('#waitingModal').modal();
+      this.loadModel();
     }
   }.observes('App.AuthManager.apiKey'),
 
@@ -70,11 +70,11 @@ var SessionsNewController = Ember.ObjectController.extend({
 
   // load model datas into ember memory
   loadModel: function() {
-    var store = this.store ;
-    var self = this ;
+    var store = this.store;
+    var self = this;
 
     // Reset ember datas to empty state
-    self.resetModel ;
+    self.resetModel;
 
     // chained calls for synchronous load
     // .... ugly !
@@ -111,11 +111,13 @@ var SessionsNewController = Ember.ObjectController.extend({
 
   // Empty all ember datas, no need i mean ?
   resetModel: function() {
-    var models = ['branche', 'brand', 'commit', 'flavor', 'framework', 'group', 'project',
-       'sshkey', 'systemimage', 'systemimagetype', 'techno', 'user', 'vm', 'vmsize'] ;
+    var models = [
+       'branche', 'brand', 'commit', 'flavor', 'framework', 'group', 'project',
+       'sshkey', 'systemimage', 'systemimagetype', 'techno', 'user', 'vm', 'vmsize'
+    ];
 
     for (var i=0; i<models.length; i++) {
-      this.store.unloadAll(models[i]) ;
+      this.store.unloadAll(models[i]);
     }
   },
 
@@ -126,14 +128,14 @@ var SessionsNewController = Ember.ObjectController.extend({
       var self = this;
       var router = this.get('target');
       var data = this.getProperties('email', 'password');
-      var store = this.store ;
+      var store = this.store;
       var attemptedTrans = this.get('attemptedTransition');
 
-      self.set('error401', false) ;
-      self.set('error500', false) ;
+      self.set('error401', false);
+      self.set('error500', false);
 
       //loading popin
-      $('#waitingModal').modal() ;
+      $('#waitingModal').modal();
 
       $.ajax({
             url: '/api/v1/users/sign_in',
@@ -144,8 +146,8 @@ var SessionsNewController = Ember.ObjectController.extend({
              * A function to be called if the request fails.
              */
             error: function(jqXHR, textStatus, errorThrown) {
-                if (jqXHR.status == 401) self.set('error401', true) ;
-                else self.set('error500', true) ;
+                if (jqXHR.status == 401) self.set('error401', true);
+                else self.set('error500', true);
                 $('#waitingModal').modal('hide');
             },
 
@@ -153,16 +155,16 @@ var SessionsNewController = Ember.ObjectController.extend({
              * A function to be called if the request succeeds.
              */
             success: function(results, textStatus, jqXHR) {
-                var user = results.user.id ;
-                var group = results.user.group ;
-                var auth_token = results.user.authentication_token ;
+                var user = results.user.id;
+                var group = results.user.group;
+                var auth_token = results.user.authentication_token;
                 var is_project_create = results.user.is_project_create;
 
-                App.AuthManager.ajaxSetup(auth_token) ;
+                App.AuthManager.ajaxSetup(auth_token);
                 // Get rest request for getting group value
                 $.get('/api/v1/group', [], function(results) {
                   // Init authmanager object for record session
-                  App.AuthManager.initUser(user, group, auth_token, results.group.access_level, is_project_create) ;
+                  App.AuthManager.initUser(user, group, auth_token, results.group.access_level, is_project_create);
 
                   // Redirect to targetting page
                   if (attemptedTrans) {

@@ -3,7 +3,7 @@ var VmsListController = Ember.ArrayController.extend({
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
   isAllDelete: false,
-  
+
   // filters param
   userId: 0,
   projectId: 0,
@@ -31,7 +31,7 @@ var VmsListController = Ember.ArrayController.extend({
 
     // sort vms by id
     var vmsSort = vms.sort(function(a, b) {
-        return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
+        return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10));
     }).reverse();
 
     this.set('vms', vmsSort.map(function(model){
@@ -41,14 +41,14 @@ var VmsListController = Ember.ArrayController.extend({
       var sucStatus = false;
       var status = model.get('status');
 
-      model.set('todelete', false) ;
-      model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth() + 1) + " " +  + model.get('created_at').getHours() + ":" +  + model.get('created_at').getMinutes()) ;
+      model.set('todelete', false);
+      model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth() + 1) + " " +  + model.get('created_at').getHours() + ":" +  + model.get('created_at').getMinutes());
 
       if (status < 1) {
-        textStatus = 'SETUP'; 
+        textStatus = 'SETUP';
         warnStatus = true;
         //if status is negative => setup in progress
-        model.set('timeStatus', -parseInt(status)); 
+        model.set('timeStatus', -parseInt(status));
       }
       if (status > 1) { textStatus = 'RUNNING'; sucStatus = true; model.set('timeStatus', (status)); }
       if (status == 1) { textStatus = 'ERROR'; dangStatus = true; }
@@ -57,8 +57,8 @@ var VmsListController = Ember.ArrayController.extend({
       model.set('sucStatus', sucStatus);
       model.set('warnStatus', warnStatus);
       model.set('dangStatus', dangStatus);
-      return model ;
-    })) ;
+      return model;
+    }));
 
   }.observes('model.@each.created_at', 'model.@each.status', 'model.[]', 'userId', 'projectId'),
 
@@ -79,43 +79,41 @@ var VmsListController = Ember.ArrayController.extend({
 
   // Check if current user is admin
   isAdmin: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level == 50) return true ;
-    return false ;
+    if (access_level == 50) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user at least a dev
   isDev: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 30) return true ;
-    return false ;
+    if (access_level >= 30) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user is admin
   isLead: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 40) return true ;
-    return false ;
+    if (access_level >= 40) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user can launch vm
   isVm: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 20) return true ;
-    return false ;
+    if (access_level >= 20) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // actions binding with user event
   actions: {
     // ajax call to get current status
     checkStatus: function(model) {
-      var vm_id = model.get('id') ;
-      //loader for display an action on the screen
-      //$('#waitingModal').modal();
+      var vm_id = model.get('id');
 
       // jquery get setupcomplete
       $.get("/api/v1/vms/" + vm_id + "/setupcomplete")
@@ -130,7 +128,7 @@ var VmsListController = Ember.ArrayController.extend({
         .fail(function(data) {
           model.set('status', data.responseText);
           model.set('timeStatus', -parseInt(data.responseText));
-          
+
           // check if error or setup
           if (parseInt(data.responseText) == 1) {
             model.set('textStatus', 'ERROR');
@@ -144,30 +142,27 @@ var VmsListController = Ember.ArrayController.extend({
             model.set('dangStatus', false);
           }
         });
-        //.always(function() {
-          //setTimeout($('#waitingModal').modal('hide'), 2000);
-        //});
     },
 
     // action for delete event
     deleteItems: function() {
       var router = this.get('target');
-      var vms = this.get('vms') ;
-      var items = this.filterProperty('todelete', true) ;
+      var vms = this.get('vms');
+      var items = this.filterProperty('todelete', true);
 
       items.forEach(function(model) {
-        model.destroyRecord() ;
-        vms.removeObject(model) ;
-      }) ;
+        model.destroyRecord();
+        vms.removeObject(model);
+      });
 
-      this.set('isShowingDeleteConfirmation', false) ;
-      this.set('isAllDelete', false) ;
+      this.set('isShowingDeleteConfirmation', false);
+      this.set('isAllDelete', false);
       router.transitionTo('vms.list');
     },
 
     // Change hide/show for delete confirmation
     showDeleteConfirmation: function() {
-      this.toggleProperty('isShowingDeleteConfirmation') ;
+      this.toggleProperty('isShowingDeleteConfirmation');
     },
 
     // Action for add a new item, change current page to create form
@@ -178,8 +173,8 @@ var VmsListController = Ember.ArrayController.extend({
 
     // Toggle or untoggle all items
     toggleDeleteAll: function() {
-      if (this.get('isAllDelete')) this.set('isAllDelete', false) ;
-      else this.set('isAllDelete', true) ;
+      if (this.get('isAllDelete')) this.set('isAllDelete', false);
+      else this.set('isAllDelete', true);
       this.setEach('todelete', this.get('isAllDelete'));
     },
   }

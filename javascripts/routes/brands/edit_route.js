@@ -12,7 +12,7 @@ var BrandsEditRoute = AuthenticatedRoute.extend({
 
   // Same template than the create form
   renderTemplate:function () {
-    this.render('brands/new') ;
+    this.render('brands/new');
   },
 
   // Setup the controller "brands.new" with this model

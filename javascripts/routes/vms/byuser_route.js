@@ -12,12 +12,12 @@ var VmsByuserRoute = AuthenticatedRoute.extend({
 
   // Same template than the standard list of vms
   renderTemplate:function () {
-    this.render('vms/list') ;
+    this.render('vms/list');
   },
 
   // Setup the controller for vms.list with this model
   setupController: function(controller, model) {
-    this.controllerFor('vms.list').setProperties({model: model.vms, 
+    this.controllerFor('vms.list').setProperties({model: model.vms,
                                                   userId: model.userId,
                                                   projectId: 0});
   },

@@ -6,14 +6,14 @@ var BrandsNewController = Ember.ObjectController.extend({
 
   //validation function
   checkName: function() {
-    var name = this.get('name') ;
-    var errorName = false ;
+    var name = this.get('name');
+    var errorName = false;
 
     if (!name) {
-      errorName = true ;
+      errorName = true;
     }
 
-    this.set('errorName', errorName) ;
+    this.set('errorName', errorName);
   }.observes('name'),
 
   // check projectname

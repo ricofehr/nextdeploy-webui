@@ -28,7 +28,7 @@ var SessionsNewRoute = Ember.Route.extend({
   },
 
   renderTemplate:function () {
-    this.render('sessions/new') ;
+    this.render('sessions/new');
 
     // render the forgot modal
     this.render('sessions/modalforgot', {
@@ -37,7 +37,7 @@ var SessionsNewRoute = Ember.Route.extend({
          controller: 'sessions.modal',
     });
   },
-  
+
   actions: {
     // Display modals on the fly
     forgotPassword: function(email, password) {

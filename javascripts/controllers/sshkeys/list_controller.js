@@ -15,8 +15,8 @@ var SshkeysListController = Ember.ObjectController.extend({
 
     // crop key for display it into array
     if (key_l>70) { key_s=key.substring(0,30)+'...'+key.substring(key_l-40, key_l); }
-    model.set('key_short', key_s) ;
-    return model ;
+    model.set('key_short', key_s);
+    return model;
   }),
 
   // actions binding with user event
@@ -24,34 +24,34 @@ var SshkeysListController = Ember.ObjectController.extend({
     // action for delete event
     deleteItems: function() {
       var router = this.get('target');
-      var model = this.get('model') ;
+      var model = this.get('model');
       var sshkeys = model.get('sshkeys');
-      var items = sshkeys.filterProperty('todelete', true) ;
+      var items = sshkeys.filterProperty('todelete', true);
 
       for(i=0; i<items.length; i++) {
-        if (items[i].todelete) { items[i].destroyRecord() ; }
+        if (items[i].todelete) { items[i].destroyRecord(); }
       }
 
-      this.set('isShowingDeleteConfirmation', false) ;
-      this.set('isAllDelete', false) ;
+      this.set('isShowingDeleteConfirmation', false);
+      this.set('isAllDelete', false);
     },
 
     // Change hide/show for delete confirmation
     showDeleteConfirmation: function() {
-      this.toggleProperty('isShowingDeleteConfirmation') ;
+      this.toggleProperty('isShowingDeleteConfirmation');
     },
 
     // Action for add a new item, change current page to create form
     newItem: function() {
       var router = this.get('target');
       var model = this.get('model');
-      router.transitionTo('sshkeys.new', model) ;
+      router.transitionTo('sshkeys.new', model);
     },
 
     // Toggle or untoggle all items
     toggleDeleteAll: function() {
-      if (this.get('isAllDelete')) this.set('isAllDelete', false) ;
-      else this.set('isAllDelete', true) ;
+      if (this.get('isAllDelete')) this.set('isAllDelete', false);
+      else this.set('isAllDelete', true);
       this.get('sshkeys').setEach('todelete', this.get('isAllDelete'));
     }
   }

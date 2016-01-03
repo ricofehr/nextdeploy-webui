@@ -13,11 +13,11 @@ var UsersNewRoute = AuthenticatedRoute.extend({
 
   // Setup the controller with thie model
   setupController: function(controller, model) {
-    content = Ember.Object.create() ;
-    content.set('group', {content: null}) ;
+    content = Ember.Object.create();
+    content.set('group', {content: null});
 
-    this.controllerFor('users.new').setProperties({model: content}) ;
-    this.controllerFor('users.new').clearForm() ;
+    this.controllerFor('users.new').setProperties({model: content});
+    this.controllerFor('users.new').clearForm();
     this.controllerFor('users.new').setProperties({grouplist: model.grouplist,
                                                    projectlist: model.projectlist,
                                                    users: model.users});

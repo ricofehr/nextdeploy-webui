@@ -63,20 +63,20 @@ var ProjectsNewController = Ember.ObjectController.extend({
   emailSorting: ['email'],
   usersSort: Ember.computed.sort('userlist', 'emailSorting'),
   checkedUsers: Ember.computed.map('usersSort', function(model){
-    var checked = false ;
-    var readonly = false ;
-    var users = this.get('project_users') ;
+    var checked = false;
+    var readonly = false;
+    var users = this.get('project_users');
 
-    var user = null ;
+    var user = null;
 
     if(users) {
-      user = users.findBy('id', model.id) ;
-      if(user) checked = true ;
+      user = users.findBy('id', model.id);
+      if(user) checked = true;
     }
 
     if (model.get('group').get('access_level') == 50) {
-      checked = true ;
-      readonly = true ;
+      checked = true;
+      readonly = true;
     }
 
     return Ember.ObjectProxy.create({
@@ -100,19 +100,19 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
   //validation functions
   checkBrand: function() {
-    var brand = this.get('brand.content') ;
-    var errorBrand = false ;
+    var brand = this.get('brand.content');
+    var errorBrand = false;
 
     if (!brand) {
-      errorBrand = true ;
+      errorBrand = true;
     }
 
-    this.set('errorBrand', errorBrand) ;
+    this.set('errorBrand', errorBrand);
   }.observes('brand.content'),
 
   checkName: function() {
-    var name = this.get('name') ;
-    var errorName = false ;
+    var name = this.get('name');
+    var errorName = false;
 
     if (!name) {
       errorName = true;
@@ -163,76 +163,76 @@ var ProjectsNewController = Ember.ObjectController.extend({
   }.observes('name'),
 
   checkLogin: function() {
-    var login = this.get('login') ;
-    var errorLogin = false ;
+    var login = this.get('login');
+    var errorLogin = false;
 
-    this.set('errorLogin', errorLogin) ;
+    this.set('errorLogin', errorLogin);
   }.observes('login'),
 
   checkPassword: function() {
-    var password = this.get('password') ;
-    var errorPassword = false ;
+    var password = this.get('password');
+    var errorPassword = false;
 
-    this.set('errorPassword', errorPassword) ;
+    this.set('errorPassword', errorPassword);
   }.observes('password'),
 
   checkFramework: function() {
-    var framework = this.get('framework.content') ;
-    var errorFramework = false ;
+    var framework = this.get('framework.content');
+    var errorFramework = false;
 
     if (!framework) {
-      errorFramework = true ;
+      errorFramework = true;
     }
 
-    this.set('errorFramework', errorFramework) ;
+    this.set('errorFramework', errorFramework);
   }.observes('framework.content'),
 
   checkSystem: function() {
-    var system = this.get('systemimagetype.content') ;
-    var errorSystem = false ;
+    var system = this.get('systemimagetype.content');
+    var errorSystem = false;
 
     if (!system) {
-      errorSystem = true ;
+      errorSystem = true;
     }
 
-    this.set('errorSystem', errorSystem) ;
+    this.set('errorSystem', errorSystem);
   }.observes('systemimagetype.content'),
 
   checkTechnos: function() {
-    var errorTechnos = true ;
-    var technos = this.get('checkedTechnos').filterBy('checked', true) ;
-    if (technos.length > 0) errorTechnos = false ;
+    var errorTechnos = true;
+    var technos = this.get('checkedTechnos').filterBy('checked', true);
+    if (technos.length > 0) errorTechnos = false;
 
-    this.set('errorTechnos', errorTechnos) ;
+    this.set('errorTechnos', errorTechnos);
   }.observes('checkedTechnos.@each.checked'),
 
   checkVmsizes: function() {
-    var errorVmsizes = true ;
-    var vmsizes = this.get('checkedVmsizes').filterBy('checked', true) ;
-    if (vmsizes.length > 0) errorVmsizes = false ;
+    var errorVmsizes = true;
+    var vmsizes = this.get('checkedVmsizes').filterBy('checked', true);
+    if (vmsizes.length > 0) errorVmsizes = false;
 
-    this.set('errorVmsizes', errorVmsizes) ;
+    this.set('errorVmsizes', errorVmsizes);
   }.observes('checkedVmsizes.@each.checked'),
 
   checkUsers: function() {
-    var errorUsers = true ;
-    var users = this.get('checkedUsers').filterBy('checked', true) ;
-    if (users.length > 0) errorUsers = false ;
+    var errorUsers = true;
+    var users = this.get('checkedUsers').filterBy('checked', true);
+    if (users.length > 0) errorUsers = false;
 
-    this.set('errorUsers', errorUsers) ;
+    this.set('errorUsers', errorUsers);
   }.observes('checkedUsers.@each.checked'),
 
   //check form before submit
   formIsValid: function() {
-    this.checkBrand() ;
-    this.checkName() ;
-    this.checkLogin() ;
-    this.checkPassword() ;
-    this.checkFramework() ;
-    this.checkSystem() ;
-    this.checkTechnos() ;
-    this.checkVmsizes() ;
-    this.checkUsers() ;
+    this.checkBrand();
+    this.checkName();
+    this.checkLogin();
+    this.checkPassword();
+    this.checkFramework();
+    this.checkSystem();
+    this.checkTechnos();
+    this.checkVmsizes();
+    this.checkUsers();
 
     if (!this.get('errorBrand') &&
         !this.get('errorName') &&
@@ -244,46 +244,46 @@ var ProjectsNewController = Ember.ObjectController.extend({
         !this.get('errorSystem') &&
         !this.get('errorTechnos') &&
         !this.get('errorVmsizes') &&
-        !this.get('errorUsers')) return true ;
-    return false ;
+        !this.get('errorUsers')) return true;
+    return false;
   }.observes('model'),
 
   //clear form
   clearForm: function() {
-    this.set('brand', {content: null}) ;
-    this.set('name', null) ;
-    this.set('gitpath', null) ;
-    this.set('login', null) ;
-    this.set('password', null) ;
-    this.set('framework', {content: null}) ;
-    this.set('systemimagetype', {content: null}) ;
+    this.set('brand', {content: null});
+    this.set('name', null);
+    this.set('gitpath', null);
+    this.set('login', null);
+    this.set('password', null);
+    this.set('framework', {content: null});
+    this.set('systemimagetype', {content: null});
   },
 
   //events when projectname or brand changes
   updateGitpath: function() {
-    var gitpath ;
-    if (!this.get('brand.content') || !this.get('name')) return ;
-    gitpath = this.get('brand.content').get('name').replace(/[\. ]/g,'') + "-" + this.get('name').replace(/[\. ]/g,'-') ;
-    this.set('gitpath', gitpath.toLowerCase()) ;
+    var gitpath;
+    if (!this.get('brand.content') || !this.get('name')) return;
+    gitpath = this.get('brand.content').get('name').replace(/[\. ]/g,'') + "-" + this.get('name').replace(/[\. ]/g,'-');
+    this.set('gitpath', gitpath.toLowerCase());
   }.observes('brand.content', 'name'),
 
   // Check if current user can create project
   isProjectCreate: function() {
-    return App.AuthManager.get('apiKey.is_project_create') ;
+    return App.AuthManager.get('apiKey.is_project_create');
   }.property('App.AuthManager.apiKey'),
 
   // Disable if edit item
   isDisableEdit: function() {
-    if(this.get('id')) return true ;
-    else return false ;
+    if(this.get('id')) return true;
+    else return false;
   },
 
   // Check if current user is admin and can change properties
   isDisableAdmin: function() {
     var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 50) return false ;
-    return true ;
+    if (access_level >= 50) return false;
+    return true;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user is admin or edit his own project and can change properties
@@ -291,9 +291,9 @@ var ProjectsNewController = Ember.ObjectController.extend({
     var access_level = App.AuthManager.get('apiKey.accessLevel');
     var user_id = App.AuthManager.get('apiKey.user');
 
-    if (access_level >= 50) return false ;
-    if (this.get('owner').id == user_id) return false ;
-    return true ;
+    if (access_level >= 50) return false;
+    if (this.get('owner').id == user_id) return false;
+    return true;
   }.property('App.AuthManager.apiKey'),
 
   // actions binding with user event
@@ -303,15 +303,15 @@ var ProjectsNewController = Ember.ObjectController.extend({
       var router = this.get('target');
       var self = this;
       var store = this.store;
-      var data = this.getProperties('name', 'gitpath', 'login', 'password', 'owner') ;
-      var selectedBrand = this.get('brand.content') ;
-      var selectedFramework = this.get('framework.content') ;
-      var selectedSystem = this.get('systemimagetype.content') ;
-      var technos = this.get('checkedTechnos').filterBy('checked', true).mapBy('content') ;
-      var vmsizes = this.get('checkedVmsizes').filterBy('checked', true).mapBy('content') ;
-      var users = this.get('checkedUsers').filterBy('checked', true).mapBy('content') ;
+      var data = this.getProperties('name', 'gitpath', 'login', 'password', 'owner');
+      var selectedBrand = this.get('brand.content');
+      var selectedFramework = this.get('framework.content');
+      var selectedSystem = this.get('systemimagetype.content');
+      var technos = this.get('checkedTechnos').filterBy('checked', true).mapBy('content');
+      var vmsizes = this.get('checkedVmsizes').filterBy('checked', true).mapBy('content');
+      var users = this.get('checkedUsers').filterBy('checked', true).mapBy('content');
 
-      var project ;
+      var project;
 
       // set id only if different of 0
       if (this.get('id') != 0) {
@@ -338,57 +338,57 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
           // reset old values from object
           vmsizes_p.forEach(function (item) {
-            project.get('vmsizes').removeObject(item) ;
-            item.get('projects').removeObject(project) ;
-          }) ;
+            project.get('vmsizes').removeObject(item);
+            item.get('projects').removeObject(project);
+          });
 
           technos_p.forEach(function (item) {
-            project.get('technos').removeObject(item) ;
-            item.get('projects').removeObject(project) ;
-          }) ;
+            project.get('technos').removeObject(item);
+            item.get('projects').removeObject(project);
+          });
 
           users_p.forEach(function (item) {
-            project.get('users').removeObject(item) ;
-            item.get('projects').removeObject(project) ;
-          }) ;
+            project.get('users').removeObject(item);
+            item.get('projects').removeObject(project);
+          });
 
           project.get('framework').get('projects').removeObject(project);
           project.get('brand').get('projects').removeObject(project);
           project.get('systemimagetype').get('projects').removeObject(project);
 
-          project.setProperties(data) ;
+          project.setProperties(data);
 
           // add technos checked into project object
           technos.toArray().forEach(function (item) {
-            item.get('projects').addObject(project) ;
-            project.get('technos').pushObject(item) ;
-          }) ;
+            item.get('projects').addObject(project);
+            project.get('technos').pushObject(item);
+          });
 
           // add vmsizes checked into project object
           vmsizes.toArray().forEach(function (item) {
-            item.get('projects').addObject(project) ;
-            project.get('vmsizes').pushObject(item) ;
-          }) ;
+            item.get('projects').addObject(project);
+            project.get('vmsizes').pushObject(item);
+          });
 
           users.toArray().forEach(function (item) {
-            item.get('projects').addObject(project) ;
-            project.get('users').pushObject(item) ;
-          }) ;
+            item.get('projects').addObject(project);
+            project.get('users').pushObject(item);
+          });
 
-          selectedBrand.get('projects').pushObject(project) ;
-          selectedFramework.get('projects').pushObject(project) ;
-          selectedSystem.get('projects').pushObject(project) ;
+          selectedBrand.get('projects').pushObject(project);
+          selectedFramework.get('projects').pushObject(project);
+          selectedSystem.get('projects').pushObject(project);
 
           $('#waitingModal').modal();
           project.save().then(function() {
             // Return to projects list page
             router.transitionTo('projects.list');
             $('#waitingModal').modal('hide');
-          }) ;
+          });
 
         });
       } else {
-        project = store.createRecord('project', data) ;
+        project = store.createRecord('project', data);
 
         project.get('technos').forEach(function (item) {
            project.get('technos').removeObject(item);
@@ -403,27 +403,27 @@ var ProjectsNewController = Ember.ObjectController.extend({
         });
 
         technos.toArray().forEach(function (item) {
-          item.get('projects').addObject(project) ;
-          project.get('technos').pushObject(item) ;
-        }) ;
+          item.get('projects').addObject(project);
+          project.get('technos').pushObject(item);
+        });
 
         vmsizes.toArray().forEach(function (item) {
-          item.get('projects').addObject(project) ;
-          project.get('vmsizes').pushObject(item) ;
-        }) ;
+          item.get('projects').addObject(project);
+          project.get('vmsizes').pushObject(item);
+        });
 
         users.toArray().forEach(function (item) {
-          item.get('projects').addObject(project) ;
-          project.get('users').pushObject(item) ;
-        }) ;
+          item.get('projects').addObject(project);
+          project.get('users').pushObject(item);
+        });
 
         project.get('users').then(function (users_p) {
-          users_p.pushObjects(users.toArray()) ;
-        }) ;
+          users_p.pushObjects(users.toArray());
+        });
 
-        selectedBrand.get('projects').pushObject(project) ;
-        selectedFramework.get('projects').pushObject(project) ;
-        selectedSystem.get('projects').pushObject(project) ;
+        selectedBrand.get('projects').pushObject(project);
+        selectedFramework.get('projects').pushObject(project);
+        selectedSystem.get('projects').pushObject(project);
 
         //loader because between 1 and 5min to complete create project
         $('#waitingModal').modal();
@@ -438,4 +438,3 @@ var ProjectsNewController = Ember.ObjectController.extend({
 });
 
 module.exports = ProjectsNewController;
-

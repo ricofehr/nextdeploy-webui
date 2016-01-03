@@ -52,7 +52,7 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
 
   // Same template than the create form
   renderTemplate:function () {
-    this.render('projects/new') ;
+    this.render('projects/new');
   },
 
   // Setup the controller "projects.new" with this model
