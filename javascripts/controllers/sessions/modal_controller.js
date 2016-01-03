@@ -17,7 +17,7 @@ var SessionsModalController = Ember.ObjectController.extend({
     var self = this;
     var router = this.get('target');
     var store = this.store;
-    
+
     self.set('emailSend', false);
     self.set('errorPass', false);
     self.set('errorMail', false);
@@ -37,16 +37,12 @@ var SessionsModalController = Ember.ObjectController.extend({
     $.ajax({
           url: '/api/v1/user/forgot/' + email,
           type: "GET",
-          
-          /**
-           * A function to be called if the request succeeds.
-           */
           success: function(results, textStatus, jqXHR) {
             self.set('emailSend', true);
           }
       });
   }
-  
+
 });
 
 module.exports = SessionsModalController;

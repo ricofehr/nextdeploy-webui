@@ -9,7 +9,7 @@ var VmsListRoute = AuthenticatedRoute.extend({
   },
 
   renderTemplate:function () {
-    this.render('vms/list') ;
+    this.render('vms/list');
 
     // render the 2 type of modals
     this.render('vms/modaluris', {
@@ -27,11 +27,11 @@ var VmsListRoute = AuthenticatedRoute.extend({
 
   // Setup the controller for vms.list with this model
   setupController: function(controller, model) {
-    this.controllerFor('vms.list').setProperties({model: model, 
+    this.controllerFor('vms.list').setProperties({model: model,
                                                   userId: 0,
                                                   projectId: 0});
   },
-  
+
   actions: {
     // Display modals on the fly
     showUri: function(model) {
@@ -47,18 +47,10 @@ var VmsListRoute = AuthenticatedRoute.extend({
     // close modals
     closeUri: function() {
       this.controllerFor('vms.modal').hideUri();
-      // return this.disconnectOutlet({
-      //   outlet: 'modaluris',
-      //   parentView: 'application'
-      // });
     },
 
     closeDetails: function() {
       this.controllerFor('vms.modal').hideDetails();
-      // return this.disconnectOutlet({
-      //   outlet: 'modalvm',
-      //   parentView: 'application'
-      // });
     },
   }
 });

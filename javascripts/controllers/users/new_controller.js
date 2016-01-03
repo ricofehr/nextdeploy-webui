@@ -35,21 +35,21 @@ var UsersNewController = Ember.ObjectController.extend({
     var self = this;
 
     this.set('checkedProjects', this.get('projectSort').map(function(model) {
-      var checked = false ;
-      var readonly = false ;
-      var projects = self.get('user_projects') ;
+      var checked = false;
+      var readonly = false;
+      var projects = self.get('user_projects');
       var group_access = 0;
-      var project = null ;
+      var project = null;
 
       if (self.get('group.content.access_level')) group_access = self.get('group.content.access_level');
-      if (access_level < 50 || group_access == 50) readonly = true ;
+      if (access_level < 50 || group_access == 50) readonly = true;
 
       if(projects) {
-        project = projects.findBy('id', model.id) ;
-        if(project) checked = true ;
+        project = projects.findBy('id', model.id);
+        if(project) checked = true;
       }
 
-      if (group_access == 50) checked = true ;
+      if (group_access == 50) checked = true;
 
       return Ember.ObjectProxy.create({
         content: model,
@@ -74,7 +74,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
   // check projectname
   checkEmail2: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
     var users = this.get('users');
     var email = this.get('email');
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -82,7 +82,7 @@ var UsersNewController = Ember.ObjectController.extend({
     var errorEmail2 = false;
     var current_id = this.get('id');
     var self = this;
-    
+
     // set id to 0 if we create a new user
     if (current_id == null) { current_id = 0 }
 
@@ -124,7 +124,7 @@ var UsersNewController = Ember.ObjectController.extend({
       errorFirstname = true;
     }
 
-    this.set('errorFirstname', errorFirstname) ;
+    this.set('errorFirstname', errorFirstname);
   }.observes('firstname'),
 
   checkLastname: function() {
@@ -135,7 +135,7 @@ var UsersNewController = Ember.ObjectController.extend({
       errorLastname = true;
     }
 
-    this.set('errorLastname', errorLastname) ;
+    this.set('errorLastname', errorLastname);
   }.observes('lastname'),
 
   checkCompany: function() {
@@ -146,7 +146,7 @@ var UsersNewController = Ember.ObjectController.extend({
       errorCompany = true;
     }
 
-    this.set('errorCompany', errorCompany) ;
+    this.set('errorCompany', errorCompany);
   }.observes('company'),
 
   checkGroup: function() {
@@ -199,12 +199,12 @@ var UsersNewController = Ember.ObjectController.extend({
       successPassword = false;
     }
 
-    this.set('errorPassword', errorPassword) ;
-    this.set('successPassword', successPassword) ;
+    this.set('errorPassword', errorPassword);
+    this.set('successPassword', successPassword);
   }.observes('password'),
 
   checkPasswordConfirmation: function() {
-    var passwordConfirmation = this.get('password_confirmation') ;
+    var passwordConfirmation = this.get('password_confirmation');
     var errorPasswordConfirmation = false;
     var successPasswordConfirmation = true;
 
@@ -278,55 +278,55 @@ var UsersNewController = Ember.ObjectController.extend({
 
   // Check if current user is lead and can change properties
   isDisableLead: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 40) return false ;
-    return true ;
+    if (access_level >= 40) return false;
+    return true;
   }.property('id'),
 
   // Check if current user is admin and can change properties
   isDisableAdmin: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 50) return false ;
-    return true ;
+    if (access_level >= 50) return false;
+    return true;
   }.property('id'),
 
   // Check if current user is same as current form / or admin and can change properties
   isDisable: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
-    var current_id = App.AuthManager.get('apiKey.user') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var current_id = App.AuthManager.get('apiKey.user');
     var form_id = this.get('id');
 
-    if (access_level >= 50) return false ;
-    if (current_id == form_id) return false ;
-    return true ;
+    if (access_level >= 50) return false;
+    if (current_id == form_id) return false;
+    return true;
   }.property('id'),
 
   // Check if current user is admin
   isLead: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 40) return true ;
-    return false ;
+    if (access_level >= 40) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // show only if current user is same as current form / or admin
   isEnable: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
-    var current_id = App.AuthManager.get('apiKey.user') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var current_id = App.AuthManager.get('apiKey.user');
     var form_id = this.get('id');
 
-    if (access_level >= 50) return true ;
-    if (current_id == form_id) return true ;
-    return false ;
+    if (access_level >= 50) return true;
+    if (current_id == form_id) return true;
+    return false;
   }.property('id'),
 
   // show only if form user is allowed by ssh key
   isSSH: function() {
-    var access_level_user ;
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
-    var current_id = App.AuthManager.get('apiKey.user') ;
+    var access_level_user;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var current_id = App.AuthManager.get('apiKey.user');
     var user_id = this.get('id');
 
     if (user_id == null || !user_id) return false;
@@ -334,14 +334,14 @@ var UsersNewController = Ember.ObjectController.extend({
     access_level_user = this.get('group').get('content.access_level');
     if (access_level_user < 30) return false;
 
-    if (access_level >= 50) return true ;
-    if (current_id == user_id) return true ;
+    if (access_level >= 50) return true;
+    if (current_id == user_id) return true;
     return false;
   }.property('id'),
 
   // return trie if current id is equal to authenticated user
   isSelf: function() {
-    var current_id = App.AuthManager.get('apiKey.user') ;
+    var current_id = App.AuthManager.get('apiKey.user');
     var user_id = this.get('id');
 
     if (user_id == current_id) return true;
@@ -362,8 +362,8 @@ var UsersNewController = Ember.ObjectController.extend({
          * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status == 401) self.set('error401', true) ;
-          else self.set('error500', true) ;
+          if (jqXHR.status == 401) self.set('error401', true);
+          else self.set('error500', true);
         },
 
         success: function(results, textStatus, jqXHR) {
@@ -384,8 +384,8 @@ var UsersNewController = Ember.ObjectController.extend({
          * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status == 401) self.set('error401', true) ;
-          else self.set('error500', true) ;
+          if (jqXHR.status == 401) self.set('error401', true);
+          else self.set('error500', true);
         },
 
         success: function(results, textStatus, jqXHR) {
@@ -406,8 +406,8 @@ var UsersNewController = Ember.ObjectController.extend({
          * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status == 401) self.set('error401', true) ;
-          else self.set('error500', true) ;
+          if (jqXHR.status == 401) self.set('error401', true);
+          else self.set('error500', true);
         },
 
         success: function(results, textStatus, jqXHR) {
@@ -428,8 +428,8 @@ var UsersNewController = Ember.ObjectController.extend({
          * A function to be called if the request fails.
          */
         error: function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status == 401) self.set('error401', true) ;
-          else self.set('error500', true) ;
+          if (jqXHR.status == 401) self.set('error401', true);
+          else self.set('error500', true);
         },
 
         success: function(results, textStatus, jqXHR) {
@@ -463,7 +463,7 @@ var UsersNewController = Ember.ObjectController.extend({
           projects_p.forEach(function (item) {
             user.get('projects').removeObject(item);
             item.get('users').removeObject(user);
-          }) ;
+          });
 
           // add projects association
           projects.toArray().forEach(function (item) {
@@ -485,8 +485,8 @@ var UsersNewController = Ember.ObjectController.extend({
 
         // add projects association
         projects.toArray().forEach(function (item) {
-          item.get('users').addObject(user) ;
-          user.get('projects').pushObject(item) ;
+          item.get('users').addObject(user);
+          user.get('projects').pushObject(item);
         });
 
         selectedGroup.get('users').pushObject(user);

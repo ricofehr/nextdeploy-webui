@@ -41,7 +41,7 @@ model: function() {
           });
           content.set('project_technos', technos);
         });
-        
+
     $.ajaxSetup({ async: true });
 
     if (access_level == 50) {

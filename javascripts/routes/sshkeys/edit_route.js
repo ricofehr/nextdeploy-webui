@@ -6,17 +6,6 @@ var SshkeysEditRoute = AuthenticatedRoute.extend({
   model: function(params) {
     return this.store.find('sshkey', params.sshkey_id);
   },
-
-  // // Same template than the create form
-  // renderTemplate:function () {
-  //   this.render('sshkeys/new') ;
-  // },
-
-  // // Setup the controller sshkeys.new with this model
-  // setupController: function(controller, model) {
-  //   this.controllerFor('sshkeys.new').setProperties({model: model.sshkey,
-  //                                                    userlist: model.userlist});
-  // },
 });
 
 module.exports = SshkeysEditRoute;

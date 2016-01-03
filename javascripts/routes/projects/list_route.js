@@ -8,7 +8,7 @@ var ProjectsListRoute = AuthenticatedRoute.extend({
   },
 
   renderTemplate:function () {
-    this.render('projects/list') ;
+    this.render('projects/list');
 
     // render the modal
     this.render('projects/modaldetails', {
@@ -20,7 +20,7 @@ var ProjectsListRoute = AuthenticatedRoute.extend({
 
   // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('projects.list').setProperties({model: model, 
+    this.controllerFor('projects.list').setProperties({model: model,
                                                   userId: 0,
                                                   brandId: 0});
   },

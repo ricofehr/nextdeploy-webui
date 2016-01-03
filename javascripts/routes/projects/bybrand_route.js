@@ -12,12 +12,12 @@ var ProjectsBybrandRoute = AuthenticatedRoute.extend({
 
   // Same template than the standard list
   renderTemplate:function () {
-    this.render('projects/list') ;
+    this.render('projects/list');
   },
 
   // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('projects.list').setProperties({model: model.projects, 
+    this.controllerFor('projects.list').setProperties({model: model.projects,
                                                   userId: 0,
                                                   brandId: model.brandId});
   },

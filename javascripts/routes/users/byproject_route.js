@@ -12,12 +12,12 @@ var UsersByprojectRoute = AuthenticatedRoute.extend({
 
   // Same template than the standard list of users
   renderTemplate:function () {
-    this.render('users/list') ;
+    this.render('users/list');
   },
 
   // Setup the controller
   setupController: function(controller, model) {
-    this.controllerFor('users.list').setProperties({model: model.users, 
+    this.controllerFor('users.list').setProperties({model: model.users,
                                                   groupId: 0,
                                                   projectId: model.projectId});
   }

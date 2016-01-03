@@ -10,7 +10,7 @@ var ProjectsListController = Ember.ArrayController.extend({
 
   // Return model array sorted
   sortModel: function() {
-    var model = this.get('model') ;
+    var model = this.get('model');
     var userId = parseInt(this.get('userId'), 10);
     var brandId = parseInt(this.get('brandId'), 10);
     var projects = model.filterBy('created_at').filterBy('brand');
@@ -25,7 +25,7 @@ var ProjectsListController = Ember.ArrayController.extend({
     // if userId parameter exists
     if (userId != 0) {
       projects = projects.filter(function(item, index, enumerable){
-        return item.get('users').any(function(item, index, enumerable){ 
+        return item.get('users').any(function(item, index, enumerable){
           return parseInt(item.get('id'), 10) == userId;
         });
       });
@@ -33,8 +33,8 @@ var ProjectsListController = Ember.ArrayController.extend({
 
     // sort projects by id
     var projectsSort = projects.sort(function(a, b) {
-        return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10)); 
-    }).reverse() ;
+        return Ember.compare(parseInt(a.id, 10), parseInt(b.id, 10));
+    }).reverse();
     var self = this;
 
     // reset delete toggle
@@ -43,35 +43,35 @@ var ProjectsListController = Ember.ArrayController.extend({
 
     //filter projects array only with valid item for current user
     this.set('projects', projectsSort.map(function(model){
-      model.set('gitpath_href', "git@" + model.get('gitpath')) ;
-      model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth()+1) + "/" + model.get('created_at').getFullYear()) ;
+      model.set('gitpath_href', "git@" + model.get('gitpath'));
+      model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth()+1) + "/" + model.get('created_at').getFullYear());
 
-      return model ;
+      return model;
     }));
   }.observes('model.[]', 'model.@each.created_at', 'model.@each.name', 'model.@each.technos',  'model.@each.users', 'model.@each.vms', 'userId', 'brandId'),
 
   // Check if current user is admin
   isAdmin: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level == 50) return true ;
-    return false ;
+    if (access_level == 50) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user can create project
   isProjectCreate: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
     if (access_level == 50) return true ;
-    
-    return App.AuthManager.get('apiKey.is_project_create') ;
+
+    return App.AuthManager.get('apiKey.is_project_create');
   }.property('App.AuthManager.apiKey'),
 
 
   // Check if current user is lead
   isLead: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 40) return true ;
+    if (access_level >= 40) return true;
     return false ;
   }.property('App.AuthManager.apiKey'),
 
@@ -80,33 +80,33 @@ var ProjectsListController = Ember.ArrayController.extend({
     // action for delete event
     deleteItems: function() {
       var router = this.get('target');
-      var projects = this.get('projects') ;
-      var items = this.get('projects').filterBy('todelete', true) ;
+      var projects = this.get('projects');
+      var items = this.get('projects').filterBy('todelete', true);
 
       items.forEach(function(model) {
-          model.destroyRecord() ;
-          projects.removeObject(model) ;
+          model.destroyRecord();
+          projects.removeObject(model);
       }) ;
 
-      this.set('isShowingDeleteConfirmation', false) ;
-      this.set('isAllDelete', false) ;
+      this.set('isShowingDeleteConfirmation', false);
+      this.set('isAllDelete', false);
     },
 
     // Change hide/show for delete confirmation
     showDeleteConfirmation: function() {
-      this.toggleProperty('isShowingDeleteConfirmation') ;
+      this.toggleProperty('isShowingDeleteConfirmation');
     },
 
     // Action for add a new item, change current page to create form
     newItem: function() {
-      var router = this.get('target') ;
-      router.transitionTo('projects.new') ;
+      var router = this.get('target');
+      router.transitionTo('projects.new');
     },
 
     // Toggle or untoggle all items
     toggleDeleteAll: function() {
-      if (this.get('isAllDelete')) this.set('isAllDelete', false) ;
-      else this.set('isAllDelete', true) ;
+      if (this.get('isAllDelete')) this.set('isAllDelete', false);
+      else this.set('isAllDelete', true);
 
       this.setEach('todelete', this.get('isAllDelete'));
     },

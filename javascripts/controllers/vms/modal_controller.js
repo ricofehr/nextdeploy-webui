@@ -20,10 +20,10 @@ var VmsModalController = Ember.ObjectController.extend({
 
   // Return true if authentified user is a Dev or more
   isDev: function() {
-    var access_level = App.AuthManager.get('apiKey.accessLevel') ;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
 
-    if (access_level >= 30) return true ;
-    return false ;
+    if (access_level >= 30) return true;
+    return false;
   }.property('App.AuthManager.apiKey'),
 
   // Check if we have mysql into model
@@ -33,7 +33,7 @@ var VmsModalController = Ember.ObjectController.extend({
       return true;
     }
 
-    return false;    
+    return false;
   }.property('project'),
 
   // Return true if is running state
@@ -49,7 +49,7 @@ var VmsModalController = Ember.ObjectController.extend({
       return true;
     }
 
-    return false;    
+    return false;
   }.property('project'),
 
   // Check if we have mysql into model
@@ -59,7 +59,7 @@ var VmsModalController = Ember.ObjectController.extend({
       return true;
     }
 
-    return false;    
+    return false;
   }.property('project'),
 
   // Check if we have drupal
@@ -69,7 +69,7 @@ var VmsModalController = Ember.ObjectController.extend({
       return true;
     }
 
-    return false;    
+    return false;
   }.property('project'),
 
   // reset isHTTPS property
@@ -80,7 +80,7 @@ var VmsModalController = Ember.ObjectController.extend({
   actions: {
     // toggle https property
     toggleHTTPS: function() {
-      this.toggleProperty('isHTTPS') ;
+      this.toggleProperty('isHTTPS');
     },
 
     // open vm uri
@@ -126,7 +126,7 @@ var VmsModalController = Ember.ObjectController.extend({
           uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/' + uritype + '/';
           uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/' + uritype + '/';
       }
-      
+
       if (uri_with_creds == '') {
         return;
       }
