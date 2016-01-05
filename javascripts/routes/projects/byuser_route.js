@@ -13,6 +13,13 @@ var ProjectsByuserRoute = AuthenticatedRoute.extend({
   // Same template than the standard list
   renderTemplate:function () {
     this.render('projects/list');
+
+    // render the modal
+    this.render('projects/modaldetails', {
+         into: 'application',
+         outlet: 'modalproject',
+         controller: 'projects.modal',
+    });
   },
 
   // Setup the controller
@@ -21,6 +28,17 @@ var ProjectsByuserRoute = AuthenticatedRoute.extend({
                                                   userId: model.userId,
                                                   brandId: 0});
   },
+
+  actions: {
+    showDetails: function(model) {
+      this.controllerFor('projects.modal').setProperties({content:model});
+      this.controllerFor('projects.modal').showDetails();
+    },
+
+    closeDetails: function() {
+      this.controllerFor('projects.modal').hideDetails();
+    },
+  }
 });
 
 module.exports = ProjectsByuserRoute;

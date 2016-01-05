@@ -38,8 +38,11 @@
             <a href="" {{action 'openVmURI' 'drupalupdb'}}>Execute updb command</a><br/>
             {{/if}}
 
-            {{#if isSf2}}
+            {{#if isComposer}}
             <a href="" {{action 'openVmURI' 'composerinstall'}}>ComposerInstall</a><br/>
+            {{/if}}
+
+            {{#if isSf2}}
             <a href="" {{action 'openVmURI' 'sf2schema'}}>Sf Doctrine Schema: cc, assets, assetic, schema-update</a><br/>
             <a href="" {{action 'openVmURI' 'sf2migrate'}}>Sf Doctrine Migration: cc, assets, assetic, migrate</a><br/>
             <a href="" {{action 'openVmURI' 'tailsf2'}}>Sf Logs</a><br/>

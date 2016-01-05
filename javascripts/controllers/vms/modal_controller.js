@@ -52,10 +52,20 @@ var VmsModalController = Ember.ObjectController.extend({
     return false;
   }.property('project'),
 
-  // Check if we have mysql into model
+  // Check if we have sf2 framework
   isSf2: function() {
     var framework = this.get('project.framework.name');
     if (framework.match(/^Symfony/)) {
+      return true;
+    }
+
+    return false;
+  }.property('project'),
+
+  // Check if we have composer with cms/framework
+  isComposer: function() {
+    var framework = this.get('project.framework.name');
+    if (framework.match(/^Symfony/) || framework.match(/^Drupal8/)) {
       return true;
     }
 

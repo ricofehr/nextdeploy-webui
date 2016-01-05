@@ -40,14 +40,29 @@ var VmsListController = Ember.ArrayController.extend({
       var dangStatus = false;
       var sucStatus = false;
       var status = model.get('status');
+      var day = '';
+      var month = '';
+      var hour = '';
+      var minute = '';
 
       model.set('todelete', false);
-      model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth() + 1) + " " +  + model.get('created_at').getHours() + ":" +  + model.get('created_at').getMinutes());
+
+      // init date value
+      day = model.get('created_at').getDate();
+      if (parseInt(day) < 10) day = '0' + day;
+      month = model.get('created_at').getMonth() + 1;
+      if (parseInt(month) < 10) month = '0' + month;
+      hour = model.get('created_at').getHours();
+      if (parseInt(hour) < 10) hour = '0' + hour;
+      minute = model.get('created_at').getMinutes();
+      if (parseInt(minute) < 10) minute = '0' + minute;
+
+      model.set('created_at_short', day + "/" + month + " " + hour + ":" + minute);
 
       if (status < 1) {
         textStatus = 'SETUP';
         warnStatus = true;
-        //if status is negative => setup in progress
+        // if status is negative => setup in progress
         model.set('timeStatus', -parseInt(status));
       }
       if (status > 1) { textStatus = 'RUNNING'; sucStatus = true; model.set('timeStatus', (status)); }

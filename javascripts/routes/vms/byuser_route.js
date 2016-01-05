@@ -13,6 +13,19 @@ var VmsByuserRoute = AuthenticatedRoute.extend({
   // Same template than the standard list of vms
   renderTemplate:function () {
     this.render('vms/list');
+
+    // render the 2 type of modals
+    this.render('vms/modaluris', {
+         into: 'application',
+         outlet: 'modaluris',
+         controller: 'vms.modal',
+    });
+
+    this.render('vms/modaldetails', {
+         into: 'application',
+         outlet: 'modalvm',
+         controller: 'vms.modal',
+    });
   },
 
   // Setup the controller for vms.list with this model
@@ -21,6 +34,28 @@ var VmsByuserRoute = AuthenticatedRoute.extend({
                                                   userId: model.userId,
                                                   projectId: 0});
   },
+
+  actions: {
+    // Display modals on the fly
+    showUri: function(model) {
+      this.controllerFor('vms.modal').setProperties({model: model, isHTTPS: false});
+      this.controllerFor('vms.modal').showUri();
+    },
+
+    showDetails: function(model) {
+      this.controllerFor('vms.modal').setProperties({model: model});
+      this.controllerFor('vms.modal').showDetails();
+    },
+
+    // close modals
+    closeUri: function() {
+      this.controllerFor('vms.modal').hideUri();
+    },
+
+    closeDetails: function() {
+      this.controllerFor('vms.modal').hideDetails();
+    },
+  }
 });
 
 module.exports = VmsByuserRoute;

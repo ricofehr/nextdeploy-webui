@@ -1,7 +1,5 @@
 // Ember controller for list users into html array
 var UsersListController = Ember.ArrayController.extend({
-  // Sort order
-  sortProperties: ['email:desc'],
   //sortedUsers: Ember.computed.sort('model', 'sortProperties'),
 
   // Show / hide on html side
@@ -16,8 +14,9 @@ var UsersListController = Ember.ArrayController.extend({
   sortModel: function() {
     var groupId = parseInt(this.get('groupId'), 10);
     var projectId = parseInt(this.get('projectId'), 10);
+    var firstUser = null;
     // get users who has already created (filter on created_at field) and not remove since (filter on group field)
-    var users = this.get('model').filterBy('created_at').filterBy('group').sort('sortProperties');
+    var users = this.get('model').filterBy('created_at').filterBy('group').sortBy('email');
 
     // if groupId parameter exists
     if (groupId != 0) {
@@ -35,25 +34,34 @@ var UsersListController = Ember.ArrayController.extend({
       });
     }
 
-    this.set('users', users.map(function(model){
+    
+    users = users.map(function(model){
       var user_id = model.get('id');
       var current_id = App.AuthManager.get('apiKey.user');
 
       model.set('isCurrent', (user_id == current_id));
+      if (user_id == current_id) firstUser = model;
+      
       return model;
-    }).sortBy('isCurrent').reverse());
+    });
 
+    if (firstUser) {
+      users.removeObject(firstUser);
+      users.unshiftObject(firstUser);
+    }
+
+    this.set('users', users);
   }.observes(
-      'model.[]',
-      'model.@each.created_at',
-      'model.@each.group',
-      'model.@each.email',
-      'model.@each.company',
-      'model.@each.projects',
-      'model.@each.vms',
-      'projectId',
-      'groupId'
-    ),
+    'model.[]',
+    'model.@each.created_at',
+    'model.@each.group',
+    'model.@each.email',
+    'model.@each.company',
+    'model.@each.projects',
+    'model.@each.vms',
+    'projectId',
+    'groupId'
+  ),
 
   // Check if current user is admin
   isAdmin: function() {

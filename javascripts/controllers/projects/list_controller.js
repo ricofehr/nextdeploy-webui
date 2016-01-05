@@ -14,7 +14,10 @@ var ProjectsListController = Ember.ArrayController.extend({
     var userId = parseInt(this.get('userId'), 10);
     var brandId = parseInt(this.get('brandId'), 10);
     var projects = model.filterBy('created_at').filterBy('brand');
-
+    var day = '';
+    var month = '';
+    var year = '';
+    
     // if brandId parameter exists
     if (brandId != 0) {
       projects = projects.filter(function(item, index, enumerable){
@@ -44,11 +47,26 @@ var ProjectsListController = Ember.ArrayController.extend({
     //filter projects array only with valid item for current user
     this.set('projects', projectsSort.map(function(model){
       model.set('gitpath_href', "git@" + model.get('gitpath'));
-      model.set('created_at_short', model.get('created_at').getDate() + "/" + (model.get('created_at').getMonth()+1) + "/" + model.get('created_at').getFullYear());
-
+      // init date value
+      day = model.get('created_at').getDate();
+      if (parseInt(day) < 10) day = '0' + day;
+      month = model.get('created_at').getMonth() + 1;
+      if (parseInt(month) < 10) month = '0' + month;
+      year = model.get('created_at').getFullYear();
+      
+      model.set('created_at_short', day + "/" + month + "/" + year);
       return model;
     }));
-  }.observes('model.[]', 'model.@each.created_at', 'model.@each.name', 'model.@each.technos',  'model.@each.users', 'model.@each.vms', 'userId', 'brandId'),
+  }.observes(
+    'model.[]',
+    'model.@each.created_at',
+    'model.@each.name',
+    'model.@each.technos',
+    'model.@each.users',
+    'model.@each.vms',
+    'userId',
+    'brandId'
+  ),
 
   // Check if current user is admin
   isAdmin: function() {
