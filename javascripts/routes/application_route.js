@@ -11,6 +11,7 @@ var ApplicationRoute = Ember.Route.extend({
   events: {
     // Unload all objects in ember memory
     logout: function() {
+      $.ajax({url: '/api/v1/users/sign_out', type: "DELETE"});
       // Redirect to login page and clear data store
       App.AuthManager.reset();
     }
