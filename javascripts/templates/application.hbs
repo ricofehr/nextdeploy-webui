@@ -52,7 +52,7 @@
   <!-- Footer -->
   <br/><br/>
   <footer class="footer">
-      <div>&copy;2015 Eric Fehr&nbsp;-&nbsp;NextDeploy&nbsp;BETA v0.13.3</div>
+      <div>&copy;2016 Eric Fehr&nbsp;-&nbsp;NextDeploy&nbsp;BETA v0.14</div>
   </footer
 
   <!-- Loading Modal -->
@@ -61,6 +61,23 @@
       <div class="modal-content">
         <div class="modal-header text-center">
             <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error Modal -->
+  <div class="modal" id="errorModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">An Error is occured</h4>
+        </div>
+
+        <div class="modal-body">
+            It was caused by a session expiration, an internet connection issue, a resource temporaly unavailable, or other reason like a bug<br>
+            Please <a href="#" {{action 'logout'}}>click here</a> to reconnect and try again your request.<br/>
+            If it occurs again, please contact the NextDeploy support on your company.
         </div>
       </div>
     </div>

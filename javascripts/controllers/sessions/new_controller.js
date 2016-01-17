@@ -142,6 +142,7 @@ var SessionsNewController = Ember.ObjectController.extend({
             type: "POST",
             dataType: "json",
             data: data,
+            global: false,
             /**
              * A function to be called if the request fails.
              */

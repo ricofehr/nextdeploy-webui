@@ -103,7 +103,10 @@ var UsersNewController = Ember.ObjectController.extend({
         });
         self.set('errorEmail2', errorEmail2);
       } else {
-        $.get("/api/v1/users/" + current_id + "/email/" + email)
+        $.ajax({
+          url: "/api/v1/users/" + current_id + "/email/" + email,
+          global: false
+        })
         .done(function(data) {
           self.set('errorEmail2', false);
         })

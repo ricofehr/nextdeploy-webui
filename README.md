@@ -2,7 +2,7 @@
 
 Webui  for [nextdeploy project](https://github.com/ricofehr/nextdeploy)
 
-The Web Gui is developed with Ember framework.
+The Web Ui is developed with Ember framework.
 The Ember stack is localised in rails standard location, into public folder.
 From this publics folder, we find MVC classes respectively into models / templates / controllers folders.
 For generate application.js

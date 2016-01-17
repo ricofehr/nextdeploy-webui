@@ -78,18 +78,21 @@ var VmsListController = Ember.ArrayController.extend({
   }.observes('model.@each.created_at', 'model.@each.status', 'model.[]', 'userId', 'projectId'),
 
   getStatus: function(model) {
-    $.get("/api/v1/vms/" + model.get('id') + "/setupcomplete")
-        .done(function(data) {
-          model.set('status', data);
-          model.set('timeStatus', data);
-          model.set('textStatus', 'RUNNING');
-          model.set('sucStatus', true);
-          model.set('warnStatus', false);
-        })
-        .fail(function(data) {
-          model.set('status', data.responseText);
-          model.set('timeStatus', -parseInt(data.responseText));
-        })
+    $.ajax({
+      url: "/api/v1/vms/" + model.get('id') + "/setupcomplete",
+      global: false
+    })
+    .done(function(data) {
+      model.set('status', data);
+      model.set('timeStatus', data);
+      model.set('textStatus', 'RUNNING');
+      model.set('sucStatus', true);
+      model.set('warnStatus', false);
+    })
+    .fail(function(data) {
+      model.set('status', data.responseText);
+      model.set('timeStatus', -parseInt(data.responseText));
+    })
   },
 
   // Check if current user is admin
@@ -131,7 +134,10 @@ var VmsListController = Ember.ArrayController.extend({
       var vm_id = model.get('id');
 
       // jquery get setupcomplete
-      $.get("/api/v1/vms/" + vm_id + "/setupcomplete")
+      $.ajax({
+          url: "/api/v1/vms/" + vm_id + "/setupcomplete",
+          global: false
+        })
         .done(function(data) {
           model.set('status', data);
           model.set('timeStatus', data);

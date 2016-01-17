@@ -143,7 +143,10 @@ var ProjectsNewController = Ember.ObjectController.extend({
     if (current_id == null || isNaN(current_id)) { current_id = 0 }
 
     if (!projects || projects.length == 0) {
-      $.get("/api/v1/projects/" + current_id + "/name/" + name)
+      $.ajax({
+          url: "/api/v1/projects/" + current_id + "/name/" + name,
+          global: false
+        })
         .done(function(data) {
           self.set('errorName2', false);
         })

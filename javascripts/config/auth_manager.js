@@ -39,6 +39,11 @@ var AuthManager = Ember.Object.extend({
     $.ajaxSetup({
       headers: { 'Authorization': 'Token token=' + token }
     });
+
+    $( document ).ajaxError(function() {
+      $('#waitingModal').modal('hide');
+      $('#errorModal').modal();
+    });
   },
 
   ajaxSetupSync: function(token) {
