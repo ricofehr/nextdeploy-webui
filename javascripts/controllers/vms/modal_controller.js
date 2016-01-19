@@ -18,6 +18,11 @@ var VmsModalController = Ember.ObjectController.extend({
     $('#modalvm').modal('hide');
   },
 
+  // get branch name (fix for weird bug with name property)
+  branchName: function() {
+    return this.get('commit.branche.id').replace(/^[0-9][0-9]*-/,'');
+  }.property('model'),
+
   // Return true if authentified user is a Dev or more
   isDev: function() {
     var access_level = App.AuthManager.get('apiKey.accessLevel');

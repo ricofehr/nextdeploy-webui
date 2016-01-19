@@ -279,7 +279,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
   isDisableEdit: function() {
     if(this.get('id')) return true;
     else return false;
-  },
+  }.property('id'),
 
   // Check if current user is admin and can change properties
   isDisableAdmin: function() {
