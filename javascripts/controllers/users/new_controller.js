@@ -1,7 +1,5 @@
 var UsersNewController = Ember.ObjectController.extend({
   quotavmlist: [0,1,2,3,4,5,6,7,8,9,10,15,20,30,50,100],
-  password: null,
-  password_confirmation: null,
   is_project_create_ro: true,
 
   // sort group
@@ -198,8 +196,12 @@ var UsersNewController = Ember.ObjectController.extend({
     }
 
     if (!password || password.length == 0) {
-      errorPassword = false;
+      errorPassword = true;
+      if (this.get('id')) {
+        errorPassword = false;
+      }
       successPassword = false;
+      this.set('is_credentials_send', false);
     }
 
     this.set('errorPassword', errorPassword);
@@ -217,7 +219,10 @@ var UsersNewController = Ember.ObjectController.extend({
     }
 
     if (!passwordConfirmation || passwordConfirmation.length == 0) {
-      errorPasswordConfirmation = false;
+      errorPasswordConfirmation = true;
+      if (this.get('id')) {
+        errorPasswordConfirmation = false;
+      }
       successPasswordConfirmation = false;
     }
 
@@ -277,6 +282,7 @@ var UsersNewController = Ember.ObjectController.extend({
     this.set('group', {content: null});
     this.set('is_project_create', false);
     this.set('is_project_create_ro', true);
+    this.set('is_credentials_send', false);
   },
 
   // Check if current user is lead and can change properties
@@ -443,7 +449,7 @@ var UsersNewController = Ember.ObjectController.extend({
 
     postItem: function() {
       var router = this.get('target');
-      var data = this.getProperties('id', 'email', 'firstname', 'lastname', 'company', 'password', 'password_confirmation', 'quotavm', 'is_project_create');
+      var data = this.getProperties('id', 'email', 'firstname', 'lastname', 'company', 'password', 'password_confirmation', 'quotavm', 'is_project_create', 'is_credentials_send');
       var store = this.store;
       var selectedGroup = this.get('group.content');
       var projects = this.get('checkedProjects').filterBy('checked', true).mapBy('content');

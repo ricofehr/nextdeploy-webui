@@ -124,6 +124,16 @@
     </div>
   </div>
 
+
+  {{#if password}}
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">Send Credentials</label>
+    <div class="col-sm-3">
+      <label>{{input type="checkbox" checked=is_credentials_send}}</label>
+    </div>
+  </div>
+  {{/if}}
+
   {{#if isEnable}}
   <div class="form-group">
     <label class="control-label col-sm-2 alert-success">Projects</label>

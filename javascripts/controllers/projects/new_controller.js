@@ -277,7 +277,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
   // Disable if edit item
   isDisableEdit: function() {
-    if(this.get('id')) return true;
+    if (this.get('id')) return true;
     else return false;
   }.property('id'),
 
@@ -288,6 +288,15 @@ var ProjectsNewController = Ember.ObjectController.extend({
     if (access_level >= 50) return false;
     return true;
   }.property('App.AuthManager.apiKey'),
+
+  // Disable if edit item
+  isDisableEditAdmin: function() {
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+
+    if (access_level < 50) return true;
+    if (this.get('id')) return true;
+    return false;
+  }.property('id', 'apiKey.accessLevel'),
 
   // Check if current user is admin or edit his own project and can change properties
   isDisableCreate: function() {

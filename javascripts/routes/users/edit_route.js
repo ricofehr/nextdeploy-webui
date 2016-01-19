@@ -21,7 +21,7 @@ var UsersEditRoute = AuthenticatedRoute.extend({
   setupController: function(controller, model) {
     model.user.set('password', null);
     model.user.set('password_confirmation', null);
-    this.controllerFor('users.new').setProperties({content: model.user,
+    this.controllerFor('users.new').setProperties({model: model.user,
                                                   grouplist: model.grouplist,
                                                   user_projects: model.user.get('projects'),
                                                   projectlist: model.projectlist,
