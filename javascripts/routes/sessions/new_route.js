@@ -38,6 +38,18 @@ var SessionsNewRoute = Ember.Route.extend({
     });
   },
 
+  // load homepage messages
+  loadMessages: function() {
+    var store = this.store;
+    var self = this;
+
+    if (App.AuthManager.isAuthenticated()) {
+      store.findAll('hpmessage').then(function(hpmessages) {
+        self.controllerFor('sessions.new').set('hpmessages', hpmessages);
+      });
+    }
+  }.observes('App.AuthManager.apiKey'),
+
   actions: {
     // Display modals on the fly
     forgotPassword: function(email, password) {

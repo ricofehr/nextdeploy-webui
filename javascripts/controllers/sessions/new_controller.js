@@ -1,6 +1,7 @@
 // Controller who manage user session creation
 var SessionsNewController = Ember.ObjectController.extend({
   attemptedTransition: null,
+  
 
   // Get current user
   currentUser: function() {
