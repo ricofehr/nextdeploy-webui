@@ -41,8 +41,8 @@ var AuthManager = Ember.Object.extend({
     });
 
     $( document ).ajaxError(function() {
-      $('#waitingModal').modal('hide');
-      $('#errorModal').modal();
+      $('#modalloader').modal('hide');
+      $('#modalerror').modal();
     });
   },
 

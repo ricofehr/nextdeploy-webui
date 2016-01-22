@@ -14,17 +14,23 @@ var SessionsNewRoute = Ember.Route.extend({
     var store = this.store;
     var self = this;
 
-    store.findAll('brand').then(function(brands) {
-      store.findAll('user').then(function(users) {
-        store.findAll('project').then(function(projects) {
-          store.findAll('vm').then(function(vms) {
-            Ember.run.later(function(){
-              self.reloadModel();
-            }, 60000);
+    if (App.AuthManager.isAuthenticated()) {
+      store.findAll('brand').then(function(brands) {
+        store.findAll('user').then(function(users) {
+          store.findAll('project').then(function(projects) {
+            store.findAll('vm').then(function(vms) {
+              Ember.run.later(function(){
+                self.reloadModel();
+              }, 60000);
+            });
           });
         });
       });
-    });
+    } else {
+      Ember.run.later(function(){
+        self.reloadModel();
+      }, 100000);
+    }
   },
 
   renderTemplate:function () {
@@ -40,7 +46,8 @@ var SessionsNewRoute = Ember.Route.extend({
     // render the help modal
     this.render('sessions/modalhelp', {
          into: 'application',
-         outlet: 'modalhelp'
+         outlet: 'modalhelp',
+         controller: 'sessions.modal',
     });
   },
 
@@ -55,6 +62,7 @@ var SessionsNewRoute = Ember.Route.extend({
       });
     }
   }.observes('App.AuthManager.apiKey'),
+
 
   actions: {
     // Display modals on the fly

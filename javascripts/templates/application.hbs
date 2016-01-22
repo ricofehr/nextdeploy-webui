@@ -35,7 +35,7 @@
         </ul>
         {{#if isAuthenticated}}
         <ul class="nav navbar-nav navbar-right">
-          {{#if isDev}}<li><a href="/gitlab" target="_blank">GITLAB</a></li>{{/if}}
+          {{#if isDev}}<li><a href="/gitlab" target="_blank">Gitlab</a></li>{{/if}}
           <li><a href="#" {{action 'logout'}}>Logout</a></li>
         </ul>
         {{/if}}
@@ -44,20 +44,16 @@
   </nav>
 
   {{outlet}}
+
+  <!-- NextDeploy Modals -->
   {{outlet 'modaluris'}}
   {{outlet 'modalvm'}}
   {{outlet 'modalproject'}}
   {{outlet 'modalforgot'}}
   {{outlet 'modalhelp'}}
 
-  <!-- Footer -->
-  <br/><br/>
-  <footer class="footer">
-      <div>&copy;2016 Eric Fehr&nbsp;-&nbsp;<a href="http://nextdeploy.io" target="_blank">NextDeploy</a>&nbsp;BETA v0.14.1</div>
-  </footer
-
   <!-- Loading Modal -->
-  <div class="modal" id="waitingModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-hidden="true">
+  <div class="modal" id="modalloader" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header text-center">
@@ -68,7 +64,7 @@
   </div>
 
   <!-- Error Modal -->
-  <div class="modal" id="errorModal" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-hidden="true">
+  <div class="modal" id="modalerror" tabindex="-1"  data-backdrop="static" data-keyboard="false" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -84,4 +80,9 @@
     </div>
   </div>
 
+  <!-- Footer -->
+  <br/><br/>
+  <footer class="footer">
+      <div>&copy;2016 Eric Fehr&nbsp;-&nbsp;<a href="http://nextdeploy.io" target="_blank">NextDeploy</a>&nbsp;BETA v0.14.1</div>
+  </footer>
 </div>

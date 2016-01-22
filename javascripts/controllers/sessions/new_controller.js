@@ -1,7 +1,6 @@
 // Controller who manage user session creation
 var SessionsNewController = Ember.ObjectController.extend({
   attemptedTransition: null,
-  
 
   // Get current user
   currentUser: function() {
@@ -48,12 +47,9 @@ var SessionsNewController = Ember.ObjectController.extend({
 
   // load model datas if authentification is success
   redirectToTransition: function() {
-    var self = this;
-    var attemptedTrans = self.get('attemptedTransition');
-    var router = this.get('target');
 
     if (App.AuthManager.isAuthenticated()) {
-      $('#waitingModal').modal();
+      $('#modalloader').modal();
       this.loadModel();
     }
   }.observes('App.AuthManager.apiKey'),
@@ -95,7 +91,7 @@ var SessionsNewController = Ember.ObjectController.extend({
                             attemptedTrans.retry();
                             self.set('attemptedTransition', null);
                           }
-                          $('#waitingModal').modal('hide');
+                          $('#modalloader').modal('hide');
                         });
                       });
                     });
@@ -108,7 +104,6 @@ var SessionsNewController = Ember.ObjectController.extend({
       });
     });
   },
-
 
   // Empty all ember datas, no need i mean ?
   resetModel: function() {
@@ -136,7 +131,7 @@ var SessionsNewController = Ember.ObjectController.extend({
       self.set('error500', false);
 
       //loading popin
-      $('#waitingModal').modal();
+      $('#modalloader').modal();
 
       $.ajax({
             url: '/api/v1/users/sign_in',
@@ -150,7 +145,7 @@ var SessionsNewController = Ember.ObjectController.extend({
             error: function(jqXHR, textStatus, errorThrown) {
                 if (jqXHR.status == 401) self.set('error401', true);
                 else self.set('error500', true);
-                $('#waitingModal').modal('hide');
+                $('#modalloader').modal('hide');
             },
 
             /**
@@ -177,7 +172,7 @@ var SessionsNewController = Ember.ObjectController.extend({
                   }
                 }, 'json')
                 .fail(function() {
-                  $('#waitingModal').modal('hide');
+                  $('#modalloader').modal('hide');
                 });
             }
         });

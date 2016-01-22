@@ -255,10 +255,10 @@ var VmsNewController = Ember.ObjectController.extend({
       selectedCommit.get('vms').pushObject(vm);
 
       //loader because 10s to complete create vm
-      $('#waitingModal').modal();
+      $('#modalloader').modal();
       vm.save().then(function() {
         router.transitionTo('vms.list');
-        $('#waitingModal').modal('hide');
+        $('#modalloader').modal('hide');
       }) ;
 
     },

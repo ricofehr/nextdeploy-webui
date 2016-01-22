@@ -14,7 +14,7 @@ var ApplicationRoute = Ember.Route.extend({
       $.ajax({url: '/api/v1/users/sign_out', type: "DELETE"});
       // Redirect to login page and clear data store
       App.AuthManager.reset();
-    }
+    },
   }
 });
 

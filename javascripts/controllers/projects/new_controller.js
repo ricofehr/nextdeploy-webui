@@ -391,11 +391,11 @@ var ProjectsNewController = Ember.ObjectController.extend({
           selectedFramework.get('projects').pushObject(project);
           selectedSystem.get('projects').pushObject(project);
 
-          $('#waitingModal').modal();
+          $('#modalloader').modal();
           project.save().then(function() {
             // Return to projects list page
             router.transitionTo('projects.list');
-            $('#waitingModal').modal('hide');
+            $('#modalloader').modal('hide');
           });
 
         });
@@ -438,11 +438,11 @@ var ProjectsNewController = Ember.ObjectController.extend({
         selectedSystem.get('projects').pushObject(project);
 
         //loader because between 1 and 5min to complete create project
-        $('#waitingModal').modal();
+        $('#modalloader').modal();
         project.save().then(function() {
           // Return to projects list page
           router.transitionTo('projects.list');
-          $('#waitingModal').modal('hide');
+          $('#modalloader').modal('hide');
         }) ;
       }
     }
