@@ -36,6 +36,12 @@ var SessionsNewRoute = Ember.Route.extend({
          outlet: 'modalforgot',
          controller: 'sessions.modal',
     });
+
+    // render the help modal
+    this.render('sessions/modalhelp', {
+         into: 'application',
+         outlet: 'modalhelp'
+    });
   },
 
   // load homepage messages
@@ -58,6 +64,15 @@ var SessionsNewRoute = Ember.Route.extend({
 
     closeForgot: function() {
       this.controllerFor('sessions.modal').hideForgot();
+    },
+
+    // Display help modal on the fly
+    help: function() {
+      this.controllerFor('sessions.modal').showHelp();
+    },
+
+    closeHelp: function() {
+      this.controllerFor('sessions.modal').hideHelp();
     },
   }
 });

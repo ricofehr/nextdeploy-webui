@@ -1,0 +1,67 @@
+<!-- Text Modal -->
+<div class="modal fade" id="modalhelp" tabindex="-1"  data-backdrop="static" role="dialog" data-keyboard="false" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close" {{action 'closeHelp'}}><span aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Help</h4>
+        </div>
+        <div class="modal-body">
+{{#if isAuthenticated}}
+<strong>Vm tab</strong>
+<ul>
+  <li>See your vms launched</li>
+  <li>Get uris and credentials</li>
+{{#if isPM}}
+  <li>Launch a new vm</li>
+{{/if}}
+</ul>
+{{#if isDEV}}
+<strong>Project tab</strong>
+<ul>
+{{#if isAdmin}}
+  <li>Create / Modify / Delete a project</li>
+{{/if}}
+  <li>List of your projects</li>
+  <li>Get the path for git access to the project</li>
+{{/if}}
+</ul>
+{{#if isAdmin}}
+<strong>Brand tab</strong>
+<ul>
+  <li>Create / Modify / Delete a brand</li>
+</ul>
+{{/if}}
+{{#if isLead}}
+<strong>User tab</strong>
+<ul>
+{{#if isAdmin}}
+  <li>Create / Modify / Delete an user</li>
+{{/if}}
+  <li>User List associated with your projects</li>
+</ul>
+{{/if}}
+<strong>Your profile</strong>
+<ul>
+  <li>Edit your user settings</li>
+{{#if isDEV}}
+  <li>Manage your ssh keys</li>
+  <li>Download Openvpn client files</li>
+{{/if}}
+</ul>
+
+{{#if isPM}}
+<strong>NextDeploy tools</strong>
+<ul>
+{{#if isDEV}}
+  <li>NextDeploy Cli, copy/paste this line into your terminal<br><pre>curl -sSL http://cli.nextdeploy.io/ | bash</pre></li>
+{{/if}}
+  <li>NextDeploy Android App: <a href="http://apk.nextdeploy.io/" target="_blank">http://apk.nextdeploy.io/</a></li>
+</ul>
+{{/if}}
+{{/if}}
+</div>
+      </div>
+    </div>
+  </div>

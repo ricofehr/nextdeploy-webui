@@ -28,7 +28,7 @@
             {{/if}}
 
             {{#linkTo 'users.edit' currentUser.id tagName='li' href=false}}<a href="">{{currentUser.email}}</a>{{/linkTo}}
-            <li><a href="#" {{action 'logout'}}>Logout</a></li>
+            <li><a href="#" {{action 'help'}}>?</a></li>
           {{else}}
             {{#linkTo 'sessions.new' tagName='li' href=false}}<a href="">Login</a>{{/linkTo}}
           {{/if}}
@@ -36,7 +36,7 @@
         {{#if isAuthenticated}}
         <ul class="nav navbar-nav navbar-right">
           {{#if isDev}}<li><a href="/gitlab" target="_blank">GITLAB</a></li>{{/if}}
-          {{#if isPM}}<li><a href="/issues" target="_blank">A BUG ?</a></li>{{/if}}
+          <li><a href="#" {{action 'logout'}}>Logout</a></li>
         </ul>
         {{/if}}
       </div>
@@ -48,11 +48,12 @@
   {{outlet 'modalvm'}}
   {{outlet 'modalproject'}}
   {{outlet 'modalforgot'}}
+  {{outlet 'modalhelp'}}
 
   <!-- Footer -->
   <br/><br/>
   <footer class="footer">
-      <div>&copy;2016 Eric Fehr&nbsp;-&nbsp;NextDeploy&nbsp;BETA v0.14.1</div>
+      <div>&copy;2016 Eric Fehr&nbsp;-&nbsp;<a href="http://nextdeploy.io" target="_blank">NextDeploy</a>&nbsp;BETA v0.14.1</div>
   </footer
 
   <!-- Loading Modal -->
