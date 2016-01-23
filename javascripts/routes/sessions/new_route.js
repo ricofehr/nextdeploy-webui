@@ -6,7 +6,19 @@ var SessionsNewRoute = Ember.Route.extend({
     Ember.run.later(function(){
       self.reloadModel();
     }, 100000);
-    return Ember.Object.create();
+
+    return Ember.RSVP.hash({
+      hpmessages: this.store.all('hpmessage')
+    });
+  },
+
+  // Setup the controller with thie model
+  setupController: function(controller, model) {
+    content = Ember.Object.create();
+  
+    this.controllerFor('sessions.new').setProperties({model: content});
+    this.controllerFor('sessions.new').setProperties({hpmessages: model.hpmessages});
+    this.controllerFor('sessions.new').sortModel();
   },
 
   // load model datas into ember memory
@@ -19,9 +31,14 @@ var SessionsNewRoute = Ember.Route.extend({
         store.findAll('user').then(function(users) {
           store.findAll('project').then(function(projects) {
             store.findAll('vm').then(function(vms) {
-              Ember.run.later(function(){
-                self.reloadModel();
-              }, 60000);
+              store.unloadAll('hpmessage');
+              store.findAll('hpmessage').then(function(hpmessages) {
+                self.controllerFor('sessions.new').sortModel();
+
+                Ember.run.later(function(){
+                  self.reloadModel();
+                }, 60000);
+              });
             });
           });
         });
@@ -50,12 +67,11 @@ var SessionsNewRoute = Ember.Route.extend({
     var self = this;
 
     if (App.AuthManager.isAuthenticated()) {
-      store.findAll('hpmessage').then(function(hpmessages) {
-        self.controllerFor('sessions.new').set('hpmessages', hpmessages);
-      });
+      store.findAll('hpmessage').then(function() {
+        self.controllerFor('sessions.new').sortModel();
+      }); 
     }
   }.observes('App.AuthManager.apiKey'),
-
 
   actions: {
     // Display modals on the fly

@@ -3,7 +3,14 @@
 Welcome {{currentUser.firstname}} {{currentUser.lastname}}<br/>
 You are well authenticated onto NextDeploy<br><br>
 
-{{render 'hpmessages.list' model}}
+{{#each messages}}
+<article class="note note-partial">
+            <h2 class="note-title">{{{title}}}</a></h2>
+            <div class="note-excerpt">
+                <p>{{{message}}}</p>
+            </div>
+</article><br/>
+{{/each}}
 
 </p>
 {{else}}

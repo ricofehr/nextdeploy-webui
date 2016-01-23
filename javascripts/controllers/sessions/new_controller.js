@@ -2,6 +2,17 @@
 var SessionsNewController = Ember.ObjectController.extend({
   attemptedTransition: null,
 
+  // Return hpmessages array sorted
+  sortModel: function() {
+    var hpmessages = this.get('model.hpmessages');
+    
+    if (hpmessages) {
+      this.set('messages', hpmessages.sortBy('id', 'ordering').reverse());
+    }
+    
+  },
+
+
   // Get current user
   currentUser: function() {
     var userId = App.AuthManager.get('apiKey.user');
@@ -30,7 +41,7 @@ var SessionsNewController = Ember.ObjectController.extend({
   }.property('App.AuthManager.apiKey'),
 
   // Check if current user is at least dev
-  isDEV: function() {
+  isDev: function() {
     var access_level = App.AuthManager.get('apiKey.accessLevel');
 
     if (access_level >= 30) return true;
@@ -108,7 +119,7 @@ var SessionsNewController = Ember.ObjectController.extend({
   // Empty all ember datas, no need i mean ?
   resetModel: function() {
     var models = [
-       'branche', 'brand', 'commit', 'flavor', 'framework', 'group', 'project',
+       'hpmessage', 'branche', 'brand', 'commit', 'flavor', 'framework', 'group', 'project',
        'sshkey', 'systemimage', 'systemimagetype', 'techno', 'user', 'vm', 'vmsize'
     ];
 
