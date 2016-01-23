@@ -12,16 +12,6 @@ var SessionsModalController = Ember.ObjectController.extend({
     $('#modalforgot').modal('hide');
   },
 
-  // show / hide help modal
-  showHelp: function() {
-    $('#modalhelp').modal('show');
-  },
-
-  hideHelp: function() {
-    $('#modalhelp').modal('hide');
-  },
-
-
   // forgot password
   forgotPassword: function(email, password) {
     var self = this;

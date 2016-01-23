@@ -9,6 +9,14 @@ var ApplicationRoute = Ember.Route.extend({
   },
 
   events: {
+    help: function() {
+      $('#modalhelp').modal();
+    },
+
+    closeHelp: function() {
+      $('#modalhelp').modal('hide');
+    },
+
     // Unload all objects in ember memory
     logout: function() {
       $.ajax({url: '/api/v1/users/sign_out', type: "DELETE"});
