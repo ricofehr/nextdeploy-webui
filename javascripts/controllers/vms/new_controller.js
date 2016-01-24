@@ -186,26 +186,14 @@ var VmsNewController = Ember.ObjectController.extend({
 
       self.set('usersList', users);
 
-      //vmsize combobox
-      var vmsizesid = project.get('vmsizes').mapBy('id');
-      var vmsizes = [];
-      vmsizesid.forEach(function(vmsizeid){
-        vmsizes[cp++] = self.get('vmsizes').filterBy('id', vmsizeid).toArray()[0];
-      });
-
-      vmsizes = project.get('vmsizes');
-      self.set('vmsizesList', vmsizes);
-
-      //and the system combobox
-      var systemimages = null;
-      systemtype = project.get('systemimagetype');
-      systemimages = self.get('systemimages').filterBy('systemimagetype.id', systemtype.get('id')).toArray();
-      self.set('osSort', systemimages);
+      //vmsize and system combobox
+      self.set('vmsizesList', project.get('vmsizes'));
+      self.set('osSort', project.get('systemimages'));
 
       //init default values
       self.set('selectedUser', users[user_index]);
-      self.set('selectedOs', systemimages[0]);
-      self.set('selectedSizing', vmsizes.toArray()[0]);
+      self.set('selectedOs', project.get('systemimages').toArray()[0]);
+      self.set('selectedSizing', project.get('vmsizes').toArray()[0]);
 
       //init default branch and commit
       project.get('branches').then(function(branchs) {

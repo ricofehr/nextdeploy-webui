@@ -109,17 +109,13 @@
     {{else}}
       <label class="control-label col-sm-2 alert-success">System</label>
     {{/if}}
-    <div class="col-sm-3">
-    {{view Ember.Select
-       classNames="form-control"
-       content=systemsSort
-       optionValuePath="content.id"
-       optionLabelPath="content.name"
-       selection=systemimagetype.content
-       prompt="Please select a System"
-       disabled=isDisableEdit}}
-     </div>
+    <div class="checkbox col-sm-3">
+    {{#each checkedSystems}}
+      <label>{{input type="checkbox" checked=checked disabled=readonly}} {{content.name}} ({{content.systemimagetype.name}})</label><br/>
+    {{/each}}
+    </div>
   </div>
+  <br/>
 
   <div class="form-group">
     {{#if errorVmsizes}}

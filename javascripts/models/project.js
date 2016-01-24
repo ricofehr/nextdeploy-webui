@@ -9,7 +9,7 @@ var Project = DS.Model.extend({
   owner: DS.belongsTo('user', {async: true, inverse: 'own_projects'}),
   brand: DS.belongsTo('brand', {async: true}),
   framework: DS.belongsTo('framework', {async: true}),
-  systemimagetype: DS.belongsTo('systemimagetype', {async: true}),
+  systemimages: DS.hasMany('systemimage', {async: true, inverse: 'projects'}),
   technos: DS.hasMany('techno', {async: true, inverse: 'projects'}),
   vmsizes: DS.hasMany('vmsize', {async: true}),
   users: DS.hasMany('user', {async: true, inverse: 'projects'}),

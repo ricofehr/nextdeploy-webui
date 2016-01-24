@@ -9,6 +9,7 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
     var self=this
     var technoids = [];
     var vmsizeids = [];
+    var systemimageids = [];
 
     if (access_level == 50) {
       return Ember.RSVP.hash({
@@ -17,7 +18,7 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
         technolist: this.store.all('techno'),
         vmsizelist: this.store.all('vmsize'),
         userlist: this.store.all('user'),
-        systemlist: this.store.all('systemimagetype'),
+        systemlist: this.store.all('systemimage'),
         project: this.store.find('project', params.project_id),
         projects: this.store.all('project').filterBy('name')
       });
@@ -28,6 +29,7 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
             var project = data.project;
             vmsizeids = project.vmsizes;
             technoids = project.technos;
+            systemimageids = project.systemimages;
           });
       $.ajaxSetup({ async: true });
 
@@ -40,8 +42,10 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
         vmsizelist: this.store.all('vmsize').filter(function(item, index, self) {
          if (vmsizeids.contains(parseInt(item.get("id")))) { return true; }
         }),
+        systemlist: this.store.all('systemimage').filter(function(item, index, self) {
+         if (systemimageids.contains(parseInt(item.get("id")))) { return true; }
+        }),
         userlist: this.store.all('user'),
-        systemlist: this.store.all('systemimagetype'),
         groups: this.store.all('group'),
         project: this.store.find('project', params.project_id),
         projects: []
@@ -62,6 +66,7 @@ var ProjectsEditRoute = AuthenticatedRoute.extend({
                                                       project_users: model.project.get('users'),
                                                       project_technos: model.project.get('technos'),
                                                       project_vmsizes: model.project.get('vmsizes'),
+                                                      project_systemimages: model.project.get('systemimages'),
                                                       brandlist: model.brandlist,
                                                       frameworklist: model.frameworklist,
                                                       technolist: model.technolist,

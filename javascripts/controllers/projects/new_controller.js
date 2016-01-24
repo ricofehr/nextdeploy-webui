@@ -5,8 +5,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
   brandsSort: Ember.computed.sort('brandlist', 'computeSorting'),
   //framework combobox
   frameworksSort: Ember.computed.sort('frameworklist', 'computeSorting'),
-  //system combobox
-  systemsSort: Ember.computed.sort('systemlist', 'computeSorting'),
 
   //vmsizes checkboxes
   vmsizeSorting: ['title:desc'],
@@ -50,6 +48,29 @@ var ProjectsNewController = Ember.ObjectController.extend({
     if (/.*varnish.*/.test(model.get('name'))) {
       checked = true;
       readonly = true;
+    }
+
+    return Ember.ObjectProxy.create({
+      content: model,
+      checked: checked,
+      readonly: readonly
+    });
+  }),
+
+  //systems checkboxes
+  systemsSort: Ember.computed.sort('systemlist', 'computeSorting'),
+  checkedSystems: Ember.computed.map('systemsSort', function(model){
+    var checked = false;
+    var readonly = false;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
+    var systems = this.get('project_systemimages');
+    var user_id = App.AuthManager.get('apiKey.user');
+
+    if (access_level < 50) readonly = true;
+
+    if (systems) {
+      var system = systems.findBy('id', model.get('id'));
+      if (system) checked = true;
     }
 
     return Ember.ObjectProxy.create({
@@ -191,15 +212,12 @@ var ProjectsNewController = Ember.ObjectController.extend({
   }.observes('framework.content'),
 
   checkSystem: function() {
-    var system = this.get('systemimagetype.content');
-    var errorSystem = false;
-
-    if (!system) {
-      errorSystem = true;
-    }
+    var errorSystem = true;
+    var systems = this.get('checkedSystems').filterBy('checked', true);
+    if (systems.length > 0) errorSystem = false;
 
     this.set('errorSystem', errorSystem);
-  }.observes('systemimagetype.content'),
+  }.observes('checkedSystems.@each.checked'),
 
   checkTechnos: function() {
     var errorTechnos = true;
@@ -259,7 +277,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
     this.set('login', null);
     this.set('password', null);
     this.set('framework', {content: null});
-    this.set('systemimagetype', {content: null});
   },
 
   //events when projectname or brand changes
@@ -321,6 +338,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
       var selectedSystem = this.get('systemimagetype.content');
       var technos = this.get('checkedTechnos').filterBy('checked', true).mapBy('content');
       var vmsizes = this.get('checkedVmsizes').filterBy('checked', true).mapBy('content');
+      var systemimages = this.get('checkedSystems').filterBy('checked', true).mapBy('content');
       var users = this.get('checkedUsers').filterBy('checked', true).mapBy('content');
 
       var project;
@@ -338,7 +356,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
       // format value for the post request
       data['brand'] = selectedBrand;
       data['framework'] = selectedFramework;
-      data['systemimagetype'] = selectedSystem;
       data['enabled'] = true;
 
       //if id is present, so update item, else create new one
@@ -346,11 +363,17 @@ var ProjectsNewController = Ember.ObjectController.extend({
         store.find('project', data['id']).then(function (project) {
           var vmsizes_p = project.get('vmsizes').toArray(),
           technos_p = project.get('technos').toArray(),
+          systems_p = project.get('systemimages').toArray(),
           users_p = project.get('users').toArray();
 
           // reset old values from object
           vmsizes_p.forEach(function (item) {
             project.get('vmsizes').removeObject(item);
+            item.get('projects').removeObject(project);
+          });
+
+          systems_p.forEach(function (item) {
+            project.get('systemimages').removeObject(item);
             item.get('projects').removeObject(project);
           });
 
@@ -366,7 +389,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
           project.get('framework').get('projects').removeObject(project);
           project.get('brand').get('projects').removeObject(project);
-          project.get('systemimagetype').get('projects').removeObject(project);
 
           project.setProperties(data);
 
@@ -382,6 +404,11 @@ var ProjectsNewController = Ember.ObjectController.extend({
             project.get('vmsizes').pushObject(item);
           });
 
+          systemimages.toArray().forEach(function (item) {
+            item.get('projects').addObject(project);
+            project.get('systemimages').pushObject(item);
+          });
+
           users.toArray().forEach(function (item) {
             item.get('projects').addObject(project);
             project.get('users').pushObject(item);
@@ -389,7 +416,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
           selectedBrand.get('projects').pushObject(project);
           selectedFramework.get('projects').pushObject(project);
-          selectedSystem.get('projects').pushObject(project);
 
           $('#modalloader').modal();
           project.save().then(function() {
@@ -410,6 +436,10 @@ var ProjectsNewController = Ember.ObjectController.extend({
            project.get('vmsizes').removeObject(item);
         });
 
+        project.get('systemimages').forEach(function (item) {
+           project.get('systemimages').removeObject(item);
+        });
+
         project.get('users').forEach(function (item) {
            project.get('users').removeObject(item);
         });
@@ -424,6 +454,11 @@ var ProjectsNewController = Ember.ObjectController.extend({
           project.get('vmsizes').pushObject(item);
         });
 
+        systemimages.toArray().forEach(function (item) {
+          item.get('projects').addObject(project);
+          project.get('systemimages').pushObject(item);
+        });
+
         users.toArray().forEach(function (item) {
           item.get('projects').addObject(project);
           project.get('users').pushObject(item);
@@ -435,7 +470,6 @@ var ProjectsNewController = Ember.ObjectController.extend({
 
         selectedBrand.get('projects').pushObject(project);
         selectedFramework.get('projects').pushObject(project);
-        selectedSystem.get('projects').pushObject(project);
 
         //loader because between 1 and 5min to complete create project
         $('#modalloader').modal();

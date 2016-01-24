@@ -9,12 +9,14 @@ model: function() {
     var content = Ember.Object.create();
     var technoids = [];
     var vmsizeids = [];
+    var systemimageids = [];
 
     $.ajaxSetup({ async: false });
     $.getJSON("/api/v1/projects/0")
         .done(function(data) {
           var project = data.project;
           var vmsizes = Ember.A();
+          var systemimages = Ember.A();
           var technos = Ember.A();
           var i = 0;
           content.set('id', null);
@@ -27,14 +29,21 @@ model: function() {
           content.set('owner', self.store.find('user', App.AuthManager.get('apiKey.user')));
           content.set('brand', self.store.find('brand', project.brand));
           content.set('framework', self.store.find('framework', project.framework));
-          content.set('systemimagetype', self.store.find('systemimagetype', project.systemimagetype));
           content.set('branches', []);
           content.set('project_users', [self.store.find('user', App.AuthManager.get('apiKey.user'))]);
+
           vmsizeids = project.vmsizes;
           vmsizeids.forEach(function (vmsize) {
             vmsizes.push(self.store.find('vmsize', vmsize));
           });
           content.set('project_vmsizes', vmsizes);
+
+          systemimageids = project.systemimages;
+          systemimageids.forEach(function (systemimage) {
+            systemimages.push(self.store.find('systemimage', systemimage));
+          });
+          content.set('project_systemimages', systemimages);
+
           technoids = project.technos;
           technoids.forEach(function (techno) {
             technos.push(self.store.find('techno', techno));
@@ -51,7 +60,7 @@ model: function() {
         technolist: this.store.all('techno'),
         vmsizelist: this.store.all('vmsize'),
         userlist: this.store.all('user'),
-        systemlist: this.store.all('systemimagetype'),
+        systemlist: this.store.all('systemimage'),
         groups: this.store.all('group'),
         projects: this.store.all('project').filterBy('name'),
         project: content
@@ -66,8 +75,10 @@ model: function() {
         vmsizelist: this.store.all('vmsize').filter(function(item, index, self) {
          if (vmsizeids.contains(parseInt(item.get("id")))) { return true; }
         }),
+        systemlist: this.store.all('systemimage').filter(function(item, index, self) {
+         if (systemimageids.contains(parseInt(item.get("id")))) { return true; }
+        }),
         userlist: this.store.all('user'),
-        systemlist: this.store.all('systemimagetype'),
         groups: this.store.all('group'),
         projects: [],
         project: content
@@ -81,7 +92,6 @@ model: function() {
     content = Ember.Object.create();
     content.set('brand', {content: null});
     content.set('framework', {content: null});
-    content.set('systemimagetype', {content: null});
     this.controllerFor('projects.new').setProperties({model: content});
     this.controllerFor('projects.new').clearForm();
 
