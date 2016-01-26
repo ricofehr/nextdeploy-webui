@@ -87,6 +87,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
     var checked = false;
     var readonly = false;
     var users = this.get('project_users');
+    var user_id = App.AuthManager.get('apiKey.user');
 
     var user = null;
 
@@ -95,7 +96,7 @@ var ProjectsNewController = Ember.ObjectController.extend({
       if(user) checked = true;
     }
 
-    if (model.get('group').get('access_level') == 50) {
+    if (model.get('group').get('access_level') == 50 || model.id == user_id) {
       checked = true;
       readonly = true;
     }

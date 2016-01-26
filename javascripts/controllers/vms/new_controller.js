@@ -168,9 +168,13 @@ var VmsNewController = Ember.ObjectController.extend({
       var user_index = 0;
       var systemtype = null;
 
-      if (access_level < 40) {
+      if (access_level < 50) {
         project.get('users').toArray().forEach(function (user){
-          if (user && user.id != user_id) {
+          if (access_level < 40 && user && user.id != user_id) {
+                users.removeObject(user);
+          }
+
+          if (access_level == 40 && user.get('group').get('access_level') == 50) {
                 users.removeObject(user);
           }
         });

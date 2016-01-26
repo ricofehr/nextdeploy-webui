@@ -15,8 +15,12 @@ var UsersListController = Ember.ArrayController.extend({
     var groupId = parseInt(this.get('groupId'), 10);
     var projectId = parseInt(this.get('projectId'), 10);
     var firstUser = null;
+    var access_level = App.AuthManager.get('apiKey.accessLevel');
     // get users who has already created (filter on created_at field) and not remove since (filter on group field)
-    var users = this.get('model').filterBy('created_at').filterBy('group').sortBy('email');
+    var users = null;
+
+    if (access_level < 50) { users = this.get('model').filterBy('created_at').filterBy('projects').sortBy('email'); }
+    else { users = this.get('model').filterBy('created_at').filterBy('group').sortBy('email'); }
 
     // if groupId parameter exists
     if (groupId != 0) {

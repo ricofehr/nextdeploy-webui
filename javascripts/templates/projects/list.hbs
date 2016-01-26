@@ -23,7 +23,7 @@
         <td>&nbsp;</td>
       {{/if}}
 
-      {{#if project.owner}}
+      {{#if isLead}}
         <td>{{#linkTo 'projects.edit' project.id}}{{project.name}}{{/linkTo}}</td>
       {{else}}
         <td>{{project.name}}</td>
