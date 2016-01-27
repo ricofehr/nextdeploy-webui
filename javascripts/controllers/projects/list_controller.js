@@ -100,11 +100,24 @@ var ProjectsListController = Ember.ArrayController.extend({
       var router = this.get('target');
       var projects = this.get('projects');
       var items = this.get('projects').filterBy('todelete', true);
+      var vmitems = null;
 
+      // Delete project and vms associated
       items.forEach(function(model) {
+        if (model) {
           model.destroyRecord();
           projects.removeObject(model);
-      }) ;
+          model.get('vms').forEach(function(vm) {
+            if (vm) vm.destroyRecord();
+          });
+
+          model.get('users').forEach(function(user) {
+            if (user) user.get('projects').removeObject(model);
+          });
+
+          model.get('brand').get('projects').removeObject(model);
+        }
+      });
 
       this.set('isShowingDeleteConfirmation', false);
       this.set('isAllDelete', false);

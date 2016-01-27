@@ -9,9 +9,7 @@ var SessionsNewController = Ember.ObjectController.extend({
     if (hpmessages) {
       this.set('messages', hpmessages.sortBy('id', 'ordering').reverse());
     }
-    
   },
-
 
   // Get current user
   currentUser: function() {

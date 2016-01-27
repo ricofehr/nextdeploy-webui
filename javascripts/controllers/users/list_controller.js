@@ -98,10 +98,22 @@ var UsersListController = Ember.ArrayController.extend({
       var router = this.get('target');
       var users = this.get('users');
       var items = this.filterProperty('todelete', true);
+      var vmitems = null;
 
       items.forEach(function(model) {
-        model.destroyRecord();
-        users.removeObject(model);
+        if (model) {
+          model.destroyRecord();
+          users.removeObject(model);
+          model.get('vms').forEach(function(vm) {
+            if (vm) vm.destroyRecord();
+          });
+
+          model.get('projects').forEach(function(project) {
+            if (project) project.get('users').removeObject(model);
+          });
+
+          model.get('group').get('users').removeObject(model);
+        }
       });
 
       this.set('isShowingDeleteConfirmation', false);

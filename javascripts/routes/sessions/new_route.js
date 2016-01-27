@@ -29,8 +29,51 @@ var SessionsNewRoute = Ember.Route.extend({
     if (App.AuthManager.isAuthenticated()) {
       store.findAll('brand').then(function(brands) {
         store.findAll('user').then(function(users) {
+          store.all('user').forEach(function(user) {
+            if (user && !users.findBy('id', user.id)) {
+              user.deleteRecord();
+              user.get('vms').forEach(function(vm) {
+                if (vm) {
+                  vm.deleteRecord();
+                }
+              });
+
+              user.get('projects').forEach(function(project) {
+                if (project) project.get('users').removeObject(user);
+              });
+
+              user.get('group').get('users').removeObject(user);
+            }
+          });
+          
           store.findAll('project').then(function(projects) {
+            store.all('project').forEach(function(project) {
+              if (project && !projects.findBy('id', project.id)) {
+                project.deleteRecord();
+                project.get('vms').forEach(function(vm) {
+                  if (vm) {
+                    vm.deleteRecord();
+                  }
+                });
+
+                project.get('users').forEach(function(user) {
+                  if (user) user.get('projects').removeObject(project);
+                });
+
+                project.get('brand').get('projects').removeObject(project);
+              }
+            });
+
             store.findAll('vm').then(function(vms) {
+              store.all('vm').forEach(function(vm) {
+
+                if (vm && !vms.findBy('id', vm.id)) {
+                  vm.deleteRecord();
+                  vm.get('user').get('vms').removeObject(vm);
+                  vm.get('project').get('vms').removeObject(vm);
+                }
+              });
+
               store.unloadAll('hpmessage');
               store.findAll('hpmessage').then(function(hpmessages) {
                 self.controllerFor('sessions.new').sortModel();
@@ -39,6 +82,7 @@ var SessionsNewRoute = Ember.Route.extend({
                   self.reloadModel();
                 }, 60000);
               });
+
             });
           });
         });

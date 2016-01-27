@@ -172,8 +172,12 @@ var VmsListController = Ember.ArrayController.extend({
       var items = this.filterProperty('todelete', true);
 
       items.forEach(function(model) {
-        model.destroyRecord();
-        vms.removeObject(model);
+        if (model) {
+          model.destroyRecord();
+          vms.removeObject(model);
+          model.get('user').get('vms').removeObject(model);
+          model.get('project').get('vms').removeObject(model);
+        }
       });
 
       this.set('isShowingDeleteConfirmation', false);
