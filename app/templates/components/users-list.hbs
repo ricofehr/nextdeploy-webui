@@ -1,0 +1,95 @@
+<table class="table">
+ <thead>
+  <tr>
+    {{#if isAdmin}}<th>&nbsp;</th>{{/if}}
+    <th>Email</th>
+    <th>Group</th>
+    <th>Company</th>
+    <th>Quota</th>
+    <th>Projects</th>
+    <th>Vms</th>
+    {{#if isAdmin}}<th>Sshkeys</th>{{/if}}
+  </tr>
+</thead>
+
+<tbody>
+  {{#each users as |user|}}
+    {{#if user.isShow}}
+    <tr>
+      {{#if isAdmin}}
+      <td>
+        {{#if user.isCurrent}}
+          &nbsp;
+        {{else}}
+          {{input type="checkbox" checked=user.todelete}}
+        {{/if}}
+      </td>
+      {{/if}}
+
+      {{#if isAdmin}}
+        <td>{{#link-to 'users.edit' user.id}}{{user.email}}{{/link-to}}</td>
+      {{else}}
+        {{#if user.isCurrent}}
+          <td>{{#link-to 'users.edit' user.id}}{{user.email}}{{/link-to}}</td>
+        {{else}}
+          <td>{{user.email}}</td>
+        {{/if}}
+      {{/if}}
+
+      {{#if isAdmin}}
+        <td>{{#link-to 'users.bygroup' user.group.id}}{{user.group.name}}{{/link-to}}</td>
+      {{else}}
+        <td>{{user.group.name}}</td>
+      {{/if}}
+
+      <td>{{user.company}}</td>
+      <td>{{user.quotavm}}</td>
+
+      {{#if isLead}}
+        <td>{{#link-to 'projects.byuser' user.id}}{{user.projects.length}}{{/link-to}}</td>
+      {{else}}
+        {{#if user.isCurrent}}
+          <td>{{#link-to 'projects.byuser' user.id}}{{user.projects.length}}{{/link-to}}</td>
+        {{else}}
+          <td>{{user.projects.length}}</td>
+        {{/if}}
+      {{/if}}
+
+      {{#if isLead}}
+        <td>{{#link-to 'vms.byuser' user.id}}{{user.vms.length}}{{/link-to}}</td>
+      {{else}}
+        {{#if user.isCurrent}}
+          <td>{{#link-to 'vms.byuser' user.id}}{{user.vms.length}}{{/link-to}}</td>
+        {{else}}
+          <td>{{user.vms.length}}</td>
+        {{/if}}
+      {{/if}}
+        {{#if isAdmin}}<td>{{user.sshkeys.length}}</td>{{/if}}
+    </tr>
+    {{/if}}
+  {{/each}}
+</tbody>
+</table>
+
+<div class="btn-group" style="width: 100%;">
+  <div style="display: inline-block;float: left;">
+  {{#if isAdmin}}<button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
+  <button {{action "showDeleteConfirmation"}} class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>{{/if}}
+  </div>
+  <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;">&nbsp;{{page.cp}}&nbsp;</span>{{else}}&nbsp;{{page.cp}}&nbsp;{{/if}}</a>{{/each}}</div>
+  </div>
+
+{{#if isAdmin}}
+{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
+  {{#bs-modal-body}}
+    Are you sure to proceed ?<br/>{{{deleteText}}}
+    You are going to delete the following items<br/>
+    <ul>
+    {{#each deleteItems as |item|}}
+      <li>{{item}}</li>
+    {{/each}}
+    </ul>
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+{{/bs-modal}}
+{{/if}}

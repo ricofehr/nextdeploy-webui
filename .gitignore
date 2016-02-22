@@ -1,11 +1,22 @@
-# Ignore .swp
-*.swp
+# See http://help.github.com/ignore-files/ for more about ignoring files.
 
-# Ignore bundler config.
-.bundle
+# compiled output
+/dist
+/tmp
 
-#rubymine folder
-.idea
+# dependencies
+/node_modules
+/bower_components
+/remote_modules
 
-# Ignore application.js who must be generated
-/javascripts/application.js
+# unit test
+/tests
+/testem.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage/*
+/libpeerconnection.log
+npm-debug.log
+testem.log

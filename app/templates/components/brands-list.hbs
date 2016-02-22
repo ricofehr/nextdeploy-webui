@@ -1,0 +1,46 @@
+<table class="table">
+ <thead>
+    <tr>
+        {{#if isAdmin}}<th>&nbsp;</th>{{/if}}
+        <th>Name</th>
+        <th>Projects</th>
+    </tr>
+</thead>
+<tbody>
+  {{#each brands as |brand|}}
+    {{#if brand.isShow}}
+    <tr>
+        {{#if isAdmin}}
+        <td>{{input type="checkbox" checked=brand.todelete}}</td>
+        {{/if}}
+        <td>
+        {{#if isAdmin}}{{#link-To 'brands.edit' brand.id}}{{brand.name}}{{/link-To}}
+        {{else}}{{brand.name}}{{/if}}
+        </td>
+        <td>{{#link-To 'projects.bybrand' brand.id}}{{brand.projects.length}}{{/link-To}}</td>
+    </tr>
+    {{/if}}
+    {{/each}}
+</tbody>
+</table>
+{{#if isAdmin}}
+<div class="btn-group" style="width:100%;height:30px;">
+    <div style="display: inline-block;float: left;">
+    <button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
+    <button {{action "showDeleteConfirmation"}} class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+    </div>
+    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;">&nbsp;{{page.cp}}&nbsp;</span>{{else}}&nbsp;{{page.cp}}&nbsp;{{/if}}</a>{{/each}}</div>
+</div>
+{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
+  {{#bs-modal-body}}
+    Are you sure to proceed ?<br/>{{{deleteText}}}
+    You are going to delete the following items<br/>
+    <ul>
+    {{#each deleteItems as |item|}}
+      <li>{{item}}</li>
+    {{/each}}
+    </ul>
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+{{/bs-modal}}
+{{/if}}

@@ -1,0 +1,15 @@
+{{#bs-modal open=isShowingDetail body=false footer=false title="Details" autoClose=false closeAction=(action 'closeDetails')}}
+  {{#bs-modal-body}}
+    <b>Git</b><br>
+    git clone {{project.gitpath_href}}<br><br>
+    <b>Http access</b><br>
+    User: {{project.login}}<br>
+    Password: {{project.password}}<br><br>
+    <b>Ftp Assets & Dump*</b><br>
+    User: {{getFtpUser}}<br>
+    Password: {{getFtpPassword}}<br>
+    Host: {{getFtpHost}}<br><br>
+    *The purpose of this ftp repository is to provide datas and assets import for the project during vm creation.<br>Dont import prod datas !! Only a fixtures snapshot for provide some use cases.<br>Files bigger than 100Mo will be deleted.
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}

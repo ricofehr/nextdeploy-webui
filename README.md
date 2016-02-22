@@ -1,19 +1,30 @@
-# nextdeploy-webui
+# Nextdeploy-Webui
 
 Webui  for [nextdeploy project](https://github.com/ricofehr/nextdeploy)
-
 The Web Ui is developed with Ember framework.
-The Ember stack is localised in rails standard location, into public folder.
-From this publics folder, we find MVC classes respectively into models / templates / controllers folders.
-For generate application.js
-```
-./bin/./ember_build
-```
 
-## Contributing
+## Prerequisites
 
-1. Fork it.
-2. Create your feature branch (`git checkout -b my-new-feature`).
-3. Commit your changes (`git commit -am 'Add some feature'`).
-4. Push to the branch (`git push origin my-new-feature`).
-5. Create new Pull Request.
+You will need the following things properly installed on your computer.
+
+* [Git](http://git-scm.com/)
+* [Node.js](http://nodejs.org/) (with NPM)
+* [Bower](http://bower.io/)
+* [Ember CLI](http://www.ember-cli.com/)
+* [PhantomJS](http://phantomjs.org/)
+
+## Installation
+
+* `git clone <repository-url>` this repository
+* change into the new directory
+* `npm install`
+* `bower install`
+
+## Running / Development
+
+* `ember server`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
+
+### Building
+
+* `ember build` (development)

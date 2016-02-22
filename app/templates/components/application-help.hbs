@@ -1,0 +1,57 @@
+{{#bs-modal open=modalHelp body=false footer=false header=false}}
+   {{#bs-modal-header}}
+     <h4 class="modal-title">Help</h4>
+   {{/bs-modal-header}}
+   {{#bs-modal-body}}
+    {{#if session.isAuthenticated}}
+      <strong>Vm tab</strong>
+      <ul>
+        <li>See your vms launched</li>
+        <li>Get uris and credentials</li>
+        {{#if isPM}}<li>Launch a new vm</li>{{/if}}
+      </ul>
+      {{#if isDev}}
+      <strong>Project tab</strong>
+      <ul>
+        {{#if isAdmin}}<li>Create / Modify / Delete a project</li>{{/if}}
+        <li>List of your projects</li>
+        <li>Get the path for git access to the project</li>
+      </ul>
+      {{/if}}
+
+      {{#if isAdmin}}
+      <strong>Brand tab</strong>
+      <ul>
+        <li>Create / Modify / Delete a brand</li>
+      </ul>
+      {{/if}}
+
+      {{#if isLead}}
+      <strong>User tab</strong>
+      <ul>
+        {{#if isAdmin}}<li>Create / Modify / Delete an user</li>{{/if}}
+        <li>User List associated with your projects</li>
+      </ul>
+      {{/if}}
+
+      <strong>Your profile</strong>
+      <ul>
+        <li>Edit your user settings</li>
+      {{#if isDev}}
+        <li>Manage your ssh keys</li>
+        <li>Download Openvpn client files</li>
+      {{/if}}
+      </ul>
+
+      {{#if isPM}}
+      <strong>NextDeploy tools</strong>
+      <ul>
+      {{#if isDev}}
+        <li>NextDeploy Cli, copy/paste this line into your terminal<br><pre>curl -sSL http://cli.nextdeploy.io/ | bash</pre></li>
+      {{/if}}
+        <li>NextDeploy Android App: <a href="http://apk.nextdeploy.io/" target="_blank">http://apk.nextdeploy.io/</a></li>
+      </ul>
+      {{/if}}
+    {{/if}}
+  {{/bs-modal-body}}
+ {{/bs-modal}}

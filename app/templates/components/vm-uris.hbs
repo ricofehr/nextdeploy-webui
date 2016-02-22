@@ -1,0 +1,47 @@
+{{#bs-modal open=isShowingUri body=false header=false footer=false autoClose=false closeAction=(action 'closeUris')}}
+  {{#bs-modal-header}}{{#if isRunning}}{{#if isDev}}Urls & Tools{{else}}Urls{{/if}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
+  {{#bs-modal-body}}
+    {{#if isRunning}}
+      <b>URIS</b><br/>
+          <a href="" {{action 'openVmURI' 'main'}}>Your website</a><br/>
+          <a href="" {{action 'openVmURI' 'admin'}}>The admin apps (if exists)</a><br/>
+          <a href="" {{action 'openVmURI' 'mobile'}}>The mobile version (if exists)</a><br/>
+          <a href="" {{action 'openVmURI' 'html'}}>The html version (if exists)</a><br/>
+          {{#if isNodejs}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps</a><br/>{{/if}}
+          <br/><b>HTTPS</b><br>{{x-toggle size=medium value=isHTTPS toggle='toggleHTTPS' }}<br/>
+          <br/><b>Http & CMS Access</b><br/>
+          Login: {{project.login}}<br/>
+          Password: {{project.password}}<br/><br/>
+
+          {{#if isDev}}
+            <b>Tools</b><br>
+            <a href="" {{action 'openVmURI' 'gitsync'}}>Gitpull</a><br/>
+            <a href="" {{action 'openVmURI' 'npmsh'}}>Npm / Grunt / Bower / Gulp</a><br/>
+            {{#if isMysql}}
+            <a href="" {{action 'openVmURI' 'phpmyadmin'}}>Phpmyadmin (s_bdd/s_bdd)</a><br/>
+            {{/if}}
+            <a href="" {{action 'openVmURI' 'tail'}}>Apache logs</a><br/>
+            <a href="" {{action 'openVmURI' 'pminfo'}}>Phpinfo</a><br/>
+            <a href="" {{action 'openVmURI' 'clearvarnish'}}>Clearvarnish</a><br/>
+
+            {{#if isDrupal}}
+            <a href="" {{action 'openVmURI' 'drupalcc'}}>Clear all caches</a><br/>
+            <a href="" {{action 'openVmURI' 'drupalupdb'}}>Execute updb command</a><br/>
+            {{/if}}
+
+            {{#if isComposer}}
+            <a href="" {{action 'openVmURI' 'composerinstall'}}>ComposerInstall</a><br/>
+            {{/if}}
+
+            {{#if isSf2}}
+            <a href="" {{action 'openVmURI' 'sf2schema'}}>Sf Doctrine Schema: cc, assets, assetic, schema-update</a><br/>
+            <a href="" {{action 'openVmURI' 'sf2migrate'}}>Sf Doctrine Migration: cc, assets, assetic, migrate</a><br/>
+            <a href="" {{action 'openVmURI' 'tailsf2'}}>Sf Logs</a><br/>
+            {{/if}}
+          {{/if}}
+    {{else}}
+      <b>Vm is not on running status.</b>
+    {{/if}}
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}

@@ -1,0 +1,20 @@
+{{#bs-modal open=isShowingDetail body=false header=false footer=false autoClose=false closeAction=(action 'closeDetails')}}
+  {{#bs-modal-header}}{{#if isRunning}}Details{{else}}Please try again later{{/if}}{{/bs-modal-header}}
+  {{#bs-modal-body}}
+    {{#if isRunning}}
+      <b>System</b><br>
+      Image: {{vm.systemimage.name}}<br>
+      Sizing: {{vm.vmsize.title}} ({{vm.vmsize.description}})<br>
+      Vm connection: ssh modem@{{vm.floating_ip}}<br>
+      Htaccess: {{vm.project.login}} / {{vm.project.password}}<br><br>
+      <b>Commit</b><br>
+      Hash: {{vm.commit.commit_hash}}<br>
+      Branche: {{vm.commit.branche.name}}<br>
+      Author: {{vm.commit.author_email}}<br>
+      Message: {{vm.commit.message}}<br>
+    {{else}}
+      <b>Vm is not on running status.</b>
+    {{/if}}
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}

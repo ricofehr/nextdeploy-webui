@@ -1,0 +1,44 @@
+  <nav class="navbar navbar-default" role="navigation">
+    <div class="container-fluid">
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="navbar-header">
+          {{#link-to 'dashboard' href=false}}<a href="#" class="navbar-brand"><img src="images/logo.png" border="0" alt="NextDeploy" class="inline-block img-responsive"/></a>{{/link-to}}
+        </div>
+
+        <ul class="nav navbar-nav">
+          {{#if session.isAuthenticated}}
+            {{#link-to 'vms' tagName='li' href=false}}<a href="">Vms</a>{{/link-to}}
+
+            {{#if isDev}}
+              {{#link-to 'projects' tagName='li' href=false}}<a href="">Projects</a>{{/link-to}}
+            {{/if}}
+            {{#if isLead}}
+              {{#link-to 'users' tagName='li' href=false}}<a href="">Users</a>{{/link-to}}
+            {{/if}}
+            {{#if isAdmin}}
+              {{#link-to 'brands' tagName='li' href=false}}<a href="">Brands</a>{{/link-to}}
+            {{/if}}
+            {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href="#">
+            {{currentUser.email}}</a>{{/link-to}}
+            <li><a href="#" {{action 'help'}}>?</a></li>
+          {{else}}
+            <li>{{#link-to 'login'}}Login{{/link-to}}</li>
+          {{/if}}
+        </ul>
+        {{#if session.isAuthenticated}}
+        <ul class="nav navbar-nav navbar-right">
+          {{#if showSearch}}
+          <li class="navbar-form">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"/>{{input value=search classNames="form-control" placeholder="Search"}}
+          </li>
+          {{/if}}
+          {{#if isDev}}<li><a href="/gitlab" target="_blank"><span class="glyphicon glyphicon-user"></span>Gitlab</a></li>{{/if}}
+          <li><a href="#" {{action 'invalidateSession'}} ><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+        </ul>
+
+        {{/if}}
+      </div>
+    </div>
+  </nav>
+
+  {{application-help modalHelp=modalHelp}}

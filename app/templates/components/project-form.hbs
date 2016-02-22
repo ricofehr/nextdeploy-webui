@@ -1,0 +1,199 @@
+<form {{action "postItem" on="submit"}} class="form-horizontal">
+  <legend>{{#if project.id}}Edit project {{project.name}}{{else}}Add new project{{/if}}</legend>
+  <div class="form-group">
+    {{#if errorBrand}}
+      <label class="control-label col-sm-2 alert-danger">Brand</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Brand</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{#power-select
+      disabled=isDisableEditAdmin
+      options=brandsSort
+      searchField="name"
+      selected=project.brand
+      searchEnabled=false
+      placeholder="Select a brand"
+      onchange=(action 'changeProperty' 'project.brand')
+      as |brand|
+    }}
+      {{brand.name}}
+    {{/power-select}}
+     </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorName}}
+      <label class="control-label col-sm-2 alert-danger">Name</label>
+    {{else}}
+      {{#if errorName2}}
+        <label class="control-label col-sm-2 alert-danger">Already taken</label>
+      {{else}}
+        {{#if errorName3}}
+          <label class="control-label col-sm-2 alert-danger"> >5 chars !</label>
+        {{else}}
+          <label class="control-label col-sm-2 alert-success">Name</label>
+        {{/if}}
+      {{/if}}
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text"
+            classNames="form-control"
+            autocomplete="off"
+            value=project.name
+            placeholder="Name"
+            disabled=isDisableEdit}}
+     </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorBrand}}
+      <label class="control-label col-sm-2 alert-danger">Gitpath</label>
+    {{else}}
+      {{#if errorName}}
+        <label class="control-label col-sm-2 alert-danger">Gitpath</label>
+      {{else}}
+        <label class="control-label col-sm-2 alert-success">Gitpath</label>
+      {{/if}}
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text"
+            classNames="form-control"
+            value=project.gitpath
+            placeholder="Gitpath"
+            disabled=true}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorLogin}}
+      <label class="control-label col-sm-2 alert-danger">Login</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Login</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=project.login placeholder="Login" disabled=isDisableAdmin}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorPassword}}
+      <label class="control-label col-sm-2 alert-danger">Password</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Password</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" maxlength="8" value=project.password placeholder="Password" disabled=isDisableAdmin}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorFramework}}
+      <label class="control-label col-sm-2 alert-danger">Framework</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Framework</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{#power-select
+      disabled=isDisableEdit
+      options=frameworksSort
+      searchField="name"
+      selected=project.framework
+      searchEnabled=false
+      placeholder="Select a framework"
+      onchange=(action 'changeProperty' 'project.framework')
+      as |framework|
+    }}
+      {{framework.name}}
+    {{/power-select}}
+     </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorSystem}}
+      <label class="control-label col-sm-2 alert-danger">System</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">System</label>
+    {{/if}}
+    <div class="checkbox col-sm-3">
+    {{#power-select-multiple
+      options=systemsSort
+      searchEnabled=false
+      disabled=isDisableAdmin
+      selected=project_systemimages
+      placeholder="Select Operating Systems"
+      onchange=(action 'changeProperty' 'project_systemimages')
+      as |system|
+    }}
+      {{system.name}} ({{system.systemimagetype.name}})
+    {{/power-select-multiple}}
+    </div>
+  </div>
+  <br/>
+
+  <div class="form-group">
+    {{#if errorVmsizes}}
+      <label class="control-label col-sm-2 alert-danger">Sizing</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Sizing</label>
+    {{/if}}
+    <div class="checkbox col-sm-3">
+    {{#power-select-multiple
+      options=vmsizesSort
+      searchEnabled=false
+      disabled=isDisableAdmin
+      selected=project_vmsizes
+      onchange=(action 'changeProperty' 'project_vmsizes')
+      as |size|
+    }}
+      {{size.title}} ({{size.description}})
+    {{/power-select-multiple}}
+    </div>
+  </div>
+  <br/>
+
+  <div class="form-group">
+    {{#if errorTechnos}}
+      <label class="control-label col-sm-2 alert-danger">Technos</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Technos</label>
+    {{/if}}
+    <div class="checkbox col-sm-3">
+    {{#power-select-multiple
+      disabled=isDisableCreate
+      options=technosSort
+      selected=project_technos
+      onchange=(action 'changeProperty' 'project_technos')
+      as |techno|
+    }}
+      {{techno.name}}
+    {{/power-select-multiple}}
+    </div>
+  </div>
+  <br/>
+
+  <div class="form-group">
+    {{#if errorUsers}}
+      <label class="control-label col-sm-2 alert-danger">Users</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Users</label>
+    {{/if}}
+    <div class="checkbox col-sm-6">
+    {{#power-select-multiple
+      options=usersSort
+      searchField="email"
+      selected=project_users
+      onchange=(action 'changeProperty' 'project_users')
+      as |user|
+    }}
+      {{user.email}} ({{user.lastname}})
+    {{/power-select-multiple}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="control-label col-sm-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>

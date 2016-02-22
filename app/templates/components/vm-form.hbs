@@ -1,0 +1,162 @@
+<form {{action "createItem" on="submit"}} class="form-horizontal">
+  <legend>Launch new vm</legend>
+  <div class="form-group">
+    {{#if errorProject}}
+      <label class="control-label col-sm-2 alert-danger">Project</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Project</label>
+    {{/if}}
+    <div class="col-sm-6">
+    {{#power-select
+      options=projects
+      searchField="name"
+      selected=vm.project
+      placeholder="Select a project"
+      onchange=(action 'changeProperty' 'vm.project')
+      as |project|
+    }}
+      {{project.name}}
+    {{/power-select}}
+    </div>
+  </div>
+
+  {{#if advancedForm}}
+  <div class="form-group">
+    {{#if errorVmsize}}
+      <label class="control-label col-sm-2 alert-danger">Sizing</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Sizing</label>
+    {{/if}}
+    <div class="col-sm-6">
+    {{#power-select
+      options=vm.project.vmsizes
+      searchEnabled=false
+      selected=vm.vmsize
+      placeholder="Select a size"
+      onchange=(action 'changeProperty' 'vm.vmsize')
+      as |vmsize|
+    }}
+      {{vmsize.title}} ({{vmsize.description}})
+    {{/power-select}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorUser}}
+      <label class="control-label col-sm-2 alert-danger">User</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">User</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{#power-select
+      options=vm.project.users
+      searchField="email"
+      selected=vm.user
+      placeholder="Select an user"
+      onchange=(action 'changeProperty' 'vm.user')
+      as |user|
+    }}
+    {{user.email}}
+    {{/power-select}}
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="form-group">
+    {{#if errorBranch}}
+      <label class="control-label col-sm-2 alert-danger">Branch</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Branch</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{#power-select
+      options=vm.project.branches
+      searchField="name"
+      selected=branche
+      placeholder="Select a branch"
+      onchange=(action 'changeProperty' 'branche')
+      as |branche|
+    }}
+    {{branche.name}}
+    {{/power-select}}
+    </div>
+  </div>
+
+  {{#if advancedForm}}
+  <div class="form-group">
+    {{#if errorCommit}}
+      <label class="control-label col-sm-2 alert-danger">Commit</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Commit</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{#power-select
+      options=branche.commits
+      searchField="short_id"
+      selected=vm.commit
+      placeholder="Select a commit"
+      onchange=(action 'changeProperty' 'vm.commit')
+      as |commit|
+    }}
+    {{commit.short_id}}
+    {{/power-select}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-5">
+    {{textarea
+            readonly="true"
+            classNames="form-control"
+            rows=7
+            value=vm.commit.message
+            placeholder="Commit Msg"}}
+     </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorOs}}
+      <label class="control-label col-sm-2 alert-danger">System</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">System</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{#power-select
+      options=vm.project.systemimages
+      searchField="name"
+      selected=vm.systemimage
+      placeholder="Select an OS"
+      onchange=(action 'changeProperty' 'vm.systemimage')
+      as |systemimage|
+    }}
+    {{systemimage.name}}
+    {{/power-select}}
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">Enable BasicAuth</label>
+    <div class="col-sm-3">
+      <label>{{x-toggle value=vm.is_auth}}</label>
+    </div>
+  </div>
+  {{/if}}
+
+  <div class="form-group">
+  {{#if isDev}}
+  {{#if advancedForm}}
+  <button {{action "toggleAdvanced"}} class="btn btn-default"><span class="glyphicon glyphicon-collapse-up"></span> Standard Mode</button><br/>
+  {{else}}
+  <button {{action "toggleAdvanced"}} class="btn btn-default"><span class="glyphicon glyphicon-collapse-down"></span> Advanced Mode</button><br/>
+  {{/if}}
+  {{/if}}
+  <label class="control-label col-sm-2">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </label>
+  </div>
+</form>
+{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
+   {{#bs-modal-header closeButton=false}}
+     <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
+   {{/bs-modal-header}}
+{{/bs-modal}}

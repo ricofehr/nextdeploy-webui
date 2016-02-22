@@ -1,0 +1,59 @@
+<table class="table">
+ <thead>
+    <tr>
+        {{#if isVm}}<th><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
+        <th>Project</th>
+        {{#if isDev}}<th>Commit</th>{{/if}}
+        <th>Uris</th>
+        {{#if isDev}}<th>?</th>{{/if}}
+        <th>Status</th>
+        <th>BuildTime</th>
+        {{#if isLead}}<th>User</th>{{/if}}
+        <th>Date</th>
+    </tr>
+</thead>
+<tbody>
+  {{#each vms as |vm|}}
+    {{#if vm.isShow}}
+    <tr>
+        {{#if isVm}}<td>{{input type="checkbox" checked=vm.todelete}}</td>{{/if}}
+        <td>{{vm.project.name}}</td>
+        {{#if isDev}}<td>{{vm.commit.short_id}}</td>{{/if}}
+        <td><button {{action "showUris" vm.id}} class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span></button></td>
+        {{#if isDev}}<td><button {{action "showDetails" vm.id}} class="btn btn-default"><span class="glyphicon glyphicon-new-window"></span></button></td>{{/if}}
+        {{#if vm.sucStatus}}<td class="success">&nbsp;{{vm.textStatus}}</td><td class="success">{{vm.timeStatus}}s</td>{{/if}}
+        {{#if vm.warnStatus}}<td class="warning"><button {{action "checkStatus" vm}} class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button></td><td class="warning">{{vm.timeStatus}}s</td>{{/if}}
+        {{#if vm.dangStatus}}<td class="danger">&nbsp;{{vm.textStatus}}</td><td class="danger"><button {{action "checkStatus" vm}} class="btn btn-default"><span class="glyphicon glyphicon-refresh"></span></button></td>{{/if}}
+        {{#if isLead}}<td>{{vm.user.email}}</td>{{/if}}
+        <td>{{vm.created_at_short}}</td>
+    </tr>
+    {{/if}}
+  {{/each}}
+</tbody>
+</table>
+{{#if isVm}}
+<div class="btn-group" style="width: 100%;">
+    <div style="display: inline-block;float: left;">
+    <button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
+    <button {{action "showDeleteConfirmation"}} class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+    </div>
+    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;">&nbsp;{{page.cp}}&nbsp;</span>{{else}}&nbsp;{{page.cp}}&nbsp;{{/if}}</a>{{/each}}</div>
+</div>
+{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
+  {{#bs-modal-body}}
+    Are you sure to proceed ?<br/>{{{deleteText}}}
+    You are going to delete the following items<br/>
+    <ul>
+    {{#each deleteItems as |item|}}
+      <li>{{item}}</li>
+    {{/each}}
+    </ul>
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+{{/bs-modal}}
+{{/if}}
+
+{{#each vms as |vm|}}
+  {{vm-details vm=vm isShowingDetails=isShowingDetails isBusy=isBusy}}
+  {{vm-uris vm=vm isShowingUris=isShowingUris isBusy=isBusy}}
+{{/each}}

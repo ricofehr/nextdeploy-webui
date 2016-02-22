@@ -1,0 +1,90 @@
+<table class="table">
+ <thead>
+    <tr>
+        <th>&nbsp;</th>
+        <th>Name</th>
+        <th>Brand</th>
+        <th>Systems</th>
+        <th>?</th>
+        <th>Framework</th>
+        <th>Technos</th>
+        <th>Enabled</th>
+        {{#if isAdmin}}<th>Users</th>{{/if}}
+        <th>Vms</th>
+        <th>Date</th>
+    </tr>
+</thead>
+<tbody>
+  {{#each projectsSort as |project|}}
+    {{#if project.isShow}}
+    <tr>
+      {{#if project.owner}}
+        <td>{{input type="checkbox" checked=project.todelete}}</td>
+      {{else}}
+        {{#if isAdmin}}
+          <td>{{input type="checkbox" checked=project.todelete}}</td>
+        {{else}}
+          <td>&nbsp;</td>
+        {{/if}}
+      {{/if}}
+
+      {{#if isLead}}
+        <td>{{#link-To 'projects.edit' project.id}}{{project.name}}{{/link-To}}</td>
+      {{else}}
+        <td>{{project.name}}</td>
+      {{/if}}
+
+      {{#if isAdmin}}
+        <td>{{#link-to 'projects.bybrand' project.brand.id}}{{project.brand.name}}{{/link-to}}</td>
+      {{else}}
+        <td>{{project.brand.name}}</td>
+      {{/if}}
+
+      <td>{{#each project.systemimages as |os|}}{{os.name}}<br>{{/each}}</td>
+      <td><button {{action "showDetails" project.id}} class="btn btn-default"><span  class="glyphicon glyphicon-new-window"></span></button></td>
+      <td>{{project.framework.name}}</td>
+      <td>{{#each project.technos as |techno|}}{{techno.name}}<br>{{/each}}</td>
+      <td>{{project.enabled}}</td>
+      {{#if isAdmin}}
+        <td>{{#link-to 'users.byproject' project.id}}{{project.users.length}}{{/link-to}}</td>
+      {{/if}}
+
+      {{#if isAdmin}}
+        <td>{{#link-to 'vms.byproject' project.id}}{{project.vms.length}}{{/link-to}}</td>
+      {{else}}
+        <td>{{#link-to 'vms.byproject' project.id}}here{{/link-to}}</td>
+      {{/if}}
+      <td>{{project.created_at_short}}</td>
+    </tr>
+    {{/if}}
+  {{/each}}
+</tbody>
+</table>
+
+<div class="btn-group" style="width: 100%;">
+    <div style="display: inline-block;float: left;">
+    {{#if isProjectCreate}}<button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
+    <button {{action "showDeleteConfirmation"}} class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+    {{/if}}
+    </div>
+    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;">&nbsp;{{page.cp}}&nbsp;</span>{{else}}&nbsp;{{page.cp}}&nbsp;{{/if}}</a>{{/each}}</div>
+</div>
+
+{{#if isProjectCreate}}
+{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
+  {{#bs-modal-body}}
+    Are you sure to proceed ?<br/>{{{deleteText}}}
+    You are going to delete the following items<br/>
+    <ul>
+    {{#each deleteItems as |item|}}
+      <li>{{item}}</li>
+    {{/each}}
+    </ul>
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+{{/bs-modal}}
+{{/if}}
+
+{{#each projects as |project|}}
+  {{project-details project=project isShowingDetails=isShowingDetails isBusy=isBusy}}
+{{/each}}

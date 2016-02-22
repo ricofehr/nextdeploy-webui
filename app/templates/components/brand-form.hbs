@@ -1,0 +1,23 @@
+<form {{action "postItem" on="submit"}} class="form-horizontal">
+  <legend>{{#if brand.id}}Edit brand {{brand.name}}{{else}}Add new brand{{/if}}</legend>
+  <div class="form-group">
+    {{#if errorName}}
+      <label class="control-label col-sm-2 alert-danger">Name</label>
+    {{else}}
+      {{#if errorName2}}
+        <label class="control-label col-sm-2 alert-danger">Already taken</label>
+      {{else}}
+        <label class="control-label col-sm-2 alert-success">Name</label>
+      {{/if}}
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" value=brand.name placeholder="Brand Title"}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="control-label col-sm-2">
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+</form>
