@@ -8,7 +8,7 @@
           <a href="" {{action 'openVmURI' 'mobile'}}>The mobile version (if exists)</a><br/>
           <a href="" {{action 'openVmURI' 'html'}}>The html version (if exists)</a><br/>
           {{#if isNodejs}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps</a><br/>{{/if}}
-          <br/><b>HTTPS</b><br>{{x-toggle size=medium value=isHTTPS toggle='toggleHTTPS' }}<br/>
+          <br/><b>HTTPS</b><br>{{x-toggle size=medium value=isHTTPS toggle='toggleHTTPS' toggled=isHTTPS}}<br/>
           <br/><b>Http & CMS Access</b><br/>
           Login: {{project.login}}<br/>
           Password: {{project.password}}<br/><br/>
