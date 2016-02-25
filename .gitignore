@@ -9,10 +9,6 @@
 /bower_components
 /remote_modules
 
-# unit test
-/tests
-/testem.json
-
 # misc
 /.sass-cache
 /connect.lock
