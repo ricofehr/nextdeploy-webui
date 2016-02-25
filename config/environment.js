@@ -20,11 +20,17 @@ module.exports = function(environment) {
     /*
     ENV.APP.LOG_RESOLVER = true;
     ENV.APP.LOG_ACTIVE_GENERATION = true;
-    ENV.APP.LOG_TRANSITIONS = true;
-    ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     ENV.APP.LOG_VIEW_LOOKUPS = true;
     */
+    ENV.APP.LOG_TRANSITIONS = true;
+    ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
+    
     ENV.APP.APIHost = "https://api.nextdeploy.local";
+    ENV.APP.NBITEMSBYPAGE = 3;
+  }
+
+  if (environment === 'staging') {
+    ENV.APP.APIHost = "";
     ENV.APP.NBITEMSBYPAGE = 3;
   }
 
