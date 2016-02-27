@@ -37,7 +37,7 @@ export default Ember.Component.extend({
     return false;
   }.property('isShowingUris'),
 
-  // Check if we have mysql into model
+  // Check if we have nodejs into model
   isNodejs: function() {
     var technos = this.get('vm.project.technos');
     if (technos.findBy('name', 'nodejs')) {
@@ -45,6 +45,20 @@ export default Ember.Component.extend({
     }
 
     return false;
+  }.property('isShowingUris'),
+
+  // Check if we have a web server into model
+  isWeb: function() {
+    var technos = this.get('vm.project.technos');
+    var isWeb = false;
+
+    technos.forEach(function (techno) {
+      if (techno.get('technotype').get('name').match(/^Web/)) {
+        isWeb = true;
+      }
+    });
+
+    return isWeb;
   }.property('isShowingUris'),
 
   // Check if we have sf2 framework

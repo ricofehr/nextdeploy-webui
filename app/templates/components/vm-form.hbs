@@ -10,6 +10,7 @@
     {{#power-select
       options=projects
       searchField="name"
+      verticalPosition='below'
       selected=vm.project
       placeholder="Select a project"
       onchange=(action 'changeProperty' 'vm.project')
@@ -32,6 +33,7 @@
       options=vm.project.vmsizes
       searchEnabled=false
       selected=vm.vmsize
+      verticalPosition='below'
       placeholder="Select a size"
       onchange=(action 'changeProperty' 'vm.vmsize')
       as |vmsize|
@@ -52,6 +54,7 @@
       options=vm.project.users
       searchField="email"
       selected=vm.user
+      verticalPosition='below'
       placeholder="Select an user"
       onchange=(action 'changeProperty' 'vm.user')
       as |user|
@@ -73,6 +76,7 @@
       options=vm.project.branches
       searchField="name"
       selected=branche
+      verticalPosition='below'
       placeholder="Select a branch"
       onchange=(action 'changeProperty' 'branche')
       as |branche|
@@ -94,6 +98,7 @@
       options=branche.commits
       searchField="short_id"
       selected=vm.commit
+      verticalPosition='below'
       placeholder="Select a commit"
       onchange=(action 'changeProperty' 'vm.commit')
       as |commit|
@@ -123,8 +128,8 @@
     <div class="col-sm-3">
     {{#power-select
       options=vm.project.systemimages
-      searchField="name"
       selected=vm.systemimage
+      verticalPosition='below'
       placeholder="Select an OS"
       onchange=(action 'changeProperty' 'vm.systemimage')
       as |systemimage|
@@ -134,12 +139,32 @@
     </div>
   </div>
 
+  {{#if isAdmin}}
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">Enable BasicAuth</label>
     <div class="col-sm-3">
       <label>{{x-toggle value=vm.is_auth toggled=vm.is_auth}}</label>
     </div>
   </div>
+  {{/if}}
+
+  {{#each vm.technos as |techno|}}
+  <div class="form-group">
+      <label class="control-label col-sm-2 alert-success">{{techno.technotype.name}}</label>
+    <div class="col-sm-3">
+    {{#power-select
+      searchEnabled=false
+      options=techno.technotype.technos
+      selected=techno
+      onchange=(action 'changeTechno')
+      as |techno|
+    }}
+      {{techno.name}}
+    {{/power-select}}
+    </div>
+  </div>
+  <br/>
+  {{/each}}
   {{/if}}
 
   <div class="form-group">

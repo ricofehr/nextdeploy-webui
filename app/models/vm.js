@@ -11,5 +11,6 @@ export default DS.Model.extend({
   project: DS.belongsTo('project', {async: true}),
   systemimage: DS.belongsTo('systemimage', {async: true}),
   vmsize: DS.belongsTo('vmsize', {async: true}),
+  technos: DS.hasMany('techno', {async: true}),
   created_at: DS.attr('date')
 });

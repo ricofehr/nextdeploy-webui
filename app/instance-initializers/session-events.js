@@ -9,6 +9,7 @@ export function initialize(container) {
     store.findAll('vmsize', { backgroundReload: false, reload: true });
     store.findAll('framework', { backgroundReload: false, reload: true });
     store.findAll('techno', { backgroundReload: false, reload: true });
+    store.findAll('technotype', { backgroundReload: false, reload: true });
     store.findAll('systemimagetype', { backgroundReload: false, reload: true });
     store.findAll('systemimage', { backgroundReload: false, reload: true });
     store.findAll('group', { backgroundReload: false, reload: true });

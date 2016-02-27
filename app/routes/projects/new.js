@@ -74,6 +74,7 @@ model() {
         brands: this.store.peekAll('brand'),
         frameworks: this.store.peekAll('framework'),
         technos: this.store.peekAll('techno'),
+        technotypes: this.store.peekAll('technotype'),
         vmsizes: this.store.peekAll('vmsize'),
         users: this.store.peekAll('user'),
         systems: this.store.peekAll('systemimage'),
@@ -85,6 +86,7 @@ model() {
       return Ember.RSVP.hash({
         brands: this.store.peekAll('brand'),
         frameworks: this.store.peekAll('framework'),
+        technotypes: this.store.peekAll('technotype'),
         technos: this.store.peekAll('techno').filter(function(item) {
           if (technoids.contains(parseInt(item.get("id")))) { return true; }
         }),

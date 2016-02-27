@@ -203,6 +203,7 @@ export default Ember.Component.extend({
     }
 
     //init default values
+    self.set('vm.technos', project.get('technos').toArray());
     self.set('vm.user', project.get('users').toArray()[user_index]);
     self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
     self.set('vm.vmsize', project.get('vmsizes').toArray()[0]);
@@ -225,6 +226,22 @@ export default Ember.Component.extend({
     // trigger when a property is changed into power-select element
     changeProperty: function(property, value) {
       this.set(property, value);
+    },
+
+    // trigger when a property is changed into power-select element
+    changeTechno: function(value) {
+      var technoType = parseInt(value.get('technotype').get('id'));
+      var oldTechno = null;
+
+      this.get('vm.technos').forEach(function (techno) {
+        if (parseInt(techno.get('technotype').get('id')) === technoType) {
+          oldTechno = techno;
+        }
+      });
+
+      this.get('vm.technos').replace(this.get('vm.technos').indexOf(oldTechno), 1, [value]);
+      //removeObject(oldTechno);
+      //this.get('vm.technos').pushObject(value);
     },
 
     // Create a new vm form

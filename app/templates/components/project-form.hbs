@@ -152,25 +152,27 @@
   </div>
   <br/>
 
+  {{#each project_technotypes as |technoproxy|}}
   <div class="form-group">
-    {{#if errorTechnos}}
-      <label class="control-label col-sm-2 alert-danger">Technos</label>
-    {{else}}
-      <label class="control-label col-sm-2 alert-success">Technos</label>
-    {{/if}}
+      <label class="control-label col-sm-2 alert-success">{{technoproxy.technotype.name}}</label>
     <div class="checkbox col-sm-3">
-    {{#power-select-multiple
+    {{x-toggle toggle='displayTechno' toggled=technoproxy.toggled name=technoproxy.technotype.id}}<br/>
+    {{#if technoproxy.toggled}}
+    {{#power-select
       disabled=isDisableCreate
-      options=technosSort
-      selected=project_technos
-      onchange=(action 'changeProperty' 'project_technos')
+      searchEnabled=false
+      options=technoproxy.technotype.technos
+      selected=technoproxy.selected
+      onchange=(action (mut technoproxy.selected))
       as |techno|
     }}
       {{techno.name}}
-    {{/power-select-multiple}}
+    {{/power-select}}
+    {{/if}}
     </div>
   </div>
   <br/>
+  {{/each}}
 
   <div class="form-group">
     {{#if errorUsers}}

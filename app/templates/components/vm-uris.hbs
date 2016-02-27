@@ -2,16 +2,17 @@
   {{#bs-modal-header}}{{#if isRunning}}{{#if isDev}}Urls & Tools{{else}}Urls{{/if}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if isRunning}}
+      {{#if isWeb}}
       <b>URIS</b><br/>
           <a href="" {{action 'openVmURI' 'main'}}>Your website</a><br/>
           <a href="" {{action 'openVmURI' 'admin'}}>The admin apps (if exists)</a><br/>
           <a href="" {{action 'openVmURI' 'mobile'}}>The mobile version (if exists)</a><br/>
           <a href="" {{action 'openVmURI' 'html'}}>The html version (if exists)</a><br/>
-          {{#if isNodejs}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps</a><br/>{{/if}}
+          {{#if isNodejs}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps (if exists)</a><br/>{{/if}}
           <br/><b>HTTPS</b><br>{{x-toggle size=medium value=isHTTPS toggle='toggleHTTPS' toggled=isHTTPS}}<br/>
           <br/><b>Http & CMS Access</b><br/>
-          Login: {{project.login}}<br/>
-          Password: {{project.password}}<br/><br/>
+          Login: {{vm.project.login}}<br/>
+          Password: {{vm.project.password}}<br/><br/>
 
           {{#if isDev}}
             <b>Tools</b><br>
@@ -39,6 +40,9 @@
             <a href="" {{action 'openVmURI' 'tailsf2'}}>Sf Logs</a><br/>
             {{/if}}
           {{/if}}
+      {{else}}
+        <b>Vm is not a Web Application.</b>
+      {{/if}}
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}

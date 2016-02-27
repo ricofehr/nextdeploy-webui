@@ -115,8 +115,12 @@ export default Ember.Route.extend({
       return self.store.findAll('techno', { backgroundReload: false, reload: true }).then(loadSystemtypes, fail);
     };
 
+    var loadTechnotypes = function() {
+      return self.store.findAll('technotype', { backgroundReload: false, reload: true }).then(loadTechnos, fail);
+    };
+
     var loadFrameworks = function() {
-      return self.store.findAll('framework', { backgroundReload: false, reload: true }).then(loadTechnos, fail);
+      return self.store.findAll('framework', { backgroundReload: false, reload: true }).then(loadTechnotypes, fail);
     };
 
     if (this.get('session').get('isAuthenticated')) {

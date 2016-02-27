@@ -63,15 +63,42 @@ export default Ember.Component.extend({
 
   // use a buffer for array attributes for avoid weird issue with power-select
   initBuffer: function() {
-    this.set('project_technos', this.get('project').get('technos').toArray());
+    var self = this;
+    var selected = null;
+    var isToggled = false;
+    //this.set('project_technos', this.get('project').get('technos').toArray());
     this.set('project_users', this.get('project').get('users').toArray());
     this.set('project_vmsizes', this.get('project').get('vmsizes').toArray());
     this.set('project_systemimages', this.get('project').get('systemimages').toArray());
+
+    this.set('project_technotypes', []);
+    this.get('technotypes').map(function (model) {
+      selected = null;
+      isToggled = false;
+      self.get('project').get('technos').forEach(function (techno) {
+        if (parseInt(model.id) === parseInt(techno.get('technotype.id'))) {
+          selected = techno;
+          isToggled = true;
+        }
+      });
+
+      self.get('project_technotypes').pushObject(Ember.ObjectProxy.create({
+        technotype: model,
+        selected: selected,
+        toggled: isToggled
+      }));
+    });
   },
 
   // use a buffer for array attributes for avoid weird issue with power-select
   flushBuffer: function() {
-    this.get('project').set('technos', this.get('project_technos'));
+    var project_technos = [];
+    this.get('project_technotypes').forEach(function (technotype) {
+      if (technotype.get('selected')) {
+        project_technos.pushObject(technotype.get('selected'));
+      }
+    });
+    this.get('project').set('technos', project_technos);
     this.get('project').set('users', this.get('project_users'));
     this.get('project').set('vmsizes', this.get('project_vmsizes'));
     this.get('project').set('systemimages', this.get('project_systemimages'));
@@ -197,32 +224,84 @@ export default Ember.Component.extend({
     var technos = null;
     var errorTechnos = true;
 
-    technos = this.get('project_technos');
+    technos = this.get('project.technos');
     if (technos && technos.toArray().length > 0) { errorTechnos = false; }
     this.set('errorTechnos', errorTechnos);
 
-  }.observes('project_technos'),
+  }.observes('project.technos'),
 
   // on form submit, ensure that varnish (mandatory techno) is on techno list
   checkVarnishTechnos: function() {
     var varnishTechno = null;
-    var varnishOk = false;
+    var isWeb = false;
 
+    // isolate varnish default techno
     this.get('technos').forEach(function (techno) {
-      if (/.*varnish.*/.test(techno.get('name'))) {
+      if (/.*varnish.*/.test(techno.get('name')) && !varnishTechno) {
         varnishTechno = techno;
       }
     });
 
-    this.get('project_technos').forEach(function (techno) {
-      if (/.*varnish.*/.test(techno.get('name'))) {
-        varnishOk = true;
+    if (!varnishTechno) {
+      return;
+    }
+
+    // check if it's a web or nodejs project (if no web, no node, varnish can be disabled)
+    this.get('project_technotypes').map(function (technoproxy) {
+      if (/.*Web.*/.test(technoproxy.get('technotype').get('name')) && technoproxy.get('selected')) {
+        isWeb = true;
+      }
+
+      if (/.*Node.*/.test(technoproxy.get('technotype').get('name')) && technoproxy.get('selected')) {
+        isWeb = true;
       }
     });
 
-    if (!varnishOk && varnishTechno) {
-      this.get('project_technos').pushObject(varnishTechno);
+    if (!isWeb) {
+      return;
     }
+
+    // add varnish on techno list
+    this.get('project_technotypes').map(function (technoproxy) {
+      if (/.*Cache.*/.test(technoproxy.get('technotype').get('name')) && !technoproxy.get('selected')) {
+        technoproxy.set('selected', varnishTechno);
+        technoproxy.set('toggled', true);
+      }
+    });
+  },
+
+  // on form submit, ensure that node (mandatory techno) is on techno list
+  checkNodeTechnos: function() {
+    var nodeTechno = null;
+    var isWeb = false;
+
+    this.get('technos').forEach(function (techno) {
+      if (/.*node.*/.test(techno.get('name')) && !nodeTechno) {
+        nodeTechno = techno;
+      }
+    });
+
+    if (!nodeTechno) {
+      return;
+    }
+
+    // check if it's a web project (if no web, no node, varnish can be disabled)
+    this.get('project_technotypes').map(function (technoproxy) {
+      if (/.*Web.*/.test(technoproxy.get('technotype').get('name')) && technoproxy.get('selected')) {
+        isWeb = true;
+      }
+    });
+
+    if (!isWeb) {
+      return;
+    }
+
+    this.get('project_technotypes').map(function (technoproxy) {
+      if (/.*Node.*/.test(technoproxy.get('technotype').get('name')) && !technoproxy.get('selected')) {
+        technoproxy.set('selected', nodeTechno);
+        technoproxy.set('toggled', true);
+      }
+    });
   },
 
   // ensure vmsizes attribute is not empty
@@ -263,6 +342,7 @@ export default Ember.Component.extend({
   formIsValid: function() {
     this.checkAdminUsers();
     this.checkVarnishTechnos();
+    this.checkNodeTechnos();
     this.checkBrand();
     this.checkName();
     this.checkLogin();
@@ -342,6 +422,25 @@ export default Ember.Component.extend({
 
   // actions binding with user event
   actions: {
+    displayTechno: function(isToggled, technoTypeId) {
+      var selected = null;
+      var self = this;
+
+      self.get('project_technotypes').map(function (model) {
+        if (parseInt(model.get('technotype').id) === parseInt(technoTypeId)) {
+          if (isToggled) {
+            selected = model.get('selected');
+            if (selected === null) {
+              selected = model.get('technotype').get('technos').toArray()[0];
+            }
+          }
+          model.set('selected', selected);
+          model.set('toggled', isToggled);
+        }
+      });
+      //this.get('technotypes').find(parseInt(technoTypeId)).set('selected', firstTechno);
+    },
+    // change property on power-select
     changeProperty: function(property, value) {
       this.set(property, value);
     },
@@ -370,7 +469,6 @@ export default Ember.Component.extend({
 
       // loading modal and request server
       router.transitionTo('loading');
-      Ember.Logger.debug(this.get('project'));
       this.get('project').save().then(pass, fail);
     }
   }

@@ -11,7 +11,9 @@
       Hash: {{vm.commit.commit_hash}}<br>
       Branche: {{vm.commit.branche.name}}<br>
       Author: {{vm.commit.author_email}}<br>
-      Message: {{vm.commit.message}}<br>
+      Message: {{vm.commit.message}}<br><br>
+      <b>Technos</b><br>
+      {{#each vm.technos as |techno|}}{{techno.technotype.name}}: {{techno.name}}<br>{{/each}}
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}
