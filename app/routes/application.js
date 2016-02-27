@@ -27,9 +27,14 @@ export default Ember.Route.extend({
     var nbbrands = this.store.peekAll('brand').toArray().length;
     var nbvms = this.store.peekAll('vm').toArray().length;
     var nbusers = this.store.peekAll('user').toArray().length;
+    var self = this;
 
     var fail = function(){};
-    var self = this;
+    if (currentRoute === "index") {
+      fail = function() {
+        self.transitionTo('error');
+      };
+    }
 
     var passVms = function(vms){
       if (currentRoute === "vms.list") {
