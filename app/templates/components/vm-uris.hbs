@@ -10,7 +10,7 @@
           <a href="" {{action 'openVmURI' 'html'}}>The html version (if exists)</a><br/>
           {{#if isNodejs}}<a href="" {{action 'openVmURI' 'nodejs'}}>The nodejs apps (if exists)</a><br/>{{/if}}
           <br/><b>HTTPS</b><br>{{x-toggle size=medium value=isHTTPS toggle='toggleHTTPS' toggled=isHTTPS}}<br/>
-          <br/><b>Http & CMS Access</b><br/>
+          <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
           Login: {{vm.project.login}}<br/>
           Password: {{vm.project.password}}<br/><br/>
 
