@@ -18,6 +18,8 @@ export default Ember.Component.extend({
 
     if (!name) {
       errorName = true;
+    } else {
+      this.set('sshkey.name', this.get('sshkey.name').replace(/ /g,''));
     }
 
     this.set('errorName', errorName);
