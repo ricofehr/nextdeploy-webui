@@ -156,7 +156,7 @@
   <div class="form-group">
       <label class="control-label col-sm-2 alert-success">{{technoproxy.technotype.name}}</label>
     <div class="checkbox col-sm-3">
-    {{x-toggle toggle='displayTechno' toggled=technoproxy.toggled name=technoproxy.technotype.id}}<br/>
+    {{x-toggle toggle='displayTechno' toggled=technoproxy.toggled name=technoproxy.technotype.id disabled=isDisableCreate}}<br/>
     {{#if technoproxy.toggled}}
     {{#power-select
       disabled=isDisableCreate
