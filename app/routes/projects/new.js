@@ -86,16 +86,10 @@ model() {
       return Ember.RSVP.hash({
         brands: this.store.peekAll('brand'),
         frameworks: this.store.peekAll('framework'),
+        technos: this.store.peekAll('techno'),
         technotypes: this.store.peekAll('technotype'),
-        technos: this.store.peekAll('techno').filter(function(item) {
-          if (technoids.contains(parseInt(item.get("id")))) { return true; }
-        }),
-        vmsizes: this.store.peekAll('vmsize').filter(function(item) {
-         if (vmsizeids.contains(parseInt(item.get("id")))) { return true; }
-        }),
-        systems: this.store.peekAll('systemimage').filter(function(item) {
-         if (systemimageids.contains(parseInt(item.get("id")))) { return true; }
-        }),
+        vmsizes: this.store.peekAll('vmsize'),
+        systems: this.store.peekAll('systemimage'),
         users: this.store.peekAll('user'),
         groups: this.store.peekAll('group'),
         projects: [],

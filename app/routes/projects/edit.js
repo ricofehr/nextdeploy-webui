@@ -24,35 +24,14 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       });
     } else {
 
-      Ember.$.ajax({
-        url: config.APP.APIHost + "/api/v1/projects/0",
-        dataType: "json",
-        async: false,
-        global: false,
-        headers: { 'Authorization': 'Token token=' + self.get('session').get('data.authenticated.token') }
-      })
-          .done(function(data) {
-            var project = data.project;
-            vmsizeids = project.vmsizes;
-            technoids = project.technos;
-            systemimageids = project.systemimages;
-          });
-
       return Ember.RSVP.hash({
         brands: this.store.peekAll('brand'),
         frameworks: this.store.peekAll('framework'),
+        technos: this.store.peekAll('techno'),
         technotypes: this.store.peekAll('technotype'),
-        technos: this.store.peekAll('techno').filter(function(item) {
-          if (technoids.contains(parseInt(item.get("id")))) { return true; }
-        }),
-        vmsizes: this.store.peekAll('vmsize').filter(function(item) {
-         if (vmsizeids.contains(parseInt(item.get("id")))) { return true; }
-        }),
-        systems: this.store.peekAll('systemimage').filter(function(item) {
-         if (systemimageids.contains(parseInt(item.get("id")))) { return true; }
-        }),
+        vmsizes: this.store.peekAll('vmsize'),
         users: this.store.peekAll('user'),
-        groups: this.store.peekAll('group'),
+        systems: this.store.peekAll('systemimage'),
         project: this.store.peekRecord('project', params.project_id),
         projects: []
       });
