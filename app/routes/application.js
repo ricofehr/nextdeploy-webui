@@ -18,7 +18,7 @@ export default Ember.Route.extend({
 
     Ember.run.later(function(){
        self.reloadModel();
-    }, 12000);
+    }, 300000);
   },
 
   // load synchronisely all models
@@ -30,6 +30,7 @@ export default Ember.Route.extend({
     var self = this;
 
     var fail = function(){};
+    // index is the first route when ember is launching
     if (currentRoute === "index") {
       fail = function() {
         self.transitionTo('error');
@@ -37,6 +38,8 @@ export default Ember.Route.extend({
     }
 
     var passVms = function(vms){
+      var currentRoute = self.controllerFor("application").get("currentRouteName");
+
       if (currentRoute === "vms.list") {
         if (vms.toArray().length !== nbvms) {
           self.set('refreshVms', true);
@@ -52,6 +55,8 @@ export default Ember.Route.extend({
     };
 
     var loadVms = function(projects) {
+      var currentRoute = self.controllerFor("application").get("currentRouteName");
+
       if (currentRoute === "projects.list") {
         if (projects.toArray().length !== nbprojects) {
           self.set('refreshProjects', true);
@@ -67,6 +72,8 @@ export default Ember.Route.extend({
     };
 
     var loadProjects = function(users) {
+      var currentRoute = self.controllerFor("application").get("currentRouteName");
+
       if (currentRoute === "users.list") {
         if (users.toArray().length !== nbusers) {
           self.set('refreshUsers', true);
@@ -82,6 +89,8 @@ export default Ember.Route.extend({
     };
 
     var loadUsers = function(brands) {
+      var currentRoute = self.controllerFor("application").get("currentRouteName");
+
       if (currentRoute === "brands.list") {
         if (brands.toArray().length !== nbbrands) {
           self.set('refreshBrands', true);
@@ -148,7 +157,7 @@ export default Ember.Route.extend({
 
     Ember.run.later(function(){
       self.reloadModel();
-    }, 60000);
+    }, 240000);
   },
 
   actions: {
