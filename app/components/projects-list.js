@@ -31,6 +31,11 @@ export default Ember.Component.extend({
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
 
+    // max 5 items on a page for projects
+    if (ibpmax > 5) {
+      ibpmax = 5;
+    }
+
     // filter projects array only with valid item for current user
     projects.map(function(model){
       model.set('gitpath_href', "git@" + model.get('gitpath'));
