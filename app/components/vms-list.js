@@ -97,6 +97,11 @@ export default Ember.Component.extend({
         }
       }
 
+      // if user object is null, the vm was deleted
+      if (!model.get('user')) {
+        model.set('isShow', false);
+      }
+
       // paging system
       if (model.get('isShow')) {
         if (!pages.isAny('cp', ncp)) {
@@ -117,7 +122,7 @@ export default Ember.Component.extend({
 
     // set paging numbers
     this.set('pages', pages);
-  },
+  }.observes('vms.[].status'),
 
   // delete records unsaved or deleted
   cleanModel: function() {

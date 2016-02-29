@@ -63,6 +63,11 @@ export default Ember.Component.extend({
         }
       }
 
+      // if group object is null, the user was deleted
+      if (!model.get('group')) {
+        model.set('isShow', false);
+      }
+
       // paging system
       if (model.get('isShow')) {
         if (!pages.isAny('cp', ncp)) {

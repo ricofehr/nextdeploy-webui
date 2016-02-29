@@ -70,6 +70,11 @@ export default Ember.Component.extend({
         }
       }
 
+      // if brand object is null, the project was deleted
+      if (!model.get('brand')) {
+        model.set('isShow', false);
+      }
+
       // paging system
       if (model.get('isShow')) {
         if (!pages.isAny('cp', ncp)) {
