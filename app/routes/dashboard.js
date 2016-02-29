@@ -4,9 +4,9 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model() {
-
+    this.store.unloadAll('hpmessage');
     return Ember.RSVP.hash({
-      posts: this.store.findAll('hpmessage'),
+      posts: this.store.findAll('hpmessage', { backgroundReload: false, reload: true }),
     });
   }
 });

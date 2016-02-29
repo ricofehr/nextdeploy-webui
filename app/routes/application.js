@@ -109,8 +109,13 @@ export default Ember.Route.extend({
       return self.store.findAll('brand', { backgroundReload: false, reload: true }).then(loadUsers, fail);
     };
 
+    var loadHpmessages = function() {
+      self.store.unloadAll('hpmessage');
+      return self.store.findAll('hpmessage', { backgroundReload: false, reload: true }).then(loadBrands, fail);
+    };
+
     var loadSshkeys = function() {
-      return self.store.findAll('sshkey', { backgroundReload: false, reload: true }).then(loadBrands, fail);
+      return self.store.findAll('sshkey', { backgroundReload: false, reload: true }).then(loadHpmessages, fail);
     };
 
     var loadGroups = function() {
@@ -150,8 +155,9 @@ export default Ember.Route.extend({
     var self = this;
     var currentRoute = this.controllerFor("application").get("currentRouteName");
 
-    // Load models only on list pages
-    if (/.*\.list/.test(currentRoute)) {
+    // Load models only on list pages and dashboard
+    if (/.*\.list/.test(currentRoute) ||
+        /dashboard/.test(currentRoute)) {
       this.loadModel(currentRoute);
     }
 
