@@ -48,7 +48,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.APP.APIHost = "";
-    ENV.APP.NBITEMSBYPAGE = 8;
+    ENV.APP.NBITEMSBYPAGE = 10;
   }
 
   // x-toggle parameters
