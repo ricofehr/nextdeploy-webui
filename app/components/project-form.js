@@ -136,6 +136,7 @@ export default Ember.Component.extend({
     var name = this.get('project.name');
     var current_id = this.get('project.id');
     var self = this;
+    // error2 => too shorter
     var errorName2 = false;
 
     // if projectname < 6, return
