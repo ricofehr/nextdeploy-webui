@@ -23,6 +23,7 @@ export default Ember.Component.extend({
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
     var current_id = this.get('session').get('data.authenticated.user.id');
+    var access_level = this.get('session').get('data.authenticated.access_level');
 
     firstUser = this.store.peekRecord('user', current_id);
     if (firstUser) {
@@ -51,6 +52,13 @@ export default Ember.Component.extend({
         if (! new RegExp("^.*" + search + ".*$", 'i').test(model.get('email')) &&
             ! new RegExp("^.*" + search + ".*$", 'i').test(model.get('firstname')) &&
             ! new RegExp("^.*" + search + ".*$", 'i').test(model.get('lastname'))) {
+          model.set('isShow', false);
+        }
+      }
+
+      // filtering for other users than admin
+      if (access_level !== 50) {
+        if (!model.get('projects').toArray().length) {
           model.set('isShow', false);
         }
       }
