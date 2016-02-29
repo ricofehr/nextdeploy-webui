@@ -14,11 +14,6 @@ export default Ember.Component.extend({
     return false;
   }.property('vm.status'),
 
-  // get branch name (fix for weird bug with name property)
-  branchName: function() {
-    return this.get('vm.commit.branche.id').replace(/^[0-9][0-9]*-/,'');
-  }.property('isShowingUris'),
-
   // Return true if user is a Dev or more
   isDev: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
@@ -40,11 +35,15 @@ export default Ember.Component.extend({
   // Check if we have nodejs into model
   isNodejs: function() {
     var technos = this.get('vm.project.technos');
-    if (technos.findBy('name', 'nodejs')) {
-      return true;
-    }
+    var isNode = false;
 
-    return false;
+    technos.forEach(function (techno) {
+      if (techno.get('technotype').get('name').match(/Node/)) {
+        isNode = true;
+      }
+    });
+
+    return isNode;
   }.property('isShowingUris'),
 
   // Check if we have a web server into model
