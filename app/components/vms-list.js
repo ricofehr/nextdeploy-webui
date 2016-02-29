@@ -36,8 +36,12 @@ export default Ember.Component.extend({
       var month = '';
       var hour = '';
       var minute = '';
+      var branchName = '';
 
-      //model.set('todelete', false);
+
+      // weird issue with ember nested model data, so get branchname from commit id
+      branchName = model.get('commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-.*$/,'');
+      model.set('branch', branchName.substring(0,10));
 
       // init date value
       day = model.get('created_at').getDate();
@@ -58,7 +62,7 @@ export default Ember.Component.extend({
         // if status is negative => setup in progress
         model.set('timeStatus', -parseInt(status));
       }
-      if (status > 1) { textStatus = 'RUNNING'; sucStatus = true; model.set('timeStatus', (status)); }
+      if (status > 1) { textStatus = 'RUN'; sucStatus = true; model.set('timeStatus', (status)); }
       if (status === 1) { textStatus = 'ERROR'; dangStatus = true; }
 
       model.set('textStatus', textStatus);
@@ -83,7 +87,7 @@ export default Ember.Component.extend({
       }
 
       if (search) {
-        if (!new RegExp("^.*" + search + ".*$").test(model.get('commit.hash')) &&
+        if (!new RegExp("^.*" + search + ".*$").test(model.get('commit.id')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('project.name')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('user.email')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('user.firstname')) &&
