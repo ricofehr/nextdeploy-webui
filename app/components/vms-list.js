@@ -10,8 +10,6 @@ export default Ember.Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     this.cleanModel();
-    //this.set('isShowingDetails', -1);
-    //this.set('isShowingUris', -1);
     this.prepareList();
   },
 
@@ -122,7 +120,7 @@ export default Ember.Component.extend({
 
     // set paging numbers
     this.set('pages', pages);
-  }.observes('vms.[].status'),
+  },
 
   // delete records unsaved or deleted
   cleanModel: function() {
@@ -252,7 +250,7 @@ export default Ember.Component.extend({
         .done(function(data) {
           model.set('status', data);
           model.set('timeStatus', data);
-          model.set('textStatus', 'RUNNING');
+          model.set('textStatus', 'RUN');
           model.set('sucStatus', true);
           model.set('warnStatus', false);
           model.set('dangStatus', false);
