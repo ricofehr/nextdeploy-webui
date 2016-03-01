@@ -12,12 +12,21 @@ export default Ember.Component.extend({
     this.shortKey();
   },
 
-  // delete records unsaved
-  cleanModel() {
-    var cleanKeys = this.get('user').get('sshkeys').filterBy('id', null);
+  // delete records unsaved or deleted
+  cleanModel: function() {
+    var self = this;
+    var cleanKeys = this.get('user').get('sshkeys').filterBy('isDeleted', true);
 
     cleanKeys.forEach(function (clean) {
-      if (clean) { clean.deleteRecord(); }
+      if (clean) { self.store.peekAll('sshkey').removeObject(clean); }
+    });
+
+    cleanKeys = this.store.peekAll('sshkey').filterBy('id', null);
+    cleanKeys.forEach(function (clean) {
+      if (clean) {
+        self.store.peekAll('sshkey').removeObject(clean);
+        clean.deleteRecord();
+      }
     });
   },
 
@@ -53,7 +62,7 @@ export default Ember.Component.extend({
         if (items[i] && items[i].todelete) {
           items[i].destroyRecord().then(pass, fail);
           items[i].get('user').get('sshkeys').removeObject(items[i]);
-          this.get('sshkeys').removeObject(items[i]);
+          this.store.peekAll('sshkey').removeObject(items[i]);
         }
       }
 
