@@ -372,7 +372,7 @@ export default Ember.Component.extend({
     if (access_level_user < 30) { return false; }
 
     if (access_level >= 50) { return true; }
-    if (current_id === user_id) { return true; }
+    if (current_id === parseInt(user_id)) { return true; }
     return false;
   }.property('user.id'),
 
