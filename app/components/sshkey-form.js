@@ -51,10 +51,11 @@ export default Ember.Component.extend({
     // submit form creation
     postItem: function() {
       var router = this.get('router');
+      var self = this;
 
       // if success, redirect on profile page
       var pass = function() {
-        router.transitionTo('users.edit', this.get('user.id'));
+        router.transitionTo('users.edit', self.get('user.id'));
       };
 
       // if error occurs, redirect on error page
