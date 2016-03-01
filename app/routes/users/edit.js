@@ -7,7 +7,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     return Ember.RSVP.hash({
       groups: this.store.peekAll('group'),
       projects: this.store.peekAll('project'),
-      user: this.store.peekRecord('user', params.user_id),
+      user: this.store.findRecord('user', params.user_id),
       users: this.store.peekAll('user')
     });
   },

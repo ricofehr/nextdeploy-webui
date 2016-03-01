@@ -19,7 +19,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         vmsizes: this.store.peekAll('vmsize'),
         users: this.store.peekAll('user'),
         systems: this.store.peekAll('systemimage'),
-        project: this.store.peekRecord('project', params.project_id),
+        project: this.store.findRecord('project', params.project_id),
         projects: this.store.peekAll('project').filterBy('name')
       });
     } else {
@@ -32,7 +32,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         vmsizes: this.store.peekAll('vmsize'),
         users: this.store.peekAll('user'),
         systems: this.store.peekAll('systemimage'),
-        project: this.store.peekRecord('project', params.project_id),
+        project: this.store.findRecord('project', params.project_id),
         projects: []
       });
     }

@@ -6,7 +6,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
     return Ember.RSVP.hash({
       brands: this.store.peekAll('brand'),
-      brand: this.store.peekRecord('brand', params.brand_id),
+      brand: this.store.findRecord('brand', params.brand_id),
     });
   },
 });
