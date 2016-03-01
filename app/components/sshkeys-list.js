@@ -23,16 +23,19 @@ export default Ember.Component.extend({
 
   // add key_short parameter
   shortKey() {
+    var self = this;
     this.get('user').get('sshkeys').map(function (model) {
-      var key = model.get('key');
-      var key_l = key.length;
-      var key_s = key;
+      self.store.findRecord('sshkey', model.id).then(function (sshkey) {
+        var key = sshkey.get('key');
+        var key_l = key.length; 
+        var key_s = key;
 
-      // crop key for display it into array
-      if (key_l>70) {
-        key_s = key.substring(0,30) + '...' + key.substring(key_l-40, key_l);
-      }
-      model.set('key_short', key_s);
+        // crop key for display it into array
+        if (key_l>70) {
+          key_s = key.substring(0,30) + '...' + key.substring(key_l-40, key_l);
+        }
+        model.set('key_short', key_s);
+      });
     });
   },
 
