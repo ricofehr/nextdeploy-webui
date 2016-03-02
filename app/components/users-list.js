@@ -49,9 +49,10 @@ export default Ember.Component.extend({
       }
 
       if (search) {
-        if (! new RegExp("^.*" + search + ".*$", 'i').test(model.get('email')) &&
-            ! new RegExp("^.*" + search + ".*$", 'i').test(model.get('firstname')) &&
-            ! new RegExp("^.*" + search + ".*$", 'i').test(model.get('lastname'))) {
+        if (!new RegExp("^.*" + search + ".*$", 'i').test(model.get('email')) &&
+            !new RegExp("^.*" + search + ".*$", 'i').test(model.get('firstname')) &&
+            !new RegExp("^.*" + search + ".*$", 'i').test(model.get('group.name')) &&
+            !new RegExp("^.*" + search + ".*$", 'i').test(model.get('lastname'))) {
           model.set('isShow', false);
         }
       }
