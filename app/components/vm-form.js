@@ -184,7 +184,7 @@ export default Ember.Component.extend({
     // remove admin users if we are ProjectLead
     if (access_level < 50) {
       project.get('users').toArray().forEach(function (user){
-        if (access_level < 40 && user && user.id !== user_id) {
+        if (access_level < 40 && user && parseInt(user.id) !== user_id) {
               project.get('users').removeObject(user);
         }
 
