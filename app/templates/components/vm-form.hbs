@@ -13,7 +13,7 @@
       verticalPosition='below'
       selected=vm.project
       placeholder="Select a project"
-      onchange=(action 'changeProperty' 'vm.project')
+      onchange=(action 'projectChange')
       as |project|
     }}
       {{project.name}}
