@@ -12,7 +12,6 @@ export default Ember.Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     this.cleanModel();
-    //this.set('isShowingDetails', -1);
     this.prepareList();
   },
 
