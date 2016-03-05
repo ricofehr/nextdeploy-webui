@@ -72,14 +72,14 @@ export default Ember.Component.extend({
       model.set('isShow', true);
       // if userId parameter exists
       if (userId !== 0) {
-        if (parseInt(model.get('user.id')) === userId) {
+        if (parseInt(model.get('user.id')) !== userId) {
           model.set('isShow', false);
         }
       }
 
       // if projectId != 0
       if (projectId !== 0) {
-        if (parseInt(model.get('project.id')) === userId) {
+        if (parseInt(model.get('project.id')) !== projectId) {
           model.set('isShow', false);
         }
       }
