@@ -73,7 +73,10 @@ export default Ember.Component.extend({
   // Check if we have composer with cms/framework
   isComposer: function() {
     var framework = this.get('vm.project.framework.name');
-    if (framework.match(/^Symfony/) || framework.match(/^Drupal8/)) {
+    if (framework.match(/^Symfony/) ||
+        framework.match(/^Drupal/) ||
+        framework.match(/^Static/) ||
+        framework.match(/^Wordpress/)) {
       return true;
     }
 
