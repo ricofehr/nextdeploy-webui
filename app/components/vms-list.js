@@ -29,7 +29,7 @@ export default Ember.Component.extend({
       var warnStatus = false;
       var dangStatus = false;
       var sucStatus = false;
-      var status = model.get('status');
+      var status = parseInt(model.get('status'));
       var day = '';
       var month = '';
       var hour = '';
@@ -58,10 +58,10 @@ export default Ember.Component.extend({
         textStatus = 'SETUP';
         warnStatus = true;
         // if status is negative => setup in progress
-        model.set('timeStatus', -parseInt(status));
+        model.set('timeStatus', -(status));
       }
-      if (status > 1) { textStatus = 'RUN'; sucStatus = true; model.set('timeStatus', (status)); }
-      if (status === 1) { textStatus = 'ERROR'; dangStatus = true; }
+      else if (status > 1) { textStatus = 'RUN'; sucStatus = true; model.set('timeStatus', (status)); }
+      else { textStatus = 'ERROR'; dangStatus = true; }
 
       model.set('textStatus', textStatus);
       model.set('sucStatus', sucStatus);
