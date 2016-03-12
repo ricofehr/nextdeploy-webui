@@ -234,7 +234,13 @@ export default Ember.Component.extend({
   // on form submit, ensure that varnish (mandatory techno) is on techno list
   checkVarnishTechnos: function() {
     var varnishTechno = null;
-    var isWeb = false;
+    var webTechno = null;
+    var framework = this.get('project.framework.name');
+
+    // if "noweb" framework, varnish can be disabled
+    if(/.*NoWeb.*/.test(framework)) {
+      return;
+    }
 
     // isolate varnish default techno
     this.get('technos').forEach(function (techno) {
@@ -247,25 +253,36 @@ export default Ember.Component.extend({
       return;
     }
 
-    // check if it's a web or nodejs project (if no web, no node, varnish can be disabled)
-    this.get('project_technotypes').map(function (technoproxy) {
-      if (/.*Web.*/.test(technoproxy.get('technotype').get('name')) && technoproxy.get('selected')) {
-        isWeb = true;
-      }
-
-      if (/.*Node.*/.test(technoproxy.get('technotype').get('name')) && technoproxy.get('selected')) {
-        isWeb = true;
-      }
-    });
-
-    if (!isWeb) {
-      return;
-    }
-
     // add varnish on techno list
     this.get('project_technotypes').map(function (technoproxy) {
       if (/.*Cache.*/.test(technoproxy.get('technotype').get('name')) && !technoproxy.get('selected')) {
         technoproxy.set('selected', varnishTechno);
+        technoproxy.set('toggled', true);
+      }
+    });
+
+    // if "static" framework, web server can be disabled
+    if(/.*Static.*/.test(framework)) {
+      return;
+    }
+
+    // isolate web default techno
+    this.get('project_technotypes').map(function (technoproxy) {
+      if (/.*Web.*/.test(technoproxy.get('technotype').get('name'))) {
+        technoproxy.get('technos').forEach(function (techno) {
+          if (!webTechno) { webTechno = techno; }
+        });
+      }
+    });
+
+    if (!webTechno) {
+      return;
+    }
+
+    // add web default on techno list
+    this.get('project_technotypes').map(function (technoproxy) {
+      if (/.*Web.*/.test(technoproxy.get('technotype').get('name')) && !technoproxy.get('selected')) {
+        technoproxy.set('selected', webTechno);
         technoproxy.set('toggled', true);
       }
     });
@@ -274,7 +291,12 @@ export default Ember.Component.extend({
   // on form submit, ensure that node (mandatory techno) is on techno list
   checkNodeTechnos: function() {
     var nodeTechno = null;
-    var isWeb = false;
+    var framework = this.get('project.framework.name');
+
+    // if "noweb" framework, node can be disabled
+    if(/.*NoWeb.*/.test(framework)) {
+      return;
+    }
 
     this.get('technos').forEach(function (techno) {
       if (/.*node.*/.test(techno.get('name')) && !nodeTechno) {
@@ -286,16 +308,6 @@ export default Ember.Component.extend({
       return;
     }
 
-    // check if it's a web project (if no web, no node, varnish can be disabled)
-    this.get('project_technotypes').map(function (technoproxy) {
-      if (/.*Web.*/.test(technoproxy.get('technotype').get('name')) && technoproxy.get('selected')) {
-        isWeb = true;
-      }
-    });
-
-    if (!isWeb) {
-      return;
-    }
 
     this.get('project_technotypes').map(function (technoproxy) {
       if (/.*Node.*/.test(technoproxy.get('technotype').get('name')) && !technoproxy.get('selected')) {
