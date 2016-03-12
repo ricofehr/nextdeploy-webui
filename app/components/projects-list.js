@@ -212,7 +212,7 @@ export default Ember.Component.extend({
           model.get('vms').forEach(function(vm) {
             if (vm) {
               vm.get('user').get('vms').removeObject(vm);
-              self.get('vms').removeObject(vm);
+              self.store.peekAll('vm').removeObject(vm);
               vm.destroyRecord().then(pass, fail);
             }
           });

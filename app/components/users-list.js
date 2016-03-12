@@ -204,14 +204,14 @@ export default Ember.Component.extend({
           model.get('vms').forEach(function(vm) {
             if (vm) {
               vm.get('project').get('vms').removeObject(vm);
-              self.get('vms').removeObject(vm);
+              self.store.peekAll('vm').removeObject(vm);
               vm.destroyRecord().then(pass, fail);
             }
           });
 
           model.get('sshkeys').forEach(function(sshkey) {
             if (sshkey) {
-              self.get('sshkeys').removeObject(sshkey);
+              self.store.peekAll('sshkey').removeObject(sshkey);
               sshkey.destroyRecord().then(pass, fail);
             }
           });
