@@ -267,14 +267,12 @@ export default Ember.Component.extend({
     }
 
     // isolate web default techno
-    this.get('project_technotypes').map(function (technoproxy) {
-      if (/.*Web.*/.test(technoproxy.get('technotype').get('name'))) {
-        technoproxy.get('technos').forEach(function (techno) {
-          if (!webTechno) { webTechno = techno; }
-        });
+    this.get('technos').forEach(function (techno) {
+      if (/.*Web.*/.test(techno.get('technotype').get('name')) && !webTechno) {
+        webTechno = techno;
       }
     });
-
+    
     if (!webTechno) {
       return;
     }
