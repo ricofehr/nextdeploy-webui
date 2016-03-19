@@ -22,6 +22,14 @@ export default Ember.Component.extend({
     return false;
   }.property('session.data.authenticated.access_level'),
 
+  // Return true if user is a PM or more
+  isPM: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level >= 20) { return true; }
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
   // Check if we have mysql into model
   isMysql: function() {
     var technos = this.get('vm.project.technos');

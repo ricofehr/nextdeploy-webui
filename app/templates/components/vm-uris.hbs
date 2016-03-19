@@ -14,19 +14,22 @@
           Login: {{vm.project.login}}<br/>
           Password: {{vm.project.password}}<br/><br/>
 
-          {{#if isDev}}
+          {{#if isPM}}
             <b>Tools</b><br>
             <a href="" {{action 'openVmURI' 'gitsync'}}>Gitpull</a><br/>
             <a href="" {{action 'openVmURI' 'npmsh'}}>Npm / Grunt / Bower / Gulp</a><br/>
-            {{#if isMysql}}
-            <a href="" {{action 'openVmURI' 'phpmyadmin'}}>Phpmyadmin (s_bdd/s_bdd)</a><br/>
+            {{#if isDev}}
+              {{#if isMysql}}
+              <a href="" {{action 'openVmURI' 'phpmyadmin'}}>Phpmyadmin (s_bdd/s_bdd)</a><br/>
+              {{/if}}
+              <a href="" {{action 'openVmURI' 'tail'}}>Apache logs</a><br/>
+              <a href="" {{action 'openVmURI' 'pminfo'}}>Phpinfo</a><br/>
             {{/if}}
-            <a href="" {{action 'openVmURI' 'tail'}}>Apache logs</a><br/>
-            <a href="" {{action 'openVmURI' 'pminfo'}}>Phpinfo</a><br/>
-            <a href="" {{action 'openVmURI' 'clearvarnish'}}>Clearvarnish</a><br/>
 
             {{#if isDrupal}}
-            <a href="" {{action 'openVmURI' 'drupalcc'}}>Clear all caches</a><br/>
+              {{#if isDev}}
+              <a href="" {{action 'openVmURI' 'drupalcc'}}>Clear all caches</a><br/>
+              {{/if}}
             <a href="" {{action 'openVmURI' 'drupalupdb'}}>Execute updb command</a><br/>
             {{/if}}
 
@@ -37,7 +40,9 @@
             {{#if isSf2}}
             <a href="" {{action 'openVmURI' 'sf2schema'}}>Sf Doctrine Schema: cc, assets, assetic, schema-update</a><br/>
             <a href="" {{action 'openVmURI' 'sf2migrate'}}>Sf Doctrine Migration: cc, assets, assetic, migrate</a><br/>
-            <a href="" {{action 'openVmURI' 'tailsf2'}}>Sf Logs</a><br/>
+              {{#if isDev}}
+              <a href="" {{action 'openVmURI' 'tailsf2'}}>Sf Logs</a><br/>
+              {{/if}}
             {{/if}}
           {{/if}}
       {{else}}
