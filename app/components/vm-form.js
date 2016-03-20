@@ -206,13 +206,17 @@ export default Ember.Component.extend({
         }
       }
 
-      //init default values
+      // init htlogin and htpassword
+      self.set('vm.htlogin', project.get('login'));
+      self.set('vm.htpassword', project.get('password'));
+
+      // init default values
       self.set('vm.technos', project.get('technos').toArray());
       self.set('vm.user', project.get('users').toArray()[user_index]);
       self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
       self.set('vm.vmsize', project.get('vmsizes').toArray()[0]);
 
-      //init default branch and commit
+      // init default branch and commit
       this.set('loadingModal', true);
       project.get('branches').then(function(branchs) {
         branchs.forEach(function(branch) {

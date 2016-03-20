@@ -7,6 +7,8 @@ export default DS.Model.extend({
   floating_ip: DS.attr('string'),
   status: DS.attr('number'),
   is_auth: DS.attr('boolean'),
+  htlogin: DS.attr('string'),
+  htpassword: DS.attr('string'),
   user: DS.belongsTo('user', {async: true}),
   project: DS.belongsTo('project', {async: true}),
   systemimage: DS.belongsTo('systemimage', {async: true}),
