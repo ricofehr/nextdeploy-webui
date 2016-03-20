@@ -82,7 +82,7 @@ export default Ember.Component.extend({
 
     // set paging system
     this.set('pages', pages);
-  },
+  }.observes('refreshList'),
 
   // return true if current user is admin
   isAdmin: function() {

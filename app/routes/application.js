@@ -18,7 +18,7 @@ export default Ember.Route.extend({
 
     Ember.run.later(function(){
        self.reloadModel();
-    }, 300000);
+    }, 30000);
   },
 
   // load synchronisely all models
@@ -49,6 +49,8 @@ export default Ember.Route.extend({
           self.get('router.router').refresh();
           self.set('refreshVms', false);
         }
+
+        self.controllerFor("vms.list").prepareList();
       }
 
       return;
@@ -66,6 +68,8 @@ export default Ember.Route.extend({
           self.get('router.router').refresh();
           self.set('refreshProjects', false);
         }
+
+        self.controllerFor("projects.list").prepareList();
       }
 
       return self.store.findAll('vm', { backgroundReload: false, reload: true }).then(passVms, fail);
@@ -83,6 +87,8 @@ export default Ember.Route.extend({
           self.get('router.router').refresh();
           self.set('refreshUsers', false);
         }
+
+        self.controllerFor("users.list").prepareList();
       }
 
       return self.store.findAll('project', { backgroundReload: false, reload: true }).then(loadVms, fail);
@@ -100,6 +106,8 @@ export default Ember.Route.extend({
           self.get('router.router').refresh();
           self.set('refreshBrands', false);
         }
+
+        self.controllerFor("brands.list").prepareList();
       }
 
       return self.store.findAll('user', { backgroundReload: false, reload: true }).then(loadProjects, fail);
@@ -163,7 +171,7 @@ export default Ember.Route.extend({
 
     Ember.run.later(function(){
       self.reloadModel();
-    }, 240000);
+    }, 24000);
   },
 
   actions: {

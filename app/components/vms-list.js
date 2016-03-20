@@ -36,6 +36,16 @@ export default Ember.Component.extend({
       var minute = '';
       var branchName = '';
 
+      // check if current model is reliable
+      if (!model.get('commit') ||
+          !model.get('commit.id') ||
+          !model.get('user') ||
+          !model.get('user.email') ||
+          !model.get('project') ||
+          !model.get('project.id')) {
+        model.set('isShow', false);
+        return;
+      }
 
       // weird issue with ember nested model data, so get branchname from commit id
       branchName = model.get('commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-.*$/,'');
@@ -120,7 +130,7 @@ export default Ember.Component.extend({
 
     // set paging numbers
     this.set('pages', pages);
-  },
+  }.observes('refreshList'),
 
   // delete records unsaved or deleted
   cleanModel: function() {

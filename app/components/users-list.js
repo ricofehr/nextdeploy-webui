@@ -34,6 +34,13 @@ export default Ember.Component.extend({
     this.get('users').map(function(model){
       var user_id = parseInt(model.get('id'));
 
+      // check if current model is reliable
+      if (!model.get('group') ||
+          !model.get('group.name')) {
+        model.set('isShow', false);
+        return;
+      }
+
       // filtering item display with search field, groupId, projectId and paging system
       model.set('isShow', true);
       if (groupId !== 0) {
@@ -91,7 +98,7 @@ export default Ember.Component.extend({
 
     // set paging numbers
     this.set('pages', pages);
-  },
+  }.observes('refreshList'),
 
   // delete records unsaved or deleted
   cleanModel: function() {

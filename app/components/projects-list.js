@@ -37,6 +37,15 @@ export default Ember.Component.extend({
 
     // filter projects array only with valid item for current user
     projects.map(function(model){
+      // check if current model is reliable
+      if (!model.get('brand') ||
+          !model.get('brand.id') ||
+          !model.get('framework') ||
+          !model.get('framework.id')) {
+        model.set('isShow', false);
+        return;
+      }
+
       model.set('gitpath_href', "git@" + model.get('gitpath'));
       // init date value
       day = model.get('created_at').getDate();
@@ -94,7 +103,7 @@ export default Ember.Component.extend({
 
     // set paging list
     this.set('pages', pages);
-  },
+  }.observes('refreshList'),
 
   // delete records unsaved or deleted
   cleanModel: function() {
