@@ -3,8 +3,22 @@ html {
   min-height: 100%;
 }
 
-body {
+body{
   font-size: 16px;
+}
+
+@media all and (max-device-width: 420px) {
+  body {font-size: 11px;}
+  .simplify{display:none;}
+}
+
+@media all and (max-width: 740px) {
+  body {font-size: 11px;}
+  .simplify{display:none;}
+}
+
+@media all and (min-device-width: 420px)  {
+  .simplify-inverse{display:none;}
 }
 
 /* Put your CSS here */

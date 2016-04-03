@@ -1,14 +1,14 @@
 <table class="table">
  <thead>
   <tr>
-    {{#if isAdmin}}<th>&nbsp;</th>{{/if}}
+    {{#if isAdmin}}<th class="simplify">&nbsp;</th>{{/if}}
     <th>Email</th>
     <th>Group</th>
-    <th>Company</th>
-    <th>Quota</th>
+    <th class="simplify">Company</th>
+    <th class="simplify">Quota</th>
     <th>Projects</th>
     <th>Vms</th>
-    {{#if isAdmin}}<th>Sshkeys</th>{{/if}}
+    {{#if isAdmin}}<th class="simplify">Sshkeys</th>{{/if}}
   </tr>
 </thead>
 
@@ -17,7 +17,7 @@
     {{#if user.isShow}}
     <tr>
       {{#if isAdmin}}
-      <td>
+      <td class="simplify">
         {{#if user.isCurrent}}
           &nbsp;
         {{else}}
@@ -42,8 +42,8 @@
         <td>{{user.group.name}}</td>
       {{/if}}
 
-      <td>{{user.company}}</td>
-      <td>{{user.quotavm}}</td>
+      <td class="simplify">{{user.company}}</td>
+      <td class="simplify">{{user.quotavm}}</td>
 
       {{#if isLead}}
         <td>{{#link-to 'projects.byuser' user.id}}{{user.projects.length}}{{/link-to}}</td>
@@ -64,7 +64,7 @@
           <td>{{user.vms.length}}</td>
         {{/if}}
       {{/if}}
-        {{#if isAdmin}}<td>{{user.sshkeys.length}}</td>{{/if}}
+        {{#if isAdmin}}<td class="simplify">{{user.sshkeys.length}}</td>{{/if}}
     </tr>
     {{/if}}
   {{/each}}
@@ -73,8 +73,8 @@
 
 <div class="btn-group" style="width: 100%;">
   <div style="display: inline-block;float: left;">
-  {{#if isAdmin}}<button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
-  <button {{action "showDeleteConfirmation"}} class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>{{/if}}
+  {{#if isAdmin}}<button {{action "newItem"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span></button>
+  <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify"><span class="glyphicon glyphicon-trash"></span></button>{{/if}}
   </div>
   <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;">&nbsp;{{page.cp}}&nbsp;</span>{{else}}&nbsp;{{page.cp}}&nbsp;{{/if}}</a>{{/each}}</div>
   </div>

@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   modalHelp: false,
+  collapsed: true,
 
   // return current user properties
   currentUser: function() {
@@ -49,7 +50,18 @@ export default Ember.Component.extend({
     // logout current user
     invalidateSession() {
       this.get('session').invalidate();
-    }
+    },
+
+    // open gitlab window
+    openGitlab() {
+      window.open('/gitlab', '_blank');
+    },
+
+    // Toggle or untoggle menu
+    toggleCollapsed() {
+      if (this.get('collapsed')) { this.set('collapsed', false); }
+      else { this.set('collapsed', true); }
+    },
   }
 
 });

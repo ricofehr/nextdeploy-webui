@@ -24,6 +24,11 @@ export default Ember.Component.extend({
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
 
+    // max 9 items on a page for vms
+    if (ibpmax > 9) {
+      ibpmax = 9;
+    }
+
     this.get('vms').map(function(model){
       var textStatus = '';
       var warnStatus = false;

@@ -17,8 +17,8 @@
 </tbody>
 </table>
 <div class="btn-group" style="margin: 9px 0 5px;">
-    <button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
-    <button {{action "showDeleteConfirmation"}} class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+    <button {{action "newItem"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span></button>
+    <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
 </div>
 
 {{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems")}}

@@ -166,9 +166,9 @@ export default Ember.Component.extend({
       }
 
       if (is_auth && (is_chrome || is_ff)) {
-        window.open(uri_with_creds);
+        window.open(uri_with_creds, '_blank');
       } else {
-        window.open(uri_xmlhttp_req);
+        window.open(uri_xmlhttp_req, '_blank');
       }
     }
   }
