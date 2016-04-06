@@ -101,10 +101,159 @@ export default Ember.Component.extend({
     return false;
   }.property('isShowingUris'),
 
+  // Check if we have drupal
+  isDrupal8: function() {
+    var framework = this.get('vm.project.framework.name');
+    if (framework.match(/^Drupal8/)) {
+      return true;
+    }
+
+    return false;
+  }.property('isShowingUris'),
+
   // reset isHTTPS property
   resetHTTPS: function () {
     this.set('isHTTPS', false);
   }.property('isShowingUris'),
+
+  // return main uri for the vm
+  mainURI: function() {
+    return this.getURI('main');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return admin uri for the vm
+  adminURI: function() {
+    return this.getURI('admin');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return mobile uri for the vm
+  mobileURI: function() {
+    return this.getURI('mobile');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return html uri for the vm
+  htmlURI: function() {
+    return this.getURI('html');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return nodejs uri for the vm
+  nodejsURI: function() {
+    return this.getURI('nodejs');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return gitsync uri for the vm
+  gitsyncURI: function() {
+    return this.getURI('gitsync');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return npmsh uri for the vm
+  npmURI: function() {
+    return this.getURI('npmsh');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return phpmyadmin uri for the vm
+  pmaURI: function() {
+    return this.getURI('phpmyadmin');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return logs uri for the vm
+  tailURI: function() {
+    return this.getURI('tail');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return phpinfo uri for the vm
+  pminfoURI: function() {
+    return this.getURI('pminfo');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return (drupal) cc uri for the vm
+  druccURI: function() {
+    return this.getURI('drupalcc');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return (drupal) updb uri for the vm
+  drupdbURI: function() {
+    return this.getURI('drupalupdb');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return (drupal) cim uri for the vm
+  drucimURI: function() {
+    return this.getURI('drupalcim');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return composer uri for the vm
+  composerURI: function() {
+    return this.getURI('composerinstall');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return (sf) doctrine uri for the vm
+  sfdoctrineURI: function() {
+    return this.getURI('sf2schema');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return (sf) migration uri for the vm
+  sfmigrationURI: function() {
+    return this.getURI('sf2migrate');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // return (sf) logs uri for the vm
+  sflogsURI: function() {
+    return this.getURI('tailsf2');
+  }.property('isShowingUris', 'isHTTPS'),
+
+  // open vm uri
+  getURI: function(uritype) {
+    var login = this.get('vm.htlogin');
+    var password = this.get('vm.htpassword');
+    var authcreds = login + ":" + password + "@";
+    var is_auth = this.get('vm.is_auth');
+    var uri = this.get('vm.name');
+    var uri_with_creds = '';
+    var uri_xmlhttp_req = '';
+    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var scheme = 'http';
+
+    if (this.get('isHTTPS')) {
+      scheme = 'https';
+    }
+
+    switch(uritype) {
+      case 'main':
+        uri_with_creds = scheme + '://' + authcreds + uri + '/';
+        uri_xmlhttp_req = scheme + '://' + uri + '/';
+        break;
+      case 'admin':
+        uri_with_creds = scheme + '://' + authcreds + 'admin.' + uri + '/';
+        uri_xmlhttp_req = scheme + '://admin.' + uri +'/';
+        break;
+      case 'mobile':
+        uri_with_creds = scheme + '://' + authcreds + 'm.' + uri +'/';
+        uri_xmlhttp_req = scheme + '://m.' + uri +'/';
+        break;
+      case 'html':
+        uri_with_creds = scheme + '://' + authcreds + uri + '/_html/';
+        uri_xmlhttp_req = scheme + '://' + uri + '/_html/';
+        break;
+      case 'nodejs':
+        uri_with_creds = scheme + '://' + authcreds + 'nodejs.' + uri + '/';
+        uri_xmlhttp_req = scheme + '://nodejs.' + uri + '/';
+        break;
+      default:
+        uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/' + uritype + '/';
+        uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/' + uritype + '/';
+    }
+
+    if (uri_with_creds === '') {
+      return;
+    }
+
+    if (is_auth && (is_chrome || is_ff)) {
+      return uri_with_creds;
+    } else {
+      return uri_xmlhttp_req;
+    }
+  },
 
   actions: {
     // close the modal, reset showing variable
@@ -116,60 +265,6 @@ export default Ember.Component.extend({
     // toggle https property
     toggleHTTPS: function() {
       this.toggleProperty('isHTTPS');
-    },
-
-    // open vm uri
-    openVmURI: function(uritype) {
-      var login = this.get('vm.htlogin');
-      var password = this.get('vm.htpassword');
-      var authcreds = login + ":" + password + "@";
-      var is_auth = this.get('vm.is_auth');
-      var uri = this.get('vm.name');
-      var uri_with_creds = '';
-      var uri_xmlhttp_req = '';
-      var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-      var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-      var scheme = 'http';
-
-      if (this.get('isHTTPS')) {
-        scheme = 'https';
-      }
-
-      switch(uritype) {
-        case 'main':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/';
-          break;
-        case 'admin':
-          uri_with_creds = scheme + '://' + authcreds + 'admin.' + uri + '/';
-          uri_xmlhttp_req = scheme + '://admin.' + uri +'/';
-          break;
-        case 'mobile':
-          uri_with_creds = scheme + '://' + authcreds + 'm.' + uri +'/';
-          uri_xmlhttp_req = scheme + '://m.' + uri +'/';
-          break;
-        case 'html':
-          uri_with_creds = scheme + '://' + authcreds + uri + '/_html/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/_html/';
-          break;
-        case 'nodejs':
-          uri_with_creds = scheme + '://' + authcreds + 'nodejs.' + uri + '/';
-          uri_xmlhttp_req = scheme + '://nodejs.' + uri + '/';
-          break;
-        default:
-          uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/' + uritype + '/';
-          uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/' + uritype + '/';
-      }
-
-      if (uri_with_creds === '') {
-        return;
-      }
-
-      if (is_auth && (is_chrome || is_ff)) {
-        window.open(uri_with_creds, '_blank');
-      } else {
-        window.open(uri_xmlhttp_req, '_blank');
-      }
     }
   }
 });
