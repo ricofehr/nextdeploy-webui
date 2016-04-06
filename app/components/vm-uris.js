@@ -212,6 +212,8 @@ export default Ember.Component.extend({
     var uri_xmlhttp_req = '';
     var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
+    var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
     var scheme = 'http';
 
     if (this.get('isHTTPS')) {
@@ -248,7 +250,7 @@ export default Ember.Component.extend({
       return;
     }
 
-    if (is_auth && (is_chrome || is_ff)) {
+    if (is_auth && (is_chrome || is_ff || is_iphone || is_ipad)) {
       return uri_with_creds;
     } else {
       return uri_xmlhttp_req;
