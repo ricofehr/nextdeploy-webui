@@ -32,6 +32,10 @@ body{
   border-color: #bcdff1;
 }
 
+.tdinfo {
+  width: 23%;
+}
+
 .glyphicon-refresh-animate {
     -moz-animation: spin-moz .7s infinite linear;
     -webkit-animation: spin-webkit .7s infinite linear;
