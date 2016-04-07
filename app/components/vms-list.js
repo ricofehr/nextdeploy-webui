@@ -54,7 +54,7 @@ export default Ember.Component.extend({
 
       // weird issue with ember nested model data, so get branchname from commit id
       branchName = model.get('commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-.*$/,'');
-      model.set('branch', branchName.substring(0,10));
+      model.set('branch', branchName.substring(0,15));
 
       // init date value
       day = model.get('created_at').getDate();
@@ -234,10 +234,20 @@ export default Ember.Component.extend({
       this.prepareList();
     },
 
-    // open detail modal from targetted vm (vmId parameter)
+    // open detail modal for targetted vm (vmId parameter)
     showDetails: function(vmId) {
       this.set('isShowingDetails', vmId);
       this.set('isBusy', true);
+    },
+
+    // open rollover modal for targetted vm
+    showHover: function(vmId) {
+      this.set('isShowingHovers', vmId);
+    },
+
+    // close the modal, reset showing variable
+    closeHover: function() {
+      this.set('isShowingHovers', -1);
     },
 
     // open uris modal from targetted vm (vmId parameter)

@@ -26,6 +26,11 @@ body{
     margin: 20px;
 }
 
+.table-hover tr:hover .tdinfo {
+  color: #31708f;
+  background-color: #d9edf7;
+  border-color: #bcdff1;
+}
 
 .glyphicon-refresh-animate {
     -moz-animation: spin-moz .7s infinite linear;

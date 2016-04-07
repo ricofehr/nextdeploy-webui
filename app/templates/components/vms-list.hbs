@@ -1,10 +1,9 @@
-<table class="table">
+<table class="table table-hover" {{action "closeHover" on="mouseLeave"}}>
  <thead>
     <tr>
         {{#if isVm}}<th class="simplify"><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
         <th>Project</th>
         <th class="simplify">Branch</th>
-        {{#if isDev}}<th class="simplify">Commit</th>{{/if}}
         <th>Uris</th>
         {{#if isDev}}<th>Infos</th>{{/if}}
         <th>Status</th>
@@ -16,11 +15,10 @@
 <tbody>
   {{#each vms as |vm|}}
     {{#if vm.isShow}}
-    <tr>
+    <tr {{action "showHover" vm.id on="mouseEnter"}}>
         {{#if isVm}}<td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>{{/if}}
         <td>{{vm.project.name}}</td>
-        <td class="simplify">{{vm.branch}}</td>
-        {{#if isDev}}<td class="simplify">{{vm.commit.short_id}}</td>{{/if}}
+        <td class="simplify tdinfo">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</td>
         <td><button {{action "showUris" vm.id}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button></td>
         {{#if isDev}}<td><button {{action "showDetails" vm.id}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button></td>{{/if}}
         {{#if vm.sucStatus}}<td class="success">&nbsp;{{vm.textStatus}}</td><td class="success simplify">{{vm.timeStatus}}s</td>{{/if}}

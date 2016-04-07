@@ -205,6 +205,7 @@ export default Ember.Component.extend({
     // open detail modal for targetted project (with projectId parameter)
     showDetails: function(projectId) {
       this.set('isShowingDetails', projectId);
+      this.set('isBusy', true);
     },
 
     // action for delete event
