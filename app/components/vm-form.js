@@ -259,6 +259,9 @@ export default Ember.Component.extend({
         return;
       }
 
+      // set same layout than user
+      this.set('vm.layout', vm.get('user').get('layout'));
+
       // redirect to vms list if success
       var pass = function(){
         router.transitionTo('vms.list');

@@ -97,6 +97,23 @@
   </div>
 
   <div class="form-group">
+    <label class="control-label alert-success col-sm-2">Keyboard</label>
+    <div class="col-sm-3">
+    {{#power-select
+      options=layoutlist
+      selected=user.layout
+      searchEnabled=false
+      disabled=isDisable
+      placeholder="Set Layout"
+      onchange=(action 'changeProperty' 'user.layout')
+      as |layout|
+    }}
+      {{layout}}
+    {{/power-select}}
+    </div>
+  </div>
+
+  <div class="form-group">
     {{#if successPassword}}
       {{#if successPassword2}}
         <label class="control-label alert-success col-sm-2">Password</label>

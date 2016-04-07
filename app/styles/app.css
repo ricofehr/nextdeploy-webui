@@ -101,3 +101,5 @@ body{
 .ember-power-select-trigger, .ember-power-select-option {
   font-size: 14px;
 }
+
+iframe { border: none; }

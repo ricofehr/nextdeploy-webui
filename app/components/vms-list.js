@@ -5,6 +5,9 @@ export default Ember.Component.extend({
   // Show / hide on html side
   isAllDelete: false,
   isShowingDeleteConfirmation: false,
+  isShowingVnc: false,
+  isReload: false,
+  vmSelected: null,
 
   // trigger when model changes
   didReceiveAttrs() {
@@ -227,6 +230,26 @@ export default Ember.Component.extend({
     return false;
   }.property('session.data.authenticated.access_level'),
 
+  // reload selected vm object
+  reloadVm: function() {
+    var self = this;
+    var vm = this.get('vmSelected');
+
+    self.set('isReload', true);
+    // reload models only for vnc popin (refresh password)
+    if (this.get('isShowingVnc')) {
+      vm.reload().then(function (vmVnc) {
+        self.set('vncPassword', vmVnc.get('termpassword'));
+        
+        Ember.run.later(function(){
+          self.reloadVm();
+        }, 10000);
+      });
+    }
+
+    self.set('isReload', false);
+  },
+
   // actions binding with user event
   actions: {
     changePage: function(cp) {
@@ -254,6 +277,25 @@ export default Ember.Component.extend({
     showUris: function(vmId) {
       this.set('isShowingUris', vmId);
       this.set('isBusy', true);
+    },
+
+    // open vnc window
+    openVnc: function(vm) {
+      var self = this;
+
+      this.set('vmSelected', vm);
+      this.set('isShowingVnc', true);
+      this.set('isBusy', true);
+
+      vm.reload().then(function (vmVnc) {
+        self.set('vncUrl', vmVnc.get('vnc_url'));
+        self.set('vncPassword', vmVnc.get('termpassword'));
+        self.set('vncLayout', vmVnc.get('layout'));
+      });
+
+      if (!this.get('isReload')) {
+        this.reloadVm();
+      }
     },
 
     // close deletes modal
