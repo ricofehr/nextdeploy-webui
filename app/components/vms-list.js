@@ -53,7 +53,7 @@ export default Ember.Component.extend({
       }
 
       // weird issue with ember nested model data, so get branchname from commit id
-      branchName = model.get('commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-.*$/,'');
+      branchName = model.get('commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-[^-]*$/,'');
       model.set('branch', branchName.substring(0,22));
 
       // init date value
