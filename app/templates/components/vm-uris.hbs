@@ -14,6 +14,7 @@
           Login: {{vm.htlogin}}<br/>
           Password: {{vm.htpassword}}<br/><br/>
 
+          {{#if vm.is_auth}}
           {{#if isPM}}
             <b>Tools</b><br>
             <a href="{{gitsyncURI}}" target="_blank">Gitpull</a><br/>
@@ -43,6 +44,7 @@
               <a href="{{sflogsURI}}" target="_blank">Sf Logs</a><br/>
               {{/if}}
             {{/if}}
+          {{/if}}
           {{/if}}
       {{else}}
         <b>Vm is not a Web Application.</b>
