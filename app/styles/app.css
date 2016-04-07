@@ -33,7 +33,31 @@ body{
 }
 
 .tdinfo {
-  width: 23%;
+  width: 25%;
+}
+
+@media all and (min-width: 1000px) {
+  .tdinfo {
+    width: 23%;
+  }
+}
+
+@media all and (min-width: 1400px) {
+  .tdinfo {
+    width: 20%;
+  }
+}
+
+@media all and (min-width: 1600px) {
+  .tdinfo {
+    width: 18%;
+  }
+}
+
+@media all and (min-width: 2000px) {
+  .tdinfo {
+    width: 15%;
+  }
 }
 
 .glyphicon-refresh-animate {
