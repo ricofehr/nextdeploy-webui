@@ -168,64 +168,68 @@ export default Ember.Component.extend({
       var self = this;
       var project = null;
 
-      this.set('vm.project', projectSetted);
-
-      //if selectedproject was flushed, flush usersList
-      if (!this.get('vm.project.id')) {
-        this.set('branche', null);
-        return;
-      }
+      this.set('loadingModal', true);
 
       //update project datas
-      project = this.get('vm.project');
+      this.store.findRecord('project', projectSetted.id, { backgroundReload: false, reload: true }).then(function(project) {
 
-      //first, change users combobox
-      var access_level = this.get('session').get('data.authenticated.access_level');
-      var user_id = this.get('session').get('data.authenticated.user.id');
-      var user_index = 0;
+        self.set('vm.project', projectSetted);
 
-      // remove other users if we arent > ProjectLead right
-      // remove admin users if we are ProjectLead
-      if (access_level < 50) {
-        project.get('users').toArray().forEach(function (user){
-          if (access_level < 40 && user && parseInt(user.id) !== user_id) {
-                project.get('users').removeObject(user);
-          }
-
-          if (access_level === 40 && user && user.get('group').get('access_level') === 50) {
-                project.get('users').removeObject(user);
-          }
-        });
-      }
-
-      // set default index in users array
-      for (var i = 0; i < project.get('users').toArray().length; i++) {
-        if (project.get('users').toArray()[i].id === user_id) {
-          user_index = i;
-          break;
+        //if selectedproject was flushed, flush usersList
+        if (!self.get('vm.project.id')) {
+          self.set('loadingModal', false);
+          self.set('branche', null);
+          return;
         }
-      }
 
-      // init htlogin and htpassword
-      self.set('vm.htlogin', project.get('login'));
-      self.set('vm.htpassword', project.get('password'));
+        //first, change users combobox
+        var access_level = self.get('session').get('data.authenticated.access_level');
+        var user_id = self.get('session').get('data.authenticated.user.id');
+        var user_index = 0;
 
-      // init default values
-      self.set('vm.technos', project.get('technos').toArray());
-      self.set('vm.user', project.get('users').toArray()[user_index]);
-      self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
-      self.set('vm.vmsize', project.get('vmsizes').toArray()[0]);
+        // remove other users if we arent > ProjectLead right
+        // remove admin users if we are ProjectLead
+        if (access_level < 50) {
+          project.get('users').toArray().forEach(function (user){
+            if (access_level < 40 && user && parseInt(user.id) !== user_id) {
+                  project.get('users').removeObject(user);
+            }
 
-      // init default branch and commit
-      this.set('loadingModal', true);
-      project.get('branches').then(function(branchs) {
-        branchs.forEach(function(branch) {
-          branch.reload().then(function (branchup) {
-            if (branchup.id === project.get('id') + '-master') {
-              self.set('branche', branchup);
+            if (access_level === 40 && user && user.get('group').get('access_level') === 50) {
+                  project.get('users').removeObject(user);
             }
           });
+        }
+
+        // set default index in users array
+        for (var i = 0; i < project.get('users').toArray().length; i++) {
+          if (project.get('users').toArray()[i].id === user_id) {
+            user_index = i;
+            break;
+          }
+        }
+
+        // init htlogin and htpassword
+        self.set('vm.htlogin', project.get('login'));
+        self.set('vm.htpassword', project.get('password'));
+
+        // init default values
+        self.set('vm.technos', project.get('technos').toArray());
+        self.set('vm.user', project.get('users').toArray()[user_index]);
+        self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
+        self.set('vm.vmsize', project.get('vmsizes').toArray()[0]);
+
+        // init default branch and commit
+        project.get('branches').then(function(branchs) {
+          branchs.forEach(function(branch) {
+            branch.reload().then(function (branchup) {
+              if (branchup.id === project.get('id') + '-master') {
+                self.set('branche', branchup);
+              }
+            });
+          });
         });
+
       });
 
     },
