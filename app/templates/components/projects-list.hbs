@@ -28,13 +28,17 @@
       {{/if}}
 
       {{#if isLead}}
-        <td>{{#link-To 'projects.edit' project.id}}{{project.name}}{{/link-To}}</td>
+        {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref"}}<a href="">{{project.name}}</a>{{/link-To}}
       {{else}}
         <td>{{project.name}}</td>
       {{/if}}
 
       {{#if isAdmin}}
-        <td class="simplify">{{#link-to 'projects.bybrand' project.brand.id}}{{project.brand.name}}{{/link-to}}</td>
+        {{#if brandId}}
+          <td class="simplify">{{project.brand.name}}</td>
+        {{else}}
+          {{#link-to 'projects.bybrand' project.brand.id tagName="td" classNames="simplify tdhref"}}<a href="">{{project.brand.name}}</a>{{/link-to}}
+        {{/if}}
       {{else}}
         <td class="simplify">{{project.brand.name}}</td>
       {{/if}}

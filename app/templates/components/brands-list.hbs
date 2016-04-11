@@ -13,10 +13,8 @@
         {{#if isAdmin}}
         <td class="simplify">{{input type="checkbox" checked=brand.todelete}}</td>
         {{/if}}
-        <td>
-        {{#if isAdmin}}{{#link-To 'brands.edit' brand.id}}{{brand.name}}{{/link-To}}
+        {{#if isAdmin}}{{#link-To 'brands.edit' brand.id tagName="td" classNames="tdhref"}}<a href="">{{brand.name}}</a>{{/link-To}}
         {{else}}{{brand.name}}{{/if}}
-        </td>
         <td>{{#link-To 'projects.bybrand' brand.id}}{{brand.projects.length}}{{/link-To}}</td>
     </tr>
     {{/if}}

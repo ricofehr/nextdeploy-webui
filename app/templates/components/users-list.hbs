@@ -27,17 +27,21 @@
       {{/if}}
 
       {{#if isAdmin}}
-        <td>{{#link-to 'users.edit' user.id}}{{user.email}}{{/link-to}}</td>
+        {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}<a href="">{{user.email}}</a>{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          <td>{{#link-to 'users.edit' user.id}}{{user.email}}{{/link-to}}</td>
+          {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}<a href="">{{user.email}}</a>{{/link-to}}
         {{else}}
           <td>{{user.email}}</td>
         {{/if}}
       {{/if}}
 
       {{#if isAdmin}}
-        <td>{{#link-to 'users.bygroup' user.group.id}}{{user.group.name}}{{/link-to}}</td>
+        {{#if groupId}}
+          <td>{{user.group.name}}</td>
+        {{else}}
+          {{#link-to 'users.bygroup' user.group.id tagName="td" classNames="tdhref"}}<a href="">{{user.group.name}}</a>{{/link-to}}
+        {{/if}}
       {{else}}
         <td>{{user.group.name}}</td>
       {{/if}}

@@ -36,6 +36,30 @@ body{
   width: 25%;
 }
 
+.table-hover tr:hover .tdinfo:hover {
+  background-color: #327AB7;
+}
+
+
+.tdhref:hover, .tdhref:hover {
+  background-color: #327AB7;
+}
+
+.tdhref:hover a {
+  color: #d9edf7;
+}
+
+.tdhref:hover a:hover {
+  color: #d9edf7;
+}
+
+.tdhref a {
+  text-decoration: none;
+  width:100%;
+  display:block;
+}
+
+
 @media all and (min-width: 1000px) {
   .tdinfo {
     width: 23%;

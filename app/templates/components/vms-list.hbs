@@ -15,17 +15,36 @@
   {{#each vms as |vm|}}
     {{#if vm.isShow}}
     <tr {{action "showHover" vm.id on="mouseEnter"}}>
-        {{#if isVm}}<td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>{{/if}}
-        <td><a href="" {{action "showUris" vm.id}}>{{vm.project.name}}</a></td>
-        <td class="simplify tdinfo">
-            {{#if isDev}}<a href="" {{action "showDetails" vm.id}}>{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
-            {{else}}{{vm-hover vm=vm isShowingHovers=isShowingHovers}}{{/if}}
-        </td>
-        {{#if isDev}}<td class="simplify"><button {{action "openVnc" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button></td>{{/if}}
-        {{#if vm.sucStatus}}<td class="success">&nbsp;{{vm.textStatus}}</td><td class="success simplify">{{vm.timeStatus}}s</td>{{/if}}
-        {{#if vm.warnStatus}}<td class="warning"><button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button></td><td class="warning simplify">{{vm.timeStatus}}s</td>{{/if}}
-        {{#if vm.dangStatus}}<td class="danger">&nbsp;{{vm.textStatus}}</td><td class="danger simplify"><button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button></td>{{/if}}
-        {{#if isLead}}<td class="simplify">{{vm.user.email}}</td>{{/if}}
+        {{#if isVm}}
+            <td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>
+        {{/if}}
+        <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}}</a></td>
+        {{#if isDev}}
+            <td class="simplify tdinfo tdhref" {{action "showDetails" vm}}>
+                <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
+            </td>
+        {{else}}
+            <td class="simplify tdinfo">
+                {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
+            </td>
+        {{/if}}
+        {{#if isDev}}
+            <td class="simplify">
+                <button {{action "openVnc" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+            </td>
+        {{/if}}
+        {{#if vm.sucStatus}}
+            <td class="success">&nbsp;{{vm.textStatus}}</td><td class="success simplify">{{vm.timeStatus}}s</td>
+        {{/if}}
+        {{#if vm.warnStatus}}
+            <td class="warning"><button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button></td><td class="warning simplify">{{vm.timeStatus}}s</td>
+        {{/if}}
+        {{#if vm.dangStatus}}
+            <td class="danger">&nbsp;{{vm.textStatus}}</td><td class="danger simplify"><button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button></td>
+        {{/if}}
+        {{#if isLead}}
+            <td class="simplify">{{vm.user.email}}</td>
+        {{/if}}
         <td class="simplify">{{vm.created_at_short}}</td>
     </tr>
     {{/if}}
@@ -54,8 +73,6 @@
 {{/bs-modal}}
 {{/if}}
 
-{{#each vms as |vm|}}
-  {{vm-details vm=vm isShowingDetails=isShowingDetails isBusy=isBusy}}
-  {{vm-uris vm=vm isShowingUris=isShowingUris isBusy=isBusy isHTTPS=false}}
-{{/each}}
+{{vm-details vm=vmSelected isShowingDetails=isShowingDetails isBusy=isBusy}}
+{{vm-uris vm=vmSelected isShowingUris=isShowingUris isBusy=isBusy}}
 {{vm-vnc vncUrl=vncUrl vncPassword=vncPassword vncLayout=vncLayout isShowingVnc=isShowingVnc isBusy=isBusy}}

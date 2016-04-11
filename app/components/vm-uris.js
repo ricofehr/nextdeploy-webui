@@ -1,13 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  isShowingUri: false,
-
-  // check if the modal must be displayed (isShowingUris must be equal to the current vm id)
-  setShowingUri: function() {
-    this.set('isShowingUri', this.get('isShowingUris') === this.get('vm').id);
-  }.observes('isShowingUris'),
-
+  isHTTPS: false,
   // Return true if is running state
   isRunning: function() {
     if (parseInt(this.get('vm.status'), 10) > 0) { return true; }
@@ -260,8 +254,10 @@ export default Ember.Component.extend({
   actions: {
     // close the modal, reset showing variable
     closeUris: function() {
-      this.set('isShowingUris', -1);
+      this.set('isShowingUris', false);
       this.set('isBusy', false);
+      this.set('vm', null);
+      this.set('isHTTPS', false);
     },
 
     // toggle https property
