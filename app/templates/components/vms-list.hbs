@@ -4,7 +4,10 @@
         {{#if isVm}}<th class="simplify"><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
         <th>URIS</th>
         <th class="simplify">Infos</th>
-        {{#if isDev}}<th class="simplify"><span class="fa fa-terminal"></span></th>{{/if}}
+        {{#if isDev}}
+            <th class="simplify"><span class="fa fa-terminal"></span></th>
+            <th class="simplify"><span class="fa fa-database"></span></th>
+        {{/if}}
         <th>Status</th>
         <th class="simplify">BuildTime</th>
         {{#if isLead}}<th class="simplify">User</th>{{/if}}
@@ -20,7 +23,7 @@
         {{/if}}
         <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}}</a></td>
         {{#if isDev}}
-            <td class="simplify tdinfo tdhref" {{action "showDetails" vm}}>
+            <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}}>
                 <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
             </td>
         {{else}}
@@ -31,6 +34,9 @@
         {{#if isDev}}
             <td class="simplify">
                 <button {{action "openVnc" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+            </td>
+            <td class="simplify">
+                <button {{action "showIO" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
             </td>
         {{/if}}
         {{#if vm.sucStatus}}
@@ -59,6 +65,7 @@
     </div>
     <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;">&nbsp;{{page.cp}}&nbsp;</span>{{else}}&nbsp;{{page.cp}}&nbsp;{{/if}}</a>{{/each}}</div>
 </div>
+
 {{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
   {{#bs-modal-body}}
     Are you sure to proceed ?<br/>{{{deleteText}}}
@@ -75,4 +82,5 @@
 
 {{vm-details vm=vmSelected isShowingDetails=isShowingDetails isBusy=isBusy}}
 {{vm-uris vm=vmSelected isShowingUris=isShowingUris isBusy=isBusy}}
+{{vm-io vm=vmSelected isShowingIO=isShowingIO isBusy=isBusy}}
 {{vm-vnc vncUrl=vncUrl vncPassword=vncPassword vncLayout=vncLayout isShowingVnc=isShowingVnc isBusy=isBusy}}

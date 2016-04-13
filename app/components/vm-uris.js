@@ -253,9 +253,13 @@ export default Ember.Component.extend({
   actions: {
     // close the modal, reset showing variable
     closeUris: function() {
+      var self = this;
       this.set('isShowingUris', false);
       this.set('isBusy', false);
-      this.set('vm', null);
+      // little pause before reset vm for avoif clipping
+      Ember.run.later(function(){
+       self.set('vm', null);
+      }, 500);
     },
 
     // toggle https property

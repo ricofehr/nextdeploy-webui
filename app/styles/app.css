@@ -26,6 +26,16 @@ body{
     margin: 20px;
 }
 
+/* make power-select visible into modal */
+.inmodal {
+  z-index: 1100;
+}
+
+.loadingModal {
+  z-index: 11000;
+}
+
+/* manage rollover in table rows */
 .table-hover tr:hover .tdinfo {
   color: #31708f;
   background-color: #d9edf7;
@@ -36,7 +46,7 @@ body{
   width: 25%;
 }
 
-.table-hover tr:hover .tdinfo:hover {
+.table-hover tr:hover .tdinfoh:hover {
   background-color: #327AB7;
 }
 
@@ -59,6 +69,14 @@ body{
   display:block;
 }
 
+a .nodec {
+  text-decoration: none;
+}
+
+/* align text with x-toggle element */
+.togglealign {
+  vertical-align: top;
+}
 
 @media all and (min-width: 1000px) {
   .tdinfo {

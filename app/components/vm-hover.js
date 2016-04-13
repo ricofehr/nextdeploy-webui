@@ -5,7 +5,7 @@ export default Ember.Component.extend({
 
   setShowingHover: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
-    if (access_level >= 30) {
+    if (access_level >= 20) {
       this.set('isShowingHover', this.get('isShowingHovers') === this.get('vm').id);
     } else {
       this.set('isShowingHover', false);

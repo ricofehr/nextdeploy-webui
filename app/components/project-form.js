@@ -272,7 +272,7 @@ export default Ember.Component.extend({
         webTechno = techno;
       }
     });
-    
+
     if (!webTechno) {
       return;
     }
@@ -451,6 +451,7 @@ export default Ember.Component.extend({
       });
       //this.get('technotypes').find(parseInt(technoTypeId)).set('selected', firstTechno);
     },
+    
     // change property on power-select
     changeProperty: function(property, value) {
       this.set(property, value);

@@ -1,1 +1,66 @@
-{{yield}}
+{{#bs-modal open=isShowingIO body=false header=false footer=false renderInPlace=true autoClose=false closeAction=(action 'closeIO')}}
+  {{#bs-modal-header}}{{#if isRunning}}{{vmName}}... ({{branchName}}) {{else}}Please try again later{{/if}}{{/bs-modal-header}}
+  {{#bs-modal-body}}
+    {{#if errorIO}}
+      <b>{{errorIO}}</b>
+    {{else}}
+      {{#if isRunning}}
+        {{#if isIO}}
+
+{{#bs-accordion selected=0}}
+  {{#bs-accordion-item value="1" title="Import Features" classNames="nodec"}}
+  !!! When you start an import , all data (assets and database) of the vm is overwritten by those hosted in the FTP repository.<br/><br/>
+      <div class="form-group">
+      {{x-toggle toggle='agreeImport'}}<label class="control-label togglealign">i understand risks and i want make an import of fresh datas</label><br/> {{#if okImport}}<button {{action 'importIO'}} class="btn btn-success">Import !</button><br/>{{/if}}</div><br/>
+  {{/bs-accordion-item}}
+  {{#bs-accordion-item value="2" title="Export Features" classNames="nodec"}}
+  Export to the FTP repository datas and assets of this vm for branchs below<br/><br/>
+      <div class="form-group">
+        <div class="control-label col-sm-4">
+        {{#power-select-multiple
+          options=branchs
+          selected=export_branchs
+          placeholder="Targets for export"
+          dropdownClass="inmodal"
+          onchange=(action 'changeProperty' 'export_branchs')
+          as |branch|
+        }}
+          {{branch}}
+        {{/power-select-multiple}}
+        </div>
+        {{#if export_branchs}}
+        <div class="control-label col-sm-2">
+          <button {{action 'exportIO'}} class="btn btn-success">Export !</button>
+        </div>
+        {{/if}}
+      </div>
+  {{/bs-accordion-item}}
+{{/bs-accordion}}
+
+        {{else}}
+        <b>Nothing to Import/Export on this VM</b>
+        {{/if}}
+      {{else}}
+        <b>Vm is not on running status.</b>
+      {{/if}}
+    {{/if}}
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}
+
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=false classNames=['ember-view','loadingModal'] open=loadingModal}}
+   {{#bs-modal-header closeButton=false}}
+     <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
+   {{/bs-modal-header}}
+   {{#if importRunning}}
+     {{#bs-modal-body}}
+        <div class="text-center">Import is a long task, please waiting some minutes</div>
+     {{/bs-modal-body}}
+   {{/if}}
+
+   {{#if exportRunning}}
+     {{#bs-modal-body}}
+        <div class="text-center">Export is a long task, please waiting some minutes</div>
+     {{/bs-modal-body}}
+   {{/if}}
+{{/bs-modal}}

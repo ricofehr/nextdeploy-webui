@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   isShowingDeleteConfirmation: false,
   isShowingVnc: false,
   isShowingUris: false,
+  isShowingIO: false,
   isShowingDetails: false,
   isReload: false,
   vmSelected: null,
@@ -276,10 +277,17 @@ export default Ember.Component.extend({
       this.set('isShowingHovers', -1);
     },
 
-    // open uris modal from targetted vm (vmId parameter)
+    // open uris modal from targetted vm (vm parameter)
     showUris: function(vm) {
       this.set('vmSelected', vm);
       this.set('isShowingUris', true);
+      this.set('isBusy', true);
+    },
+
+    // open io modal from targetted vm (vm parameter)
+    showIO: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingIO', true);
       this.set('isBusy', true);
     },
 
