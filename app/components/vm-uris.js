@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  isHTTPS: false,
   // Return true if is running state
   isRunning: function() {
     if (parseInt(this.get('vm.status'), 10) > 0) { return true; }
@@ -108,7 +107,7 @@ export default Ember.Component.extend({
   // reset isHTTPS property
   resetHTTPS: function () {
     this.set('isHTTPS', false);
-  }.property('isShowingUris'),
+  }.observes('isShowingUris'),
 
   // return main uri for the vm
   mainURI: function() {
@@ -257,12 +256,11 @@ export default Ember.Component.extend({
       this.set('isShowingUris', false);
       this.set('isBusy', false);
       this.set('vm', null);
-      this.set('isHTTPS', false);
     },
 
     // toggle https property
-    toggleHTTPS: function() {
-      this.toggleProperty('isHTTPS');
+    toggleHTTPS: function(isToggled) {
+      this.set('isHTTPS', isToggled);
     }
   }
 });
