@@ -74,13 +74,16 @@ export default Ember.Component.extend({
     var self = this;
 
     this.set('loadingModal', true);
+    this.set('commits', []);
 
     branch = this.get('branche');
     if (branch) {
       errorBranch = false;
-      branch.get('commits').then(function (commits) {
-        self.set('loadingModal', false);
-        self.set('vm.commit', commits.toArray()[0]);
+      branch.reload().then(function (branch) {
+        branch.get('commits').then(function (commits) {
+          self.set('loadingModal', false);
+          self.set('vm.commit', commits.toArray()[0]);
+        });
       });
     } else {
       this.set('loadingModal', false);
@@ -166,14 +169,14 @@ export default Ember.Component.extend({
     // project change event
     projectChange: function(projectSetted) {
       var self = this;
-      var project = null;
 
+      // loading waiting
       this.set('loadingModal', true);
 
-      //update project datas
+      // refresh project datas
       this.store.findRecord('project', projectSetted.id, { backgroundReload: false, reload: true }).then(function(project) {
 
-        self.set('vm.project', projectSetted);
+        self.set('vm.project', project);
 
         //if selectedproject was flushed, flush usersList
         if (!self.get('vm.project.id')) {
@@ -220,13 +223,11 @@ export default Ember.Component.extend({
         self.set('vm.vmsize', project.get('vmsizes').toArray()[0]);
 
         // init default branch and commit
-        project.get('branches').then(function(branchs) {
+        self.get('vm.project').get('branches').then(function(branchs) {
           branchs.forEach(function(branch) {
-            branch.reload().then(function (branchup) {
-              if (branchup.id === project.get('id') + '-master') {
-                self.set('branche', branchup);
+              if (branch.id === project.get('id') + '-master') {
+                self.set('branche', branch);
               }
-            });
           });
         });
 
