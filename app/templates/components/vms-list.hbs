@@ -21,7 +21,7 @@
         {{#if isVm}}
             <td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>
         {{/if}}
-        <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}}</a></td>
+        <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.branch}})</span></a></td>
         {{#if isDev}}
             <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}}>
                 <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
@@ -63,7 +63,7 @@
     <button {{action "newItem"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span></button>
     <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
-    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;">&nbsp;{{page.cp}}&nbsp;</span>{{else}}&nbsp;{{page.cp}}&nbsp;{{/if}}</a>{{/each}}</div>
+    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
 </div>
 
 {{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
