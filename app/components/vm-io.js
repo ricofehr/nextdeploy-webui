@@ -39,7 +39,7 @@ export default Ember.Component.extend({
       return false;
     }
 
-    return this.get('vm.name').substring(0,30);
+    return this.get('vm.name').replace(/\..*$/,'');
   }.property('vm.name'),
 
   // check if we have a framework or a database

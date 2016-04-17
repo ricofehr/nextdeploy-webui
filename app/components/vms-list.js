@@ -239,11 +239,12 @@ export default Ember.Component.extend({
     var vm = this.get('vmSelected');
 
     self.set('isReload', true);
-    // reload models only for vnc popin (refresh password)
-    if (this.get('isShowingVnc')) {
-      vm.reload().then(function (vmVnc) {
-        self.set('vncPassword', vmVnc.get('termpassword'));
-        
+
+    // reload models for vnc and details popin (refresh password)
+    if (this.get('isShowingVnc') || this.get('isShowingDetails')) {
+      vm.reload().then(function (vmRel) {
+        self.set('vncPassword', vmRel.get('termpassword'));
+
         Ember.run.later(function(){
           self.reloadVm();
         }, 10000);
@@ -265,6 +266,10 @@ export default Ember.Component.extend({
       this.set('vmSelected', vm);
       this.set('isShowingDetails', true);
       this.set('isBusy', true);
+
+      if (!this.get('isReload')) {
+        this.reloadVm();
+      }
     },
 
     // open rollover modal for targetted vm

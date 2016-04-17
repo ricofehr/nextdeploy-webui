@@ -1,11 +1,16 @@
-{{#bs-modal open=isShowingDetails body=false header=false footer=false autoClose=false closeAction=(action 'closeDetails')}}
+{{#bs-modal open=isShowingDetails body=false header=false footer=false autoClose=false size="lg" closeAction=(action 'closeDetails')}}
   {{#bs-modal-header}}{{#if isRunning}}Details{{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if isRunning}}
       <b>System</b><br>
       Image: {{vm.systemimage.name}}<br>
-      Sizing: {{vm.vmsize.title}} ({{vm.vmsize.description}})<br>
-      Vm connection: ssh modem@{{vm.floating_ip}}<br>
+      Sizing: {{vm.vmsize.title}} ({{vm.vmsize.description}})<br><br>
+      <b>SAMBA Share</b><br>
+      smb://modem:{{vm.termpassword}}@{{vm.floating_ip}}/{{vmName}}<br/>
+      User: modem<br/>
+      Password: {{vm.termpassword}}<br/><br/>
+      <b>Remote Access</b><br/>
+      SSH: ssh modem@{{vm.floating_ip}}<br>
       Htaccess: {{vm.htlogin}} / {{vm.htpassword}}<br><br>
       <b>Commit</b><br>
       Hash: {{vm.commit.commit_hash}}<br>
