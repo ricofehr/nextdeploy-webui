@@ -6,6 +6,7 @@ export default DS.Model.extend({
   lastname: DS.attr('string'),
   authentication_token: DS.attr('string'),
   is_project_create: DS.attr('boolean'),
+  is_user_create: DS.attr('boolean'),
   layout: DS.attr('string'),
   company: DS.attr('string'),
   quotavm: DS.attr('number'),

@@ -6,10 +6,10 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model() {
 
     return Ember.RSVP.hash({
-      groups: this.store.peekAll('group'),
+      groups: this.store.peekAll('group').sortBy('access_level').reverse(),
       projects: this.store.peekAll('project'),
       users: this.store.peekAll('user'),
-      user: this.store.createRecord('user', { quotavm: '3', layout: 'us' })
+      user: this.store.createRecord('user', { quotavm: '4', layout: 'fr', is_credentials_send: true })
     });
   },
 });

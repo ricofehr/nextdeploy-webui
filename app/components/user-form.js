@@ -6,12 +6,12 @@ export default Ember.Component.extend({
   quotavmlist: ['0','1','2','3','4','5','6','7','8','9','10','15','20','30','50','100'],
   // layout values for terminal login
   layoutlist: ['fr','us','es','de'],
-  // field is_project_create is read-only ?
+  // field is_project/user_create is read-only ?
   is_project_create_ro: true,
+  is_user_create_ro: true,
 
   // sort group
   computeSorting: ['name'],
-  groupSort: Ember.computed.sort('groups', 'computeSorting'),
 
   // validation variables
   errorCompany: false,
@@ -42,6 +42,19 @@ export default Ember.Component.extend({
     this.initModel();
   },
 
+  // Filter groups display follow access_level user
+  groupsFilter: function() {
+    var groups = this.get('groups').sortBy('access_level').reverse();
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    this.get('groups').forEach(function(group) {
+      group.set('isShow', true);
+      if (parseInt(access_level) === 40 && parseInt(group.get('access_level')) >= 40) {
+        group.set('isShow', false);
+      }
+    });
+  },
+
   // delete records unsaved
   cleanModel: function() {
     var cleanProjects = this.store.peekAll('project').filterBy('id', null);
@@ -66,8 +79,10 @@ export default Ember.Component.extend({
     // fix weird issue for permit select 0 into power-select
     this.get('user').set('quotavm', '' + this.get('user').get('quotavm'));
 
+    this.groupsFilter();
     this.formIsValid();
     this.checkProjectCreate();
+    this.checkUserCreate();
   },
 
   // ensure email attribute is not empty
@@ -210,6 +225,37 @@ export default Ember.Component.extend({
 
   }.observes('user.group'),
 
+  // check if usercreate attribute can be shown
+  checkUserCreate: function() {
+    var access_level_user = null;
+    var access_level_current = this.get('session').get('data.authenticated.access_level');
+
+    // default is never creat user
+    this.set('is_user_create_ro', true);
+    this.set('is_user_create_display', false);
+
+    if (!this.get('user.group') || !this.get('user.group.id')) { return; }
+
+    access_level_user = this.get('user.group').get('access_level');
+
+    // an admin can always create project
+    if (access_level_user >= 50) {
+      this.set('user.is_user_create', true);
+    }
+
+    if (access_level_user < 40) {
+      this.set('user.is_user_create', false);
+    } else {
+      this.set('is_user_create_display', true);
+    }
+
+    // Only ProjectLead can have project-creation right
+    if (access_level_current >= 50 && access_level_user < 50 && access_level_user >= 40) {
+      this.set('is_user_create_ro', false);
+    }
+
+  }.observes('user.group'),
+
   // ensure password attribute is not empty and follows password constraints
   checkPassword: function() {
     var password = this.get('user.password');
@@ -225,9 +271,9 @@ export default Ember.Component.extend({
       errorPassword = true;
       if (this.get('user.id')) {
         errorPassword = false;
+        this.set('user.is_credentials_send', false);
       }
       successPassword = false;
-      this.set('user.is_credentials_send', false);
     }
 
     this.set('errorPassword', errorPassword);
@@ -308,6 +354,17 @@ export default Ember.Component.extend({
   // Check if current user is admin and can change properties
   isDisableAdmin: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
+    var form_id = parseInt(this.get('user.id'));
+    var user_create = this.get('session').get('data.authenticated.user.is_user_create');
+
+    if (!form_id && user_create) { return false; }
+    if (parseInt(access_level) >= 50) { return false; }
+    return true;
+  }.property('user.id'),
+
+  // Check if current user is admin and can change properties
+  isDisableRealAdmin: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
 
     if (parseInt(access_level) >= 50) { return false; }
     return true;
@@ -317,6 +374,8 @@ export default Ember.Component.extend({
   isDisableProjectList: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
     var group_access = 0;
+    var form_id = parseInt(this.get('user.id'));
+    var user_create = this.get('session').get('data.authenticated.user.is_user_create');
 
     if (this.get('user.group') && this.get('user.group').get('access_level')) {
       group_access = this.get('user.group').get('access_level');
@@ -325,7 +384,9 @@ export default Ember.Component.extend({
     if (access_level < 50 || group_access === 50) {
       if (group_access === 50) {
         this.set('user_projects', this.get('projects').toArray());
+        return true;
       }
+      if (!form_id && user_create) { return false; }
       return true;
     }
     return false;
@@ -336,13 +397,23 @@ export default Ember.Component.extend({
     var access_level = this.get('session').get('data.authenticated.access_level');
     var current_id = this.get('session').get('data.authenticated.user.id');
     var form_id = parseInt(this.get('user.id'));
+    var user_create = this.get('session').get('data.authenticated.user.is_user_create');
 
     if (access_level >= 50) { return false; }
+    if (!form_id && user_create) { return false; }
     if (current_id === form_id) { return false; }
     return true;
   }.property('user.id'),
 
-  // Check if current user is admin
+  // Check if current user is lead
+  isAdmin: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level >= 50) { return true; }
+    return false;
+  }.property('session.data.authenticated.user.id'),
+
+  // Check if current user is lead
   isLead: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
 
@@ -355,8 +426,10 @@ export default Ember.Component.extend({
     var access_level = this.get('session').get('data.authenticated.access_level');
     var current_id = this.get('session').get('data.authenticated.user.id');
     var form_id = parseInt(this.get('user.id'));
+    var user_create = this.get('session').get('data.authenticated.user.is_user_create');
 
     if (access_level >= 50) { return true; }
+    if (!form_id && user_create) { return true; }
     if (current_id === form_id) { return true; }
     return false;
   }.property('user.id'),

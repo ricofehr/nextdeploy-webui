@@ -14,7 +14,7 @@ export default Ember.Component.extend({
 
   // return shortly vm name
   vmName: function() {
-    return this.get('vm.name').replace(/\..*$/,'')
+    return this.get('vm.name').replace(/\..*$/,'');
   }.property('vm.name'),
 
   actions: {

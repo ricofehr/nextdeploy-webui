@@ -182,6 +182,14 @@ export default Ember.Component.extend({
     return false;
   }.property('session.data.authenticated.access_level'),
 
+  // Check if current user can create user
+  isUserCreate: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+    if (access_level === 50) { return true; }
+
+    return this.get('session').get('data.authenticated.user.is_user_create');
+  }.property('session.data.authenticated.access_level'),
+
   // actions binding with user event
   actions: {
     // change current page of the list

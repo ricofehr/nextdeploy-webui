@@ -56,7 +56,7 @@
     {{/if}}
     <div class="col-sm-3">
     {{#power-select
-      options=groupSort
+      options=groups
       searchField="name"
       selected=user.group
       searchEnabled=false
@@ -65,7 +65,7 @@
       onchange=(action 'changeProperty' 'user.group')
       as |group|
     }}
-      {{group.name}}
+      {{#if group.isShow}}{{group.name}}{{/if}}
     {{/power-select}}
      </div>
   </div>
@@ -79,6 +79,15 @@
   </div>
   {{/if}}
 
+  {{#if is_user_create_display}}
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">User Creation</label>
+    <div class="col-sm-3">
+      {{x-toggle value=user.is_user_create disabled=is_user_create_ro toggled=user.is_user_create }}
+    </div>
+  </div>
+  {{/if}}
+
   <div class="form-group">
     <label class="control-label alert-success col-sm-2">Quotavm</label>
     <div class="col-sm-3">
@@ -86,7 +95,7 @@
       options=quotavmlist
       selected=user.quotavm
       searchEnabled=false
-      disabled=isDisableAdmin
+      disabled=isDisableRealAdmin
       placeholder="Set a quota"
       onchange=(action 'changeProperty' 'user.quotavm')
       as |quota|
@@ -156,7 +165,7 @@
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">Send Credentials</label>
     <div class="col-sm-3">
-      <label>{{x-toggle value=user.is_credentials_send toggled=user.is_credentials_send}}</label>
+      <label>{{x-toggle value=user.is_credentials_send toggled=user.is_credentials_send disabled=isDisableRealAdmin}}</label>
     </div>
   </div>
   {{/if}}
