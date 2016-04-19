@@ -254,6 +254,13 @@ export default Ember.Component.extend({
     self.set('isReload', false);
   },
 
+  // reset to delete flag
+  resetDelete: function() {
+    Ember.Logger.debug("okok resetdelete");
+    this.get('vms').setEach('todelete', false);
+    this.set('isAllDelete', false);
+  }.observes('search', 'projectId', 'userId', 'currentPage'),
+
   // actions binding with user event
   actions: {
     changePage: function(cp) {
@@ -410,7 +417,13 @@ export default Ember.Component.extend({
       if (this.get('isAllDelete')) { this.set('isAllDelete', false); }
       else { this.set('isAllDelete', true); }
 
-      this.get('vms').setEach('todelete', this.get('isAllDelete'));
+      if (this.get('isAllDelete')) {
+        this.get('vms').forEach(function(vm) {
+          vm.set('todelete', vm.get('isShow'));
+        });
+      } else {
+        this.resetDelete();
+      }
     },
   }
 });
