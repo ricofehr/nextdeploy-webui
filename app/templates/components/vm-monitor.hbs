@@ -1,0 +1,293 @@
+{{#bs-modal open=isShowingMonitor body=false header=false footer=false autoClose=false size="lg" closeAction=(action 'closeMonitor')}}
+  {{#bs-modal-header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/bs-modal-header}}
+  {{#bs-modal-body}}
+  {{#if vm}}
+  <center>
+
+  <article>
+  <div class="btn-group" role="group">
+    {{#if is10m}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">10m</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '10m'}}>10m</button>
+    {{/if}}
+
+    {{#if is1h}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">1h</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '1h'}}>1h</button>
+    {{/if}}
+
+    {{#if is8h}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">8h</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '8h'}}>8h</button>
+    {{/if}}
+
+    {{#if is1d}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">1d</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '1d'}}>1d</button>
+    {{/if}}
+
+    {{#if is7d}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">7d</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '7d'}}>7d</button>
+    {{/if}}
+
+    {{#if is30d}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">30d</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '30d'}}>30d</button>
+    {{/if}}
+
+    {{#if is90d}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">90d</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '90d'}}>90d</button>
+    {{/if}}
+
+    {{#if is365d}}
+      <button type="button" class="btn btn-default active" aria-pressed="true">1y</button>
+    {{else}}
+      <button type="button" class="btn btn-default" {{action "changeTime" '365d'}}>1y</button>
+    {{/if}}
+  </div></article><br/>
+
+  <article>
+    <div>
+  {{#if systemCollapsed}}
+  <button class="btn btn-info" type="button" {{action "toggleCollapse" 'systemCollapsed'}}>System</button>
+  {{else}}
+  <button class="btn btn-success" type="button" {{action "toggleCollapse" 'systemCollapsed'}}>System</button>
+  {{/if}}
+
+  {{#if diskCollapsed}}
+  <button class="btn btn-info" type="button" {{action "toggleCollapse" 'diskCollapsed'}}>Disk</button>
+  {{else}}
+  <button class="btn btn-success" type="button" {{action "toggleCollapse" 'diskCollapsed'}}>Disk</button>
+  {{/if}}
+
+  {{#if isApache}}
+  {{#if apacheCollapsed}}
+  <button class="btn btn-info" type="button" {{action "toggleCollapse" 'apacheCollapsed'}}>Apache</button>
+  {{else}}
+  <button class="btn btn-success" type="button" {{action "toggleCollapse" 'apacheCollapsed'}}>Apache</button>
+  {{/if}}
+  {{/if}}
+
+  {{#if isMysql}}
+  {{#if mysqlCollapsed}}
+  <button class="btn btn-info" type="button" {{action "toggleCollapse" 'mysqlCollapsed'}}>MySQL</button>
+  {{else}}
+  <button class="btn btn-success" type="button" {{action "toggleCollapse" 'mysqlCollapsed'}}>MySQL</button>
+  {{/if}}
+  {{/if}}
+
+  {{#if isRedis}}
+  {{#if redisCollapsed}}
+  <button class="btn btn-info" type="button" {{action "toggleCollapse" 'redisCollapsed'}}>Redis</button>
+  {{else}}
+  <button class="btn btn-success" type="button" {{action "toggleCollapse" 'redisCollapsed'}}>Redis</button>
+  {{/if}}
+  {{/if}}
+
+  {{#if isMemcache}}
+  {{#if memcacheCollapsed}}
+  <button class="btn btn-info" type="button" {{action "toggleCollapse" 'memcacheCollapsed'}}>Redis</button>
+  {{else}}
+  <button class="btn btn-success" type="button" {{action "toggleCollapse" 'memcacheCollapsed'}}>Redis</button>
+  {{/if}}
+  {{/if}}
+
+  {{#if isElastic}}
+  {{#if elasticCollapsed}}
+  <button class="btn btn-info" type="button" {{action "toggleCollapse" 'elasticCollapsed'}}>Redis</button>
+  {{else}}
+  <button class="btn btn-success" type="button" {{action "toggleCollapse" 'elasticCollapsed'}}>Redis</button>
+  {{/if}}
+  {{/if}}
+  
+  </div>
+  </article><br/>
+
+  {{#bs-collapse collapsed=systemCollapsed}}
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=load&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=memory&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=swap&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=interface&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=processes&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=users&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+  {{/bs-collapse}}
+
+  {{#bs-collapse collapsed=diskCollapsed}}
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=df&panelId=2&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=disk&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=disk&panelId=2&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=disk&panelId=3&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+  {{/bs-collapse}}
+
+  {{#if isApache}}
+  {{#bs-collapse collapsed=apacheCollapsed}}
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=apache&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=apache&panelId=2&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+  {{/bs-collapse}}
+  {{/if}}
+
+  {{#if isMysql}}
+  {{#bs-collapse collapsed=mysqlCollapsed}}
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=mysql&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=mysql&panelId=2&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=mysql&panelId=3&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=mysql&panelId=4&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+  {{/bs-collapse}}
+  {{/if}}
+
+  {{#if isMemcache}}
+  {{#bs-collapse collapsed=memcacheCollapsed}}
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=memcache&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=memcache&panelId=2&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=memcache&panelId=3&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=memcache&panelId=4&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+  {{/bs-collapse}}
+  {{/if}}
+
+  {{#if isRedis}}
+  {{#bs-collapse collapsed=redisCollapsed}}
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=redis&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=redis&panelId=2&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=redis&panelId=3&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=redis&panelId=4&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+  {{/bs-collapse}}
+  {{/if}}
+
+  {{#if isElastic}}
+  {{#bs-collapse collapsed=elasticCollapsed}}
+  <article>
+    <div>
+        <p><img src="https://{{getGrafanaHost}}/render/dashboard-solo/script/getdash.js?uind=grafnu&host={{vmName}}&metric=elastic&panelId=1&time={{timeGraph}}&async=false&nc={{nc2}}"></p>
+    </div>
+  </article>
+  {{/bs-collapse}}
+  {{/if}}
+
+  </center>    
+  {{/if}}
+{{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}

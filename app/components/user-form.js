@@ -44,7 +44,6 @@ export default Ember.Component.extend({
 
   // Filter groups display follow access_level user
   groupsFilter: function() {
-    var groups = this.get('groups').sortBy('access_level').reverse();
     var access_level = this.get('session').get('data.authenticated.access_level');
 
     this.get('groups').forEach(function(group) {

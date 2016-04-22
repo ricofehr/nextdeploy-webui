@@ -1,7 +1,7 @@
 {{#bs-modal open=isShowingVnc body=false header=false footer=false size="lg" autoClose=false closeAction=(action 'closeVnc')}}
   {{#bs-modal-header}}<b>Terminal*</b>{{/bs-modal-header}}
   {{#bs-modal-body}}
-    User: modem | Password: {{#if vncPassword}}{{vncPassword}}{{else}}<i>Waiting...</i>{{/if}} | Keyboard layout: {{vncLayout}} <i>(! can be other for type login)</i><br/>
+    User: modem (or ;ode;) | Password: {{#if vncPassword}}{{vncPassword}}{{else}}<i>Waiting...</i>{{/if}} | Keyboard layout: {{vncLayout}} <i>(! can be other for type login)</i><br/>
     <div style="width: 100%;height: 435"><iframe src="{{vncUrl}}" scrolling="no" frameborder="0" width="100%" height="430"/></div><br/>
     <i>*Click in center of the bar blue (for example, on "Connected" word), and &lt;enter&gt; for get the focus</i><br>
     <i>If you click on "Send ctrl/Alt/Delete", it will <b>reboot</b> your vm</i>

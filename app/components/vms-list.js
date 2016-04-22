@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   isShowingVnc: false,
   isShowingUris: false,
   isShowingIO: false,
+  isShowingMonitor: false,
   isShowingDetails: false,
   isReload: false,
   vmSelected: null,
@@ -300,6 +301,13 @@ export default Ember.Component.extend({
     showIO: function(vm) {
       this.set('vmSelected', vm);
       this.set('isShowingIO', true);
+      this.set('isBusy', true);
+    },
+
+    // open monitor modal from targetted vm (vm parameter)
+    showMonitor: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingMonitor', true);
       this.set('isBusy', true);
     },
 
