@@ -7,9 +7,18 @@ body{
   font-size: 16px;
 }
 
+video {
+  width: 918px;
+  height: 378px;
+}
+
 @media all and (max-device-width: 420px) {
   body {font-size: 11px;}
   .simplify{display:none;}
+  video {
+    width: 401px;
+    height: 165px;
+  }
 }
 
 @media all and (max-width: 740px) {
