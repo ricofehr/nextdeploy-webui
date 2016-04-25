@@ -25,6 +25,7 @@ export default Ember.Route.extend({
   loadModel: function(currentRoute) {
     var nbprojects = this.store.peekAll('project').toArray().length;
     var nbbrands = this.store.peekAll('brand').toArray().length;
+    var nbhpmessages = this.store.peekAll('hpmessage').toArray().length;
     var nbvms = this.store.peekAll('vm').toArray().length;
     var nbusers = this.store.peekAll('user').toArray().length;
     var self = this;
@@ -113,12 +114,19 @@ export default Ember.Route.extend({
       return self.store.findAll('user', { backgroundReload: false, reload: true }).then(loadProjects, fail);
     };
 
-    var loadBrands = function() {
+    var loadBrands = function(hpmessages) {
+      var currentRoute = self.controllerFor("application").get("currentRouteName");
+
+      if (currentRoute === "dashboard") {
+        if (hpmessages.toArray().length !== nbhpmessages) {
+          self.get('router.router').refresh();
+        }
+      }
+
       return self.store.findAll('brand', { backgroundReload: false, reload: true }).then(loadUsers, fail);
     };
 
     var loadHpmessages = function() {
-      self.store.unloadAll('hpmessage');
       return self.store.findAll('hpmessage', { backgroundReload: false, reload: true }).then(loadBrands, fail);
     };
 
