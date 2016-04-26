@@ -18,7 +18,7 @@ export default Ember.Route.extend({
 
     Ember.run.later(function(){
        self.reloadModel();
-    }, 180000);
+    }, 300000);
   },
 
   // load synchronisely all models
@@ -179,7 +179,7 @@ export default Ember.Route.extend({
 
     Ember.run.later(function(){
       self.reloadModel();
-    }, 180000);
+    }, 300000);
   },
 
   actions: {
