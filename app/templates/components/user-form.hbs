@@ -219,8 +219,8 @@
   <ul>
     <li><button {{action "dlOvpnConf"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client openvpn setting file{{#if ovpn_conf}}, copy/paste into your vpn client setting file (for example: nextdeploy.conf)<br/><pre>{{ovpn_conf}}</pre>{{/if}}</li>
     <li><button {{action "dlOvpnCa"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The server crt file{{#if ovpn_ca}}, copy/paste into a crt file named ca.crt<br/><pre>{{ovpn_ca}}</pre>{{/if}}</li>
-    <li><button {{action "dlOvpnKey"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client key file{{#if ovpn_key}}, copy/paste into a key file named {{email}}.key<br/><pre>{{ovpn_key}}</pre>{{/if}}</li>
-    <li><button {{action "dlOvpnCrt"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client crt file{{#if ovpn_crt}}, copy/paste into a crt file named {{email}}.crt<br/><pre>{{ovpn_crt}}</pre>{{/if}}</li>
+    <li><button {{action "dlOvpnKey"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client key file{{#if ovpn_key}}, copy/paste into a key file named {{user.email}}.key<br/><pre>{{ovpn_key}}</pre>{{/if}}</li>
+    <li><button {{action "dlOvpnCrt"}} class="btn btn-default"><span class="glyphicon glyphicon-download-alt"></span></button> The client crt file{{#if ovpn_crt}}, copy/paste into a crt file named {{user.email}}.crt<br/><pre>{{ovpn_crt}}</pre>{{/if}}</li>
   </ul>
   {{/if}}
 {{/if}}

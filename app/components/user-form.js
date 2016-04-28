@@ -452,9 +452,11 @@ export default Ember.Component.extend({
 
   // return trie if current id is equal to authenticated user
   isSelf: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
     var current_id = this.get('session').get('data.authenticated.user.id');
     var user_id = this.get('user.id');
 
+    if (access_level >= 50) { return true; }
     if (parseInt(user_id) === current_id) { return true; }
     return false;
   }.property('user.id'),
