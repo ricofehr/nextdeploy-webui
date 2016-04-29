@@ -3,13 +3,13 @@ import config from '../config/environment';
 
 export default Ember.Component.extend({
   loadingModal: false,
-  okImport: false,
   importRunning: false,
   exportRunning: false,
+  errorIO: null,
 
   // reset value when open popin
   resetFlags: function() {
-    this.set('okImport', false);
+    this.set('errorIO', null);
     this.set('importRunning', false);
     this.set('exportRunning', false);
   }.observes('vm'),
