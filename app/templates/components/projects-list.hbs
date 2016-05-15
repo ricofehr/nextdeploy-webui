@@ -6,7 +6,7 @@
         <th class="simplify">Brand</th>
         <th class="simplify">Systems</th>
         <th>Infos</th>
-        <th class="simplify">Framework</th>
+        <th class="simplify">Frameworks</th>
         <th class="simplify">Technos</th>
         {{#if isAdmin}}<th>Users</th>{{/if}}
         <th>Vms</th>
@@ -45,7 +45,7 @@
 
       <td class="simplify">{{#each project.systemimages as |os|}}{{os.name}}<br>{{/each}}</td>
       <td><button {{action "showDetails" project.id}} class="btn btn-default btn-xs"><span  class="glyphicon glyphicon-new-window"></span></button></td>
-      <td class="simplify">{{project.framework.name}}</td>
+      <td class="simplify">{{#each project.endpoints as |ep|}}{{ep.framework.name}}<br>{{/each}}</td>
       <td class="simplify">{{#each project.technos as |techno|}}{{techno.name}}<br>{{/each}}</td>
       {{#if isAdmin}}
         <td>{{#link-to 'users.byproject' project.id}}{{project.users.length}}{{/link-to}}</td>

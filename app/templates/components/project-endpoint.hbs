@@ -1,0 +1,114 @@
+  <div class="form-group">
+    {{#if errorFramework}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Framework</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Framework</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{#power-select
+      disabled=isExist
+      options=frameworks
+      searchField="name"
+      selected=endpoint.framework
+      searchEnabled=false
+      placeholder="Select a framework"
+      onchange=(action 'changeProperty' 'endpoint.framework')
+      as |framework|
+    }}
+      {{framework.name}}
+    {{/power-select}}
+     </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorPrefix}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">URI Prefix</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">URI Prefix</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.prefix placeholder="URI Prefix" disabled=isExist}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorPath}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Path</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Path</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.path placeholder="Path" disabled=isExist}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorPort}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Port</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Port</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.port placeholder="Port" disabled=isExist}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Ipfilter</label>
+    <div class="col-sm-3">
+    {{textarea
+            classNames="form-control"
+            rows=2
+            value=endpoint.ipfilter
+            placeholder="Ipfilter"
+            disabled=isExist}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorEnv}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Env vars</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Env vars</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.envvars placeholder="Env vars" disabled=isExist}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorAliases}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Aliases</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Aliases</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.aliases placeholder="Aliases" disabled=isExist}}
+    </div>
+  </div>
+
+  {{#unless isExist}}
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-1 col-sm-offset-1">Install ?</label>
+    <div class="col-sm-3">
+      {{#if project.id}}
+      <label>{{x-toggle value=endpoint.is_install toggled=endpoint.is_install disabled=true}}</label>
+      {{else}}
+      <label>{{x-toggle value=endpoint.is_install toggled=endpoint.is_install}}</label>
+      {{/if}}
+    </div>
+  </div>
+  {{/unless}}
+  
+  {{#unless isDisableCreate}}
+  <div class="form-group">
+    <div class="col-sm-3 col-sm-offset-2">
+      {{#if isExist}}
+      <button class="btn btn-primary" {{action 'deleteEndpoint'}}>Delete</button>
+      {{else}}
+      <button class="btn btn-primary" {{action 'addEndpoint'}}>Add</button>
+      {{/if}}
+    </div>
+  </div>
+  {{/unless}}
+

@@ -1,11 +1,45 @@
 import Ember from 'ember';
+import config from '../config/environment';
 
 export default Ember.Component.extend({
+  URIS: [],
+  loadingModal: false,
+  requestRunning: false,
+  message: null,
+
+  // trigger function when model changes
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.set('loadingModal', false);
+    this.set('message', null);
+    this.set('requestRunning', false);
+  },
+
+  // inverse of isrunning
+  closeModal: function() {
+    if (this.get('requestRunning')) { return false; }
+    return true;
+  }.property('requestRunning'),
+
   // Return true if is running state
   isRunning: function() {
     if (parseInt(this.get('vm.status'), 10) > 0) { return true; }
     return false;
   }.property('vm.status'),
+
+  // Check if we have a web server into model
+  isWeb: function() {
+    var technos = this.get('vm.technos');
+    var isWeb = false;
+
+    technos.forEach(function (techno) {
+      if (techno.get('technotype').get('name').match(/^Web/)) {
+        isWeb = true;
+      }
+    });
+
+    return isWeb;
+  }.property('vm'),
 
   // Return true if user is a Dev or more
   isDev: function() {
@@ -27,44 +61,6 @@ export default Ember.Component.extend({
   isMysql: function() {
     var technos = this.get('vm.project.technos');
     if (technos.findBy('name', 'mysql')) {
-      return true;
-    }
-
-    return false;
-  }.property('isShowingUris'),
-
-  // Check if we have nodejs into model
-  isNodejs: function() {
-    var technos = this.get('vm.project.technos');
-    var isNode = false;
-
-    technos.forEach(function (techno) {
-      if (techno.get('technotype').get('name').match(/Node/)) {
-        isNode = true;
-      }
-    });
-
-    return isNode;
-  }.property('isShowingUris'),
-
-  // Check if we have a web server into model
-  isWeb: function() {
-    var technos = this.get('vm.project.technos');
-    var isWeb = false;
-
-    technos.forEach(function (techno) {
-      if (techno.get('technotype').get('name').match(/^Web/)) {
-        isWeb = true;
-      }
-    });
-
-    return isWeb;
-  }.property('isShowingUris'),
-
-  // Check if we have sf2 framework
-  isSf2: function() {
-    var framework = this.get('vm.project.framework.name');
-    if (framework.match(/^Symfony/)) {
       return true;
     }
 
@@ -109,93 +105,73 @@ export default Ember.Component.extend({
     this.set('isHTTPS', false);
   }.observes('isShowingUris'),
 
-  // return main uri for the vm
-  mainURI: function() {
-    return this.getURI('main');
-  }.property('isShowingUris', 'isHTTPS'),
+  // init URIS array
+  initURIS: function () {
+    var self = this;
 
-  // return admin uri for the vm
-  adminURI: function() {
-    return this.getURI('admin');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return mobile uri for the vm
-  mobileURI: function() {
-    return this.getURI('mobile');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return html uri for the vm
-  htmlURI: function() {
-    return this.getURI('html');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return nodejs uri for the vm
-  nodejsURI: function() {
-    return this.getURI('nodejs');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return gitsync uri for the vm
-  gitsyncURI: function() {
-    return this.getURI('gitsync');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return npmsh uri for the vm
-  npmURI: function() {
-    return this.getURI('npmsh');
-  }.property('isShowingUris', 'isHTTPS'),
+    this.set('URIS', []);
+    this.get('vm').get('uris').forEach(function (ep) {
+      if (ep.get('framework').get('name') !== 'NoWeb') {
+        self.get('URIS').push({uri: ep.get('absolute'), href: self.getURI(ep.get('absolute'))});
+        if (ep.get('aliases') && ep.get('aliases') !== '') {
+          ep.get('aliases').split(' ').forEach(function (aliase) {
+            self.get('URIS').push({uri: aliase, href: self.getURI(aliase)});
+          });
+        }
+      }
+    });
+  }.observes('isShowingUris', 'isHTTPS'),
 
   // return phpmyadmin uri for the vm
   pmaURI: function() {
-    return this.getURI('phpmyadmin');
+    return this.getTOOL('phpmyadmin');
   }.property('isShowingUris', 'isHTTPS'),
 
   // return logs uri for the vm
   tailURI: function() {
-    return this.getURI('tail');
+    return this.getTOOL('tail');
   }.property('isShowingUris', 'isHTTPS'),
 
   // return phpinfo uri for the vm
   pminfoURI: function() {
-    return this.getURI('pminfo');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return (drupal) cc uri for the vm
-  druccURI: function() {
-    return this.getURI('drupalcc');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return (drupal) updb uri for the vm
-  drupdbURI: function() {
-    return this.getURI('drupalupdb');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return (drupal) cim uri for the vm
-  drucimURI: function() {
-    return this.getURI('drupalcim');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return composer uri for the vm
-  composerURI: function() {
-    return this.getURI('composerinstall');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return (sf) doctrine uri for the vm
-  sfdoctrineURI: function() {
-    return this.getURI('sf2schema');
-  }.property('isShowingUris', 'isHTTPS'),
-
-  // return (sf) migration uri for the vm
-  sfmigrationURI: function() {
-    return this.getURI('sf2migrate');
+    return this.getTOOL('pminfo');
   }.property('isShowingUris', 'isHTTPS'),
 
   // return (sf) logs uri for the vm
   sflogsURI: function() {
-    return this.getURI('tailsf2');
+    return this.getTOOL('tailsf2');
   }.property('isShowingUris', 'isHTTPS'),
 
   // open vm uri
-  getURI: function(uritype) {
+  getURI: function(uri) {
+    var login = this.get('vm.htlogin');
+    var password = this.get('vm.htpassword');
+    var authcreds = login + ":" + password + "@";
+    var is_auth = this.get('vm.is_auth');
+    var uri_with_creds = '';
+    var uri_xmlhttp_req = '';
+    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
+    var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
+    var scheme = 'http';
+
+    if (this.get('isHTTPS')) {
+      scheme = 'https';
+    }
+
+    uri_with_creds = scheme + '://' + authcreds + uri + '/';
+    uri_xmlhttp_req = scheme + '://' + uri + '/';
+
+    if (is_auth && (is_chrome || is_ff || is_iphone || is_ipad)) {
+      return uri_with_creds;
+    } else {
+      return uri_xmlhttp_req;
+    }
+  },
+
+  // open vm uri
+  getTOOL: function(uritype) {
     var login = this.get('vm.htlogin');
     var password = this.get('vm.htpassword');
     var authcreds = login + ":" + password + "@";
@@ -213,37 +189,10 @@ export default Ember.Component.extend({
       scheme = 'https';
     }
 
-    switch(uritype) {
-      case 'main':
-        uri_with_creds = scheme + '://' + authcreds + uri + '/';
-        uri_xmlhttp_req = scheme + '://' + uri + '/';
-        break;
-      case 'admin':
-        uri_with_creds = scheme + '://' + authcreds + 'admin.' + uri + '/';
-        uri_xmlhttp_req = scheme + '://admin.' + uri +'/';
-        break;
-      case 'mobile':
-        uri_with_creds = scheme + '://' + authcreds + 'm.' + uri +'/';
-        uri_xmlhttp_req = scheme + '://m.' + uri +'/';
-        break;
-      case 'html':
-        uri_with_creds = scheme + '://' + authcreds + uri + '/_html/';
-        uri_xmlhttp_req = scheme + '://' + uri + '/_html/';
-        break;
-      case 'nodejs':
-        uri_with_creds = scheme + '://' + authcreds + 'nodejs.' + uri + '/';
-        uri_xmlhttp_req = scheme + '://nodejs.' + uri + '/';
-        break;
-      default:
-        uri_with_creds = scheme + '://' + authcreds + uri + '/pm_tools/' + uritype + '/';
-        uri_xmlhttp_req = scheme + '://' + uri + '/pm_tools/' + uritype + '/';
-    }
+    uri_with_creds = scheme + '://' + authcreds + 'pmtools.' + uri + '/' + uritype + '/';
+    uri_xmlhttp_req = scheme + '://pmtools.' + uri + '/' + uritype + '/';
 
-    if (uri_with_creds === '') {
-      return;
-    }
-
-    if (is_auth && (is_chrome || is_ff || is_iphone || is_ipad)) {
+    if (is_chrome || is_ff || is_iphone || is_ipad) {
       return uri_with_creds;
     } else {
       return uri_xmlhttp_req;
@@ -251,6 +200,36 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    requestTool: function(request) {
+      var self = this;
+      var current_id = this.get('vm').get('id');
+
+      this.set('requestRunning', true);
+      this.set('message', null);
+      this.set('loadingModal', true);
+
+      Ember.$.ajax({
+          url: config.APP.APIHost + "/api/v1/vms/" + current_id + "/" + request,
+          method: "POST",
+          global: false,
+          headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
+        })
+        .done(function(plain) {
+          self.set('requestRunning', false);
+          if (plain && plain.length) {
+            self.set('message', plain);
+          } else {
+            self.set('loadingModal', false);
+          }
+        })
+        .fail(function() {
+          self.set('requestRunning', false);
+          self.set('message', 'Error occurs during execution !');
+          Ember.run.later(function(){
+            self.set('loadingModal', false);
+          }, 10000);
+        });
+    },
     // close the modal, reset showing variable
     closeUris: function() {
       var self = this;

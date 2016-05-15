@@ -10,6 +10,7 @@ export default Ember.Component.extend({
   isShowingIO: false,
   isShowingMonitor: false,
   isShowingDetails: false,
+  isShowingSettings: false,
   isReload: false,
   vmSelected: null,
 
@@ -30,6 +31,7 @@ export default Ember.Component.extend({
     var ibp = 0;
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
+    var access_level = this.get('session').get('data.authenticated.access_level');
 
     // max 9 items on a page for vms
     if (ibpmax > 9) {
@@ -48,6 +50,9 @@ export default Ember.Component.extend({
       var minute = '';
       var branchName = '';
 
+      // by default a vm is not read-only
+      model.set('isRo', false);
+
       // check if current model is reliable
       if (!model.get('commit') ||
           !model.get('commit.id') ||
@@ -57,6 +62,11 @@ export default Ember.Component.extend({
           !model.get('project.id')) {
         model.set('isShow', false);
         return;
+      }
+
+      if (parseInt(model.get('user').get('group.access_level')) === 50 &&
+          access_level !== 50) {
+        model.set('isRo', true);
       }
 
       // weird issue with ember nested model data, so get branchname from commit id
@@ -151,6 +161,7 @@ export default Ember.Component.extend({
     var cleanVms = this.get('vms').filterBy('isDeleted', true);
     var cleanProjects = this.store.peekAll('project').filterBy('isDeleted', true);
     var cleanBrands = this.store.peekAll('brand').filterBy('isDeleted', true);
+    var cleanUris = this.store.peekAll('uri').filterBy('isDeleted', true);
 
     cleanUsers.forEach(function (clean) {
       if (clean) { self.store.peekAll('user').removeObject(clean); }
@@ -164,6 +175,10 @@ export default Ember.Component.extend({
       if (clean) { self.get('vms').removeObject(clean); }
     });
 
+    cleanUris.forEach(function (clean) {
+      if (clean) { self.store.peekAll('uri').removeObject(clean); }
+    });
+
     cleanBrands.forEach(function (clean) {
       if (clean) { self.store.peekAll('brand').removeObject(clean); }
     });
@@ -172,6 +187,18 @@ export default Ember.Component.extend({
     cleanVms = this.get('vms').filterBy('id', null);
     cleanBrands = this.store.peekAll('brand').filterBy('id', null);
     cleanProjects = this.store.peekAll('project').filterBy('id', null);
+    cleanUris = this.store.peekAll('uri').filterBy('id', null);
+
+    cleanUris.forEach(function (clean) {
+      if (clean) { 
+        clean.get('framework').get('uris').removeObject(clean);
+        if (clean.get('vm')) {
+          clean.get('vm').get('uris').removeObject(clean);
+        }
+        self.store.peekAll('uri').removeObject(clean);
+        clean.deleteRecord(); 
+      }
+    });
 
     cleanUsers.forEach(function (clean) {
       if (clean) {
@@ -257,7 +284,6 @@ export default Ember.Component.extend({
 
   // reset to delete flag
   resetDelete: function() {
-    Ember.Logger.debug("okok resetdelete");
     this.get('vms').setEach('todelete', false);
     this.set('isAllDelete', false);
   }.observes('search', 'projectId', 'userId', 'currentPage'),
@@ -280,6 +306,17 @@ export default Ember.Component.extend({
       }
     },
 
+    // open detail modal for targetted vm (vmId parameter)
+    showSettings: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingSettings', true);
+      this.set('isBusy', true);
+
+      if (!this.get('isReload')) {
+        this.reloadVm();
+      }
+    },
+
     // open rollover modal for targetted vm
     showHover: function(vmId) {
       this.set('isShowingHovers', vmId);
@@ -292,9 +329,14 @@ export default Ember.Component.extend({
 
     // open uris modal from targetted vm (vm parameter)
     showUris: function(vm) {
+      var self = this;
+
       this.set('vmSelected', vm);
-      this.set('isShowingUris', true);
       this.set('isBusy', true);
+
+      Ember.run.later(function(){
+        self.set('isShowingUris', true);
+      }, 500);
     },
 
     // open io modal from targetted vm (vm parameter)

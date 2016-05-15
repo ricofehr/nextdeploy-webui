@@ -1,0 +1,41 @@
+            <i>For {{uri.absolute}}</i><br>
+            {{#if isNpm}}
+              <a {{action 'requestTool' 'npm'}}>Npm / Grunt / Bower / Gulp</a><br/>
+            {{/if}}
+
+            {{#if isNodejs}}
+              <a {{action 'requestTool' 'logs'}}>Nodejs Logs</a><br/>
+              <a {{action 'requestTool' 'nodejs'}}>Rebuild nodejs app</a><br/>
+            {{/if}}
+
+            {{#if isReactjs}}
+              <a {{action 'requestTool' 'logs'}}>Nodejs Logs</a><br/>
+              <a {{action 'requestTool' 'reactjs'}}>Rebuild reactjs app</a><br/>
+            {{/if}}
+
+            {{#if isDrupal}}
+              {{#if isDrupal8}}
+                <a {{action 'requestTool' 'drush' 'cim'}}>Import Config</a><br/>
+                <a {{action 'requestTool' 'drush' 'cr'}}>Clear all caches</a><br/>
+              {{else}}
+                <a {{action 'requestTool' 'drush' 'cc all'}}>Clear all caches</a><br/>
+              {{/if}}
+
+              <a {{action 'requestTool' 'drush' 'updb'}}>Execute updb command</a><br/>
+            {{/if}}
+
+            {{#if isComposer}}
+            <a {{action 'requestTool' 'composer'}}>ComposerInstall</a><br/>
+            {{/if}}
+
+            {{#if isSf2}}
+            <a {{action 'requestTool' 'logs'}}>Symfony Logs</a><br/>
+            <a {{action 'requestTool' 'sfcmd' 'cc'}}>Cc: cc, assets, assetic</a><br/>
+            <a {{action 'requestTool' 'sfcmd' 'doctrine'}}>Db Schema: schema-update, cc, assets, assetic</a><br/>
+            <a {{action 'requestTool' 'sfcmd' 'migration'}}>Db Migration: migrate, cc, assets, assetic</a><br/>
+            {{/if}}
+
+            {{#if vm.is_cached}}
+            <a {{action 'requestTool' 'clearvarnish'}}>Clear Varnish Cache</a><br/>
+            {{/if}}
+          <br/><br/>

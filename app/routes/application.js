@@ -38,7 +38,11 @@ export default Ember.Route.extend({
       };
     }
 
-    var passVms = function(vms){
+    var passUris = function() {
+      return;
+    };
+
+    var loadUris = function(vms){
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "vms.list") {
@@ -54,10 +58,15 @@ export default Ember.Route.extend({
         self.controllerFor("vms.list").prepareList();
       }
 
-      return;
+      return self.store.findAll('uri', { backgroundReload: false, reload: true }).then(passUris, fail);
     };
 
-    var loadVms = function(projects) {
+
+    var loadVms = function() {
+      return self.store.findAll('vm', { backgroundReload: false, reload: true }).then(loadUris, fail);
+    };
+
+    var loadEndpoints = function(projects) {
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "projects.list") {
@@ -73,7 +82,7 @@ export default Ember.Route.extend({
         self.controllerFor("projects.list").prepareList();
       }
 
-      return self.store.findAll('vm', { backgroundReload: false, reload: true }).then(passVms, fail);
+      return self.store.findAll('endpoint', { backgroundReload: false, reload: true }).then(loadVms, fail);
     };
 
     var loadProjects = function(users) {
@@ -92,7 +101,7 @@ export default Ember.Route.extend({
         self.controllerFor("users.list").prepareList();
       }
 
-      return self.store.findAll('project', { backgroundReload: false, reload: true }).then(loadVms, fail);
+      return self.store.findAll('project', { backgroundReload: false, reload: true }).then(loadEndpoints, fail);
     };
 
     var loadUsers = function(brands) {

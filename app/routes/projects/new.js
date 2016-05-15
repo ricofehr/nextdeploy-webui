@@ -23,6 +23,13 @@ model() {
         // prepare an project object with the json response
         .done(function(data) {
           var project = data.project;
+          var ep = null;
+          var cleanEndpoints = self.store.peekAll('endpoint').filterBy('id', null);
+
+          cleanEndpoints.forEach(function (clean) {
+            if (clean) { clean.deleteRecord(); }
+          });
+
           content.set('id', null);
           content.set('name', project.name);
           content.set('gitpath', project.gitpath);
@@ -30,14 +37,25 @@ model() {
           content.set('login', project.login);
           content.set('password', project.password);
           content.set('created_at', project.created_at);
+          content.set('is_ht', false);
           content.set('owner', self.store.peekRecord('user', self.get('session').get('data.authenticated.user.id')));
 
           self.store.findRecord('brand', project.brand).then(function (brand) {
             content.set('brand', brand);
           });
 
-          self.store.findRecord('framework', project.framework).then(function (framework) {
-            content.set('framework', framework);
+          content.set('endpoints', []);
+          self.store.peekAll('framework').forEach(function (framework) {
+
+            if (framework.get('name') === "Symfony2") {
+              ep = self.store.createRecord('endpoint', { prefix: '', path: 'server', envvars: '', aliases: '', port: 8080, ipfilter: '', is_install: true, framework: framework });
+              content.get('endpoints').addObject(ep);
+            }
+
+            if (framework.get('name') === "Static") {
+              ep = self.store.createRecord('endpoint', { prefix: 'html', path: 'html', envvars: '', aliases: '', port: 8080, ipfilter: '', is_install: true, framework: framework });
+              content.get('endpoints').addObject(ep);
+            }
           });
 
           content.set('branches', []);

@@ -12,10 +12,14 @@ export default DS.Model.extend({
   vnc_url: DS.attr('string'),
   termpassword: DS.attr('string'),
   layout: DS.attr('string'),
+  is_prod: DS.attr('boolean'),
+  is_cached: DS.attr('boolean'),
+  is_ht: DS.attr('boolean'),
   user: DS.belongsTo('user', {async: true}),
   project: DS.belongsTo('project', {async: true}),
   systemimage: DS.belongsTo('systemimage', {async: true}),
   vmsize: DS.belongsTo('vmsize', {async: true}),
   technos: DS.hasMany('techno', {async: true}),
+  uris: DS.hasMany('uri', {async: true}),
   created_at: DS.attr('date')
 });

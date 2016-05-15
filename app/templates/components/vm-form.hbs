@@ -139,13 +139,46 @@
     </div>
   </div>
 
-  {{#if isAdmin}}
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">Htaccess</label>
+    <div class="col-sm-3">
+      <label style="padding-top: 5px;">{{x-toggle value=vm.is_ht toggled=vm.is_ht}}</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">Varnish Caching</label>
+    <div class="col-sm-3">
+      <label style="padding-top: 5px;">{{x-toggle value=vm.is_cached toggled=vm.is_cached}}</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">Prod</label>
+    <div class="col-sm-3">
+      <label style="padding-top: 5px;">{{x-toggle value=vm.is_prod toggled=vm.is_prod disabled=isDisabledProd}}</label>
+    </div>
+  </div>
+
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">BasicAuth</label>
     <div class="col-sm-3">
-      <label>{{x-toggle value=vm.is_auth toggled=vm.is_auth}}</label>
+      <label style="padding-top: 5px;">{{x-toggle value=vm.is_auth toggled=vm.is_auth disabled=isDisabledAuth}}</label>
     </div>
   </div>
+
+  {{#if vm.is_prod}}
+  <div class="form-group">
+    {{#if errorUri}}
+      <label class="control-label col-sm-2 alert-danger">Uris</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Uris</label>
+    {{/if}}
+  </div>
+
+  {{#each vm.uris as |uri|}}
+      {{vm-form-uri vm=vm uri=uri checkListUris=checkListUris}}
+  {{/each}}
   {{/if}}
 
   {{#each vm.technos as |techno|}}

@@ -27,6 +27,6 @@ export default Ember.Component.extend({
       Ember.run.later(function(){
        self.set('vm', null);
       }, 500);
-    }
+    },
   }
 });

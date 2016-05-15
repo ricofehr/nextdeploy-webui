@@ -4,54 +4,61 @@
     {{#if isRunning}}
       {{#if isWeb}}
       <b>URIS</b><br/>
-          <a href="{{mainURI}}" target="_blank">Your website</a><br/>
-          <a href="{{adminURI}}" target="_blank">The admin apps (if exists)</a><br/>
-          <a href="{{mobileURI}}" target="_blank">The mobile version (if exists)</a><br/>
-          <a href="{{htmlURI}}" target="_blank">The html version (if exists)</a><br/>
-          {{#if isNodejs}}<a href="{{nodejsURI}}" target="_blank">The nodejs apps (if exists)</a><br/>{{/if}}
+      {{#each URIS as |uri|}}
+        <a href="{{uri.href}}" target="_blank">{{uri.uri}}</a><br/>
+      {{/each}}
+
           <br/><b>HTTPS</b><br>{{x-toggle size=medium value=isHTTPS toggle='toggleHTTPS' toggled=isHTTPS}}<br/>
           <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
           Login: {{vm.htlogin}}<br/>
           Password: {{vm.htpassword}}<br/><br/>
-
-          {{#if vm.is_auth}}
-          {{#if isPM}}
-            <b>Tools</b><br>
-            <a href="{{gitsyncURI}}" target="_blank">Gitpull</a><br/>
-            <a href="{{npmURI}}" target="_blank">Npm / Grunt / Bower / Gulp</a><br/>
-            {{#if isDev}}
-              {{#if isMysql}}
-              <a href="{{pmaURI}}" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>
-              {{/if}}
-              <a href="{{tailURI}}" target="_blank">Apache logs</a><br/>
-              <a href="{{pminfoURI}}" target="_blank">Phpinfo</a><br/>
-            {{/if}}
-
-            {{#if isDrupal}}
-              {{#if isDrupal8}}<a href="{{drucimURI}}" target="_blank">Import Config</a><br/>{{/if}}
-              <a href="{{druccURI}}" target="_blank">Clear all caches</a><br/>
-              <a href="{{drupdbURI}}" target="_blank">Execute updb command</a><br/>
-            {{/if}}
-
-            {{#if isComposer}}
-            <a href="{{composerURI}}" target="_blank">ComposerInstall</a><br/>
-            {{/if}}
-
-            {{#if isSf2}}
-            <a href="{{sfdoctrineURI}}" target="_blank">Sf Doctrine Schema: cc, assets, assetic, schema-update</a><br/>
-            <a href="{{sfmigrationURI}}" target="_blank">Sf Doctrine Migration: cc, assets, assetic, migrate</a><br/>
-              {{#if isDev}}
-              <a href="{{sflogsURI}}" target="_blank">Sf Logs</a><br/>
-              {{/if}}
-            {{/if}}
-          {{/if}}
-          {{/if}}
-      {{else}}
-        <b>Vm is not a Web Application.</b>
       {{/if}}
+          {{#if isPM}}
+          <b>Tools</b><br/>
+          <a {{action 'requestTool' 'gitpull'}}>Gitpull</a><br/>
+            {{#if isDev}}
+              {{#if isWeb}}
+                  {{#if isMysql}}
+                  <a href="{{pmaURI}}" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>
+                  {{/if}}
+                  <a href="{{pminfoURI}}" target="_blank">Phpinfo</a><br/>
+              {{/if}}
+              <a {{action 'requestTool' 'logs'}}>Logs</a><br/>
+            {{/if}}<br/>
+
+          {{#each vm.uris as |uri|}}
+            {{uri-requests uri=uri vm=vm loadingModal=loadingModal requestRunning=requestRunning message=message}}
+          {{/each}}
+          {{/if}}
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}
   {{/bs-modal-body}}
   {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}
+
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=closeModal classNames=['ember-view','loadingModal'] open=loadingModal}}
+   {{#bs-modal-header closeButton=closeModal}}
+     <div class="text-center">
+     {{#if requestRunning}}
+        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...
+      {{else}}
+        Command Output
+      {{/if}}
+      </div>
+   {{/bs-modal-header}}
+     {{#bs-modal-body}}
+        {{#if requestRunning}}
+        <div class="text-center">This request can be a long task, please waiting some minutes</div>
+        {{else}}
+          {{#if message}}
+          <pre>
+{{message}}
+          </pre>
+          {{else}}
+            Request executed !
+          {{/if}}
+        {{/if}}
+     {{/bs-modal-body}}
+     {{#if message}}{{bs-modal-footer closeTitle="Close"}}{{/if}}
 {{/bs-modal}}

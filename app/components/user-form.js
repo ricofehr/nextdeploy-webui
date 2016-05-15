@@ -45,11 +45,15 @@ export default Ember.Component.extend({
   // Filter groups display follow access_level user
   groupsFilter: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
+    var current_id = this.get('session').get('data.authenticated.user.id');
+    var user_id = this.get('user.id');
 
     this.get('groups').forEach(function(group) {
       group.set('isShow', true);
-      if (parseInt(access_level) === 40 && parseInt(group.get('access_level')) >= 40) {
-        group.set('isShow', false);
+      if (!user_id || parseInt(user_id) !== current_id) {
+        if (parseInt(access_level) === 40 && parseInt(group.get('access_level')) >= 40) {
+          group.set('isShow', false);
+        }
       }
     });
   },
@@ -77,6 +81,7 @@ export default Ember.Component.extend({
   initModel: function() {
     // fix weird issue for permit select 0 into power-select
     this.get('user').set('quotavm', '' + this.get('user').get('quotavm'));
+    this.get('user').set('quotaprod', '' + this.get('user').get('quotaprod'));
 
     this.groupsFilter();
     this.formIsValid();
@@ -417,6 +422,14 @@ export default Ember.Component.extend({
     var access_level = this.get('session').get('data.authenticated.access_level');
 
     if (access_level >= 40) { return true; }
+    return false;
+  }.property('session.data.authenticated.user.id'),
+
+  // Check if current user is developer
+  isDev: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level >= 30) { return true; }
     return false;
   }.property('session.data.authenticated.user.id'),
 

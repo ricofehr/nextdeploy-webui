@@ -19,7 +19,9 @@ export function initialize(container) {
     store.findAll('user', { backgroundReload: false, reload: true }).then({}, fail);
     store.findAll('sshkey', { backgroundReload: false, reload: true }).then({}, fail);
     store.findAll('project', { backgroundReload: false, reload: true }).then({}, fail);
+    store.findAll('endpoint', { backgroundReload: false, reload: true }).then({}, fail);
     store.findAll('vm', { backgroundReload: false, reload: true }).then({}, fail);
+    store.findAll('uri', { backgroundReload: false, reload: true }).then({}, fail);
 
     applicationRoute.transitionTo('index');
   });

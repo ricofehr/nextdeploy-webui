@@ -36,7 +36,7 @@ export default Ember.Component.extend({
     this.get('user').get('sshkeys').map(function (model) {
       self.store.findRecord('sshkey', model.id).then(function (sshkey) {
         var key = sshkey.get('key');
-        var key_l = key.length; 
+        var key_l = key.length;
         var key_s = key;
 
         // crop key for display it into array

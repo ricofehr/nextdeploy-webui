@@ -29,6 +29,7 @@ export default Ember.Component.extend({
     var ibp = 0;
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
+    var framework = '';
 
     // max 5 items on a page for projects
     if (ibpmax > 5) {
@@ -39,9 +40,7 @@ export default Ember.Component.extend({
     projects.map(function(model){
       // check if current model is reliable
       if (!model.get('brand') ||
-          !model.get('brand.id') ||
-          !model.get('framework') ||
-          !model.get('framework.id')) {
+          !model.get('brand.id')) {
         model.set('isShow', false);
         return;
       }
@@ -71,9 +70,14 @@ export default Ember.Component.extend({
       }
 
       if (search) {
+        framework = '';
+        model.get('endpoints').forEach(function (ep) {
+          framework = framework + ' ' + ep.get('framework.name');
+        });
+
         if (!new RegExp("^.*" + search + ".*$", 'i').test(model.get('name')) &&
             !new RegExp("^.*" + search + ".*$", 'i').test(model.get('brand').get('name')) &&
-            !new RegExp("^.*" + search + ".*$", 'i').test(model.get('framework').get('name'))) {
+            !new RegExp("^.*" + search + ".*$", 'i').test(framework)) {
           model.set('isShow', false);
         }
       }

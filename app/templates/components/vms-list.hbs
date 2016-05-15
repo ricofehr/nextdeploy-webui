@@ -5,6 +5,7 @@
         <th>URIS</th>
         <th class="simplify">Infos</th>
         {{#if isDev}}
+            <th class="simplify"><span class="fa fa-sliders"></span></th>
             <th class="simplify"><span class="fa fa-bar-chart"></span></th>
             <th class="simplify"><span class="fa fa-terminal"></span></th>
             <th class="simplify"><span class="fa fa-database"></span></th>
@@ -18,15 +19,31 @@
 <tbody>
   {{#each vms as |vm|}}
     {{#if vm.isShow}}
-    <tr {{action "showHover" vm.id on="mouseEnter"}}>
+        <tr {{action "showHover" vm.id on="mouseEnter"}}>
         {{#if isVm}}
-            <td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>
+            {{#if vm.is_prod}}
+                <td class="simplify alert-info">&nbsp;</td>
+            {{else}}
+                {{#if vm.isRo}}
+                    <td class="simplify">&nbsp;</td>
+                {{else}}
+                    <td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>
+                {{/if}}    
+            {{/if}}
         {{/if}}
-        <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.branch}})</span></a></td>
+        {{#if vm.isRo}}
+            <td>{{vm.project.name}} <span class="simplify-inverse">({{vm.branch}})</span></td>
+        {{else}}
+            <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.branch}})</span></a></td>
+        {{/if}}
         {{#if isDev}}
-            <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}}>
-                <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
-            </td>
+            {{#if vm.isRo}}
+                <td class="simplify tdinfo tdinfoh">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</td>
+            {{else}}
+                <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}}>
+                    <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
+                </td>
+            {{/if}}
         {{else}}
             <td class="simplify tdinfo">
                 {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
@@ -34,23 +51,56 @@
         {{/if}}
         {{#if isDev}}
             <td class="simplify">
-                <button {{action "showMonitor" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{#if vm.isRo}}
+                    <button class="btn btn-default btn-sm" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                {{else}}
+                    <button {{action "showSettings" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{/if}}
             </td>
             <td class="simplify">
-                <button {{action "openVnc" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{#if vm.isRo}}
+                    <button class="btn btn-default btn-sm" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                {{else}}
+                    <button {{action "showMonitor" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{/if}}
             </td>
             <td class="simplify">
-                <button {{action "showIO" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{#if vm.isRo}}
+                    <button class="btn btn-default btn-sm" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                {{else}}
+                    <button {{action "openVnc" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{/if}}
+            </td>
+            <td class="simplify">
+                {{#if vm.isRo}}
+                    <button class="btn btn-default btn-sm" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                {{else}}
+                    <button {{action "showIO" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{/if}}
             </td>
         {{/if}}
         {{#if vm.sucStatus}}
             <td class="success">&nbsp;{{vm.textStatus}}</td><td class="success simplify">{{vm.timeStatus}}s</td>
         {{/if}}
         {{#if vm.warnStatus}}
-            <td class="warning"><button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button></td><td class="warning simplify">{{vm.timeStatus}}s</td>
+            <td class="warning">
+                {{#if vm.isRo}}
+                    <button class="btn btn-default btn-sm" disabled><span class="glyphicon glyphicon-refresh"></span></button>
+                {{else}}
+                    <button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button>
+                {{/if}}
+            </td>
+            <td class="warning simplify">{{vm.timeStatus}}s</td>
         {{/if}}
         {{#if vm.dangStatus}}
-            <td class="danger">&nbsp;{{vm.textStatus}}</td><td class="danger simplify"><button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button></td>
+            <td class="danger">&nbsp;{{vm.textStatus}}</td>
+            <td class="danger simplify">
+                {{#if vm.isRo}}
+                    <button class="btn btn-default btn-sm" disabled><span class="glyphicon glyphicon-refresh"></span></button>
+                {{else}}
+                    <button {{action "checkStatus" vm}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-refresh"></span></button>
+                {{/if}}
+            </td>
         {{/if}}
         {{#if isLead}}
             <td class="simplify">{{vm.user.email}}</td>
@@ -85,6 +135,7 @@
 {{/if}}
 
 {{vm-details vm=vmSelected isShowingDetails=isShowingDetails isBusy=isBusy}}
+{{vm-settings vm=vmSelected isShowingSettings=isShowingSettings isBusy=isBusy}}
 {{vm-uris vm=vmSelected isShowingUris=isShowingUris isBusy=isBusy}}
 {{vm-io vm=vmSelected isShowingIO=isShowingIO isBusy=isBusy}}
 {{vm-monitor vm=vmSelected isShowingMonitor=isShowingMonitor isBusy=isBusy}}

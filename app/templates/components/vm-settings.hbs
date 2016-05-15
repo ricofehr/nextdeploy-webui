@@ -1,0 +1,81 @@
+{{#bs-modal open=isShowingSettings body=false header=false footer=false autoClose=false size="lg" closeAction=(action 'closeSettings')}}
+  {{#bs-modal-header}}{{#if isRunning}}Settings for {{vm.name}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
+  {{#bs-modal-body}}
+    {{#if isRunning}}
+    <div class="form-horizontal">
+    <div class="form-group">
+      <label class="control-label col-sm-2">Caching</label>
+    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
+      {{x-toggle toggled=toggleCached toggle='changeCached' disabled=isDisabledAdminVms}}
+    </div>
+    {{#if cachedToolTip}}
+    <div class="col-sm-8 control-label">
+      <i>Enable varnish cache for static objects</i>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+      <label class="control-label col-sm-2">BasicAuth</label>
+    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'auth' on="mouseEnter"}} {{action "hideToolTip" 'auth' on="mouseLeave"}}>
+      {{x-toggle toggled=toggleAuth toggle='changeAuth' disabled=isDisabledAuth}}
+    </div>
+    {{#if authToolTip}}
+    <div class="col-sm-8 control-label">
+      <i>Enable basic authentification for the website</i>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+      <label class="control-label  col-sm-2">Htaccess</label>
+    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'ht' on="mouseEnter"}} {{action "hideToolTip" 'ht' on="mouseLeave"}}>
+      {{x-toggle toggled=toggleHt toggle='changeHtaccess' disabled=isDisabledAdminVms}}
+    </div>
+    {{#if htToolTip}}
+    <div class="col-sm-8 control-label">
+      <i>Enable custom apache htacces file in webroot, not recommended !</i>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
+      <label class="control-label  col-sm-2">Prod</label>
+    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
+      {{x-toggle toggled=toggleProd toggle='changeProd' disabled=isDisabledProd}}
+    </div>
+    {{#if prodToolTip}}
+    <div class="col-sm-8 control-label">
+      <i>Enable Production Flag with higher security level, custom uris fields, ...</i>
+    </div>
+    {{/if}}
+  </div>
+
+  {{#if vm.is_prod}}
+  <div class="form-group">
+    {{#if errorUri}}
+      <label class="control-label col-sm-2 alert-danger">Uris</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Uris</label>
+    {{/if}}
+  </div>
+  {{#each vm.uris as |uri|}}
+      {{vm-form-uri vm=vm uri=uri checkListUris=checkListUris}}
+  {{/each}}
+  {{/if}}
+  </div>
+    {{else}}
+      <b>Vm is not on running status.</b>
+    {{/if}}
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}
+
+{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
+   {{#bs-modal-header closeButton=false}}
+     <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
+   {{/bs-modal-header}}
+   {{#bs-modal-body}}
+        <div class="text-center">Setting is curently applied, please waiting</div>
+     {{/bs-modal-body}}
+{{/bs-modal}}

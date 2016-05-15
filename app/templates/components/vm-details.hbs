@@ -18,7 +18,8 @@
       Author: {{vm.commit.author_email}}<br>
       Message: {{vm.commit.message}}<br><br>
       <b>Technos</b><br>
-      {{#each vm.technos as |techno|}}{{techno.technotype.name}}: {{techno.name}}<br>{{/each}}
+      {{#each vm.technos as |techno|}}{{techno.technotype.name}}: {{techno.name}}<br>{{/each}}<br/>
+
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}

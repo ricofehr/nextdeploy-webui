@@ -1,7 +1,7 @@
 {{#bs-modal open=isShowingMonitor body=false header=false footer=false autoClose=false size="lg" closeAction=(action 'closeMonitor')}}
   {{#bs-modal-header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
-  {{#if vm}}
+  {{#if isShowingMonitor}}
   <center>
 
   <article>
@@ -108,7 +108,7 @@
   <button class="btn btn-success" type="button" {{action "toggleCollapse" 'elasticCollapsed'}}>Redis</button>
   {{/if}}
   {{/if}}
-  
+
   </div>
   </article><br/>
 
@@ -286,7 +286,7 @@
   {{/bs-collapse}}
   {{/if}}
 
-  </center>    
+  </center>
   {{/if}}
 {{/bs-modal-body}}
   {{bs-modal-footer closeTitle="Close"}}

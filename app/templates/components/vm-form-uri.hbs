@@ -1,0 +1,84 @@
+<form {{action "postItem" on="submit"}}>
+  <div class="form-group">
+    {{#if errorAbsolute}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">URI</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">URI</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=uri.absolute placeholder="Absolute URI" focus-in="displayFocus"}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    {{#if errorAliases}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Aliases</label>
+    {{else}}
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Aliases</label>
+    {{/if}}
+    <div class="col-sm-3">
+    {{textarea
+            classNames="form-control"
+            rows=3
+            value=uri.aliases
+            placeholder="Aliases"
+            focus-in="displayFocus"}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Ipfilter</label>
+    <div class="col-sm-3">
+    {{textarea
+            classNames="form-control"
+            rows=2
+            value=uri.ipfilter
+            placeholder="Ipfilter"
+            focus-in="displayFocus"}}
+    </div>
+  </div>
+
+  {{#if uriFocused}}
+  <div class="form-group">
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Cms</label>
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=uri.framework.name disabled=true}}
+     </div>
+  </div>
+
+  <div class="form-group">
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Path</label>
+    <div class="col-sm-3">
+    {{input type="text" classNames="form-control" autocomplete="off" value=uri.path disabled=true}}
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Port</label>
+    <div class="col-sm-3">
+      {{input type="text" classNames="form-control" autocomplete="off" value=uri.port disabled=true}}
+    </div>
+  </div>
+  {{/if}}
+
+  {{#if uri.id}}
+  {{#if uriFocused}}
+  <div class="form-group">
+    <div class="col-sm-3 col-sm-offset-2">
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+  </div>
+  {{/if}}
+  {{/if}}
+  </form>
+
+  {{#if uri.id}}
+  {{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
+   {{#bs-modal-header closeButton=false}}
+     <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
+   {{/bs-modal-header}}
+   {{#bs-modal-body}}
+        <div class="text-center">Setting is curently applied, please waiting</div>
+     {{/bs-modal-body}}
+  {{/bs-modal}}
+  {{/if}}

@@ -39,7 +39,7 @@ export default Ember.Component.extend({
     if (!this.get('vm')) {
       return false;
     }
-    
+
     var technos = this.get('vm.project.technos');
     var ret = false;
 
@@ -138,7 +138,7 @@ export default Ember.Component.extend({
   // Return true if is running state
   isRunning: function() {
     if (!this.get('vm')) {
-      return false; 
+      return false;
     }
 
     if (parseInt(this.get('vm.status'), 10) > 0) { return true; }
@@ -182,8 +182,6 @@ export default Ember.Component.extend({
     // toggle collapse property
     toggleCollapse: function(property) {
       this.toggleProperty(property);
-      Ember.Logger.debug(property);
-      Ember.Logger.debug(this.get(property));
     },
 
     // change time lapse of graphs

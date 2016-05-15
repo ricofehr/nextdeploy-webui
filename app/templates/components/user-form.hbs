@@ -73,7 +73,7 @@
   {{#if is_project_create_display}}
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">Project Creation</label>
-    <div class="col-sm-3">
+    <div class="col-sm-3" style="padding-top: 5px;">
       {{x-toggle value=user.is_project_create disabled=is_project_create_ro toggled=user.is_project_create}}
     </div>
   </div>
@@ -82,7 +82,7 @@
   {{#if is_user_create_display}}
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">User Creation</label>
-    <div class="col-sm-3">
+    <div class="col-sm-3" style="padding-top: 5px;">
       {{x-toggle value=user.is_user_create disabled=is_user_create_ro toggled=user.is_user_create }}
     </div>
   </div>
@@ -104,6 +104,25 @@
     {{/power-select}}
     </div>
   </div>
+
+  {{#if isDev}}
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-2">Quota for prod vms</label>
+    <div class="col-sm-3">
+      {{#power-select
+      options=quotavmlist
+      selected=user.quotaprod
+      searchEnabled=false
+      disabled=isDisableRealAdmin
+      placeholder="Set a quota"
+      onchange=(action 'changeProperty' 'user.quotaprod')
+      as |quota|
+    }}
+      {{quota}}
+    {{/power-select}}
+    </div>
+  </div>
+  {{/if}}
 
   <div class="form-group">
     <label class="control-label alert-success col-sm-2">Keyboard</label>
@@ -165,7 +184,7 @@
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">Send Credentials</label>
     <div class="col-sm-3">
-      <label>{{x-toggle value=user.is_credentials_send toggled=user.is_credentials_send disabled=isDisableRealAdmin}}</label>
+      <label style="padding-top: 5px;">{{x-toggle value=user.is_credentials_send toggled=user.is_credentials_send disabled=isDisableRealAdmin}}</label>
     </div>
   </div>
   {{/if}}

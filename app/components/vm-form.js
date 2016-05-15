@@ -18,10 +18,14 @@ export default Ember.Component.extend({
   errorOs: false,
   errorVmsize: false,
 
+  errorUris: false,
+  checkListUris: null,
+
   // trigger function when model changes
   didReceiveAttrs() {
     this._super(...arguments);
     this.set('loadingModal', false);
+    this.set('checkListUris', Ember.Object.create());
     this.cleanModel();
     this.formIsValid();
   },
@@ -30,6 +34,11 @@ export default Ember.Component.extend({
   cleanModel: function() {
     var cleanProjects = null;
     var self = this;
+    var cleanEndpoints = this.store.peekAll('endpoint').filterBy('id', null);
+
+    cleanEndpoints.forEach(function (clean) {
+      if (clean) { clean.deleteRecord(); }
+    });
 
     cleanProjects = this.get('projects').filterBy('id', null);
     cleanProjects.forEach(function (clean) {
@@ -66,9 +75,21 @@ export default Ember.Component.extend({
     this.set('errorUser', errorUser);
   }.observes('vm.user'),
 
+  checkBranch: function() {
+    var branch = null;
+    var errorBranch = false;
+
+    branch = this.get('branche');
+    if (!branch) {
+      errorBranch = true;
+    }
+
+    this.set('errorBranch', errorBranch);
+  },
+
   // ensure that branch attribute is not empty
   // and set default commit when branche changes
-  checkBranch: function() {
+  changeBranch: function() {
     var branch = null;
     var errorBranch = true;
     var self = this;
@@ -81,8 +102,10 @@ export default Ember.Component.extend({
       errorBranch = false;
       branch.reload().then(function (branch) {
         branch.get('commits').then(function (commits) {
-          self.set('loadingModal', false);
-          self.set('vm.commit', commits.toArray()[0]);
+          if (self) {
+            self.set('loadingModal', false);
+            self.set('vm.commit', commits.toArray()[0]);
+          }
         });
       });
     } else {
@@ -130,20 +153,36 @@ export default Ember.Component.extend({
     this.set('errorVmsize', errorVmsize);
   }.observes('vm.vmsize'),
 
+  // check uris
+  checkUris: function() {
+    var checks = this.get('checkListUris');
+    var errorUris = false;
+
+    this.get('vm.uris').forEach(function (uri) {
+      if (uri.get('path') && checks.get(uri.get('path'))) {
+        errorUris = true;
+      }
+    });
+
+    this.set('errorUris', errorUris);
+  }.observes('vm.uris'),
+
   //check form before submit
   formIsValid: function() {
     this.checkProject();
     this.checkUser();
-    this.checkBranch();
     this.checkCommit();
+    this.checkBranch();
     this.checkOs();
     this.checkVmsize();
+    this.checkUris();
 
     if (!this.get('errorProject') &&
         !this.get('errorUser') &&
         !this.get('errorBranch') &&
         !this.get('errorCommit') &&
         !this.get('errorOs') &&
+        !this.get('errorUris') &&
         !this.get('errorVmsize')) { return true; }
     return false;
   },
@@ -163,6 +202,97 @@ export default Ember.Component.extend({
     if (access_level === 50) { return true; }
     return false;
   }.property('session.data.authenticated.access_level'),
+
+  isDisabledAuth: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (!this.get('vm.name')) {
+      return true;
+    }
+
+    if (access_level === 50) { return false; }
+    if (this.get('vm.is_prod')) { return false; }
+    return true;
+  }.property('vm.name', 'vm.is_prod'),
+
+  isDisabledProd: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+    var user = this.get('vm.user');
+
+    if (!this.get('vm.name')) {
+      return true;
+    }
+
+    if (access_level === 50) { return false; }
+    if (parseInt(user.get('quotaprod')) > parseInt(user.get('vms').filterBy('is_prod', true).length)) { return false; }
+    return true;
+  }.property('vm.name'),
+
+  generateName: function() {
+    var vmname = '';
+    var user = this.get('vm.user');
+    var project = this.get('vm.project');
+
+    if (!project || !user || !project.get('id') || !user.get('id')) {
+      this.set('vm.name', null);
+      return;
+    }
+
+    vmname = user.get('id') + '-' + project.get('name').replace(/\./g, '-') + '-' + (Math.floor(Date.now() / 1000) + '').replace(/^../, '');
+    this.set('vm.name', vmname.toLowerCase());
+  }.observes('vm.project', 'vm.user'),
+
+  initUris: function() {
+    var endpoints = null;
+    var vmname = this.get('vm.name');
+    var self = this;
+    var absolute = '';
+    var aliases = '';
+    var aliasesT = [];
+    var cleanUris = this.store.peekAll('uri').filterBy('id', null);
+    var uri = null;
+
+    if (!vmname) {
+      return;
+    }
+
+    cleanUris.forEach(function (clean) {
+      if (clean) { 
+        clean.get('framework').get('uris').removeObject(clean);
+        if (clean.get('vm')) {
+          clean.get('vm').get('uris').removeObject(clean);
+        }
+        self.store.peekAll('uri').removeObject(clean);
+        clean.deleteRecord(); 
+      }
+    });
+
+    endpoints = this.get('vm').get('project').get('endpoints').toArray();
+    this.set('vm.uris', []);
+
+    endpoints.forEach(function (ep) {
+      absolute = ep.get('prefix');
+      if (absolute && absolute !== '') {
+        absolute = absolute + '.';
+      }
+      absolute = absolute + vmname;
+
+      aliases = '';
+      aliasesT = [];
+      if (ep.get('aliases')) {
+        aliasesT = ep.get('aliases').split(' ');
+        aliasesT = aliasesT.map(function (aliase) {
+          aliase = aliase + '.' + vmname;
+          return aliase;
+        });
+        aliases = aliasesT.join(' ');
+      }
+
+      uri = self.store.createRecord('uri', { vm: self.get('vm'), framework: ep.get('framework'), path: ep.get('path'), absolute: absolute, envvars: ep.get('envvars'), aliases: aliases, port: ep.get('port'), ipfilter: ep.get('ipfilter')});
+      self.get('vm.uris').addObject(uri);
+    });
+
+  }.observes('vm.name', 'vm.is_prod'),
 
   actions: {
 
@@ -215,6 +345,7 @@ export default Ember.Component.extend({
         // init htlogin and htpassword
         self.set('vm.htlogin', project.get('login'));
         self.set('vm.htpassword', project.get('password'));
+        self.set('vm.is_ht', project.get('is_ht'));
 
         // init default values
         self.set('vm.technos', project.get('technos').toArray());
@@ -258,6 +389,8 @@ export default Ember.Component.extend({
     createItem: function() {
       var router = this.get('router');
       var vm = this.get('vm');
+      var nbUris = parseInt(this.get('vm.uris.length'));
+      var readytoBoot = 0;
 
       // check if form is valid
       if (!this.formIsValid()) {
@@ -267,9 +400,28 @@ export default Ember.Component.extend({
       // set same layout than user
       this.set('vm.layout', vm.get('user').get('layout'));
 
+      var boot = function() {
+        readytoBoot = readytoBoot + 1;
+        if (readytoBoot === nbUris) {
+          var okboot = function() {
+            router.transitionTo('vms.list');
+          };
+
+          var failboot = function() {
+            router.transitionTo('vms.list');
+          };
+
+          vm.save().then(okboot, failboot);
+        }
+      };
+
       // redirect to vms list if success
-      var pass = function(){
-        router.transitionTo('vms.list');
+      var pass = function(vm){
+        var uris = vm.get('uris');
+
+        uris.forEach(function(uri) {
+          uri.save().then(boot, fail);
+        });
       };
 
       // redirect to error page if error occurs

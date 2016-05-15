@@ -4,7 +4,7 @@ import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-rout
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model(params) {
     var access_level = this.get('session').get('data.authenticated.access_level');
-    
+
     if (access_level === 50) {
       return Ember.RSVP.hash({
         brands: this.store.peekAll('brand'),

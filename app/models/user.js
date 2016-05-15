@@ -10,6 +10,7 @@ export default DS.Model.extend({
   layout: DS.attr('string'),
   company: DS.attr('string'),
   quotavm: DS.attr('number'),
+  quotaprod: DS.attr('number'),
   password: DS.attr('string'),
   password_confirmation: DS.attr('string'),
   is_credentials_send: DS.attr('boolean'),

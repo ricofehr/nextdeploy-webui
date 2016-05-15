@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import config from '../config/environment';
 
 export default Ember.Component.extend({
   loadingModal: false,
@@ -17,7 +16,7 @@ export default Ember.Component.extend({
   // Return true if is running state
   isRunning: function() {
     if (!this.get('vm')) {
-      return false; 
+      return false;
     }
 
     if (parseInt(this.get('vm.status'), 10) > 0) { return true; }
@@ -46,9 +45,10 @@ export default Ember.Component.extend({
   isIO: function() {
     if (!this.get('vm')) { return false; }
 
-    var framework = this.get('vm.project.framework');
+    var uris = this.get('vm.uris');
     var technos = this.get('vm.project.technos');
     var isData = false;
+    var framework = null;
 
     technos.forEach(function (techno) {
       if (techno.get('technotype').get('name').match(/Data/)) {
@@ -56,11 +56,14 @@ export default Ember.Component.extend({
       }
     });
 
-    if (framework.get('name').match(/Symfony/) ||
+    uris.forEach(function (uri) {
+      framework = uri.get('framework');
+      if (framework.get('name').match(/Symfony/) ||
         framework.get('name').match(/Drupal/) ||
         framework.get('name').match(/Wordpress/)) {
-      isData = true;
-    }
+        isData = true;
+      }
+    });
 
     if (isData) {
       return true;
@@ -111,70 +114,6 @@ export default Ember.Component.extend({
       Ember.run.later(function(){
        self.set('vm', null);
       }, 500);
-    },
-
-    // agree import
-    agreeImport: function(isToggled) {
-      this.set('okImport', isToggled);
-    },
-
-    // start export
-    exportIO: function() {
-      var branchs = this.get('export_branchs');
-      var current_id = this.get('vm').get('id');
-      var self = this;
-
-      this.set('exportRunning', true);
-      this.set('loadingModal', true);
-
-      Ember.$.ajax({
-          url: config.APP.APIHost + "/api/v1/vms/" + current_id + "/export",
-          method: "POST",
-          global: false,
-          data: { branchs: branchs.toArray().join(" ") },
-          headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
-        })
-        .done(function() {
-          self.set('importRunning', false);
-          self.set('loadingModal', false);
-          self.set('errorIO', 'Export done !');
-        })
-        .fail(function() {
-          self.set('importRunning', false);
-          self.set('loadingModal', false);
-          self.set('errorIO', 'Error occurs during export !');
-        });
-    },
-
-    // start import
-    importIO: function() {
-      var self = this;
-      var current_id = this.get('vm').get('id');
-
-      this.set('importRunning', true);
-      this.set('loadingModal', true);
-
-      Ember.$.ajax({
-          url: config.APP.APIHost + "/api/v1/vms/" + current_id + "/import",
-          method: "POST",
-          global: false,
-          headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
-        })
-        .done(function() {
-          self.set('importRunning', false);
-          self.set('loadingModal', false);
-          self.set('errorIO', 'Import done !');
-        })
-        .fail(function() {
-          self.set('importRunning', false);
-          self.set('loadingModal', false);
-          self.set('errorIO', 'Error occurs during import !');
-        });
-    },
-
-    // change property on power-select
-    changeProperty: function(property, value) {
-      this.set(property, value);
     },
   }
 });

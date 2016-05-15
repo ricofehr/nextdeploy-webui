@@ -9,7 +9,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       groups: this.store.peekAll('group').sortBy('access_level').reverse(),
       projects: this.store.peekAll('project'),
       users: this.store.peekAll('user'),
-      user: this.store.createRecord('user', { quotavm: '4', layout: 'fr', is_credentials_send: true })
+      user: this.store.createRecord('user', { quotavm: '4', quotaprod: '0', layout: 'fr', is_credentials_send: true })
     });
   },
 });

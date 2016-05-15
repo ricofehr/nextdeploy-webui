@@ -21,15 +21,19 @@ export default Ember.Component.extend({
   errorName2: false,
   errorLogin: false,
   errorPassword: false,
-  errorFramework: false,
+  errorEndpoint: false,
   errorSystem: false,
   errorTechnos: false,
   errorVmsizes: false,
   errorUsers: false,
 
+  // new endpoint flag
+  newFlag: false,
+
   // trigger function when model changes
   didReceiveAttrs() {
     this._super(...arguments);
+    this.set('newFlag', false);
     this.cleanModel();
     this.initBuffer();
     this.formIsValid();
@@ -198,17 +202,16 @@ export default Ember.Component.extend({
     this.set('errorPassword', errorPassword);
   }.observes('project.password'),
 
-  // ensure framework attribute is not empty
-  checkFramework: function() {
-    var framework = this.get('project.framework.id');
-    var errorFramework = false;
+  // ensure endpoints are not empty
+  checkEndpoints: function() {
+    var endpoints = null;
+    var errorEndpoints = true;
 
-    if (!framework) {
-      errorFramework = true;
-    }
+    endpoints = this.get('project.endpoints');
+    if (endpoints && endpoints.toArray().length > 0) { errorEndpoints = false; }
+    this.set('errorEndpoints', errorEndpoints);
 
-    this.set('errorFramework', errorFramework);
-  }.observes('project.framework'),
+  }.observes('project.endpoints'),
 
   // ensure systemimages attribute is not empty
   checkSystem: function() {
@@ -358,7 +361,7 @@ export default Ember.Component.extend({
     this.checkName();
     this.checkLogin();
     this.checkPassword();
-    this.checkFramework();
+    this.checkEndpoints();
     this.checkSystem();
     this.checkTechnos();
     this.checkVmsizes();
@@ -370,7 +373,7 @@ export default Ember.Component.extend({
         !this.get('errorName3') &&
         !this.get('errorLogin') &&
         !this.get('errorPassword') &&
-        !this.get('errorFramework') &&
+        !this.get('errorEndpoints') &&
         !this.get('errorSystem') &&
         !this.get('errorTechnos') &&
         !this.get('errorVmsizes') &&
@@ -433,6 +436,14 @@ export default Ember.Component.extend({
 
   // actions binding with user event
   actions: {
+    toggleNewFlag: function() {
+      if (this.get('newFlag')) {
+        this.set('newFlag', false);
+      } else {
+        this.set('newFlag', true);
+      }
+    },
+
     displayTechno: function(isToggled, technoTypeId) {
       var selected = null;
       var self = this;
@@ -451,7 +462,7 @@ export default Ember.Component.extend({
       });
       //this.get('technotypes').find(parseInt(technoTypeId)).set('selected', firstTechno);
     },
-    
+
     // change property on power-select
     changeProperty: function(property, value) {
       this.set(property, value);
@@ -470,7 +481,13 @@ export default Ember.Component.extend({
       this.flushBuffer();
 
       // redirect on project list if success
-      var pass = function(){
+      var pass = function(project){
+        var endpoints = project.get('endpoints');
+
+        endpoints.forEach(function(ep) {
+          ep.save();
+        });
+
         router.transitionTo('projects.list');
       };
 

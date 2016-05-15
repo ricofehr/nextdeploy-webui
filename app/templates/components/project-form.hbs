@@ -89,26 +89,48 @@
   </div>
 
   <div class="form-group">
-    {{#if errorFramework}}
-      <label class="control-label col-sm-2 alert-danger">Framework</label>
-    {{else}}
-      <label class="control-label col-sm-2 alert-success">Framework</label>
-    {{/if}}
+      <label class="control-label alert-success col-sm-2">Enable Htaccess ?</label>
     <div class="col-sm-3">
-    {{#power-select
-      disabled=isDisableEdit
-      options=frameworksSort
-      searchField="name"
-      selected=project.framework
-      searchEnabled=false
-      placeholder="Select a framework"
-      onchange=(action 'changeProperty' 'project.framework')
-      as |framework|
-    }}
-      {{framework.name}}
-    {{/power-select}}
-     </div>
+      <label style="padding-top: 5px;">{{x-toggle value=project.is_ht toggled=project.is_ht disabled=isDisableCreate}}</label>
+    </div>
   </div>
+
+  <div class="form-group">
+    {{#if errorEndpoint}}
+      <label class="control-label col-sm-2 alert-danger">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-square-o fa-lg"></span>{{/if}}{{/unless}}</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-square-o fa-lg"></span>{{/if}}{{/unless}}</label>
+    {{/if}}
+  </div>
+
+  {{#if newFlag}}
+  {{project-endpoint project=project frameworks=frameworksSort isExist=false}}
+  {{/if}}
+
+  {{#each project.endpoints as |ep|}}
+    {{project-endpoint project=project frameworks=frameworksSort endpoint=ep isExist=true}}
+  {{/each}}
+
+  <div class="form-group">
+    {{#if errorVmsizes}}
+      <label class="control-label col-sm-2 alert-danger">Sizing</label>
+    {{else}}
+      <label class="control-label col-sm-2 alert-success">Sizing</label>
+    {{/if}}
+    <div class="checkbox col-sm-3">
+    {{#power-select-multiple
+      options=vmsizesSort
+      searchEnabled=false
+      disabled=isDisableAdmin
+      selected=project_vmsizes
+      onchange=(action 'changeProperty' 'project_vmsizes')
+      as |size|
+    }}
+      {{size.title}} ({{size.description}})
+    {{/power-select-multiple}}
+    </div>
+  </div>
+  <br/>
 
   <div class="form-group">
     {{#if errorSystem}}
@@ -132,31 +154,10 @@
   </div>
   <br/>
 
-  <div class="form-group">
-    {{#if errorVmsizes}}
-      <label class="control-label col-sm-2 alert-danger">Sizing</label>
-    {{else}}
-      <label class="control-label col-sm-2 alert-success">Sizing</label>
-    {{/if}}
-    <div class="checkbox col-sm-3">
-    {{#power-select-multiple
-      options=vmsizesSort
-      searchEnabled=false
-      disabled=isDisableAdmin
-      selected=project_vmsizes
-      onchange=(action 'changeProperty' 'project_vmsizes')
-      as |size|
-    }}
-      {{size.title}} ({{size.description}})
-    {{/power-select-multiple}}
-    </div>
-  </div>
-  <br/>
-
   {{#each project_technotypes as |technoproxy|}}
   <div class="form-group">
       <label class="control-label col-sm-2 alert-success">{{technoproxy.technotype.name}}</label>
-    <div class="checkbox col-sm-3">
+    <div class="checkbox col-sm-3" style="padding-top: 5px;">
     {{x-toggle toggle='displayTechno' toggled=technoproxy.toggled name=technoproxy.technotype.id disabled=isDisableCreate}}<br/>
     {{#if technoproxy.toggled}}
     {{#power-select

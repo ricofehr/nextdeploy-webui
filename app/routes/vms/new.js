@@ -10,7 +10,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
     return Ember.RSVP.hash({
       projects: this.store.findAll('project').then(sortProjects),
-      vm: this.store.createRecord('vm', { project: null, user: null, group: null, vmsize: null, systemimage: null, commit: null, is_auth: true, technos: [] })
+      vm: this.store.createRecord('vm', { project: null, user: null, group: null, vmsize: null, systemimage: null, commit: null, is_auth: true, is_prod: false, is_cached: false, technos: [] })
     });
   },
 });
