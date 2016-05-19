@@ -167,7 +167,6 @@
     </div>
   </div>
 
-  {{#if vm.is_prod}}
   <div class="form-group">
     {{#if errorUri}}
       <label class="control-label col-sm-2 alert-danger">Uris</label>
@@ -179,7 +178,6 @@
   {{#each vm.uris as |uri|}}
       {{vm-form-uri vm=vm uri=uri checkListUris=checkListUris}}
   {{/each}}
-  {{/if}}
 
   {{#each vm.technos as |techno|}}
   <div class="form-group">

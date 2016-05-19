@@ -51,8 +51,34 @@
     {{/if}}
   </div>
 
-  {{#if vm.is_prod}}
   <div class="form-group">
+      <label class="control-label  col-sm-2">Uris</label>
+    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'uri' on="mouseEnter"}} {{action "hideToolTip" 'uri' on="mouseLeave"}}>
+      {{x-toggle value=uriModal toggled=uriModal}}
+    </div>
+    {{#if uriToolTip}}
+    <div class="col-sm-8 control-label">
+      <i>Open uris settings popin for ipfilters {{#if vm.is_prod}}and DNS settings{{/if}}</i>
+    </div>
+    {{/if}}
+  </div>
+
+  </div>
+    {{else}}
+      <b>Vm is not on running status.</b>
+    {{/if}}
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}
+
+
+{{#bs-modal header=false footer=false body=false open=uriModal}}
+   {{#bs-modal-header}}
+     <div class="text-center">Uris for {{vm.name}}</div>
+   {{/bs-modal-header}}
+   {{#bs-modal-body}}
+   <div class="form-horizontal">
+        <div class="form-group">
     {{#if errorUri}}
       <label class="control-label col-sm-2 alert-danger">Uris</label>
     {{else}}
@@ -62,13 +88,9 @@
   {{#each vm.uris as |uri|}}
       {{vm-form-uri vm=vm uri=uri checkListUris=checkListUris}}
   {{/each}}
-  {{/if}}
   </div>
-    {{else}}
-      <b>Vm is not on running status.</b>
-    {{/if}}
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Close"}}
+   {{/bs-modal-body}}
+   {{bs-modal-footer closeTitle="Close"}}
 {{/bs-modal}}
 
 {{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}

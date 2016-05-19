@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   prodToolTip: false,
   authToolTip: false,
   htToolTip: false,
+  uriModal: false,
 
   // trigger function when model changes
   didReceiveAttrs() {
@@ -37,6 +38,8 @@ export default Ember.Component.extend({
       this.set('prodToolTip', false);
       this.set('authToolTip', false);
       this.set('htToolTip', false);
+      this.set('uriToolTip', false);
+      this.set('uriModal', false);
     }
   },
 
