@@ -50,8 +50,9 @@ export default Ember.Component.extend({
       var minute = '';
       var branchName = '';
 
-      // by default a vm is not read-only
+      // by default a vm is not read-only and userlist is hidden
       model.set('isRo', false);
+      model.set('isUserList', false);
 
       // check if current model is reliable
       if (!model.get('commit') ||
@@ -290,10 +291,32 @@ export default Ember.Component.extend({
 
   // actions binding with user event
   actions: {
+    // change page action
     changePage: function(cp) {
       this.set('currentPage', cp);
       this.prepareList();
     },
+
+    // display userlist
+    showUserList: function(vm) {
+      vm.set('isUserList', true);
+    },
+
+    // change user
+    changeUser: function(vm, user) {
+      var self = this;
+      
+      this.set('isBusy', true);
+      this.set('loadingModal', true);
+      this.set('messageUser', 'Change user of vm ' + vm.get('name') + ' is applied !<br/>From: ' + vm.get('user').get('email') 
+                              + '<br/>To: ' + user.get('email') + "<br/>Please waiting ...");
+      vm.set('user', user);
+      vm.save().then(function (){
+        self.set('loadingModal', false);
+        self.set('messageUser', '');
+        self.set('isBusy', false);
+      });
+    },    
 
     // open detail modal for targetted vm (vmId parameter)
     showDetails: function(vm) {

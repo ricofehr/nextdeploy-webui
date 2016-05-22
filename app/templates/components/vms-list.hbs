@@ -103,7 +103,25 @@
             </td>
         {{/if}}
         {{#if isLead}}
-            <td class="simplify">{{vm.user.email}}</td>
+            {{#if vm.isRo}}
+                <td class="simplify">{{vm.user.email}}</td>
+            {{else}}
+                {{#if vm.isUserList}}
+                    <td class="simplify">{{#power-select
+                      options=vm.project.users
+                      searchField="email"
+                      selected=vm.user
+                      verticalPosition='below'
+                      placeholder="Select an user"
+                      onchange=(action 'changeUser' vm)
+                      as |user|
+                    }}
+                    {{user.email}}
+                    {{/power-select}}</td>
+                {{else}}
+                    <td class="simplify tdhref" {{action 'showUserList' vm}}><a href="">{{vm.user.email}}</a></td>
+                {{/if}}
+            {{/if}}
         {{/if}}
         <td class="simplify">{{vm.created_at_short}}</td>
     </tr>
@@ -133,6 +151,15 @@
   {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
 {{/bs-modal}}
 {{/if}}
+
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=false classNames=['ember-view','loadingModal'] open=loadingModal}}
+   {{#bs-modal-header closeButton=false}}
+     <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
+   {{/bs-modal-header}}
+   {{#bs-modal-body}}
+        <div class="text-center">{{{messageUser}}}</div>
+   {{/bs-modal-body}}
+{{/bs-modal}}
 
 {{vm-details vm=vmSelected isShowingDetails=isShowingDetails isBusy=isBusy}}
 {{vm-settings vm=vmSelected isShowingSettings=isShowingSettings isBusy=isBusy}}
