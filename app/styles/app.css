@@ -89,12 +89,6 @@ a .nodec {
 
 @media all and (min-width: 1000px) {
   .tdinfo {
-    width: 21%;
-  }
-}
-
-@media all and (min-width: 1400px) {
-  .tdinfo {
     width: 19%;
   }
 }

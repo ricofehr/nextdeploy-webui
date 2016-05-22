@@ -24,6 +24,10 @@
                   <a href="{{pminfoURI}}" target="_blank">Phpinfo</a><br/>
               {{/if}}
               <a {{action 'requestTool' 'logs'}}>Logs</a><br/>
+              <a {{action 'requestTool' 'postinstall_display'}}>Check postinstall script</a><br/>
+              {{#if viewPostinstall}}
+              <a {{action 'requestTool' 'postinstall'}}>Execute postinstall script</a><br/>
+              {{/if}}
             {{/if}}<br/>
 
           {{#each vm.uris as |uri|}}
@@ -55,6 +59,7 @@
           <pre>
 {{message}}
           </pre>
+          {{{message2}}}
           {{else}}
             Request executed !
           {{/if}}

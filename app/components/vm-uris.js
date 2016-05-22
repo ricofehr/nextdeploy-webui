@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   loadingModal: false,
   requestRunning: false,
   message: null,
+  viewPostinstall: false,
 
   // trigger function when model changes
   didReceiveAttrs() {
@@ -13,6 +14,7 @@ export default Ember.Component.extend({
     this.set('loadingModal', false);
     this.set('message', null);
     this.set('requestRunning', false);
+    this.set('viewPostinstall', false);
   },
 
   // inverse of isrunning
@@ -208,6 +210,10 @@ export default Ember.Component.extend({
       this.set('message', null);
       this.set('loadingModal', true);
 
+      if (request === 'postinstall_display') {
+        this.set('viewPostinstall', true);
+      }
+
       Ember.$.ajax({
           url: config.APP.APIHost + "/api/v1/vms/" + current_id + "/" + request,
           method: "POST",
@@ -218,6 +224,9 @@ export default Ember.Component.extend({
           self.set('requestRunning', false);
           if (plain && plain.length) {
             self.set('message', plain);
+            if (request === 'postinstall_display') {
+              self.set('message2', "Look with attention the content of this script.<br>And if you are agree with that, you can now execute this on the vm at your own risk !");
+            }
           } else {
             self.set('loadingModal', false);
           }
