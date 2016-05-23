@@ -96,19 +96,19 @@
   </div>
 
   <div class="form-group">
-    {{#if errorEndpoint}}
-      <label class="control-label col-sm-2 alert-danger">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-square-o fa-lg"></span>{{/if}}{{/unless}}</label>
+    {{#if errorEndpoints}}
+      <label class="control-label col-sm-2 alert-danger">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-square-o fa-lg"></span>{{/if}}{{/unless}}</label>
+      <label class="control-label col-sm-2 alert-success">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
     {{/if}}
   </div>
 
   {{#if newFlag}}
-  {{project-endpoint project=project frameworks=frameworksSort isExist=false}}
+    {{project-endpoint project=project frameworks=frameworksSort isExist=false projectSave=projectSave newFlag=newFlag}}
   {{/if}}
 
   {{#each project.endpoints as |ep|}}
-    {{project-endpoint project=project frameworks=frameworksSort endpoint=ep isExist=true}}
+    {{project-endpoint project=project frameworks=frameworksSort endpoint=ep isExist=true projectSave=false}}
   {{/each}}
 
   <div class="form-group">

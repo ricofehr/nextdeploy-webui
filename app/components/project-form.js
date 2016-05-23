@@ -26,6 +26,7 @@ export default Ember.Component.extend({
   errorTechnos: false,
   errorVmsizes: false,
   errorUsers: false,
+  projectSave: false,
 
   // new endpoint flag
   newFlag: false,
@@ -34,6 +35,7 @@ export default Ember.Component.extend({
   didReceiveAttrs() {
     this._super(...arguments);
     this.set('newFlag', false);
+    this.set('projectSave', false);
     this.cleanModel();
     this.initBuffer();
     this.formIsValid();
@@ -209,6 +211,7 @@ export default Ember.Component.extend({
 
     endpoints = this.get('project.endpoints');
     if (endpoints && endpoints.toArray().length > 0) { errorEndpoints = false; }
+    if (errorEndpoints) { this.set('newFlag', true); }
     this.set('errorEndpoints', errorEndpoints);
 
   }.observes('project.endpoints'),
@@ -471,7 +474,8 @@ export default Ember.Component.extend({
     // Action when submit form for create or update project current object
     postItem: function() {
       var router = this.get('router');
-
+      var self = this;
+      
       // check if form is valid
       if (!this.formIsValid()) {
         return;
@@ -496,9 +500,14 @@ export default Ember.Component.extend({
         router.transitionTo('error');
       };
 
+      // trigger submit endpoint
+      this.set('projectSave', true);
+      
       // loading modal and request server
-      router.transitionTo('loading');
-      this.get('project').save().then(pass, fail);
+      Ember.run.later(function(){
+        router.transitionTo('loading');
+        self.get('project').save().then(pass, fail);
+      }, 300);
     }
   }
 });

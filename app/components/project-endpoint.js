@@ -8,14 +8,15 @@ export default Ember.Component.extend({
 
   // trigger function when model changes
   didReceiveAttrs() {
-    var ep_empty = Ember.Object.create({prefix: '', path: '', aliases: '', envvars: '', framework: null, port: '8080', ipfilter: '', is_install: true});
     this._super(...arguments);
-    if (!this.get('endpoint') || !this.get('endpoint.project.brand')) {
-      this.set('endpoint', ep_empty);
-    }
 
-    if (this.get('project.id')) {
-      this.get('endpoint').set('is_install', false);
+    // init an endpoint object if needed
+    if (!this.get('endpoint') || !this.get('endpoint.project.brand')) {
+      this.set('endpoint', Ember.Object.create({prefix: '', path: '', aliases: '', envvars: '', framework: null, port: '8080', ipfilter: '', is_install: true}));
+
+      if (this.get('project.id')) {
+        this.get('endpoint').set('is_install', false);
+      }
     }
 
     this.formIsValid();
@@ -198,15 +199,18 @@ export default Ember.Component.extend({
     return false;
   },
 
-  /*
-  resetIsInstall: function() {
-    if (this.get('project.id')) {
-      this.get('endpoint').set('is_install', false);
-    } else {
-      this.get('endpoint').set('is_install', true);
+  addEndpointOnSubmitProject: function() {
+    var ep = this.get('endpoint');
+    var endpoint = null;
+
+    // check if form is valid
+    if (!this.get('projectSave') || !this.formIsValid() || ep.get('id')) {
+      return;
     }
-  }.observes('project.name'),
-  */
+
+    endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install') });
+    this.get('project').get('endpoints').addObject(endpoint);
+  }.observes('projectSave'),
  
     // Check if current user is admin or edit his own project and can change properties
   isDisableCreate: function() {
@@ -234,10 +238,11 @@ export default Ember.Component.extend({
         return;
       }
 
-      endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter') });
-
+      endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install') });
       this.get('project').get('endpoints').addObject(endpoint);
-      this.set('endpoint', Ember.Object.create({prefix: '', path: '', aliases: '', envvars: '', framework: null, port: '8080', ipfilter: '', is_install: false}));
+      this.set('newFlag', false);
+      // reinit the form
+      this.didReceiveAttrs();
     },
 
     deleteEndpoint: function() {
