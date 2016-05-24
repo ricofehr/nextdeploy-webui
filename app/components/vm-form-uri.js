@@ -10,6 +10,34 @@ export default Ember.Component.extend({
     this.formIsValid();
   },
 
+  // manage popin / vm form display
+  colSmLeft: function() {
+    if (this.get('isPopin')) {
+      return 'col-sm-2';
+    } 
+    else {
+      return 'col-sm-1';
+    }
+  }.property('isPopin'),
+
+  colSmRight: function() {
+    if (this.get('isPopin')) {
+      return 'col-sm-5';
+    } 
+    else {
+      return 'col-sm-3';
+    }
+  }.property('isPopin'),
+
+  colSmOffsetSubmit: function() {
+    if (this.get('isPopin')) {
+      return 'col-sm-offset-3';
+    } 
+    else {
+      return 'col-sm-offset-2';
+    }
+  }.property('isPopin'),
+
   // ensure absolute attribute is not empty
   checkAbsolute: function() {
     var absolute = '';

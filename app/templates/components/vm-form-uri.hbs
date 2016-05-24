@@ -2,22 +2,22 @@
 {{#if vm.is_prod}}
     <div class="form-group">
       {{#if errorAbsolute}}
-        <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">URI</label>
+        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-danger">URI</label>
       {{else}}
-        <label class="control-label col-sm-1 col-sm-offset-1 alert-success">URI</label>
+        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">URI</label>
       {{/if}}
-      <div class="col-sm-3">
+      <div class="{{colSmRight}}">
       {{input type="text" classNames="form-control" autocomplete="off" value=uri.absolute placeholder="Absolute URI" focus-in="displayFocus"}}
       </div>
     </div>
 
     <div class="form-group">
       {{#if errorAliases}}
-        <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Alias</label>
+        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-danger">Alias</label>
       {{else}}
-        <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Alias</label>
+        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Alias</label>
       {{/if}}
-      <div class="col-sm-3">
+      <div class="{{colSmRight}}">
       {{textarea
               classNames="form-control"
               rows=3
@@ -28,8 +28,8 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Iplist</label>
-      <div class="col-sm-3">
+      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Iplist</label>
+      <div class="{{colSmRight}}">
       {{textarea
               classNames="form-control"
               rows=2
@@ -41,22 +41,22 @@
 
     {{#if uriFocused}}
     <div class="form-group">
-        <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Cms</label>
-      <div class="col-sm-3">
+        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Cms</label>
+      <div class="{{colSmRight}}">
       {{input type="text" classNames="form-control" autocomplete="off" value=uri.framework.name disabled=true}}
        </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Path</label>
-      <div class="col-sm-3">
+        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Path</label>
+      <div class="{{colSmRight}}">
       {{input type="text" classNames="form-control" autocomplete="off" value=uri.path disabled=true}}
       </div>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Port</label>
-      <div class="col-sm-3">
+      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Port</label>
+      <div class="{{colSmRight}}">
         {{input type="text" classNames="form-control" autocomplete="off" value=uri.port disabled=true}}
       </div>
     </div>
@@ -65,7 +65,7 @@
     {{#if uri.id}}
       {{#if uriFocused}}
       <div class="form-group">
-        <div class="col-sm-3 col-sm-offset-2">
+        <div class="{{colSmRight}} {{colSmOffsetSubmit}}">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </div>
@@ -73,16 +73,16 @@
     {{/if}}
 {{else}}
     <div class="form-group">
-        <label class="control-label col-sm-1 col-sm-offset-1 alert-success">URI</label>
+        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">URI</label>
 
-      <div class="col-sm-3">
+      <div class="{{colSmRight}}">
         {{input type="text" classNames="form-control" autocomplete="off" value=uri.absolute disabled=true}}
       </div>
     </div>
 
     <div class="form-group">
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Iplist</label>
-      <div class="col-sm-3">
+      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Iplist</label>
+      <div class="{{colSmRight}}">
       {{textarea
               classNames="form-control"
               rows=2
@@ -95,7 +95,7 @@
     {{#if uri.id}}
       {{#if uriFocused}}
       <div class="form-group">
-        <div class="col-sm-3 col-sm-offset-2">
+        <div class="{{colSmRight}} {{colSmOffsetSubmit}}">
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
       </div>
