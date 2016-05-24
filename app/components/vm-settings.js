@@ -6,6 +6,7 @@ export default Ember.Component.extend({
   toggleCached: false,
   toggleProd: false,
   toggleHt: false,
+  toggleBackup: false,
   toggleAuth: false,
   checkListUris: null,
   errorUris: false,
@@ -13,6 +14,7 @@ export default Ember.Component.extend({
   prodToolTip: false,
   authToolTip: false,
   htToolTip: false,
+  backupToolTip: false,
   uriModal: false,
 
   // trigger function when model changes
@@ -34,10 +36,14 @@ export default Ember.Component.extend({
       if (this.get('vm.is_auth')) { this.set('toggleAuth', true); }
       else { this.set('toggleAuth', false); }
 
+      if (this.get('vm.is_backup')) { this.set('toggleBackup', true); }
+      else { this.set('toggleBackup', false); }
+
       this.set('cachedToolTip', false);
       this.set('prodToolTip', false);
       this.set('authToolTip', false);
       this.set('htToolTip', false);
+      this.set('backupToolTip', false);
       this.set('uriToolTip', false);
       this.set('uriModal', false);
     }
@@ -123,6 +129,37 @@ export default Ember.Component.extend({
 
     this.set('errorUris', errorUris);
   }.observes('vm.uris'),
+
+  // check if we have a framework or a database
+  isDisabledBackup: function() {
+    if (!this.get('vm')) { return true; }
+
+    var uris = this.get('vm.uris');
+    var technos = this.get('vm.project.technos');
+    var isData = false;
+    var framework = null;
+
+    technos.forEach(function (techno) {
+      if (techno.get('technotype').get('name').match(/Data/)) {
+        isData = true;
+      }
+    });
+
+    uris.forEach(function (uri) {
+      framework = uri.get('framework');
+      if (framework.get('name').match(/Symfony/) ||
+        framework.get('name').match(/Drupal/) ||
+        framework.get('name').match(/Wordpress/)) {
+        isData = true;
+      }
+    });
+
+    if (isData) {
+      return false;
+    }
+
+    return true;
+  }.property('vm.project'),
 
   actions: {
     // close the modal, reset showing variable
@@ -264,6 +301,37 @@ export default Ember.Component.extend({
             self.set('toggleProd', isProd);
           });
         });
+      })
+      .fail(function() {
+        self.set('message', 'Error occurs during execution !');
+        Ember.run.later(function(){
+          self.set('loadingModal', false);
+        }, 3000);
+      });
+    },
+
+    changeBackup: function(isBackup) {
+      var self = this;
+
+      if (!this.get('vm')) {
+        return;
+      }
+
+      if (isBackup === this.get('vm.is_backup')) {
+        return;
+      }
+
+      self.set('loadingModal', true);
+      Ember.$.ajax({
+        url: config.APP.APIHost + "/api/v1/vms/" + this.get('vm').get('id') + "/togglebackup",
+        method: "POST",
+        global: false,
+        headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
+      })
+      .done(function() {
+        self.set('loadingModal', false);
+        self.set('vm.is_backup', isBackup);
+        self.set('toggleBackup', isBackup);
       })
       .fail(function() {
         self.set('message', 'Error occurs during execution !');

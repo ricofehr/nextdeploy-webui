@@ -15,6 +15,7 @@ export default DS.Model.extend({
   is_prod: DS.attr('boolean'),
   is_cached: DS.attr('boolean'),
   is_ht: DS.attr('boolean'),
+  is_backup: DS.attr('boolean'),
   user: DS.belongsTo('user', {async: true}),
   project: DS.belongsTo('project', {async: true}),
   systemimage: DS.belongsTo('systemimage', {async: true}),

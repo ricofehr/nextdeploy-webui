@@ -40,6 +40,18 @@
   </div>
 
   <div class="form-group">
+      <label class="control-label  col-sm-2">Backup</label>
+    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'backup' on="mouseEnter"}} {{action "hideToolTip" 'backup' on="mouseLeave"}}>
+      {{x-toggle toggled=toggleBackup toggle='changeBackup' disabled=isDisabledBackup}}
+    </div>
+    {{#if backupToolTip}}
+    <div class="col-sm-8 control-label">
+      <i>{{#if isDisabledBackup}}Nothing to backup (database or assets) for this project{{else}}Enable daily backup with one week history{{/if}}</i>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
       <label class="control-label  col-sm-2">Prod</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
       {{x-toggle toggled=toggleProd toggle='changeProd' disabled=isDisabledProd}}
