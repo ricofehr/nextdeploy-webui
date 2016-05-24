@@ -89,19 +89,19 @@ a .nodec {
 
 @media all and (min-width: 1000px) {
   .tdinfo {
-    width: 19%;
+    width: 17%;
   }
 }
 
 @media all and (min-width: 1600px) {
   .tdinfo {
-    width: 17%;
+    width: 15%;
   }
 }
 
 @media all and (min-width: 2000px) {
   .tdinfo {
-    width: 15%;
+    width: 14%;
   }
 }
 
