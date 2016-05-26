@@ -38,7 +38,7 @@
         {{/if}}
         {{#if isDev}}
             {{#if vm.isRo}}
-                <td class="simplify tdinfo tdinfoh">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</td>
+                <td class="simplify tdinfo">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</td>
             {{else}}
                 <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}}>
                     <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
