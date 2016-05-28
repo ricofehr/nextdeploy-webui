@@ -572,10 +572,16 @@ export default Ember.Component.extend({
     postItem: function() {
       var router = this.get('router');
       var user = this.get('user');
+      var access_level = this.get('session').get('data.authenticated.access_level');
 
       // rdirect to users list if success
       var pass = function(){
-        router.transitionTo('users.list');
+        // return tu user list if project lead, else homepage
+        if (access_level >= 40) { 
+          router.transitionTo('users.list');
+        } else {
+          router.transitionTo('index');
+        }
       };
 
       // or display error page if request failed
