@@ -118,6 +118,7 @@ export default Ember.Component.extend({
 
       this.set('requestRunning', true);
       this.set('loadingModal', true);
+      this.set('message', null);
 
       Ember.$.ajax({
           url: config.APP.APIHost + "/api/v1/uris/" + current_id + "/" + request,
