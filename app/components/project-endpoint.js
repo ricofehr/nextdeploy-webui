@@ -12,7 +12,7 @@ export default Ember.Component.extend({
 
     // init an endpoint object if needed
     if (!this.get('endpoint') || !this.get('endpoint.project.brand')) {
-      this.set('endpoint', Ember.Object.create({prefix: '', path: '', aliases: '', envvars: '', framework: null, port: '8080', ipfilter: '', is_install: true}));
+      this.set('endpoint', Ember.Object.create({prefix: '', path: '', aliases: '', envvars: '', framework: null, port: '8080', ipfilter: '', is_install: true, customvhost: ''}));
 
       if (this.get('project.id')) {
         this.get('endpoint').set('is_install', false);
@@ -208,11 +208,11 @@ export default Ember.Component.extend({
       return;
     }
 
-    endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install') });
+    endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), customvhost: ep.get('customvhost') });
     this.get('project').get('endpoints').addObject(endpoint);
   }.observes('projectSave'),
  
-    // Check if current user is admin or edit his own project and can change properties
+  // Check if current user is admin or edit his own project and can change properties
   isDisableCreate: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
     var user_id = this.get('session').get('data.authenticated.user.id');
@@ -222,6 +222,14 @@ export default Ember.Component.extend({
     return true;
 
   }.property('session.data.authenticated.user.id'),
+
+  // Return true if user is an admin
+  isAdmin: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level === 50) { return true; }
+    return false;
+  }.property('session.data.authenticated.access_level'),
 
   actions: {
     // change property on power-select
@@ -238,7 +246,7 @@ export default Ember.Component.extend({
         return;
       }
 
-      endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install') });
+      endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), customvhost: ep.get('customvhost') });
       this.get('project').get('endpoints').addObject(endpoint);
       this.set('newFlag', false);
       // reinit the form

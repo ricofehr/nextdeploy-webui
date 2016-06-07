@@ -475,6 +475,8 @@ export default Ember.Component.extend({
     postItem: function() {
       var router = this.get('router');
       var self = this;
+      var nbEndpoints = parseInt(this.get('project.endpoints.length'));
+      var readytoList = 0;
       
       // check if form is valid
       if (!this.formIsValid()) {
@@ -484,15 +486,23 @@ export default Ember.Component.extend({
       // set model properties from temporary buffer
       this.flushBuffer();
 
+      // return to projects list after adding a new one
+      var projectslist = function() {
+        readytoList = readytoList + 1;
+        Ember.Logger.debug(readytoList);
+        Ember.Logger.debug(nbEndpoints);
+        if (readytoList === nbEndpoints) {
+          router.transitionTo('projects.list');
+        }
+      };
+
       // redirect on project list if success
       var pass = function(project){
         var endpoints = project.get('endpoints');
 
         endpoints.forEach(function(ep) {
-          ep.save();
+          ep.save().then(projectslist);
         });
-
-        router.transitionTo('projects.list');
       };
 
       // redirect on error page if error occurs

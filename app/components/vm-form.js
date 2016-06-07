@@ -288,7 +288,7 @@ export default Ember.Component.extend({
         aliases = aliasesT.join(' ');
       }
 
-      uri = self.store.createRecord('uri', { framework: ep.get('framework'), path: ep.get('path'), absolute: absolute, envvars: ep.get('envvars'), aliases: aliases, port: ep.get('port'), ipfilter: ep.get('ipfilter')});
+      uri = self.store.createRecord('uri', { framework: ep.get('framework'), path: ep.get('path'), absolute: absolute, envvars: ep.get('envvars'), aliases: aliases, port: ep.get('port'), ipfilter: ep.get('ipfilter'), customvhost: ep.get('customvhost')});
       self.get('vm.uris').addObject(uri);
     });
 

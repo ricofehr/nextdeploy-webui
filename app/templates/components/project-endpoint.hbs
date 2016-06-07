@@ -87,6 +87,20 @@
     </div>
   </div>
 
+  {{#if isAdmin}}
+    <div class="form-group">
+      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Custom Vhost Block</label>
+      <div class="col-sm-3">
+      {{textarea
+              classNames="form-control"
+              rows=8
+              value=endpoint.customvhost
+              placeholder="Custom Block"
+              }}
+      </div>
+    </div>
+  {{/if}}
+
   {{#unless isExist}}
   <div class="form-group">
       <label class="control-label alert-success col-sm-1 col-sm-offset-1">Install ?</label>

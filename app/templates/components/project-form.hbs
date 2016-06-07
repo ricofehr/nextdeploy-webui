@@ -89,7 +89,7 @@
   </div>
 
   <div class="form-group">
-      <label class="control-label alert-success col-sm-2">Enable Htaccess ?</label>
+      <label class="control-label alert-success col-sm-2" title="Permit override apache setting with .htaccess file">Htaccess</label>
     <div class="col-sm-3">
       <label style="padding-top: 5px;">{{x-toggle value=project.is_ht toggled=project.is_ht disabled=isDisableCreate}}</label>
     </div>
@@ -142,7 +142,6 @@
     {{#power-select-multiple
       options=systemsSort
       searchEnabled=false
-      disabled=isDisableAdmin
       selected=project_systemimages
       placeholder="Select Operating Systems"
       onchange=(action 'changeProperty' 'project_systemimages')
