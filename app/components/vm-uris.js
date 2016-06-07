@@ -177,7 +177,6 @@ export default Ember.Component.extend({
     var login = this.get('vm.htlogin');
     var password = this.get('vm.htpassword');
     var authcreds = login + ":" + password + "@";
-    var is_auth = this.get('vm.is_auth');
     var uri = this.get('vm.name');
     var uri_with_creds = '';
     var uri_xmlhttp_req = '';

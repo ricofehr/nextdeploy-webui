@@ -308,8 +308,8 @@ export default Ember.Component.extend({
       
       this.set('isBusy', true);
       this.set('loadingModal', true);
-      this.set('messageUser', 'Change user of vm ' + vm.get('name') + ' is applied !<br/>From: ' + vm.get('user').get('email') 
-                              + '<br/>To: ' + user.get('email') + "<br/>Please waiting ...");
+      this.set('messageUser', 'Change user of vm ' + vm.get('name') + ' is applied !<br/>From: ' + vm.get('user').get('email') +
+        '<br/>To: ' + user.get('email') + "<br/>Please waiting ...");
       vm.set('user', user);
       vm.save().then(function (){
         self.set('loadingModal', false);
