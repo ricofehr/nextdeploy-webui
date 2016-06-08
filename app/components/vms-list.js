@@ -13,6 +13,7 @@ export default Ember.Component.extend({
   isShowingSettings: false,
   isReload: false,
   vmSelected: null,
+  loadingModal: false,
 
   // trigger when model changes
   didReceiveAttrs() {
@@ -32,6 +33,8 @@ export default Ember.Component.extend({
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
     var access_level = this.get('session').get('data.authenticated.access_level');
+
+    this.set('loadingModal', false);
 
     // max 9 items on a page for vms
     if (ibpmax > 9) {
