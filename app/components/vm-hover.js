@@ -3,6 +3,13 @@ import Ember from 'ember';
 export default Ember.Component.extend({
   isShowingHover: false,
 
+  commitTitle: function() {
+    if (this.get('vm.commit.title').match(/^Merge/)) {
+      return this.get('vm.commit.title').replace(/ of.*/g,'').replace(/ into.*/g,''); 
+    }
+    return this.get('vm.commit.title');
+  }.property('vm.commit.title'),
+
   setShowingHover: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
     if (access_level >= 20) {
