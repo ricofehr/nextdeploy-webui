@@ -4,7 +4,7 @@ export default Ember.Component.extend({
   isShowingHover: false,
 
   commitTitle: function() {
-    if (this.get('vm.commit.title').match(/^Merge/)) {
+    if (this.get('vm.commit.title') && this.get('vm.commit.title').match(/^Merge/)) {
       return this.get('vm.commit.title').replace(/ of.*/g,'').replace(/ into.*/g,''); 
     }
     return this.get('vm.commit.title');
