@@ -54,7 +54,7 @@
   <div class="form-group">
       <label class="control-label  col-sm-2">CI</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'ci' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
-      {{x-toggle toggled=toggleCi toggle='changeCi' disabled=isDisabledProd}}
+      {{x-toggle toggled=toggleCi toggle='changeCi' disabled=isDisabledAdminVms}}
     </div>
     {{#if ciToolTip}}
     <div class="col-sm-8 control-label">

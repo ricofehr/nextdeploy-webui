@@ -73,6 +73,8 @@ export default Ember.Component.extend({
     if (access_level === 50) { return false; }
     // only admin can manage admin vms
     if (parseInt(user.get('group.access_level')) === 50) { return true; }
+    // lead users have this right on vms
+    if (access_level === 40) { return false; }
     // only admin can open dev vms
     if (this.get('vm.is_prod')) { return false; }
     return true;
