@@ -9,6 +9,7 @@ export default Ember.Component.extend({
   redisCollapsed: true,
   elasticCollapsed: true,
   isRefresh: false,
+  loadingModal: false,
   nc: 0,
   timeGraph: '8h',
   is10m: false,
@@ -19,6 +20,18 @@ export default Ember.Component.extend({
   is30d: false,
   is90d: false,
   is365d: false,
+
+  // Loading during graphs generation
+  waiting: function() {
+    var self = this;
+    
+    if (this.get('isShowingMonitor')) {
+      self.set('loadingModal', true);
+      Ember.run.later(function(){
+        self.set('loadingModal', false);
+      }, 5000);
+    }
+  }.observes('isShowingMonitor'),
 
   // Return ftp host for current project
   getGrafanaHost: function() {
@@ -50,7 +63,7 @@ export default Ember.Component.extend({
     });
 
     return ret;
-  }.property('isShowingUris'),
+  }.property('isShowingMonitor'),
 
   // Check if we have apache into model
   isApache: function() {
@@ -68,7 +81,7 @@ export default Ember.Component.extend({
     });
 
     return ret;
-  }.property('isShowingUris'),
+  }.property('isShowingMonitor'),
 
   // Check if we have redis into model
   isRedis: function() {
@@ -86,7 +99,7 @@ export default Ember.Component.extend({
     });
 
     return ret;
-  }.property('isShowingUris'),
+  }.property('isShowingMonitor'),
 
   // Check if we have redis into model
   isMemcache: function() {
@@ -105,7 +118,7 @@ export default Ember.Component.extend({
 
     // graphs not yet implemented
     return false;
-  }.property('isShowingUris'),
+  }.property('isShowingMonitor'),
 
   // Check if we have redis into model
   isElastic: function() {
@@ -124,7 +137,7 @@ export default Ember.Component.extend({
 
     // graphs not yet implemented
     return false;
-  }.property('isShowingUris'),
+  }.property('isShowingMonitor'),
 
   // short vm name
   vmName: function() {
@@ -165,7 +178,7 @@ export default Ember.Component.extend({
     Ember.run.later(function(){
       self.refreshGraphs();
     }, 100);
-  }.observes('isShowingUris'),
+  }.observes('isShowingMonitor'),
 
   resetTimeFlags: function() {
     this.set('is10m', false);
@@ -186,10 +199,17 @@ export default Ember.Component.extend({
 
     // change time lapse of graphs
     changeTime: function(time) {
+      var self = this;
+
       this.set('nc', 0);
       this.set('timeGraph', time);
       this.resetTimeFlags();
       this.set('is'+time, true);
+
+      self.set('loadingModal', true);
+      Ember.run.later(function(){
+        self.set('loadingModal', false);
+      }, 5000);
     },
 
     // close the modal, reset showing variable

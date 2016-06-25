@@ -195,10 +195,6 @@ export default Ember.Component.extend({
 
     cleanUris.forEach(function (clean) {
       if (clean) { 
-        clean.get('framework').get('uris').removeObject(clean);
-        if (clean.get('vm')) {
-          clean.get('vm').get('uris').removeObject(clean);
-        }
         self.store.peekAll('uri').removeObject(clean);
         clean.deleteRecord(); 
       }
@@ -374,6 +370,8 @@ export default Ember.Component.extend({
 
     // open monitor modal from targetted vm (vm parameter)
     showMonitor: function(vm) {
+      var self = this;
+
       this.set('vmSelected', vm);
       this.set('isShowingMonitor', true);
       this.set('isBusy', true);
