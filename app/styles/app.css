@@ -148,3 +148,5 @@ a .nodec {
 }
 
 iframe { border: none; }
+
+.modal { overflow: auto !important; }
