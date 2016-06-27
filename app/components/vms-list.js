@@ -370,8 +370,6 @@ export default Ember.Component.extend({
 
     // open monitor modal from targetted vm (vm parameter)
     showMonitor: function(vm) {
-      var self = this;
-
       this.set('vmSelected', vm);
       this.set('isShowingMonitor', true);
       this.set('isBusy', true);

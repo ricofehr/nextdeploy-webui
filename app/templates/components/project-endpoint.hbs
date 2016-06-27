@@ -114,6 +114,13 @@
     </div>
   </div>
   {{/unless}}
+
+  <div class="form-group">
+      <label class="control-label alert-success col-sm-1 col-sm-offset-1">Scripts ?</label>
+    <div class="col-sm-3">
+      <label>{{x-toggle value=endpoint.is_sh toggled=endpoint.is_sh disabled=isExist}}</label>
+    </div>
+  </div>
   
   {{#unless isDisableCreate}}
   <div class="form-group">

@@ -2,6 +2,15 @@ import Ember from 'ember';
 import config from '../config/environment';
 
 export default Ember.Component.extend({
+  SCRIPTS: [],
+
+  // trigger when model changes
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.set('SCRIPTS', []);
+    this.initScripts();
+  },
+
 // Return true if user is a Dev or more
   isDev: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
@@ -110,6 +119,42 @@ export default Ember.Component.extend({
 
     return false;
   }.property('uri'),
+
+  // initScripts
+  initScripts: function() {
+    var self = this;
+    var uri = this.get('uri');
+    var current_id;
+
+    if (!uri) {
+      return;
+    }
+
+    current_id = this.get('uri').get('id');
+
+    if (!current_id) {
+      return;
+    }
+
+    if (this.get('uri.is_sh')) {
+      Ember.$.ajax({
+          url: config.APP.APIHost + "/api/v1/uris/" + current_id + "/listscript",
+          method: "POST",
+          global: false,
+          async: false, 
+          headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
+        })
+        .done(function(plain) {
+          if (plain && plain.length) {
+            plain.split("\n").forEach(function (scriptLine) {
+              if (scriptLine.trim() !== "") {
+                self.get('SCRIPTS').push({sfolder: scriptLine.split(",")[0], sbin: scriptLine.split(",")[1], command: scriptLine});
+              }
+            });
+          }
+        });
+    }
+  },
 
   actions: {
     requestTool: function(request, command) {

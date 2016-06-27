@@ -6,6 +6,7 @@ export default DS.Model.extend({
   envvars: DS.attr('string'),
   aliases: DS.attr('string'),
   is_install: DS.attr('boolean'),
+  is_sh: DS.attr('boolean'),
   port: DS.attr('string'),
   ipfilter: DS.attr('string'),
   customvhost: DS.attr('string'),

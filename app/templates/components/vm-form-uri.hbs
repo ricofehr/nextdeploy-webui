@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Iplist</label>
+      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">IpFilter</label>
       <div class="{{colSmRight}}">
       {{textarea
               classNames="form-control"
@@ -36,6 +36,13 @@
               value=uri.ipfilter
               placeholder="Ipfilter"
               focus-in="displayFocus"}}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label alert-success {{colSmLeft}} col-sm-offset-1">Scripts ?</label>
+      <div class="col-sm-3">
+        <label>{{x-toggle value=uri.is_sh toggled=uri.is_sh change="displayFocus"}}</label>
       </div>
     </div>
 
@@ -89,6 +96,13 @@
               value=uri.ipfilter
               placeholder="Ipfilter"
               focus-in="displayFocus"}}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label alert-success {{colSmLeft}} col-sm-offset-1">Scripts ?</label>
+      <div class="{{colSmRight}}">
+        <label>{{x-toggle value=uri.is_sh toggled=uri.is_sh change="displayFocus"}}</label>
       </div>
     </div>
 

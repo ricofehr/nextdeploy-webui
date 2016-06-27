@@ -8,6 +8,7 @@ export default DS.Model.extend({
   port: DS.attr('string'),
   ipfilter: DS.attr('string'),
   customvhost: DS.attr('string'),
+  is_sh: DS.attr('boolean'),
   vm: DS.belongsTo('vm', {async: true}),
   framework: DS.belongsTo('framework', {async: true})
 });

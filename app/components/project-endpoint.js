@@ -12,7 +12,7 @@ export default Ember.Component.extend({
 
     // init an endpoint object if needed
     if (!this.get('endpoint') || !this.get('endpoint.project.brand')) {
-      this.set('endpoint', Ember.Object.create({prefix: '', path: '', aliases: '', envvars: '', framework: null, port: '8080', ipfilter: '', is_install: true, customvhost: ''}));
+      this.set('endpoint', Ember.Object.create({prefix: '', path: '', aliases: '', envvars: '', framework: null, port: '8080', ipfilter: '', is_install: true, is_sh: false, customvhost: ''}));
 
       if (this.get('project.id')) {
         this.get('endpoint').set('is_install', false);
@@ -224,7 +224,7 @@ export default Ember.Component.extend({
       return;
     }
 
-    endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), customvhost: ep.get('customvhost') });
+    endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), is_sh: ep.get('is_sh'), customvhost: ep.get('customvhost') });
     this.get('project').get('endpoints').addObject(endpoint);
   }.observes('projectSave'),
  
@@ -262,7 +262,7 @@ export default Ember.Component.extend({
         return;
       }
 
-      endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), customvhost: ep.get('customvhost') });
+      endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), is_sh: ep.get('is_sh'), customvhost: ep.get('customvhost') });
       this.get('project').get('endpoints').addObject(endpoint);
       this.set('newFlag', false);
       // reinit the form
