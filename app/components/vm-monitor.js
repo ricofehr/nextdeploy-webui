@@ -29,7 +29,7 @@ export default Ember.Component.extend({
       self.set('loadingModal', true);
       Ember.run.later(function(){
         self.set('loadingModal', false);
-      }, 5000);
+      }, 3000);
     }
   }.observes('isShowingMonitor'),
 
@@ -209,7 +209,7 @@ export default Ember.Component.extend({
       self.set('loadingModal', true);
       Ember.run.later(function(){
         self.set('loadingModal', false);
-      }, 5000);
+      }, 3000);
     },
 
     // close the modal, reset showing variable
