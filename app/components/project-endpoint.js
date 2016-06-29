@@ -33,16 +33,18 @@ export default Ember.Component.extend({
       this.set('endpoint.port', '');
       this.set('endpoint.envvars', '');
     } else {
-      // set default values for port and envvars
-      this.set('endpoint.port', 8080);
-      this.set('endpoint.envvars', '');
-      if (frameworkName.match(/NodeJS/) ||
-        frameworkName.match(/ReactJS/)) {
-        
-        this.set('endpoint.port', 3100);
-        this.set('endpoint.envvars', 'PORT=3100');
-        if (frameworkName.match(/ReactJS/)) {
-          this.set('endpoint.envvars', 'PORT=3100 NODE_PATH=./src');
+      if (!this.get('endpoint.id')) {
+        // set default values for port and envvars
+        this.set('endpoint.port', 8080);
+        this.set('endpoint.envvars', '');
+        if (frameworkName.match(/NodeJS/) ||
+          frameworkName.match(/ReactJS/)) {
+          
+          this.set('endpoint.port', 3100);
+          this.set('endpoint.envvars', 'PORT=3100');
+          if (frameworkName.match(/ReactJS/)) {
+            this.set('endpoint.envvars', 'PORT=3100 NODE_PATH=./src');
+          }
         }
       }
     }
