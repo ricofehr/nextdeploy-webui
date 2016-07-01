@@ -8,8 +8,8 @@ export default Ember.Component.extend({
   emailSorting: ['email'],
 
   // sort each listing items
-  brandsSort: Ember.computed.sort('brands', 'computeSorting'),
   frameworksSort: Ember.computed.sort('frameworks', 'computeSorting'),
+  brandsSort: Ember.computed.sort('brands', 'computeSorting'),
   vmsizesSort: Ember.computed.sort('vmsizes', 'vmsizeSorting'),
   technosSort: Ember.computed.sort('technos', 'computeSorting'),
   systemsSort: Ember.computed.sort('systems', 'computeSorting'),
@@ -241,10 +241,21 @@ export default Ember.Component.extend({
   checkVarnishTechnos: function() {
     var varnishTechno = null;
     var webTechno = null;
-    var framework = this.get('project.framework.name');
+    var isVarnish = false;
+    var isWeb = false;
+    var endpoints = this.get('project.endpoints');
 
-    // if "noweb" framework, varnish can be disabled
-    if(/.*NoWeb.*/.test(framework)) {
+    // if only "noweb" framework, varnish can be disabled
+    if (endpoints) {
+      endpoints.forEach(function (ep) {
+        if(!/.*NoWeb.*/.test(ep.get('framework.name'))) {
+          isVarnish = true;
+        }    
+      });
+    }
+    
+
+    if (!isVarnish) {
       return;
     }
 
@@ -267,8 +278,19 @@ export default Ember.Component.extend({
       }
     });
 
-    // if "static" framework, web server can be disabled
-    if(/.*Static.*/.test(framework)) {
+    // if "noweb" or node framework, web server can be disabled
+    if (endpoints) {
+      endpoints.forEach(function (ep) {
+        if(!/.*NoWeb.*/.test(ep.get('framework.name')) &&
+          !/.*NodeJS.*/.test(ep.get('framework.name')) &&
+          !/.*ReactJS.*/.test(ep.get('framework.name'))) {
+          isWeb = true;
+        }
+      });
+    }
+
+
+    if (!isWeb) {
       return;
     }
 
@@ -295,10 +317,19 @@ export default Ember.Component.extend({
   // on form submit, ensure that node (mandatory techno) is on techno list
   checkNodeTechnos: function() {
     var nodeTechno = null;
-    var framework = this.get('project.framework.name');
+    var isNode = false;
+    var endpoints = this.get('project.endpoints');
 
-    // if "noweb" framework, node can be disabled
-    if(/.*NoWeb.*/.test(framework)) {
+    // if only "noweb" framework, node can be disabled
+    if (endpoints) {
+      endpoints.forEach(function (ep) {
+        if(!/.*NoWeb.*/.test(ep.get('framework.name'))) {
+          isNode = true;
+        }
+      });
+    }
+
+    if (!isNode) {
       return;
     }
 
