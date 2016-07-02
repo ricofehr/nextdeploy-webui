@@ -35,7 +35,7 @@ export default Ember.Component.extend({
     var isWeb = false;
 
     technos.forEach(function (techno) {
-      if (techno.get('technotype').get('name').match(/^Web/)) {
+      if (techno.get('technotype').get('name').match(/^Cache/)) {
         isWeb = true;
       }
     });
