@@ -28,7 +28,7 @@
                     <td class="simplify">&nbsp;</td>
                 {{else}}
                     <td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>
-                {{/if}}    
+                {{/if}}
             {{/if}}
         {{/if}}
         {{#if vm.isRo}}
@@ -38,15 +38,23 @@
         {{/if}}
         {{#if isDev}}
             {{#if vm.isRo}}
-                <td class="simplify tdinfo">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</td>
+                <td class="simplify tdinfo">
+                    <span class="info-branch-commit">
+                        {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
+                    </span>
+                </td>
             {{else}}
                 <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}}>
-                    <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
+                    <span class="info-branch-commit">
+                        <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
+                    </span>
                 </td>
             {{/if}}
         {{else}}
             <td class="simplify tdinfo">
-                {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
+                <span class="info-branch-commit">
+                    {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
+                </span>
             </td>
         {{/if}}
         {{#if isDev}}

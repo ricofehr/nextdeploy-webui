@@ -32,7 +32,7 @@ video {
 
 /* Put your CSS here */
 .ember-application {
-    margin: 20px;
+  margin: 20px;
 }
 
 /* make power-select visible into modal */
@@ -78,6 +78,32 @@ video {
   display:block;
 }
 
+.info-branch-commit {
+  width: 100%;
+  display: block;
+  position: relative;
+}
+
+.info-branch-commit .ember-view {
+  position: absolute;
+  margin: -8px;
+  padding: 9px 8px;
+  right: 0;
+  left: 0;
+}
+
+tr:hover .info-branch-commit .ember-view {
+  background-color: #d9edf7;
+  border-color: #bcdff1;
+  z-index: 1;
+  color: #327AB7;
+}
+
+.tdinfo:hover .info-branch-commit .ember-view {
+  background: #327AB7;
+  color: #d9edf7;
+}
+
 a .nodec {
   text-decoration: none;
 }
@@ -106,9 +132,9 @@ a .nodec {
 }
 
 .glyphicon-refresh-animate {
-    -moz-animation: spin-moz .7s infinite linear;
-    -webkit-animation: spin-webkit .7s infinite linear;
-    animation: spin .7s infinite linear;
+  -moz-animation: spin-moz .7s infinite linear;
+  -webkit-animation: spin-webkit .7s infinite linear;
+  animation: spin .7s infinite linear;
 }
 
 @-moz-keyframes spin-moz {
@@ -117,13 +143,13 @@ a .nodec {
 }
 
 @-webkit-keyframes spin-webkit {
-    from { -webkit-transform: rotate(0deg);}
-    to { -webkit-transform: rotate(360deg);}
+  from { -webkit-transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);}
 }
 
 @keyframes spin {
-    from { transform: scale(1) rotate(0deg);}
-    to { transform: scale(1) rotate(360deg);}
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
 }
 
 .footer {
