@@ -25,26 +25,34 @@ export default Ember.Component.extend({
   // ensure framework attribute is not empty
   checkFramework: function() {
     var framework = this.get('endpoint.framework.id');
-    var frameworkName = this.get('endpoint.framework.name');
     var errorFramework = false;
 
     if (!framework) {
       errorFramework = true;
       this.set('endpoint.port', '');
       this.set('endpoint.envvars', '');
-    } else {
-      if (!this.get('endpoint.id')) {
-        // set default values for port and envvars
-        this.set('endpoint.port', 8080);
-        this.set('endpoint.envvars', '');
-        if (frameworkName.match(/NodeJS/) ||
-          frameworkName.match(/ReactJS/)) {
-          
-          this.set('endpoint.port', 3100);
-          this.set('endpoint.envvars', 'PORT=3100');
-          if (frameworkName.match(/ReactJS/)) {
-            this.set('endpoint.envvars', 'PORT=3100 NODE_PATH=./src');
-          }
+    }
+
+    this.set('errorFramework', errorFramework);
+  },
+
+  // ensure framework attribute is not empty
+  changeFramework: function() {
+    var framework = this.get('endpoint.framework.id');
+    var frameworkName = this.get('endpoint.framework.name');
+    var errorFramework = false;
+
+    if (!this.get('endpoint.id')) {
+      // set default values for port and envvars
+      this.set('endpoint.port', 8080);
+      this.set('endpoint.envvars', '');
+      if (frameworkName.match(/NodeJS/) ||
+        frameworkName.match(/ReactJS/)) {
+
+        this.set('endpoint.port', 3100);
+        this.set('endpoint.envvars', 'PORT=3100');
+        if (frameworkName.match(/ReactJS/)) {
+          this.set('endpoint.envvars', 'PORT=3100 NODE_PATH=./src');
         }
       }
     }
