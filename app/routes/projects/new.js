@@ -48,12 +48,12 @@ model() {
           self.store.peekAll('framework').forEach(function (framework) {
 
             if (framework.get('name') === "Symfony2") {
-              ep = self.store.createRecord('endpoint', { prefix: '', path: 'server', envvars: '', aliases: '', port: 8080, ipfilter: '', is_install: true, framework: framework });
+              ep = self.store.createRecord('endpoint', { prefix: '', path: 'server', envvars: '', aliases: '', port: 8080, ipfilter: '', is_install: true, is_sh: false, framework: framework });
               content.get('endpoints').addObject(ep);
             }
 
             if (framework.get('name') === "Static") {
-              ep = self.store.createRecord('endpoint', { prefix: 'html', path: 'html', envvars: '', aliases: '', port: 8080, ipfilter: '', is_install: true, framework: framework });
+              ep = self.store.createRecord('endpoint', { prefix: 'html', path: 'html', envvars: '', aliases: '', port: 8080, ipfilter: '', is_install: true, is_sh: false, framework: framework });
               content.get('endpoints').addObject(ep);
             }
           });
