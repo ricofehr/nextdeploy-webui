@@ -15,7 +15,7 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `npm install -g ember-cli` globally install Ember CLI 
+* `npm install -g ember-cli` globally install Ember CLI
 * `git clone <repository-url>` this repository
 * change into the new directory
 * `npm install`

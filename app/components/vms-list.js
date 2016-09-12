@@ -194,9 +194,9 @@ export default Ember.Component.extend({
     cleanUris = this.store.peekAll('uri').filterBy('id', null);
 
     cleanUris.forEach(function (clean) {
-      if (clean) { 
+      if (clean) {
         self.store.peekAll('uri').removeObject(clean);
-        clean.deleteRecord(); 
+        clean.deleteRecord();
       }
     });
 
@@ -304,7 +304,7 @@ export default Ember.Component.extend({
     // change user
     changeUser: function(vm, user) {
       var self = this;
-      
+
       this.set('isBusy', true);
       this.set('loadingModal', true);
       this.set('messageUser', 'Change user of vm ' + vm.get('name') + ' is applied !<br/>From: ' + vm.get('user').get('email') +
@@ -315,7 +315,7 @@ export default Ember.Component.extend({
         self.set('messageUser', '');
         self.set('isBusy', false);
       });
-    },    
+    },
 
     // open detail modal for targetted vm (vmId parameter)
     showDetails: function(vm) {

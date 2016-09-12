@@ -24,7 +24,7 @@ export default Ember.Component.extend({
   // Loading during graphs generation
   waiting: function() {
     var self = this;
-    
+
     if (this.get('isShowingMonitor')) {
       self.set('loadingModal', true);
       Ember.run.later(function(){

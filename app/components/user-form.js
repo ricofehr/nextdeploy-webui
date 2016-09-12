@@ -577,7 +577,7 @@ export default Ember.Component.extend({
       // rdirect to users list if success
       var pass = function(){
         // return tu user list if project lead, else homepage
-        if (access_level >= 40) { 
+        if (access_level >= 40) {
           router.transitionTo('users.list');
         } else {
           router.transitionTo('index');

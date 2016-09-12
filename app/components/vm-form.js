@@ -257,13 +257,13 @@ export default Ember.Component.extend({
     }
 
     cleanUris.forEach(function (clean) {
-      if (clean) { 
+      if (clean) {
         clean.get('framework').get('uris').removeObject(clean);
         if (clean.get('vm')) {
           clean.get('vm').get('uris').removeObject(clean);
         }
         self.store.peekAll('uri').removeObject(clean);
-        clean.deleteRecord(); 
+        clean.deleteRecord();
       }
     });
 

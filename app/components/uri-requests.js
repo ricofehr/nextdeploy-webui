@@ -141,7 +141,7 @@ export default Ember.Component.extend({
           url: config.APP.APIHost + "/api/v1/uris/" + current_id + "/listscript",
           method: "POST",
           global: false,
-          async: false, 
+          async: false,
           headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
         })
         .done(function(plain) {

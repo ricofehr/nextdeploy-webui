@@ -250,10 +250,10 @@ export default Ember.Component.extend({
       endpoints.forEach(function (ep) {
         if(!/.*NoWeb.*/.test(ep.get('framework.name'))) {
           isVarnish = true;
-        }    
+        }
       });
     }
-    
+
 
     if (!isVarnish) {
       return;
@@ -508,7 +508,7 @@ export default Ember.Component.extend({
       var self = this;
       var nbEndpoints = parseInt(this.get('project.endpoints.length'));
       var readytoList = 0;
-      
+
       // check if form is valid
       if (!this.formIsValid()) {
         return;
@@ -543,7 +543,7 @@ export default Ember.Component.extend({
 
       // trigger submit endpoint
       this.set('projectSave', true);
-      
+
       // loading modal and request server
       Ember.run.later(function(){
         router.transitionTo('loading');

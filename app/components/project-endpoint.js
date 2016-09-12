@@ -237,7 +237,7 @@ export default Ember.Component.extend({
     endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), is_sh: ep.get('is_sh'), customvhost: ep.get('customvhost') });
     this.get('project').get('endpoints').addObject(endpoint);
   }.observes('projectSave'),
- 
+
   // Check if current user is admin or edit his own project and can change properties
   isDisableCreate: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');

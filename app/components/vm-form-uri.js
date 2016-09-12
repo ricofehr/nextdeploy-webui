@@ -14,7 +14,7 @@ export default Ember.Component.extend({
   colSmLeft: function() {
     if (this.get('isPopin')) {
       return 'col-sm-2';
-    } 
+    }
     else {
       return 'col-sm-1';
     }
@@ -23,7 +23,7 @@ export default Ember.Component.extend({
   colSmRight: function() {
     if (this.get('isPopin')) {
       return 'col-sm-5';
-    } 
+    }
     else {
       return 'col-sm-3';
     }
@@ -32,7 +32,7 @@ export default Ember.Component.extend({
   colSmOffsetSubmit: function() {
     if (this.get('isPopin')) {
       return 'col-sm-offset-3';
-    } 
+    }
     else {
       return 'col-sm-offset-2';
     }
