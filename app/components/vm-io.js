@@ -106,14 +106,9 @@ export default Ember.Component.extend({
 
   actions: {
     // close the modal, reset showing variable
-    closeIO: function() {
+    closedIO: function() {
       var self = this;
-      this.set('isShowingIO', false);
-      this.set('isBusy', false);
-      // little pause before reset vm for avoif clipping
-      Ember.run.later(function(){
-       self.set('vm', null);
-      }, 500);
+      self.set('isBusy', false);
     },
   }
 });

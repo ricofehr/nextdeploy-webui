@@ -3,7 +3,7 @@
   {{#bs-accordion-item value="1" title="Import Features"}}
   !!! When you start an import , all data (assets and database) of the vm is overwritten by those hosted in the FTP repository.<br/><br/>
       <div class="form-group">
-      {{x-toggle toggle='agreeImport'}}<label class="control-label togglealign">i understand risks and i want make an import of fresh datas</label><br/> {{#if okImport}}<button {{action 'importIO'}} class="btn btn-success">Import !</button><br/>{{/if}}</div><br/>
+      <label>{{x-toggle value=okImport onLabel='true' offLabel='false' onToggle=(mut okImport)}}</label> <label class="control-label togglealign">i understand risks and i want make an import of fresh datas</label><br/> {{#if okImport}}<button {{action 'importIO'}} class="btn btn-success">Import !</button><br/>{{/if}}</div><br/>
   {{/bs-accordion-item}}
   {{/if}}
   {{#bs-accordion-item value="2" title="Export Features"}}

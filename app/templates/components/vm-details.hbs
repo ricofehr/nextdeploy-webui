@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingDetails body=false header=false footer=false autoClose=false size="lg" closeAction=(action 'closeDetails')}}
+{{#bs-modal open=isShowingDetails body=false header=false footer=false size="lg" closedAction=(action 'closedDetails')}}
   {{#bs-modal-header}}{{#if isRunning}}Details{{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if isRunning}}

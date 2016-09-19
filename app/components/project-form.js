@@ -478,10 +478,12 @@ export default Ember.Component.extend({
       }
     },
 
-    displayTechno: function(isToggled, technoTypeId) {
+    displayTechno: function(toggle) {
       var selected = null;
       var self = this;
-
+      var isToggled = toggle.newValue;
+      var technoTypeId = toggle.context.name;
+      Ember.Logger.debug('toggle');
       self.get('project_technotypes').map(function (model) {
         if (parseInt(model.get('technotype').id) === parseInt(technoTypeId)) {
           if (isToggled) {

@@ -142,28 +142,54 @@
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">Htaccess</label>
     <div class="col-sm-3">
-      <label style="padding-top: 5px;">{{x-toggle value=vm.is_ht toggled=vm.is_ht}}</label>
+      <label style="padding-top: 5px;">
+        {{x-toggle
+              value=vm.is_ht
+              onLabel='true'
+              offLabel='false'
+              onToggle=(mut vm.is_ht)}}
+      </label>
     </div>
   </div>
 
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">Varnish Caching</label>
     <div class="col-sm-3">
-      <label style="padding-top: 5px;">{{x-toggle value=vm.is_cached toggled=vm.is_cached}}</label>
+      <label style="padding-top: 5px;">
+        {{x-toggle
+              value=vm.is_cached
+              onLabel='true'
+              offLabel='false'
+              onToggle=(mut vm.is_cached)}}
+      </label>
     </div>
   </div>
 
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">Prod</label>
     <div class="col-sm-3">
-      <label style="padding-top: 5px;">{{x-toggle value=vm.is_prod toggled=vm.is_prod disabled=isDisabledProd}}</label>
+      <label style="padding-top: 5px;">
+        {{x-toggle
+              value=vm.is_prod
+              onLabel='true'
+              offLabel='false'
+              onToggle=(mut vm.is_prod)
+              disabled=isDisabledProd}}
+      </label>
     </div>
   </div>
 
   <div class="form-group">
       <label class="control-label alert-success col-sm-2">BasicAuth</label>
     <div class="col-sm-3">
-      <label style="padding-top: 5px;">{{x-toggle value=vm.is_auth toggled=vm.is_auth disabled=isDisabledAuth}}</label>
+      <label style="padding-top: 5px;">
+        {{x-toggle
+              value=vm.is_auth
+              onLabel='true'
+              offLabel='false'
+              onToggle=(mut vm.is_auth)
+              disabled=isDisabledAuth}}
+      </label>
     </div>
   </div>
 

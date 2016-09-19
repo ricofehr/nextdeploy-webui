@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingVnc body=false header=false footer=false size="lg" autoClose=false closeAction=(action 'closeVnc')}}
+{{#bs-modal open=isShowingVnc body=false header=false footer=false size="lg" closedAction=(action 'closedVnc')}}
   {{#bs-modal-header}}<b>Terminal*</b>{{/bs-modal-header}}
   {{#bs-modal-body}}
     User: modem (or ,ode,) | Password: {{#if vncPassword}}{{vncPassword}}{{else}}<i>Waiting...</i>{{/if}} | Keyboard layout: {{vncLayout}} <i>(! can be other for type login)</i><br/>

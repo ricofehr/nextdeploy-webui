@@ -8,7 +8,10 @@
         <a href="{{uri.href}}" target="_blank">{{uri.uri}}</a><br/>
       {{/each}}
 
-          <br/><b>HTTPS</b><br>{{x-toggle size=medium value=isHTTPS toggle='toggleHTTPS' toggled=isHTTPS}}<br/>
+          <br/><b>HTTPS</b><br>
+          <div class="col-sm-1" style="padding-top: 6px;">
+          {{x-toggle value=isHTTPS onLabel='true' offLabel='false' onToggle=(mut isHTTPS)}}
+          </div><br/>
           <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
           Login: {{vm.htlogin}}<br/>
           Password: {{vm.htpassword}}<br/><br/>

@@ -107,9 +107,21 @@
       <label class="control-label alert-success col-sm-1 col-sm-offset-1">Install ?</label>
     <div class="col-sm-3">
       {{#if project.id}}
-      <label>{{x-toggle value=endpoint.is_install toggled=endpoint.is_install disabled=true}}</label>
+        <label style="padding-top: 5px;">
+          {{x-toggle 
+                value=endpoint.is_install
+                onLabel='true'
+                offLabel='false'
+                disabled=true}}
+        </label>
       {{else}}
-      <label>{{x-toggle value=endpoint.is_install toggled=endpoint.is_install}}</label>
+        <label style="padding-top: 5px;">
+          {{x-toggle
+                value=endpoint.is_install
+                onLabel='true'
+                offLabel='false'
+                onToggle=(mut endpoint.is_install)}}
+        </label>
       {{/if}}
     </div>
   </div>
@@ -118,7 +130,14 @@
   <div class="form-group">
       <label class="control-label alert-success col-sm-1 col-sm-offset-1">Scripts ?</label>
     <div class="col-sm-3">
-      <label>{{x-toggle value=endpoint.is_sh toggled=endpoint.is_sh disabled=isExist}}</label>
+      <label style="padding-top: 5px;">
+        {{x-toggle
+              value=endpoint.is_sh
+              onToggle=(mut endpoint.is_sh)
+              onLabel='true'
+              offLabel='false'
+              disabled=isExist}}
+      </label>
     </div>
   </div>
 
@@ -133,4 +152,3 @@
     </div>
   </div>
   {{/unless}}
-

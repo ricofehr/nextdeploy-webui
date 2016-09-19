@@ -21,11 +21,6 @@ export default Ember.Component.extend({
   }.property('vm.is_prod'),
 
   actions: {
-    // agree import
-    agreeImport: function(isToggled) {
-      this.set('okImport', isToggled);
-    },
-
     // start export
     exportIO: function() {
       var branchs = this.get('export_branchs');

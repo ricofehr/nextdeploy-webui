@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingSettings body=false header=false footer=false autoClose=false size="lg" closeAction=(action 'closeSettings')}}
+{{#bs-modal open=isShowingSettings body=false header=false footer=false size="lg" closedAction=(action 'closedSettings')}}
   {{#bs-modal-header}}{{#if isRunning}}Settings for {{vm.name}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if isRunning}}
@@ -6,7 +6,12 @@
     <div class="form-group">
       <label class="control-label col-sm-2">Caching</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
-      {{x-toggle toggled=toggleCached toggle='changeCached' disabled=isDisabledAdminVms}}
+      {{x-toggle
+            value=toggleCached
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeCached')
+            disabled=isDisabledAdminVms}}
     </div>
     {{#if cachedToolTip}}
     <div class="col-sm-8 control-label">
@@ -18,7 +23,12 @@
   <div class="form-group">
       <label class="control-label col-sm-2">BasicAuth</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'auth' on="mouseEnter"}} {{action "hideToolTip" 'auth' on="mouseLeave"}}>
-      {{x-toggle toggled=toggleAuth toggle='changeAuth' disabled=isDisabledAuth}}
+      {{x-toggle
+            value=toggleAuth
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeAuth')
+            disabled=isDisabledAuth}}
     </div>
     {{#if authToolTip}}
     <div class="col-sm-8 control-label">
@@ -30,7 +40,12 @@
   <div class="form-group">
       <label class="control-label  col-sm-2">Htaccess</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'ht' on="mouseEnter"}} {{action "hideToolTip" 'ht' on="mouseLeave"}}>
-      {{x-toggle toggled=toggleHt toggle='changeHtaccess' disabled=isDisabledAdminVms}}
+      {{x-toggle
+            value=toggleHt
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeHtaccess')
+            disabled=isDisabledAdminVms}}
     </div>
     {{#if htToolTip}}
     <div class="col-sm-8 control-label">
@@ -42,7 +57,12 @@
   <div class="form-group">
       <label class="control-label  col-sm-2">Backup</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'backup' on="mouseEnter"}} {{action "hideToolTip" 'backup' on="mouseLeave"}}>
-      {{x-toggle toggled=toggleBackup toggle='changeBackup' disabled=isDisabledBackup}}
+      {{x-toggle
+            value=toggleBackup
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeBackup')
+            disabled=isDisabledBackup}}
     </div>
     {{#if backupToolTip}}
     <div class="col-sm-8 control-label">
@@ -54,7 +74,12 @@
   <div class="form-group">
       <label class="control-label  col-sm-2">CI</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'ci' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
-      {{x-toggle toggled=toggleCi toggle='changeCi' disabled=isDisabledAdminVms}}
+      {{x-toggle
+            value=toggleCi
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeCi')
+            disabled=isDisabledAdminVms}}
     </div>
     {{#if ciToolTip}}
     <div class="col-sm-8 control-label">
@@ -67,7 +92,12 @@
   <div class="form-group">
       <label class="control-label  col-sm-2">Prod</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
-      {{x-toggle toggled=toggleProd toggle='changeProd' disabled=isDisabledProd}}
+      {{x-toggle
+            value=toggleProd
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeProd')
+            disabled=isDisabledProd}}
     </div>
     {{#if prodToolTip}}
     <div class="col-sm-8 control-label">
@@ -79,7 +109,11 @@
   <div class="form-group">
       <label class="control-label  col-sm-2">Uris</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'uri' on="mouseEnter"}} {{action "hideToolTip" 'uri' on="mouseLeave"}}>
-      {{x-toggle value=uriModal toggled=uriModal}}
+      {{x-toggle
+            value=uriModal
+            onLabel='true'
+            offLabel='false'
+            onToggle=(mut uriModal)}}
     </div>
     {{#if uriToolTip}}
     <div class="col-sm-8 control-label">

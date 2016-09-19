@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingIO body=false header=false footer=false renderInPlace=true autoClose=false closeAction=(action 'closeIO')}}
+{{#bs-modal open=isShowingIO body=false header=false footer=false renderInPlace=true closedAction=(action 'closedIO')}}
   {{#bs-modal-header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if errorIO}}

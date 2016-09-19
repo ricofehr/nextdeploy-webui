@@ -91,7 +91,14 @@
   <div class="form-group">
       <label class="control-label alert-success col-sm-2" title="Permit override apache setting with .htaccess file">Htaccess</label>
     <div class="col-sm-3">
-      <label style="padding-top: 5px;">{{x-toggle value=project.is_ht toggled=project.is_ht disabled=isDisableCreate}}</label>
+      <label style="padding-top: 5px;">
+        {{x-toggle
+              value=project.is_ht
+              onToggle=(mut project.is_ht)
+              onLabel='true'
+              offLabel='false'
+              disabled=isDisableCreate}}
+      </label>
     </div>
   </div>
 
@@ -156,8 +163,16 @@
   {{#each project_technotypes as |technoproxy|}}
   <div class="form-group">
       <label class="control-label col-sm-2 alert-success">{{technoproxy.technotype.name}}</label>
-    <div class="checkbox col-sm-3" style="padding-top: 5px;">
-    {{x-toggle toggle='displayTechno' toggled=technoproxy.toggled name=technoproxy.technotype.id disabled=isDisableCreate}}<br/>
+    <div class="col-sm-3">
+    <label style="padding-top: 5px;">
+      {{x-toggle
+            onToggle=(action 'displayTechno')
+            value=technoproxy.toggled
+            onLabel='true'
+            offLabel='false'
+            name=technoproxy.technotype.id
+            disabled=isDisableCreate}}<br/>
+    </label>
     {{#if technoproxy.toggled}}
     {{#power-select
       disabled=isDisableCreate

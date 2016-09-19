@@ -171,18 +171,14 @@ export default Ember.Component.extend({
 
   actions: {
     // close the modal, reset showing variable
-    closeSettings: function() {
+    closedSettings: function() {
       var self = this;
-      this.set('isShowingSettings', false);
-      this.set('isBusy', false);
-      // little pause before reset vm for avoif clipping
-      Ember.run.later(function(){
-       self.set('vm', null);
-      }, 500);
+      self.set('isBusy', false);
     },
 
-    changeAuth: function(isAuth) {
+    changeAuth: function(toggle) {
       var self = this;
+      var isAuth = toggle.newValue;
 
       if (!this.get('vm')) {
         return;
@@ -212,8 +208,9 @@ export default Ember.Component.extend({
       });
     },
 
-    changeCached: function(isCached) {
+    changeCached: function(toggle) {
       var self = this;
+      var isCached = toggle.newValue;
 
       if (!this.get('vm')) {
         return;
@@ -243,8 +240,9 @@ export default Ember.Component.extend({
       });
     },
 
-    changeHtaccess: function(isHt) {
+    changeHtaccess: function(toggle) {
       var self = this;
+      var isHt = toggle.newValue;
 
       if (!this.get('vm')) {
         return;
@@ -274,8 +272,9 @@ export default Ember.Component.extend({
       });
     },
 
-    changeProd: function(isProd) {
+    changeProd: function(toggle) {
       var self = this;
+      var isProd = toggle.newValue;
 
       if (!this.get('vm')) {
         return;
@@ -318,8 +317,9 @@ export default Ember.Component.extend({
       });
     },
 
-    changeBackup: function(isBackup) {
+    changeBackup: function(toggle) {
       var self = this;
+      var isBackup = toggle.newValue;
 
       if (!this.get('vm')) {
         return;
@@ -349,8 +349,9 @@ export default Ember.Component.extend({
       });
     },
 
-    changeCi: function(isCi) {
+    changeCi: function(toggle) {
       var self = this;
+      var isCi = toggle.newValue;
 
       if (!this.get('vm')) {
         return;

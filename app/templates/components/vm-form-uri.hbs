@@ -42,7 +42,14 @@
     <div class="form-group">
       <label class="control-label alert-success {{colSmLeft}} col-sm-offset-1">Scripts ?</label>
       <div class="col-sm-3">
-        <label>{{x-toggle value=uri.is_sh toggled=uri.is_sh change="displayFocus"}}</label>
+        <label style="padding-top: 5px;">
+          {{x-toggle 
+                value=uri.is_sh
+                onToggle=(mut uri.is_sh)
+                onLabel='true'
+                offLabel='false'
+                change="displayFocus"}}
+        </label>
       </div>
     </div>
 
@@ -102,7 +109,14 @@
     <div class="form-group">
       <label class="control-label alert-success {{colSmLeft}} col-sm-offset-1">Scripts ?</label>
       <div class="{{colSmRight}}">
-        <label>{{x-toggle value=uri.is_sh toggled=uri.is_sh change="displayFocus"}}</label>
+        <label style="padding-top: 5px;">
+          {{x-toggle
+                value=uri.is_sh
+                onToggle=(mut uri.is_sh)
+                onLabel='true'
+                offLabel='false'
+                change="displayFocus"}}
+        </label>
       </div>
     </div>
 

@@ -213,29 +213,23 @@ export default Ember.Component.extend({
     },
 
     // close the modal, reset showing variable
-    closeMonitor: function() {
+    closedMonitor: function() {
       var self = this;
 
-      this.set('isShowingMonitor', false);
-      this.set('isBusy', false);
-
-      // little pause before reset vm for avoif clipping
-      Ember.run.later(function(){
-        self.set('systemCollapsed', false);
-        self.set('mysqlCollapsed', true);
-        self.set('diskCollapsed', true);
-        self.set('apacheCollapsed', true);
-        self.set('mysqlCollapsed', true);
-        self.set('memcacheCollapsed', true);
-        self.set('redisCollapsed', true);
-        self.set('elasticCollapsed', true);
-        self.set('timeGraph', '8h');
-        self.resetTimeFlags();
-        self.set('is8h', true);
-        self.set('nc', 0);
-        self.set('nc2', 0);
-        self.set('vm', null);
-      }, 500);
+      self.set('isBusy', false);
+      self.set('systemCollapsed', false);
+      self.set('mysqlCollapsed', true);
+      self.set('diskCollapsed', true);
+      self.set('apacheCollapsed', true);
+      self.set('mysqlCollapsed', true);
+      self.set('memcacheCollapsed', true);
+      self.set('redisCollapsed', true);
+      self.set('elasticCollapsed', true);
+      self.set('timeGraph', '8h');
+      self.resetTimeFlags();
+      self.set('is8h', true);
+      self.set('nc', 0);
+      self.set('nc2', 0);
     }
   }
 });

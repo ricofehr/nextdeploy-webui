@@ -4,7 +4,7 @@ module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'nextdeploy',
     environment: environment,
-    baseURL: '/',
+    rootURL: '/',
     locationType: 'hash',
     contentSecurityPolicy: {
       'connect-src': "*"
@@ -36,7 +36,7 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.baseURL = '/';
+    ENV.rootURL = '/';
     ENV.locationType = 'none';
 
     // keep test console output quieter
@@ -55,7 +55,7 @@ module.exports = function(environment) {
   ENV['ember-cli-toggle'] = {
     includedThemes: ['light', 'default', 'ios'],
     defaultTheme: 'ios',
-    defaultSize: 'small'
+    defaultSize: 'medium'
   };
 
   return ENV;
