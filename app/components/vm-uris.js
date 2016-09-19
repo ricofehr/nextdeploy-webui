@@ -13,6 +13,7 @@ export default Ember.Component.extend({
     this._super(...arguments);
     this.set('loadingModal', false);
     this.set('message', null);
+    this.set('message2', null);
     this.set('requestRunning', false);
     this.set('viewPostinstall', false);
   },
@@ -207,6 +208,7 @@ export default Ember.Component.extend({
 
       this.set('requestRunning', true);
       this.set('message', null);
+      this.set('message2', null);
       this.set('loadingModal', true);
 
       if (request === 'postinstall_display') {
