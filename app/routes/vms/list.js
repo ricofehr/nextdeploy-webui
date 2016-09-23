@@ -13,11 +13,11 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
         var status_b = parseInt(b.get('status'));
 
         if (status_a !== 1) {
-          status_a = status_a > 1 ? 0 : (-status_a)
+          status_a = status_a > 1 ? 0 : (-status_a);
         }
 
         if (status_b !== 1) {
-          status_b = status_b > 1 ? 0 : (-status_b)
+          status_b = status_b > 1 ? 0 : (-status_b);
         }
 
         var comp_status = Ember.compare(status_b, status_a);

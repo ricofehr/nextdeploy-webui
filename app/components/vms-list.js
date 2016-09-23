@@ -305,6 +305,7 @@ export default Ember.Component.extend({
     changeUser: function(vm, user) {
       var self = this;
 
+      vm.set('isUserList', false);
       this.set('isBusy', true);
       this.set('loadingModal', true);
       this.set('messageUser', 'Change user of vm ' + vm.get('name') + ' is applied !<br/>From: ' + vm.get('user').get('email') +

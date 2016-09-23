@@ -38,7 +38,6 @@ export default Ember.Component.extend({
 
   // ensure framework attribute is not empty
   changeFramework: function() {
-    var framework = this.get('endpoint.framework.id');
     var frameworkName = this.get('endpoint.framework.name');
     var errorFramework = false;
 

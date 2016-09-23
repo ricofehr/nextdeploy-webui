@@ -172,8 +172,9 @@ export default Ember.Component.extend({
   actions: {
     // close the modal, reset showing variable
     closedSettings: function() {
-      var self = this;
-      self.set('isBusy', false);
+      this.set('isBusy', false);
+      this.set('isShowingSettings', false);
+      this.set('vm', null);
     },
 
     changeAuth: function(toggle) {
@@ -296,16 +297,17 @@ export default Ember.Component.extend({
           // clean uris
           self.get('vm.uris').forEach(function(uri) {
             self.store.peekAll('uri').removeObject(uri);
-            self.get('vm.uris').removeObject(uri);
+            //self.get('vm.uris').removeObject(uri);
           });
         }
 
         // reload models
-        self.store.unloadAll('uri');
+        //self.store.unloadAll('uri');
         self.store.findAll('uri').then(function() {
           self.get('vm').reload().then(function() {
             self.set('loadingModal', false);
             self.set('toggleProd', isProd);
+            self.set('vm.is_prod', isProd);
           });
         });
       })

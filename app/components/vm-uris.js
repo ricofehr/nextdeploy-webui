@@ -241,14 +241,9 @@ export default Ember.Component.extend({
         });
     },
     // close the modal, reset showing variable
-    closeUris: function() {
-      var self = this;
-      this.set('isShowingUris', false);
+    closedUris: function() {
       this.set('isBusy', false);
-      // little pause before reset vm for avoif clipping
-      Ember.run.later(function(){
-       self.set('vm', null);
-      }, 500);
-    }
+      this.set('vm', null);
+    },
   }
 });

@@ -20,8 +20,8 @@ export default Ember.Component.extend({
   actions: {
     // close the modal, reset showing variable
     closedDetails: function() {
-      var self = this;
       this.set('isBusy', false);
+      this.set('vm', null);
     },
   }
 });

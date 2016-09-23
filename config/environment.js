@@ -21,12 +21,12 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
 
     ENV.APP.APIHost = "";
-    ENV.APP.NBITEMSBYPAGE = 3;
+    ENV.APP.NBITEMSBYPAGE = 4;
   }
 
   if (environment === 'staging') {
     ENV.APP.APIHost = "";
-    ENV.APP.NBITEMSBYPAGE = 5;
+    ENV.APP.NBITEMSBYPAGE = 6;
   }
 
   if (environment === 'test') {

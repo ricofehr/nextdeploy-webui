@@ -4,12 +4,10 @@ export default Ember.Component.extend({
   actions: {
     // close the modal, reset showing variable
     closedVnc: function() {
-      var self = this;
-
-      self.set('vncUrl', '');
-      self.set('vncPassword', '');
-      self.set('vncLayout', '');
-      self.set('isBusy', false);
+      this.set('vncUrl', '');
+      this.set('vncPassword', '');
+      this.set('vncLayout', '');
+      this.set('isBusy', false);
     }
   }
 });

@@ -38,6 +38,15 @@ export default Ember.Component.extend({
     return window.location.hostname.replace(/^ui\./,'grafana.');
   }.property('isShowingMonitor'),
 
+  getGrafanaUrl: function() {
+    if (window.location.hostname.match(/^ui\./)) {
+      return window.location.protocol + "//" + window.location.hostname.replace(/^ui\./,'grafana.') + "/render/dashboard-solo/script/getdash.js";
+    } else {
+      return "/images/grafana.png";
+    }
+
+  }.property('isShowingMonitor'),
+
   // get branch name (fix for weird bug with name property)
   branchName: function() {
     if (!this.get('vm')) {
@@ -209,27 +218,26 @@ export default Ember.Component.extend({
       self.set('loadingModal', true);
       Ember.run.later(function(){
         self.set('loadingModal', false);
-      }, 3000);
+      }, 5000);
     },
 
     // close the modal, reset showing variable
     closedMonitor: function() {
-      var self = this;
-
-      self.set('isBusy', false);
-      self.set('systemCollapsed', false);
-      self.set('mysqlCollapsed', true);
-      self.set('diskCollapsed', true);
-      self.set('apacheCollapsed', true);
-      self.set('mysqlCollapsed', true);
-      self.set('memcacheCollapsed', true);
-      self.set('redisCollapsed', true);
-      self.set('elasticCollapsed', true);
-      self.set('timeGraph', '8h');
-      self.resetTimeFlags();
-      self.set('is8h', true);
-      self.set('nc', 0);
-      self.set('nc2', 0);
+      this.set('isBusy', false);
+      this.set('systemCollapsed', false);
+      this.set('mysqlCollapsed', true);
+      this.set('diskCollapsed', true);
+      this.set('apacheCollapsed', true);
+      this.set('mysqlCollapsed', true);
+      this.set('memcacheCollapsed', true);
+      this.set('redisCollapsed', true);
+      this.set('elasticCollapsed', true);
+      this.set('timeGraph', '8h');
+      this.resetTimeFlags();
+      this.set('is8h', true);
+      this.set('nc', 0);
+      this.set('nc2', 0);
+      this.set('vm', null);
     }
   }
 });

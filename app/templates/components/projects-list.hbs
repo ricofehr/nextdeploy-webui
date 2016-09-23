@@ -17,14 +17,18 @@
   {{#each projectsSort as |project|}}
     {{#if project.isShow}}
     <tr>
-      {{#if project.owner}}
-        <td class="simplify">{{input type="checkbox" checked=project.todelete}}</td>
-      {{else}}
-        {{#if isAdmin}}
+      {{#if isProjectCreate}}
+        {{#if project.owner}}
           <td class="simplify">{{input type="checkbox" checked=project.todelete}}</td>
         {{else}}
-          <td class="simplify">&nbsp;</td>
+          {{#if isAdmin}}
+            <td class="simplify">{{input type="checkbox" checked=project.todelete}}</td>
+          {{else}}
+            <td class="simplify">&nbsp;</td>
+          {{/if}}
         {{/if}}
+      {{else}}
+        <td class="simplify">&nbsp;</td>
       {{/if}}
 
       {{#if isLead}}
