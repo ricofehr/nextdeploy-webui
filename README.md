@@ -23,8 +23,34 @@ You will need the following things properly installed on your computer.
 
 ## Running / Development
 
-* `ember serve`
-* Visit your app at [http://localhost:4200](http://localhost:4200).
+The webui will be available at [http://localhost:4200](http://localhost:4200).
+```
+$ ember serve
+
+Livereload server on http://localhost:49152
+Serving on http://localhost:4200/
+
+Build successful - 66201ms.
+
+Slowest Trees                                 | Total
+----------------------------------------------+---------------------
+Babel                                         | 16570ms
+Babel                                         | 10378ms
+Babel                                         | 4182ms
+Babel                                         | 3580ms
+
+Slowest Trees (cumulative)                    | Total (avg)
+----------------------------------------------+---------------------
+Babel (25)                                    | 46028ms (1841 ms)
+```
+
+5 Mock users with password "word123123"
+* "usera@os.nextdeploy" (admin)
+* "userl@os.nextdeploy" (Lead)
+* "userd@os.nextdeploy" (Developper)
+* "userp@os.nextdeploy" (Project Manager)
+* "userg@os.nextdeploy" (Guest)
+
 
 ### Building
 
