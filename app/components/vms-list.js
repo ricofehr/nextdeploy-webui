@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   isShowingMonitor: false,
   isShowingDetails: false,
   isShowingSettings: false,
+  isShowingSupervise: false,
   isReload: false,
   vmSelected: null,
   loadingModal: false,
@@ -67,6 +68,13 @@ export default Ember.Component.extend({
         model.set('isShow', false);
         return;
       }
+
+      model.set('isOk', true);
+      model.get('supervises').forEach(function(supervise) {
+        if (!supervise.get('status')) {
+          model.set('isOk', false);
+        }
+      });
 
       if (parseInt(model.get('user').get('group.access_level')) === 50 &&
           access_level !== 50) {
@@ -373,6 +381,13 @@ export default Ember.Component.extend({
     showMonitor: function(vm) {
       this.set('vmSelected', vm);
       this.set('isShowingMonitor', true);
+      this.set('isBusy', true);
+    },
+
+    // open supervise modal from targetted vm (vm parameter)
+    showSupervise: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingSupervise', true);
       this.set('isBusy', true);
     },
 

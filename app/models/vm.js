@@ -22,6 +22,7 @@ export default DS.Model.extend({
   systemimage: DS.belongsTo('systemimage', {async: true}),
   vmsize: DS.belongsTo('vmsize', {async: true}),
   technos: DS.hasMany('techno', {async: true}),
+  supervises: DS.hasMany('supervise', {async: true}),
   uris: DS.hasMany('uri', {async: true}),
   created_at: DS.attr('date')
 });

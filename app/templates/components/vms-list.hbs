@@ -6,12 +6,11 @@
         <th class="simplify">Infos</th>
         {{#if isDev}}
             <th class="simplify"><span class="fa fa-sliders" title="Settings"></span></th>
-            <th class="simplify"><span class="fa fa-bar-chart" title="Monitoring Graphs"></span></th>
             <th class="simplify"><span class="fa fa-terminal" title="Vnc Terminal"></span></th>
             <th class="simplify"><span class="fa fa-database" title="Import/Export"></span></th>
+            <th class="simplify"><span class="fa fa-bar-chart" title="Monitoring Graphs"></span></th>
         {{/if}}
-        <th>Status</th>
-        <th class="simplify">BuildTime</th>
+        <th><span class="fa fa-heartbeat" title="Status"></span></th>
         {{#if isLead}}<th class="simplify">User</th>{{/if}}
         <th class="simplify">Date</th>
     </tr>
@@ -69,13 +68,6 @@
                 {{#if vm.isRo}}
                     <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
-                    <button {{action "showMonitor" vm}} class="btn btn-default btn-xs" title="Monitoring Graphs"><span class="glyphicon glyphicon-new-window"></span></button>
-                {{/if}}
-            </td>
-            <td class="simplify">
-                {{#if vm.isRo}}
-                    <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
-                {{else}}
                     <button {{action "openVnc" vm}} class="btn btn-default btn-xs" title="Vnc Terminal"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
@@ -86,27 +78,40 @@
                     <button {{action "showIO" vm}} class="btn btn-default btn-xs" title="Import/Export"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
+            <td class="simplify">
+                {{#if vm.isRo}}
+                    <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                {{else}}
+                    <button {{action "showMonitor" vm}} class="btn btn-default btn-xs" title="Monitoring Graphs"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{/if}}
+            </td>
         {{/if}}
         {{#if vm.sucStatus}}
-            <td class="success">&nbsp;{{vm.textStatus}}</td><td class="success simplify">{{vm.timeStatus}}s</td>
+            {{#if vm.isOk}}
+              <td class="success">
+                <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="Vm is running, build was done in {{vm.timeStatus}}s"><span class="glyphicon glyphicon-new-window"></span></button>
+              </td>
+            {{else}}
+              <td class="danger">
+                <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="One or more services are down"><span class="glyphicon glyphicon-new-window"></span></button>
+              </td>
+            {{/if}}
         {{/if}}
         {{#if vm.warnStatus}}
             <td class="warning">
                 {{#if vm.isRo}}
-                    <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-refresh"></span></button>
+                    <button class="btn btn-default btn-xs warning" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done" disabled><span class="glyphicon glyphicon-refresh"></span></button>
                 {{else}}
-                    <button {{action "checkStatus" vm}} class="btn btn-default btn-xs" title="Refresh status"><span class="glyphicon glyphicon-refresh"></span></button>
+                    <button {{action "checkStatus" vm}} class="btn btn-default btn-xs warning" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done"><span class="glyphicon glyphicon-refresh"></span></button>
                 {{/if}}
             </td>
-            <td class="warning simplify">{{vm.timeStatus}}s</td>
         {{/if}}
         {{#if vm.dangStatus}}
-            <td class="danger">&nbsp;{{vm.textStatus}}</td>
-            <td class="danger simplify">
+            <td class="danger">
                 {{#if vm.isRo}}
-                    <button class="btn btn-default btn-sm" disabled><span class="glyphicon glyphicon-refresh"></span></button>
+                    <button class="btn btn-default btn-sm danger" title="Vm is on error during build" disabled><span class="glyphicon glyphicon-refresh"></span></button>
                 {{else}}
-                    <button {{action "checkStatus" vm}} class="btn btn-default btn-sm" title="Refresh status"><span class="glyphicon glyphicon-refresh"></span></button>
+                    <button {{action "checkStatus" vm}} class="btn btn-default btn-sm danger" title="Vm is on error during build"><span class="glyphicon glyphicon-refresh"></span></button>
                 {{/if}}
             </td>
         {{/if}}
@@ -173,6 +178,7 @@
    {{/bs-modal-body}}
 {{/bs-modal}}
 
+{{vm-supervise vm=vmSelected isShowingSupervise=isShowingSupervise isBusy=isBusy}}
 {{vm-details vm=vmSelected isShowingDetails=isShowingDetails isBusy=isBusy}}
 {{vm-settings vm=vmSelected isShowingSettings=isShowingSettings isBusy=isBusy}}
 {{vm-uris vm=vmSelected isShowingUris=isShowingUris isBusy=isBusy}}

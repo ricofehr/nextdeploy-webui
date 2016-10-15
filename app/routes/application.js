@@ -38,8 +38,12 @@ export default Ember.Route.extend({
       };
     }
 
-    var passUris = function() {
+    var passSupervises = function() {
       return;
+    };
+
+    var loadSupervises = function() {
+      return self.store.findAll('supervise', { backgroundReload: false, reload: true }).then(passSupervises, fail);
     };
 
     var loadUris = function(vms){
@@ -58,7 +62,7 @@ export default Ember.Route.extend({
         self.controllerFor("vms.list").prepareList();
       }
 
-      return self.store.findAll('uri', { backgroundReload: false, reload: true }).then(passUris, fail);
+      return self.store.findAll('uri', { backgroundReload: false, reload: true }).then(loadSupervises, fail);
     };
 
 

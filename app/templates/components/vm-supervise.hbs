@@ -1,0 +1,26 @@
+{{#bs-modal open=isShowingSupervise body=false header=false footer=false size="lg" closedAction=(action 'closedSupervise')}}
+  {{#bs-modal-header}}{{#if isRunning}}Supervise for {{vm.name}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
+  {{#bs-modal-body}}
+    {{#if isRunning}}
+    <div class="form-horizontal">
+    {{#each vm.supervises as |sv|}}
+    <div class="form-group">
+      <label class="control-label col-sm-4">{{sv.techno.name}}<br>({{sv.techno.technotype.name}})</label>
+    {{#if sv.status}}
+    <div class="col-sm-2" style="padding-top: 16px;">
+      <span class="fa fa-check fa-2x success"></span>
+    </div>
+    {{else}}
+    <div class="col-sm-2" style="padding-top: 16px;">
+      <span class="fa fa-fire fa-2x danger"></span>
+    </div>
+    {{/if}}
+  </div>
+  {{/each}}
+  </div>
+    {{else}}
+      <b>Vm is not on running status.</b>
+    {{/if}}
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}

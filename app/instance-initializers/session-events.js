@@ -22,6 +22,7 @@ export function initialize(container) {
     store.findAll('endpoint', { backgroundReload: false, reload: true }).then({}, fail);
     store.findAll('vm', { backgroundReload: false, reload: true }).then({}, fail);
     store.findAll('uri', { backgroundReload: false, reload: true }).then({}, fail);
+    store.findAll('supervise', { backgroundReload: false, reload: true }).then({}, fail);
 
     applicationRoute.transitionTo('index');
   });

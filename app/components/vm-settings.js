@@ -173,7 +173,6 @@ export default Ember.Component.extend({
     // close the modal, reset showing variable
     closedSettings: function() {
       this.set('isBusy', false);
-      this.set('isShowingSettings', false);
       this.set('vm', null);
     },
 
