@@ -24,8 +24,8 @@ export default Ember.Component.extend({
     var month = '';
     var year = '';
     var search = this.get('search');
-    var cp = this.get('currentPage') || 0;
-    var ncp = 0;
+    var cp = this.get('currentPage') || 1;
+    var ncp = 1;
     var ibp = 0;
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
@@ -106,7 +106,9 @@ export default Ember.Component.extend({
     });
 
     // set paging list
-    this.set('pages', pages);
+    if (pages.length > 1) {
+      this.set('pages', pages);
+    }
   }.observes('refreshList'),
 
   // delete records unsaved or deleted
