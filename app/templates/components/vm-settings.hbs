@@ -88,6 +88,22 @@
     {{/if}}
   </div>
 
+  <div class="form-group">
+      <label class="control-label  col-sm-2">Cors</label>
+    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'cors' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
+      {{x-toggle
+            value=toggleCors
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeCors')
+            disabled=isDisabledAdminVms}}
+    </div>
+    {{#if corsToolTip}}
+    <div class="col-sm-8 control-label">
+      <i>Add cors header for authorize external website to request vm</i>
+    </div>
+    {{/if}}
+  </div>
 
   <div class="form-group">
       <label class="control-label  col-sm-2">Prod</label>

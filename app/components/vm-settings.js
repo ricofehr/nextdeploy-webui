@@ -7,6 +7,7 @@ export default Ember.Component.extend({
   toggleProd: false,
   toggleHt: false,
   toggleCi: false,
+  toggleCors: false,
   toggleBackup: false,
   toggleAuth: false,
   checkListUris: null,
@@ -38,6 +39,9 @@ export default Ember.Component.extend({
       if (this.get('vm.is_ci')) { this.set('toggleCi', true); }
       else { this.set('toggleCi', false); }
 
+      if (this.get('vm.is_cors')) { this.set('toggleCors', true); }
+      else { this.set('toggleCors', false); }
+
       if (this.get('vm.is_auth')) { this.set('toggleAuth', true); }
       else { this.set('toggleAuth', false); }
 
@@ -49,6 +53,7 @@ export default Ember.Component.extend({
       this.set('authToolTip', false);
       this.set('htToolTip', false);
       this.set('ciToolTip', false);
+      this.set('corsToolTip', false);
       this.set('backupToolTip', false);
       this.set('uriToolTip', false);
       this.set('uriModal', false);
@@ -373,6 +378,38 @@ export default Ember.Component.extend({
         self.set('loadingModal', false);
         self.set('vm.is_ci', isCi);
         self.set('toggleCi', isCi);
+      })
+      .fail(function() {
+        self.set('message', 'Error occurs during execution !');
+        Ember.run.later(function(){
+          self.set('loadingModal', false);
+        }, 3000);
+      });
+    },
+
+    changeCors: function(toggle) {
+      var self = this;
+      var isCors = toggle.newValue;
+
+      if (!this.get('vm')) {
+        return;
+      }
+
+      if (isCors === this.get('vm.is_cors')) {
+        return;
+      }
+
+      self.set('loadingModal', true);
+      Ember.$.ajax({
+        url: config.APP.APIHost + "/api/v1/vms/" + this.get('vm').get('id') + "/togglecors",
+        method: "POST",
+        global: false,
+        headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
+      })
+      .done(function() {
+        self.set('loadingModal', false);
+        self.set('vm.is_cors', isCors);
+        self.set('toggleCors', isCors);
       })
       .fail(function() {
         self.set('message', 'Error occurs during execution !');
