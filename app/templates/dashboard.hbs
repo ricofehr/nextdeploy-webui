@@ -2,7 +2,7 @@
 {{dashboard-welcome}}
 
 {{#each model.posts as |post|}}
-  {{#dashboard-hpmessages title=post.title isTwitter=post.is_twitter}}
+  {{#dashboard-hpmessages title=post.title date=post.date isTwitter=post.is_twitter}}
     {{{post.message}}}
   {{/dashboard-hpmessages}}
 {{/each}}
