@@ -77,5 +77,49 @@ module.exports = function(app) {
     res.status(200).end();
   });
 
+  urisRouter.post('/:id/npm', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/nodejs', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/reactjs', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/mvn', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/composer', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/drush', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/sfcmd', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/listscript', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/script', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/logs', function(req, res) {
+    res.status(200).end();
+  });
+
+  urisRouter.post('/:id/clearvarnish', function(req, res) {
+    res.status(200).end();
+  });
+
   app.use('/api/v1/uris', require('body-parser').json(), urisRouter);
 };

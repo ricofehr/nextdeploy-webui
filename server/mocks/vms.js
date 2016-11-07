@@ -126,5 +126,25 @@ module.exports = function(app) {
     res.status(200).end();
   });
 
+  vmsRouter.post('/:id/reboot', function(req, res) {
+    res.status(200).end();
+  });
+
+  vmsRouter.post('/:id/postinstall_display', function(req, res) {
+    res.status(200).end();
+  });
+
+  vmsRouter.post('/:id/postinstall', function(req, res) {
+    res.status(200).end();
+  });
+
+  vmsRouter.post('/:id/gitpull', function(req, res) {
+    res.status(200).end();
+  });
+
+  vmsRouter.post('/:id/logs', function(req, res) {
+    res.status(200).end();
+  });
+
   app.use('/api/v1/vms', require('body-parser').json(), vmsRouter);
 };

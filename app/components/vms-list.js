@@ -292,6 +292,22 @@ export default Ember.Component.extend({
     self.set('isReload', false);
   },
 
+  settingVnc: function() {
+    var self = this;
+
+    if (this.get('isShowingVnc')) {
+      this.get('vmSelected').reload().then(function (vmVnc) {
+        self.set('vncUrl', vmVnc.get('vnc_url'));
+        self.set('vncPassword', vmVnc.get('termpassword'));
+        self.set('vncLayout', vmVnc.get('layout'));
+      });
+
+      if (!this.get('isReload')) {
+        this.reloadVm();
+      }
+    }
+  }.observes('isShowingVnc'),
+
   // reset to delete flag
   resetDelete: function() {
     this.get('vms').setEach('todelete', false);
@@ -395,21 +411,9 @@ export default Ember.Component.extend({
 
     // open vnc window
     openVnc: function(vm) {
-      var self = this;
-
       this.set('vmSelected', vm);
       this.set('isShowingVnc', true);
       this.set('isBusy', true);
-
-      vm.reload().then(function (vmVnc) {
-        self.set('vncUrl', vmVnc.get('vnc_url'));
-        self.set('vncPassword', vmVnc.get('termpassword'));
-        self.set('vncLayout', vmVnc.get('layout'));
-      });
-
-      if (!this.get('isReload')) {
-        this.reloadVm();
-      }
     },
 
     // close deletes modal

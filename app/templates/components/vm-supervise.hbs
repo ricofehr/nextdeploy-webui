@@ -17,10 +17,50 @@
     {{/if}}
   </div>
   {{/each}}
+  {{#if isDev}}
+  <div class="form-group">
+    <label style="padding-top: 28px;" {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-sm-4 control-label">Soft Reboot</label><br>
+    <div {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-sm-2">
+      <button {{action 'reboot' 'SOFT'}} class="btn btn-success">Reboot !</button>
+    </div>
+    {{#if softToolTip}}
+    <div class="col-sm-6 control-label">
+      <i>Reboot "software" (like restart into your operating system)</i>
+    </div>
+    {{/if}}
+  </div>
+  <div class="form-group">
+    <label style="padding-top: 28px;" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}} class="col-sm-4 control-label">Hard Reboot</label><br>
+    <div class="col-sm-2" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}}>
+      <button {{action 'reboot' 'HARD'}} class="btn btn-success">Reboot !</button>
+    </div>
+    {{#if hardToolTip}}
+    <div class="col-sm-6 control-label">
+      <i>Reboot "hardware" (like push reset button on laptop)</i>
+    </div>
+    {{/if}}
+  </div>
+  {{/if}}
   </div>
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}
   {{/bs-modal-body}}
   {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}
+
+{{#bs-modal open=isShowingRebootConfirmation body=false footer=false title="Attention" submitAction=(action "rebootVm")}}
+  {{#bs-modal-body}}
+    Are you sure to proceed (Vm reboot action) ?<br/>
+  {{/bs-modal-body}}
+  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+{{/bs-modal}}
+
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=false classNames=['ember-view','loadingModal'] open=loadingModal}}
+   {{#bs-modal-header closeButton=false}}
+     <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
+   {{/bs-modal-header}}
+      {{#bs-modal-body}}
+        <div class="text-center">Reboot request is sending ...</div>
+     {{/bs-modal-body}}
 {{/bs-modal}}
