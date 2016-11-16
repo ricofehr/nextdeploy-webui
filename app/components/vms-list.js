@@ -165,6 +165,8 @@ export default Ember.Component.extend({
     // set paging numbers
     if (pages.length > 1) {
       this.set('pages', pages);
+    } else {
+      this.set('pages', []);
     }
   }.observes('refreshList'),
 
