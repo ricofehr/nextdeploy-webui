@@ -14,13 +14,15 @@
             {{/if}}
 
             {{#if isDrupal}}
+              {{#unless vm.is_prod}}
+              <a {{action 'requestTool' 'siteinstall'}}>Execute site-install command</a><br/>
+              {{/unless}}
               {{#if isDrupal8}}
                 <a {{action 'requestTool' 'drush' 'cim'}}>Import Config</a><br/>
                 <a {{action 'requestTool' 'drush' 'cr'}}>Clear all caches</a><br/>
               {{else}}
                 <a {{action 'requestTool' 'drush' 'cc all'}}>Clear all caches</a><br/>
               {{/if}}
-
               <a {{action 'requestTool' 'drush' 'updb'}}>Execute updb command</a><br/>
             {{/if}}
 
