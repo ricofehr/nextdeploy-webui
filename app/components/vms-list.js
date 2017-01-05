@@ -134,7 +134,8 @@ export default Ember.Component.extend({
             !new RegExp("^.*" + search + ".*$").test(model.get('user.email')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('user.firstname')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('user.lastname')) &&
-            !new RegExp("^.*" + search + ".*$").test(model.get('systemimage.name'))) {
+            !new RegExp("^.*" + search + ".*$").test(model.get('systemimage.name')) &&
+            !new RegExp("^.*" + search + ".*$").test(model.get('floating_ip'))) {
           model.set('isShow', false);
         }
       }
