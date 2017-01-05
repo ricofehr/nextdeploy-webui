@@ -121,5 +121,9 @@ module.exports = function(app) {
     res.status(200).end();
   });
 
+  urisRouter.post('/:id/siteinstall', function(req, res) {
+    res.status(200).end();
+  });
+
   app.use('/api/v1/uris', require('body-parser').json(), urisRouter);
 };
