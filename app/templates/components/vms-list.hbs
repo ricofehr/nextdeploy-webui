@@ -133,10 +133,10 @@
                         {{user.email}}
                         {{/power-select}}</td>
                     {{else}}
-                        <td class="simplify tdhref" {{action 'showUserList' vm}}><a href="">{{vm.user.email}}</a></td>
+                        <td class="simplify tdhref" {{action 'showUserList' vm}} title="{{vm.user.email}}"><a href="">{{vm.user.shortname}}</a></td>
                     {{/if}}
                 {{else}}
-                    <td class="simplify">{{vm.user.email}}</td>
+                    <td class="simplify" title="{{vm.user.email}}">{{vm.user.shortname}}</td>
                 {{/if}}
             {{/if}}
         {{/if}}

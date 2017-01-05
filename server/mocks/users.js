@@ -7,11 +7,11 @@ module.exports = function(app) {
   usersRouter.get('/', function(req, res) {
     res.send({
       'users':[
-        {"id":1,"email":"usera@os.nextdeploy","authentication_token":"Ue1maDFV-NQzrD4eKrVn","is_project_create":true,"is_user_create":true,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"usera","lastname":"usera","created_at":"2016-06-07T22:31:35.000+02:00","vms":[4],"sshkeys":[1],"group":1,"projects":[1,2,3,4,5,6],"own_projects":[1,2,3,4,5,6]},
-        {"id":2,"email":"userl@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userl","lastname":"userl","created_at":"2016-06-07T22:31:42.000+02:00","vms":[2,5],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[]},
-        {"id":3,"email":"userd@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userd","lastname":"userd","created_at":"2016-06-07T22:31:43.000+02:00","vms":[1,3],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[]},
-        {"id":4,"email":"userp@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userp","lastname":"userp","created_at":"2016-06-07T22:31:44.000+02:00","vms":[6],"sshkeys":[],"group":4,"projects":[1],"own_projects":[]},
-        {"id":5,"email":"userg@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userg","lastname":"userg","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[]}
+        {"id":1,"email":"usera@os.nextdeploy","authentication_token":"Ue1maDFV-NQzrD4eKrVn","is_project_create":true,"is_user_create":true,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"usera","lastname":"usera","shortname":"U. Usera","created_at":"2016-06-07T22:31:35.000+02:00","vms":[4],"sshkeys":[1],"group":1,"projects":[1,2,3,4,5,6],"own_projects":[1,2,3,4,5,6]},
+        {"id":2,"email":"userl@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userl","lastname":"userl","shortname":"U. Userl","created_at":"2016-06-07T22:31:42.000+02:00","vms":[2,5],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[]},
+        {"id":3,"email":"userd@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userd","lastname":"userd","shortname":"U. Userd","created_at":"2016-06-07T22:31:43.000+02:00","vms":[1,3],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[]},
+        {"id":4,"email":"userp@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userp","lastname":"userp","shortname":"U. Userp","created_at":"2016-06-07T22:31:44.000+02:00","vms":[6],"sshkeys":[],"group":4,"projects":[1],"own_projects":[]},
+        {"id":5,"email":"userg@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userg","lastname":"userg","shortname":"U. Userg","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[]}
       ]
     });
   });
@@ -32,6 +32,7 @@ module.exports = function(app) {
         "layout": user.layout,
         "firstname": user.firstname,
         "lastname": user.lastname,
+        "shortname": user.firstname.charAt(0).toUpperCase() + ". " + user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1),
         "created_at": new Date().toLocaleString(),
         "vms": [],
         "sshkeys": [],
@@ -94,9 +95,10 @@ module.exports = function(app) {
         "layout": user.layout,
         "firstname": user.firstname,
         "lastname": user.lastname,
+        "shortname": user.firstname.charAt(0).toUpperCase() + ". " + user.lastname.charAt(0).toUpperCase() + user.lastname.slice(1),
         "created_at": user.created_at,
-        "vms": [],
-        "sshkeys": [],
+        "vms": user.vms,
+        "sshkeys": user.sshkeys,
         "group": user.group,
         "projects": user.projects,
         "own_projects": user.own_projects,
