@@ -51,8 +51,6 @@
             {{#if isAdmin}}
               {{#link-to 'brands' tagName='li' href=false}}<a href="">Brands</a>{{/link-to}}
             {{/if}}
-            {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href="">
-            {{currentUser.email}}</a>{{/link-to}}
             <li><a href="" {{action 'help'}}>?</a></li>
           {{else}}
             <li>{{#link-to 'login'}}Login{{/link-to}}</li>
@@ -65,8 +63,9 @@
             <span class="glyphicon glyphicon-search" aria-hidden="true"/>{{input value=search classNames="form-control" placeholder="Search" size="12"}}
           </li>
           {{/if}}
-          {{#if isDev}}<li><a href="/gitlab" target="_blank"><span class="glyphicon glyphicon-user"></span>Gitlab</a></li>{{/if}}
-          <li><a href="" {{action 'invalidateSession'}} ><span class="glyphicon glyphicon-log-out"></span>Logout</a></li>
+          {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href=""><span class="glyphicon glyphicon-user"></span> Profile</a>{{/link-to}}
+          {{#if isDev}}<li><a href="/gitlab" target="_blank"><span class="fa fa-gitlab" title="Gitlab"></span> Gitlab</a></li>{{/if}}
+          <li><a href="" {{action 'invalidateSession'}} ><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </ul>
 
         {{/if}}
