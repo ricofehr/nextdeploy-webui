@@ -17,6 +17,7 @@ export default Ember.Component.extend({
   errorCommit: false,
   errorOs: false,
   errorVmsize: false,
+  errorTopic: false,
 
   errorUris: false,
   checkListUris: null,
@@ -104,6 +105,7 @@ export default Ember.Component.extend({
         branch.get('commits').then(function (commits) {
           if (self) {
             self.set('loadingModal', false);
+            self.set('vm.topic', branch.get('name'));
             self.set('vm.commit', commits.toArray()[0]);
           }
         });
@@ -167,6 +169,18 @@ export default Ember.Component.extend({
     this.set('errorUris', errorUris);
   }.observes('vm.uris'),
 
+  checkTopic: function() {
+    var topic = null;
+    var errorTopic = false;
+
+    topic = this.get('vm.topic');
+    if (topic === '') {
+      errorTopic = true;
+    }
+
+    this.set('errorTopic', errorTopic);
+  }.observes('vm.topic'),
+
   //check form before submit
   formIsValid: function() {
     this.checkProject();
@@ -176,6 +190,7 @@ export default Ember.Component.extend({
     this.checkOs();
     this.checkVmsize();
     this.checkUris();
+    this.checkTopic();
 
     if (!this.get('errorProject') &&
         !this.get('errorUser') &&
@@ -183,7 +198,8 @@ export default Ember.Component.extend({
         !this.get('errorCommit') &&
         !this.get('errorOs') &&
         !this.get('errorUris') &&
-        !this.get('errorVmsize')) { return true; }
+        !this.get('errorVmsize') &&
+        !this.get('errorTopic')) { return true; }
     return false;
   },
 

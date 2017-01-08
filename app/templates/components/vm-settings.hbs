@@ -4,6 +4,12 @@
     {{#if isRunning}}
     <div class="form-horizontal">
     <div class="form-group">
+      <label class="control-label col-sm-2">Topic</label>
+        <div class="col-sm-3">
+          {{input type="text" classNames="form-control" maxlength="20" value=vm.topic placeholder="Topic" disabled=isDisabledAdminVms focus-out="updateTopic"}}
+        </div>
+    </div>
+    <div class="form-group">
       <label class="control-label col-sm-2">Caching</label>
     <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
       {{x-toggle

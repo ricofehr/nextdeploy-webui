@@ -181,6 +181,38 @@ export default Ember.Component.extend({
       this.set('vm', null);
     },
 
+    updateTopic: function() {
+      var self = this;
+
+      if (!this.get('vm')) {
+        return;
+      }
+
+      if (this.get('vm').get('topic') === '') {
+        this.get('vm').set('topic',
+          this.get('vm.commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-[A-Za-z0-9][A-Za-z0-9]*$/,'')
+        );
+      }
+
+      self.set('loadingModal', true);
+      Ember.$.ajax({
+        url: config.APP.APIHost + "/api/v1/vms/" + this.get('vm').get('id') + "/topic",
+        method: "PUT",
+        global: false,
+        data: { topic: this.get('vm').get('topic') },
+        headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
+      })
+      .done(function() {
+        self.set('loadingModal', false);
+      })
+      .fail(function() {
+        self.set('message', 'Error occurs during execution !');
+        Ember.run.later(function(){
+          self.set('loadingModal', false);
+        }, 3000);
+      });
+    },
+
     changeAuth: function(toggle) {
       var self = this;
       var isAuth = toggle.newValue;

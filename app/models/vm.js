@@ -3,6 +3,7 @@ import DS from 'ember-data';
 export default DS.Model.extend({
   commit: DS.belongsTo('commit', {async: true}),
   name: DS.attr('string'),
+  topic: DS.attr('string'),
   nova_id: DS.attr('string'),
   floating_ip: DS.attr('string'),
   status: DS.attr('number'),
