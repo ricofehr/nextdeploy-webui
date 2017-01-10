@@ -19,8 +19,12 @@ export default Ember.Component.extend({
   // trigger when model changes
   didReceiveAttrs() {
     this._super(...arguments);
-    this.cleanModel();
-    this.prepareList();
+
+    // avoid recompute list during user change
+    if (!this.get('loadingModal') || !this.get('isBusy')) {
+      this.cleanModel();
+      this.prepareList();
+    }
   },
 
   // format vms list
@@ -317,6 +321,11 @@ export default Ember.Component.extend({
     this.set('isAllDelete', false);
   }.observes('search', 'projectId', 'userId', 'currentPage'),
 
+  // hide userlist
+  hideUserList: function(vm) {
+    vm.set('isUserList', false);
+  },
+
   // actions binding with user event
   actions: {
     // change page action
@@ -327,6 +336,10 @@ export default Ember.Component.extend({
 
     // display userlist
     showUserList: function(vm) {
+      this.get('vms').map(function(model){
+        model.set('isUserList', false);
+      });
+
       vm.set('isUserList', true);
     },
 
@@ -334,12 +347,13 @@ export default Ember.Component.extend({
     changeUser: function(vm, user) {
       var self = this;
 
-      vm.set('isUserList', false);
       this.set('isBusy', true);
+
       this.set('loadingModal', true);
       this.set('messageUser', 'Change user of vm ' + vm.get('name') + ' is applied !<br/>From: ' + vm.get('user').get('email') +
         '<br/>To: ' + user.get('email') + "<br/>Please waiting ...");
       vm.set('user', user);
+
       vm.save().then(function (){
         self.set('loadingModal', false);
         self.set('messageUser', '');
