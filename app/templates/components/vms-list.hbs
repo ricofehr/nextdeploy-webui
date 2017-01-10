@@ -31,9 +31,9 @@
             {{/if}}
         {{/if}}
         {{#if vm.isRo}}
-            <td>{{vm.project.name}} <span class="simplify-inverse">({{vm.branch}})</span></td>
+            <td>{{vm.project.name}} <span class="simplify-inverse">({{vm.topic}})</span></td>
         {{else}}
-            <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.branch}})</span></a></td>
+            <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.topic}})</span></a></td>
         {{/if}}
         {{#if isDev}}
             {{#if vm.isRo}}
@@ -117,7 +117,7 @@
         {{/if}}
         {{#if isLead}}
             {{#if vm.isRo}}
-                <td class="simplify">{{vm.user.email}}</td>
+                <td class="simplify" title="{{vm.user.email}}">{{vm.user.shortname}}</td>
             {{else}}
                 {{#if vm.sucStatus}}
                     {{#if vm.isUserList}}
