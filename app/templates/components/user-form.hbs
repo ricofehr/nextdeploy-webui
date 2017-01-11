@@ -80,7 +80,7 @@
               disabled=is_project_create_ro
               onLabel='true'
               offLabel='false'
-              onToggle=(mut user.is_project_create)}}
+              onToggle=(action 'toggleFlagUser' is_project_create_ro 'is_project_create')}}
       </label>
     </div>
   </div>
@@ -96,7 +96,7 @@
               disabled=is_user_create_ro
               onLabel='true'
               offLabel='false'
-              onToggle=(mut user.is_user_create)}}
+              onToggle=(action 'toggleFlagUser' is_user_create_ro 'is_user_create')}}
       </label>
     </div>
   </div>

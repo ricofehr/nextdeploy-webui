@@ -312,6 +312,15 @@ export default Ember.Component.extend({
 
   actions: {
 
+    // check disableed state and toggle flag
+    toggleFlagVm: function(disabled, property, toggle) {
+      if (disabled) {
+        return;
+      }
+
+      this.get('vm').set(property, toggle.newValue);
+    },
+
     // project change event
     projectChange: function(projectSetted) {
       var self = this;

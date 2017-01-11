@@ -478,12 +478,24 @@ export default Ember.Component.extend({
       }
     },
 
-    displayTechno: function(toggle) {
+    toggleHtFlag: function(disabled, toggle) {
+      if (disabled) {
+        return;
+      }
+
+      this.set('project.is_ht', toggle.newValue);
+    },
+
+    displayTechno: function(disabled, toggle) {
       var selected = null;
       var self = this;
       var isToggled = toggle.newValue;
       var technoTypeId = toggle.context.name;
-      Ember.Logger.debug('toggle');
+
+      if (disabled) {
+        return;
+      }
+
       self.get('project_technotypes').map(function (model) {
         if (parseInt(model.get('technotype').id) === parseInt(technoTypeId)) {
           if (isToggled) {
@@ -496,7 +508,6 @@ export default Ember.Component.extend({
           model.set('toggled', isToggled);
         }
       });
-      //this.get('technotypes').find(parseInt(technoTypeId)).set('selected', firstTechno);
     },
 
     // change property on power-select

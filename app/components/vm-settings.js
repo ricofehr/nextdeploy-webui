@@ -213,7 +213,7 @@ export default Ember.Component.extend({
       });
     },
 
-    changeAuth: function(toggle) {
+    changeAuth: function(disabled, toggle) {
       var self = this;
       var isAuth = toggle.newValue;
 
@@ -222,6 +222,10 @@ export default Ember.Component.extend({
       }
 
       if (isAuth === this.get('vm.is_auth')) {
+        return;
+      }
+
+      if (disabled) {
         return;
       }
 
@@ -245,7 +249,7 @@ export default Ember.Component.extend({
       });
     },
 
-    changeCached: function(toggle) {
+    changeCached: function(disabled, toggle) {
       var self = this;
       var isCached = toggle.newValue;
 
@@ -254,6 +258,12 @@ export default Ember.Component.extend({
       }
 
       if (isCached === this.get('vm.is_cached')) {
+        return;
+      }
+
+      Ember.Logger.debug(disabled);
+
+      if (disabled) {
         return;
       }
 
@@ -277,7 +287,7 @@ export default Ember.Component.extend({
       });
     },
 
-    changeHtaccess: function(toggle) {
+    changeHtaccess: function(disabled, toggle) {
       var self = this;
       var isHt = toggle.newValue;
 
@@ -286,6 +296,10 @@ export default Ember.Component.extend({
       }
 
       if (isHt === this.get('vm.is_ht')) {
+        return;
+      }
+
+      if (disabled) {
         return;
       }
 
@@ -309,7 +323,7 @@ export default Ember.Component.extend({
       });
     },
 
-    changeProd: function(toggle) {
+    changeProd: function(disabled, toggle) {
       var self = this;
       var isProd = toggle.newValue;
 
@@ -318,6 +332,10 @@ export default Ember.Component.extend({
       }
 
       if (isProd === this.get('vm.is_prod')) {
+        return;
+      }
+
+      if (disabled) {
         return;
       }
 
@@ -355,7 +373,7 @@ export default Ember.Component.extend({
       });
     },
 
-    changeBackup: function(toggle) {
+    changeBackup: function(disabled, toggle) {
       var self = this;
       var isBackup = toggle.newValue;
 
@@ -364,6 +382,10 @@ export default Ember.Component.extend({
       }
 
       if (isBackup === this.get('vm.is_backup')) {
+        return;
+      }
+
+      if (disabled) {
         return;
       }
 
@@ -387,7 +409,7 @@ export default Ember.Component.extend({
       });
     },
 
-    changeCi: function(toggle) {
+    changeCi: function(disabled, toggle) {
       var self = this;
       var isCi = toggle.newValue;
 
@@ -396,6 +418,10 @@ export default Ember.Component.extend({
       }
 
       if (isCi === this.get('vm.is_ci')) {
+        return;
+      }
+
+      if (disabled) {
         return;
       }
 
@@ -419,7 +445,7 @@ export default Ember.Component.extend({
       });
     },
 
-    changeCors: function(toggle) {
+    changeCors: function(disabled, toggle) {
       var self = this;
       var isCors = toggle.newValue;
 
@@ -428,6 +454,10 @@ export default Ember.Component.extend({
       }
 
       if (isCors === this.get('vm.is_cors')) {
+        return;
+      }
+
+      if (disabled) {
         return;
       }
 

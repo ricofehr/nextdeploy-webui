@@ -16,7 +16,7 @@
             value=toggleCached
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeCached')
+            onToggle=(action 'changeCached' isDisabledAdminVms)
             disabled=isDisabledAdminVms}}
     </div>
     {{#if cachedToolTip}}
@@ -33,7 +33,7 @@
             value=toggleAuth
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeAuth')
+            onToggle=(action 'changeAuth' isDisabledAuth)
             disabled=isDisabledAuth}}
     </div>
     {{#if authToolTip}}
@@ -50,7 +50,7 @@
             value=toggleHt
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeHtaccess')
+            onToggle=(action 'changeHtaccess' isDisabledAdminVms)
             disabled=isDisabledAdminVms}}
     </div>
     {{#if htToolTip}}
@@ -67,7 +67,7 @@
             value=toggleBackup
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeBackup')
+            onToggle=(action 'changeBackup' isDisabledBackup)
             disabled=isDisabledBackup}}
     </div>
     {{#if backupToolTip}}
@@ -84,7 +84,7 @@
             value=toggleCi
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeCi')
+            onToggle=(action 'changeCi' isDisabledAdminVms)
             disabled=isDisabledAdminVms}}
     </div>
     {{#if ciToolTip}}
@@ -101,7 +101,7 @@
             value=toggleCors
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeCors')
+            onToggle=(action 'changeCors' isDisabledAdminVms)
             disabled=isDisabledAdminVms}}
     </div>
     {{#if corsToolTip}}
@@ -118,7 +118,7 @@
             value=toggleProd
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeProd')
+            onToggle=(action 'changeProd' isDisabledProd)
             disabled=isDisabledProd}}
     </div>
     {{#if prodToolTip}}

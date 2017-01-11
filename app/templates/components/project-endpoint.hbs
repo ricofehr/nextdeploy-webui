@@ -133,7 +133,7 @@
       <label style="padding-top: 5px;">
         {{x-toggle
               value=endpoint.is_sh
-              onToggle=(mut endpoint.is_sh)
+              onToggle=(action 'toggleShFlag' isExist)
               onLabel='true'
               offLabel='false'
               disabled=isExist}}

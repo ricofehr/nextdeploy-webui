@@ -262,6 +262,14 @@ export default Ember.Component.extend({
       this.set(property, value);
     },
 
+    toggleShFlag: function(disabled, toggle) {
+      if (disabled) {
+        return;
+      }
+
+      this.set('endpoint.is_sh', toggle.newValue);
+    },
+
     addEndpoint: function() {
       var ep = this.get('endpoint');
       var endpoint = null;

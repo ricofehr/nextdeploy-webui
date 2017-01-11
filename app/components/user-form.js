@@ -480,6 +480,15 @@ export default Ember.Component.extend({
       this.set(property, value);
     },
 
+    // check disableed state and toggle flag
+    toggleFlagUser: function(disabled, property, toggle) {
+      if (disabled) {
+        return;
+      }
+
+      this.get('user').set(property, toggle.newValue);
+    },
+
     // get openvpn server ca
     dlOvpnCa: function() {
       var self = this;

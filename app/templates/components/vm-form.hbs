@@ -197,7 +197,7 @@
               value=vm.is_prod
               onLabel='true'
               offLabel='false'
-              onToggle=(mut vm.is_prod)
+              onToggle=(action 'toggleFlagVm' isDisabledProd 'is_prod')
               disabled=isDisabledProd}}
       </label>
     </div>
@@ -211,7 +211,7 @@
               value=vm.is_auth
               onLabel='true'
               offLabel='false'
-              onToggle=(mut vm.is_auth)
+              onToggle=(action 'toggleFlagVm' isDisabledAuth 'is_auth')
               disabled=isDisabledAuth}}
       </label>
     </div>
