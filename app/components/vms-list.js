@@ -134,6 +134,8 @@ export default Ember.Component.extend({
 
       if (search) {
         if (!new RegExp("^.*" + search + ".*$").test(model.get('commit.id')) &&
+            !new RegExp("^.*" + search + ".*$").test(model.get('topic')) &&
+            !new RegExp("^.*" + search + ".*$").test(model.get('name')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('project.name')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('user.email')) &&
             !new RegExp("^.*" + search + ".*$").test(model.get('user.firstname')) &&
