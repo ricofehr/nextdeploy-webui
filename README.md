@@ -27,7 +27,7 @@ The webui will be available at [http://localhost:4200](http://localhost:4200).
 ```
 $ ember serve
 
-Livereload server on http://localhost:49152
+Livereload server on http://localhost:35722
 Serving on http://localhost:4200/
 
 Build successful - 66201ms.

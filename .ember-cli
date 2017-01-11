@@ -7,5 +7,6 @@
   */
   "disableAnalytics": false,
   "watcher": "polling",
-  "live-reload": true
+  "live-reload": true,
+  "live-reload-port": 35722
 }
