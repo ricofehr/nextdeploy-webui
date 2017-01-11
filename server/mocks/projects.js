@@ -43,7 +43,7 @@ module.exports = function(app) {
   });
 
   projectsRouter.get('/:id', function(req, res) {
-    if (req.params.id === 0) {
+    if (req.params.id === '0') {
       res.send({
         "project":{
           "id": null,
