@@ -1,4 +1,4 @@
-  <nav class="navbar navbar-default" role="navigation">
+  <nav class="navbar navbar-default blue" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" {{action 'toggleCollapsed'}}>
@@ -7,13 +7,10 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        {{#if session.isAuthenticated}}
-            {{#link-to 'users.edit' currentUser.id classNames="simplify-inverse navbar-brand"}}My Profile{{/link-to}}
-        {{/if}}
         {{#bs-collapse collapsed=collapsed}}
         <ul class="nav navbar-nav navbar-toggle" {{action 'toggleCollapsed'}}>
           {{#if session.isAuthenticated}}
-            {{#link-to 'vms.byuser' currentUser.id tagName='li' href=false}}<a href="">Vms</a>{{/link-to}}
+            {{#link-to 'vms' tagName='li' href=false}}<a href="">Vms</a>{{/link-to}}
             {{#if isDev}}
               {{#link-to 'projects' tagName='li' href=false}}<a href="">Projects</a>{{/link-to}}
             {{/if}}
@@ -24,6 +21,7 @@
               {{#link-to 'brands' tagName='li' href=false}}<a href="">Brands</a>{{/link-to}}
             {{/if}}
             <li><a href="" {{action 'help'}}>?</a></li>
+            {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href="">Profile</a>{{/link-to}}
             {{#if isDev}}<li><a href="" {{action 'openGitlab'}}>Gitlab</a></li>{{/if}}
             <li><a href="" {{action 'invalidateSession'}} >Logout</a></li>
           {{else}}
@@ -60,7 +58,7 @@
         <ul class="nav navbar-nav navbar-right">
           {{#if showSearch}}
           <li class="navbar-form">
-            <span class="glyphicon glyphicon-search" aria-hidden="true"/>{{input value=search classNames="form-control" placeholder="Search" size="12"}}
+            <span class="glyphicon glyphicon-search search-simplify" aria-hidden="true"/>{{input value=search classNames="form-control search-simplify" placeholder="Search" size="12"}}
           </li>
           {{/if}}
           {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href=""><span class="glyphicon glyphicon-user"></span> Profile</a>{{/link-to}}

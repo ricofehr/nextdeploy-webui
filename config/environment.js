@@ -1,5 +1,4 @@
 /* jshint node: true */
-
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'nextdeploy',
@@ -21,7 +20,7 @@ module.exports = function(environment) {
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
 
     ENV.APP.APIHost = "";
-    ENV.APP.NBITEMSBYPAGE = 4;
+    ENV.APP.NBITEMSBYPAGE = 5;
   }
 
   if (environment === 'staging') {
@@ -43,7 +42,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     ENV.APP.APIHost = "";
-    ENV.APP.NBITEMSBYPAGE = 10;
+    ENV.APP.NBITEMSBYPAGE = 11;
   }
 
   // x-toggle parameters

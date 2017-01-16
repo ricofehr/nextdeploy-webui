@@ -37,14 +37,8 @@ export default Ember.Component.extend({
     var ibp = 0;
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
-    var access_level = this.get('session').get('data.authenticated.access_level');
 
     this.set('loadingModal', false);
-
-    // max 9 items on a page for vms
-    if (ibpmax > 9) {
-      ibpmax = 9;
-    }
 
     this.get('vms').map(function(model){
       var textStatus = '';
@@ -54,12 +48,14 @@ export default Ember.Component.extend({
       var status = parseInt(model.get('status'));
       var day = '';
       var month = '';
+      var year = '';
       var hour = '';
       var minute = '';
       var branchName = '';
+      var today = new Date();
 
       // by default a vm is not read-only and userlist is hidden
-      model.set('isRo', false);
+      model.set('is_ro', false);
       model.set('isUserList', false);
 
       // check if current model is reliable
@@ -80,26 +76,29 @@ export default Ember.Component.extend({
         }
       });
 
-      if (parseInt(model.get('user').get('group.access_level')) === 50 &&
-          access_level !== 50) {
-        model.set('isRo', true);
-      }
-
       // weird issue with ember nested model data, so get branchname from commit id
       branchName = model.get('commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-[^-]*$/,'');
       model.set('branch', branchName.substring(0,22));
 
       // init date value
       day = model.get('created_at').getDate();
-      if (parseInt(day) < 10) { day = '0' + day; }
       month = model.get('created_at').getMonth() + 1;
-      if (parseInt(month) < 10) { month = '0' + month; }
+      year = model.get('created_at').getFullYear();
       hour = model.get('created_at').getHours();
-      if (parseInt(hour) < 10) { hour = '0' + hour; }
       minute = model.get('created_at').getMinutes();
-      if (parseInt(minute) < 10) { minute = '0' + minute; }
 
-      model.set('created_at_short', day + "/" + month + " " + hour + ":" + minute);
+      if (today.getDate() === day &&
+          today.getMonth() + 1 === month &&
+          today.getFullYear() === year) {
+        if (parseInt(hour) < 10) { hour = '0' + hour; }
+        if (parseInt(minute) < 10) { minute = '0' + minute; }
+        model.set('created_at_short', hour + "h" + minute);
+      } else {
+        if (parseInt(day) < 10) { day = '0' + day; }
+        if (parseInt(month) < 10) { month = '0' + month; }
+        year = year + '';
+        model.set('created_at_short', year.substring(2) + "/" + month + "/" + day);
+      }
 
       // init status field
       if (status < 1) {
@@ -352,8 +351,8 @@ export default Ember.Component.extend({
       this.set('isBusy', true);
 
       this.set('loadingModal', true);
-      this.set('messageUser', 'Change user of vm ' + vm.get('name') + ' is applied !<br/>From: ' + vm.get('user').get('email') +
-        '<br/>To: ' + user.get('email') + "<br/>Please waiting ...");
+      this.set('messageUser', '<p style="text-align: left;"><b>Vm</b> ' + vm.get('name').replace(/\..*/g, '') + '<br/><b>From</b> ' + vm.get('user').get('email') +
+        '<br/><b>To</b> ' + user.get('email') + "<br/></p>");
       vm.set('user', user);
 
       vm.save().then(function (){

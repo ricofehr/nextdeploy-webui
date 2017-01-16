@@ -1,18 +1,18 @@
 <table class="table table-hover" {{action "closeHover" on="mouseLeave"}}>
  <thead>
     <tr {{action "closeHover" on="mouseEnter"}}>
-        {{#if isVm}}<th class="simplify"><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
-        <th>URIS</th>
-        <th class="simplify">Infos</th>
+        {{#if isVm}}<th class="simplify-mobile"><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
+        <th>Uris<span class="simplify"> &amp; Tools</span></th>
+        <th class="simplify">Details</th>
         {{#if isDev}}
-            <th class="simplify"><span class="fa fa-sliders" title="Settings"></span></th>
-            <th class="simplify"><span class="fa fa-terminal" title="Vnc Terminal"></span></th>
-            <th class="simplify"><span class="fa fa-database" title="Import/Export"></span></th>
-            <th class="simplify"><span class="fa fa-bar-chart" title="Monitoring Graphs"></span></th>
+            <th class="tdpopup"><span class="fa fa-sliders" title="Settings"></span></th>
+            <th class="simplify-mobile tdpopup"><span class="fa fa-terminal" title="Vnc Terminal"></span></th>
+            <th class="simplify-mobile tdpopup"><span class="fa fa-database" title="Import/Export"></span></th>
+            <th class="simplify-mobile tdpopup"><span class="fa fa-bar-chart" title="Monitoring Graphs"></span></th>
         {{/if}}
         <th><span class="fa fa-heartbeat" title="Status"></span></th>
-        {{#if isLead}}<th class="simplify">User</th>{{/if}}
-        <th class="simplify">Date</th>
+        {{#if isLead}}<th class="tduser"><span class="fa fa-user-circle" title="User"></span></th>{{/if}}
+        <th class="tddate date-simplify"><span class="fa fa-calendar" title="Y/M/D"></span></th>
     </tr>
 </thead>
 <tbody>
@@ -21,29 +21,29 @@
         <tr {{action "showHover" vm.id on="mouseEnter"}}>
         {{#if isVm}}
             {{#if vm.is_prod}}
-                <td class="simplify alert-info">&nbsp;</td>
+                <td class="simplify-mobile alert-info first-col" title="Prod Vm"><span class="fa fa-cloud"></span></td>
             {{else}}
-                {{#if vm.isRo}}
-                    <td class="simplify">&nbsp;</td>
+                {{#if vm.is_ro}}
+                    <td class="simplify-mobile first-col">&nbsp;</td>
                 {{else}}
-                    <td class="simplify">{{input type="checkbox" checked=vm.todelete}}</td>
+                    <td class="simplify-mobile first-col">{{input type="checkbox" checked=vm.todelete}}</td>
                 {{/if}}
             {{/if}}
         {{/if}}
-        {{#if vm.isRo}}
+        {{#if vm.is_ro}}
             <td>{{vm.project.name}} <span class="simplify-inverse">({{vm.topic}})</span></td>
         {{else}}
-            <td {{action "showUris" vm}} class="tdhref"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.topic}})</span></a></td>
+            <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.topic}})</span></a></td>
         {{/if}}
         {{#if isDev}}
-            {{#if vm.isRo}}
+            {{#if vm.is_ro}}
                 <td class="simplify tdinfo">
                     <span class="info-branch-commit">
                         {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
                     </span>
                 </td>
             {{else}}
-                <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}}>
+                <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}} title="Details">
                     <span class="info-branch-commit">
                         <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
                     </span>
@@ -57,49 +57,57 @@
             </td>
         {{/if}}
         {{#if isDev}}
-            <td class="simplify">
-                {{#if vm.isRo}}
+            <td class="tdpopup">
+                {{#if vm.is_ro}}
                     <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
                     <button {{action "showSettings" vm}} class="btn btn-default btn-xs" title="Settings"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
-            <td class="simplify">
-                {{#if vm.isRo}}
+            <td class="simplify-mobile tdpopup">
+                {{#if vm.is_ro}}
                     <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
                     <button {{action "openVnc" vm}} class="btn btn-default btn-xs" title="Vnc Terminal"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
-            <td class="simplify">
-                {{#if vm.isRo}}
+            <td class="simplify-mobile tdpopup">
+                {{#if vm.is_ro}}
                     <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
                     <button {{action "showIO" vm}} class="btn btn-default btn-xs" title="Import/Export"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
-            <td class="simplify">
-                {{#if vm.isRo}}
-                    <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+            <td class="simplify-mobile tdpopup">
+                {{#if vm.is_ro}}
+                  <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
-                    <button {{action "showMonitor" vm}} class="btn btn-default btn-xs" title="Monitoring Graphs"><span class="glyphicon glyphicon-new-window"></span></button>
+                  <button {{action "showMonitor" vm}} class="btn btn-default btn-xs" title="Monitoring Graphs"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
         {{/if}}
         {{#if vm.sucStatus}}
             {{#if vm.isOk}}
-              <td class="success">
-                <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="Vm is running, build was done in {{vm.timeStatus}}s"><span class="glyphicon glyphicon-new-window"></span></button>
+              <td class="success tdpopup">
+                {{#if vm.is_ro}}
+                  <button class="btn btn-default btn-xs" title="Vm is running, build was done in {{vm.timeStatus}}s" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                {{else}}
+                  <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="Vm is running, build was done in {{vm.timeStatus}}s"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{/if}}
               </td>
             {{else}}
-              <td class="danger">
-                <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="One or more services are down"><span class="glyphicon glyphicon-new-window"></span></button>
+              <td class="danger tdpopup">
+                {{#if vm.is_ro}}
+                  <button class="btn btn-default btn-xs" title="One or more services are down" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                {{else}}
+                  <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="One or more services are down"><span class="glyphicon glyphicon-new-window"></span></button>
+                {{/if}}
               </td>
             {{/if}}
         {{/if}}
         {{#if vm.warnStatus}}
-            <td class="warning">
-                {{#if vm.isRo}}
+            <td class="warning tdpopup">
+                {{#if vm.is_ro}}
                     <button class="btn btn-default btn-xs warning" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done" disabled><span class="glyphicon glyphicon-refresh"></span></button>
                 {{else}}
                     <button {{action "checkStatus" vm}} class="btn btn-default btn-xs warning" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done"><span class="glyphicon glyphicon-refresh"></span></button>
@@ -107,21 +115,21 @@
             </td>
         {{/if}}
         {{#if vm.dangStatus}}
-            <td class="danger">
-                {{#if vm.isRo}}
+            <td class="danger tdpopup">
+                {{#if vm.is_ro}}
                     <button class="btn btn-default btn-sm danger" title="Vm is on error during build" disabled><span class="glyphicon glyphicon-refresh"></span></button>
                 {{else}}
-                    <button {{action "checkStatus" vm}} class="btn btn-default btn-sm danger" title="Vm is on error during build"><span class="glyphicon glyphicon-refresh"></span></button>
+                    <button {{action "checkStatus" vm}} class="btn btn-default btn-xs danger" title="Vm is on error during build"><span class="glyphicon glyphicon-refresh"></span></button>
                 {{/if}}
             </td>
         {{/if}}
         {{#if isLead}}
-            {{#if vm.isRo}}
-                <td class="simplify" title="{{vm.user.email}}">{{vm.user.shortname}}</td>
+            {{#if vm.is_ro}}
+                <td title="{{vm.user.email}}" class="tduser">{{vm.user.shortname}}</td>
             {{else}}
                 {{#if vm.sucStatus}}
                     {{#if vm.isUserList}}
-                        <td class="simplify">{{#power-select
+                        <td class="tduser">{{#power-select
                           options=vm.project.users
                           searchField="email"
                           selected=vm.user
@@ -131,28 +139,29 @@
                           as |user|
                         }}
                         {{user.email}}
-                        {{/power-select}}</td>
+                        {{/power-select}}
+                      </td>
                     {{else}}
-                        <td class="simplify tdhref" {{action 'showUserList' vm}} title="{{vm.user.email}}"><a href="">{{vm.user.shortname}}</a></td>
+                        <td class="tdhref tduser" {{action 'showUserList' vm}} title="{{vm.user.email}}"><a href="">{{vm.user.shortname}}</a></td>
                     {{/if}}
                 {{else}}
-                    <td class="simplify" title="{{vm.user.email}}">{{vm.user.shortname}}</td>
+                    <td title="{{vm.user.email}}" class="tduser">{{vm.user.shortname}}</td>
                 {{/if}}
             {{/if}}
         {{/if}}
-        <td class="simplify">{{vm.created_at_short}}</td>
+        <td class="simplify tddate date-simplify">{{vm.created_at_short}}</td>
     </tr>
     {{/if}}
   {{/each}}
 </tbody>
 </table>
 {{#if isVm}}
-<div class="btn-group" style="width: 100%;">
-    <div style="display: inline-block;float: left;">
-    <button {{action "newItem"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span></button>
-    <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify"><span class="glyphicon glyphicon-trash"></span></button>
+<div class="btn-group navbar-default navbottom">
+    <div class="buttons-row">
+      <button {{action "newItem"}} class="btn btn-default btn-sm" title="Create a New Instance"><span class="glyphicon glyphicon-plus-sign"></span></button>
+      <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify-mobile" title="Delete checked Instances"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
-    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
+    <div class="pages">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
 </div>
 
 {{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}

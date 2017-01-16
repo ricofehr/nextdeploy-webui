@@ -1,16 +1,12 @@
-<table class="table">
+<table class="table table-hover">
  <thead>
     <tr>
-        <th class="simplify">&nbsp;</th>
-        <th>Name</th>
+        {{#if isLead}}<th class="simplify-mobile first-col">&nbsp;</th>{{/if}}
+        <th>Details</th>
         <th class="simplify">Brand</th>
-        <th class="simplify">Systems</th>
-        <th>Infos</th>
-        <th class="simplify">Frameworks</th>
-        <th class="simplify">Technos</th>
-        {{#if isAdmin}}<th>Users</th>{{/if}}
-        <th>Vms</th>
-        <th class="simplify">Date</th>
+        {{#if isAdmin}}<th><span class="fa fa-users" title="Users"></span></th>{{/if}}
+        <th><span class="fa fa-plug" title="Vms"></span></th>
+        <th class="date-simplify tddate"><span class="fa fa-calendar" title="Y/M/D"></span></th>
     </tr>
 </thead>
 <tbody>
@@ -19,22 +15,20 @@
     <tr>
       {{#if isProjectCreate}}
         {{#if project.owner}}
-          <td class="simplify">{{input type="checkbox" checked=project.todelete}}</td>
+          <td class="simplify-mobile first-col">{{input type="checkbox" checked=project.todelete}}</td>
         {{else}}
           {{#if isAdmin}}
-            <td class="simplify">{{input type="checkbox" checked=project.todelete}}</td>
+            <td class="simplify-mobile first-col">{{input type="checkbox" checked=project.todelete}}</td>
           {{else}}
-            <td class="simplify">&nbsp;</td>
+            <td class="simplify-mobile first-col">&nbsp;</td>
           {{/if}}
         {{/if}}
-      {{else}}
-        <td class="simplify">&nbsp;</td>
       {{/if}}
 
       {{#if isLead}}
         {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref"}}<a href="">{{project.name}}</a>{{/link-To}}
       {{else}}
-        <td>{{project.name}}</td>
+        <td {{action "showDetails" project.id}} class="tdhref"><a href="">{{project.name}}</a></td>
       {{/if}}
 
       {{#if isAdmin}}
@@ -47,33 +41,26 @@
         <td class="simplify">{{project.brand.name}}</td>
       {{/if}}
 
-      <td class="simplify">{{#each project.systemimages as |os|}}{{os.name}}<br>{{/each}}</td>
-      <td><button {{action "showDetails" project.id}} class="btn btn-default btn-xs"><span  class="glyphicon glyphicon-new-window"></span></button></td>
-      <td class="simplify">{{#each project.endpoints as |ep|}}{{ep.framework.name}}<br>{{/each}}</td>
-      <td class="simplify">{{#each project.technos as |techno|}}{{techno.name}}<br>{{/each}}</td>
       {{#if isAdmin}}
         <td>{{#link-to 'users.byproject' project.id}}{{project.users.length}}{{/link-to}}</td>
-      {{/if}}
-
-      {{#if isAdmin}}
         <td>{{#link-to 'vms.byproject' project.id}}{{project.vms.length}}{{/link-to}}</td>
       {{else}}
         <td>{{#link-to 'vms.byproject' project.id}}here{{/link-to}}</td>
       {{/if}}
-      <td class="simplify">{{project.created_at_short}}</td>
+      <td class="date-simplify tddate">{{project.created_at_short}}</td>
     </tr>
     {{/if}}
   {{/each}}
 </tbody>
 </table>
 
-<div class="btn-group" style="width: 100%;">
-    <div style="display: inline-block;float: left;">
-    {{#if isProjectCreate}}<button {{action "newItem"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span></button>
-    <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify"><span class="glyphicon glyphicon-trash"></span></button>
-    {{/if}}
+<div class="btn-group navbar-default navbottom">
+    <div class="buttons-row">
+      {{#if isProjectCreate}}<button {{action "newItem"}} class="btn btn-default btn-sm" title="Create a new Project"><span class="glyphicon glyphicon-plus-sign"></span></button>
+      <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify-mobile" title="Delete Checked projects"><span class="glyphicon glyphicon-trash"></span></button>
+      {{/if}}
     </div>
-    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
+    <div class="pages">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
 </div>
 
 {{#if isProjectCreate}}

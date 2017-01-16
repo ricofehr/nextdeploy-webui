@@ -4,14 +4,14 @@
     {{#if isRunning}}
     <div class="form-horizontal">
     <div class="form-group">
-      <label class="control-label col-sm-2">Topic</label>
-        <div class="col-sm-3">
+      <label class="control-label col-sm-2 col-xs-4">Topic</label>
+        <div class="col-sm-3 col-xs-4">
           {{input type="text" classNames="form-control" maxlength="20" value=vm.topic placeholder="Topic" disabled=isDisabledAdminVms focus-out="updateTopic"}}
         </div>
     </div>
     <div class="form-group">
-      <label class="control-label col-sm-2">Caching</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
+      <label class="control-label col-sm-2 col-xs-4">Caching</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
       {{x-toggle
             value=toggleCached
             onLabel='true'
@@ -20,15 +20,15 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if cachedToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 control-label simplify">
       <i>Enable varnish cache for static objects</i>
     </div>
     {{/if}}
   </div>
 
   <div class="form-group">
-      <label class="control-label col-sm-2">BasicAuth</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'auth' on="mouseEnter"}} {{action "hideToolTip" 'auth' on="mouseLeave"}}>
+      <label class="control-label col-sm-2 col-xs-4">BasicAuth</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'auth' on="mouseEnter"}} {{action "hideToolTip" 'auth' on="mouseLeave"}}>
       {{x-toggle
             value=toggleAuth
             onLabel='true'
@@ -37,15 +37,15 @@
             disabled=isDisabledAuth}}
     </div>
     {{#if authToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 control-label simplify">
       <i>Enable basic authentification for the website</i>
     </div>
     {{/if}}
   </div>
 
   <div class="form-group">
-      <label class="control-label  col-sm-2">Htaccess</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'ht' on="mouseEnter"}} {{action "hideToolTip" 'ht' on="mouseLeave"}}>
+      <label class="control-label  col-sm-2 col-xs-4">Htaccess</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'ht' on="mouseEnter"}} {{action "hideToolTip" 'ht' on="mouseLeave"}}>
       {{x-toggle
             value=toggleHt
             onLabel='true'
@@ -54,15 +54,15 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if htToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 control-label simplify">
       <i>Enable custom apache htacces file in webroot, not recommended !</i>
     </div>
     {{/if}}
   </div>
 
   <div class="form-group">
-      <label class="control-label  col-sm-2">Backup</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'backup' on="mouseEnter"}} {{action "hideToolTip" 'backup' on="mouseLeave"}}>
+      <label class="control-label  col-sm-2 col-xs-4">Backup</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'backup' on="mouseEnter"}} {{action "hideToolTip" 'backup' on="mouseLeave"}}>
       {{x-toggle
             value=toggleBackup
             onLabel='true'
@@ -71,15 +71,15 @@
             disabled=isDisabledBackup}}
     </div>
     {{#if backupToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 control-label simplify">
       <i>{{#if isDisabledBackup}}Nothing to backup (database or assets) for this project{{else}}Enable daily backup with one week history{{/if}}</i>
     </div>
     {{/if}}
   </div>
 
   <div class="form-group">
-      <label class="control-label  col-sm-2">CI</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'ci' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
+      <label class="control-label  col-sm-2 col-xs-4">CI</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'ci' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
       {{x-toggle
             value=toggleCi
             onLabel='true'
@@ -88,15 +88,15 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if ciToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 col-xs-0 control-label simplify">
       <i>Updates each 30 min with the last commit pushed on the branch</i>
     </div>
     {{/if}}
   </div>
 
   <div class="form-group">
-      <label class="control-label  col-sm-2">Cors</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'cors' on="mouseEnter"}} {{action "hideToolTip" 'cors' on="mouseLeave"}}>
+      <label class="control-label col-sm-2 col-xs-4">Cors</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'cors' on="mouseEnter"}} {{action "hideToolTip" 'cors' on="mouseLeave"}}>
       {{x-toggle
             value=toggleCors
             onLabel='true'
@@ -105,15 +105,15 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if corsToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 control-label simplify">
       <i>Add cors header for authorize external website to request vm</i>
     </div>
     {{/if}}
   </div>
 
   <div class="form-group">
-      <label class="control-label  col-sm-2">Prod</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
+      <label class="control-label col-sm-2 col-xs-4">Prod</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
       {{x-toggle
             value=toggleProd
             onLabel='true'
@@ -122,15 +122,15 @@
             disabled=isDisabledProd}}
     </div>
     {{#if prodToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 control-label simplify">
       <i>Enable Production Flag with higher security level, custom uris fields, ...</i>
     </div>
     {{/if}}
   </div>
 
   <div class="form-group">
-      <label class="control-label  col-sm-2">Uris</label>
-    <div class="col-sm-1" style="padding-top: 6px;" {{action "showToolTip" 'uri' on="mouseEnter"}} {{action "hideToolTip" 'uri' on="mouseLeave"}}>
+      <label class="control-label col-sm-2 col-xs-4">Uris</label>
+    <div class="col-sm-1 col-xs-2" style="padding-top: 6px;" {{action "showToolTip" 'uri' on="mouseEnter"}} {{action "hideToolTip" 'uri' on="mouseLeave"}}>
       {{x-toggle
             value=uriModal
             onLabel='true'
@@ -138,7 +138,7 @@
             onToggle=(mut uriModal)}}
     </div>
     {{#if uriToolTip}}
-    <div class="col-sm-8 control-label">
+    <div class="col-sm-8 control-label simplify">
       <i>Open uris settings popin for ipfilters {{#if vm.is_prod}}and DNS settings{{/if}}</i>
     </div>
     {{/if}}

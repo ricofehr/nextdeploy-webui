@@ -5,6 +5,12 @@
     <b>Http access</b><br>
     User: {{project.login}}<br>
     Password: {{project.password}}<br><br>
+    <b>Operating Systems</b><br/>
+    {{#each project.systemimages as |os|}}{{os.name}}<br/>{{/each}}<br>
+    <b>Frameworks</b><br/>
+    {{#each project.endpoints as |ep|}}{{ep.framework.name}}<br/>{{/each}}<br>
+    <b>Technos</b><br/>
+    {{#each project.technos as |techno|}}{{techno.name}}<br/>{{/each}}<br>
     <b>Ftp Assets & Dump*</b><br>
     User: {{getFtpUser}}<br>
     Password: {{getFtpPassword}}<br>

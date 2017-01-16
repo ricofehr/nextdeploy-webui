@@ -23,6 +23,8 @@ export default Ember.Component.extend({
     var day = '';
     var month = '';
     var year = '';
+    var hour = '';
+    var minute = '';
     var search = this.get('search');
     var cp = this.get('currentPage') || 1;
     var ncp = 1;
@@ -30,11 +32,7 @@ export default Ember.Component.extend({
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
     var framework = '';
-
-    // max 5 items on a page for projects
-    if (ibpmax > 5) {
-      ibpmax = 5;
-    }
+    var today = new Date();
 
     // filter projects array only with valid item for current user
     projects.map(function(model){
@@ -48,12 +46,23 @@ export default Ember.Component.extend({
       model.set('gitpath_href', "git@" + model.get('gitpath'));
       // init date value
       day = model.get('created_at').getDate();
-      if (parseInt(day) < 10) { day = '0' + day; }
       month = model.get('created_at').getMonth() + 1;
-      if (parseInt(month) < 10) { month = '0' + month; }
       year = model.get('created_at').getFullYear();
+      hour = model.get('created_at').getHours();
+      minute = model.get('created_at').getMinutes();
 
-      model.set('created_at_short', day + "/" + month + "/" + year);
+      if (today.getDate() === day &&
+          today.getMonth() + 1 === month &&
+          today.getFullYear() === year) {
+        if (parseInt(hour) < 10) { hour = '0' + hour; }
+        if (parseInt(minute) < 10) { minute = '0' + minute; }
+        model.set('created_at_short', hour + ":" + minute);
+      } else {
+        if (parseInt(day) < 10) { day = '0' + day; }
+        if (parseInt(month) < 10) { month = '0' + month; }
+        year = year + '';
+        model.set('created_at_short', year.substring(2) + "/" + month + "/" + day);
+      }
 
       // filter project listing with brand, user, search field, and current page value
       model.set('isShow', true);

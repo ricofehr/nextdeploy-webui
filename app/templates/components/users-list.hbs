@@ -1,14 +1,13 @@
-<table class="table">
+<table class="table table-hover">
  <thead>
   <tr>
-    {{#if isAdmin}}<th class="simplify">&nbsp;</th>{{/if}}
-    <th>Email</th>
-    <th>Group</th>
+    {{#if isAdmin}}<th class="simplify-mobile first-col">&nbsp;</th>{{/if}}
+    <th>Details</th>
+    <th class="simplify-mobile">Group</th>
     <th class="simplify">Company</th>
-    <th class="simplify">Quota</th>
-    <th>Projects</th>
-    <th>Vms</th>
-    {{#if isAdmin}}<th class="simplify">Sshkeys</th>{{/if}}
+    <th><span class="fa fa-industry" title="Projects"></span></th>
+    <th><span class="fa fa-plug" title="Vms"></span></th>
+    {{#if isAdmin}}<th class="simplify"><span class="fa fa-key" title="Ssh Keys"></span></th>{{/if}}
   </tr>
 </thead>
 
@@ -17,7 +16,7 @@
     {{#if user.isShow}}
     <tr>
       {{#if isAdmin}}
-      <td class="simplify">
+      <td class="simplify-mobile first-col">
         {{#if user.isCurrent}}
           &nbsp;
         {{else}}
@@ -38,16 +37,15 @@
 
       {{#if isAdmin}}
         {{#if groupId}}
-          <td>{{user.group.name}}</td>
+          <td class="simplify-mobile">{{user.group.name}}</td>
         {{else}}
-          {{#link-to 'users.bygroup' user.group.id tagName="td" classNames="tdhref"}}<a href="">{{user.group.name}}</a>{{/link-to}}
+          {{#link-to 'users.bygroup' user.group.id tagName="td" classNames="tdhref simplify-mobile"}}<a href="">{{user.group.name}}</a>{{/link-to}}
         {{/if}}
       {{else}}
         <td>{{user.group.name}}</td>
       {{/if}}
 
       <td class="simplify">{{user.company}}</td>
-      <td class="simplify">{{user.quotavm}}</td>
 
       {{#if isLead}}
         <td>{{#link-to 'projects.byuser' user.id}}{{user.projects.length}}{{/link-to}}</td>
@@ -75,12 +73,12 @@
 </tbody>
 </table>
 
-<div class="btn-group" style="width: 100%;">
-  <div style="display: inline-block;float: left;">
-  {{#if isUserCreate}}<button {{action "newItem"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-plus-sign"></span></button>{{/if}}
-  {{#if isAdmin}}<button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify"><span class="glyphicon glyphicon-trash"></span></button>{{/if}}
+<div class="btn-group navbar-default navbottom">
+  <div class="buttons-row">
+  {{#if isUserCreate}}<button {{action "newItem"}} class="btn btn-default btn-sm" title="Add a new User"><span class="glyphicon glyphicon-plus-sign"></span></button>{{/if}}
+  {{#if isAdmin}}<button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify-mobile" title="Delete checked Users"><span class="glyphicon glyphicon-trash"></span></button>{{/if}}
   </div>
-  <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
+  <div class="pages">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
   </div>
 
 {{#if isAdmin}}

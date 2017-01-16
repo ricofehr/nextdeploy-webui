@@ -1,9 +1,9 @@
-<table class="table">
+<table class="table" style="width: 40%;">
  <thead>
     <tr>
-        {{#if isAdmin}}<th class="simplify">&nbsp;</th>{{/if}}
-        <th>Name</th>
-        <th>Projects</th>
+        {{#if isAdmin}}<th class="simplify-mobile first-col">&nbsp;</th>{{/if}}
+        <th>Details</th>
+        <th><span class="fa fa-industry" title="Projects"></span></th>
     </tr>
 </thead>
 <tbody>
@@ -11,7 +11,7 @@
     {{#if brand.isShow}}
     <tr>
         {{#if isAdmin}}
-        <td class="simplify">{{input type="checkbox" checked=brand.todelete}}</td>
+        <td class="simplify-mobile first-col">{{input type="checkbox" checked=brand.todelete}}</td>
         {{/if}}
         {{#if isAdmin}}{{#link-To 'brands.edit' brand.id tagName="td" classNames="tdhref"}}<a href="">{{brand.name}}</a>{{/link-To}}
         {{else}}{{brand.name}}{{/if}}
@@ -22,12 +22,12 @@
 </tbody>
 </table>
 {{#if isAdmin}}
-<div class="btn-group" style="width:100%;height:30px;">
-    <div style="display: inline-block;float: left;">
-    <button {{action "newItem"}} class="btn btn-default"><span class="glyphicon glyphicon-plus-sign"></span></button>
-    <button {{action "showDeleteConfirmation"}} class="btn btn-default simplify"><span class="glyphicon glyphicon-trash"></span></button>
+<div class="btn-group navbar-default navbottom">
+    <div class="buttons-row">
+    <button {{action "newItem"}} class="btn btn-default btn-sm" title="Add a new Brand"><span class="glyphicon glyphicon-plus-sign"></span></button>
+    <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify-mobile" title="Delete checked Brand"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
-    <div style="display:inline-block;float:right;margin:8px;">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
+    <div class="pages">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
 </div>
 {{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
   {{#bs-modal-body}}
