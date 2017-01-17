@@ -6,7 +6,7 @@
     <div class="form-group">
       <label class="control-label col-sm-2 col-xs-4">Topic</label>
         <div class="col-sm-3 col-xs-4">
-          {{input type="text" classNames="form-control" maxlength="20" value=vm.topic placeholder="Topic" disabled=isDisabledAdminVms focus-out="updateTopic"}}
+          {{input type="text" classNames="form-control" maxlength="20" value=vm.topic placeholder="Topic" disabled=isDisabledAdminVms focus-in="enterTopic" focus-out="updateTopic"}}
         </div>
     </div>
     <div class="form-group">

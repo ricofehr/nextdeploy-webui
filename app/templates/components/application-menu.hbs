@@ -20,7 +20,6 @@
             {{#if isAdmin}}
               {{#link-to 'brands' tagName='li' href=false}}<a href="">Brands</a>{{/link-to}}
             {{/if}}
-            <li><a href="" {{action 'help'}}>?</a></li>
             {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href="">Profile</a>{{/link-to}}
             {{#if isDev}}<li><a href="" {{action 'openGitlab'}}>Gitlab</a></li>{{/if}}
             <li><a href="" {{action 'invalidateSession'}} >Logout</a></li>

@@ -3,16 +3,16 @@
     <tr {{action "closeHover" on="mouseEnter"}}>
         {{#if isVm}}<th class="simplify-mobile"><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
         <th>Uris<span class="simplify"> &amp; Tools</span></th>
-        <th class="simplify">Details</th>
+        <th class="simplify" title="Commit date (YMD) - Topic and Commit Message on hover">Details</th>
         {{#if isDev}}
             <th class="tdpopup"><span class="fa fa-sliders" title="Settings"></span></th>
             <th class="simplify-mobile tdpopup"><span class="fa fa-terminal" title="Vnc Terminal"></span></th>
             <th class="simplify-mobile tdpopup"><span class="fa fa-database" title="Import/Export"></span></th>
             <th class="simplify-mobile tdpopup"><span class="fa fa-bar-chart" title="Monitoring Graphs"></span></th>
         {{/if}}
-        <th><span class="fa fa-heartbeat" title="Status"></span></th>
+        <th class="tdpopup"><span class="fa fa-heartbeat" title="Status"></span></th>
         {{#if isLead}}<th class="tduser"><span class="fa fa-user-circle" title="User"></span></th>{{/if}}
-        <th class="tddate date-simplify"><span class="fa fa-calendar" title="Y/M/D"></span></th>
+        <th class="tddate date-simplify"><span class="fa fa-calendar" title="Date creation (Y/M/D)"></span></th>
     </tr>
 </thead>
 <tbody>
@@ -43,14 +43,14 @@
                     </span>
                 </td>
             {{else}}
-                <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}} title="Details">
+                <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}} title="Commit date (YMD) - Topic and Commit Message on hover">
                     <span class="info-branch-commit">
                         <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
                     </span>
                 </td>
             {{/if}}
         {{else}}
-            <td class="simplify tdinfo">
+            <td class="simplify tdinfo" title="Commit date (YMD) - Topic and Commit Message on hover">
                 <span class="info-branch-commit">
                     {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
                 </span>
@@ -149,7 +149,7 @@
                 {{/if}}
             {{/if}}
         {{/if}}
-        <td class="simplify tddate date-simplify">{{vm.created_at_short}}</td>
+        <td class="simplify tddate date-simplify" title="Date creation (Y/M/D)">{{vm.created_at_short}}</td>
     </tr>
     {{/if}}
   {{/each}}

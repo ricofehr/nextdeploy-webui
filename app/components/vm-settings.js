@@ -19,6 +19,7 @@ export default Ember.Component.extend({
   ciToolTip: false,
   backupToolTip: false,
   uriModal: false,
+  oldTopic: '',
 
   // trigger function when model changes
   didReceiveAttrs() {
@@ -181,10 +182,15 @@ export default Ember.Component.extend({
       this.set('vm', null);
     },
 
+    enterTopic: function() {
+      this.set('oldTopic', this.get('vm.topic'));
+    },
+
     updateTopic: function() {
       var self = this;
 
-      if (!this.get('vm')) {
+      if (!this.get('vm') ||
+          this.get('oldTopic') === this.get('vm').get('topic') ) {
         return;
       }
 
@@ -204,6 +210,7 @@ export default Ember.Component.extend({
       })
       .done(function() {
         self.set('loadingModal', false);
+        this.set('topicChanged', false);
       })
       .fail(function() {
         self.set('message', 'Error occurs during execution !');

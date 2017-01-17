@@ -80,7 +80,7 @@ export default Ember.Component.extend({
       branchName = model.get('commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-[^-]*$/,'');
       model.set('branch', branchName.substring(0,22));
 
-      // init date value
+      // init vm date value
       day = model.get('created_at').getDate();
       month = model.get('created_at').getMonth() + 1;
       year = model.get('created_at').getFullYear();

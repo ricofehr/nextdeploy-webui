@@ -5,6 +5,8 @@ html {
 
 body{
   font-size: 16px;
+  /*display: flex;
+  justify-content: space-between;*/
 }
 
 video {
@@ -74,7 +76,13 @@ td a:hover {
 /* Put your CSS here */
 .ember-application {
   margin: 20px;
+
 }
+
+.container-fluid {
+  max-width: 1440px;
+}
+
 
 /* make power-select visible into modal */
 .inmodal {
@@ -107,7 +115,7 @@ td a:hover {
 }
 
 .tdinfo {
-  width: 23%;
+  width: 25%;
 }
 
 .tduser {
@@ -118,16 +126,16 @@ td a:hover {
   width: 85px;
 }
 
+.tdpopup {
+  width: 55px;
+}
+
 .tduser .ember-power-select-trigger,
 .tduser.ember-power-select-option {
   width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.tdpopup {
-  width: 55px;
 }
 
 .table-hover tr:hover .tdinfoh:hover {
@@ -232,15 +240,16 @@ a .nodec {
   bottom: 0;
   left: 0;
   right: 0;
-  width: calc(100% - 60px);
+  width: 100%;
+  /*width: calc(100% - 60px);*/
   height: 20px;
   line-height: 20px;
   /* background-color: #f5f5f5; */
   text-align:center;
   vertical-align: medium;
   font-size: 61%;
-  margin-right: 30px;
-  margin-left: 30px;
+  /*margin-right: 30px;
+  margin-left: 30px;*/
   border-radius: 5px;
 }
 
@@ -303,17 +312,23 @@ iframe { border: none; }
 /* Mobile devices */
 @media all and (max-device-width: 740px) {
   body {
-    padding: 0;
-    font-size: 11px;
+    font-size: 13px;
+  }
+
+  .ember-application {
+    margin: 0;
   }
 
   .container-fluid {
-    padding-right: 10px;
-    padding-left: 0px;
+    padding: 0;
+  }
+
+  .navbar-toggle {
+    margin-right: 25px;
   }
 
   .ember-power-select-trigger, .ember-power-select-option {
-    font-size: 9px;
+    font-size: 11px;
   }
 
   .tduser {
@@ -340,7 +355,7 @@ iframe { border: none; }
   .navbottom {
     position: absolute;
     bottom: 40px;
-    width: calc(100% - 50px);
+    width: 100%;
   }
 }
 
@@ -348,8 +363,22 @@ iframe { border: none; }
   .simplify-inverse{display:none !important;}
 }
 
-@media all and (min-width: 1600px) {
+@media all and (min-width: 1400px) {
   .tdinfo {
-    width: 17%;
+    width: 36%;
+  }
+
+  .tduser {
+    width: 180px;
+  }
+
+  .tdpopup {
+    width: 65px;
+  }
+}
+
+@media all and (min-width: 1440px) {
+  .navbottom {
+    width: 1410px;
   }
 }
