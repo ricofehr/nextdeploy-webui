@@ -11,6 +11,25 @@ export default Ember.Component.extend({
     this.initScripts();
   },
 
+  // if Command Modal is display, hide uris modal
+  showSubModal: function(show) {
+    var self = this;
+
+    this.set('subModal', show);
+    if (show) {
+      this.set('fadeUris', false);
+      this.set('isShowingUris', false);
+      this.set('loadingModal', true);
+    } else {
+      this.set('loadingModal', false);
+      this.set('isShowingUris', true);
+
+      Ember.run.later(function() {
+        self.set('fadeUris', true);
+      }, 500);
+    }
+  },
+
 // Return true if user is a Dev or more
   isDev: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
@@ -164,6 +183,7 @@ export default Ember.Component.extend({
       this.set('requestRunning', true);
       this.set('loadingModal', true);
       this.set('message', null);
+      this.showSubModal(true);
 
       Ember.$.ajax({
           url: config.APP.APIHost + "/api/v1/uris/" + current_id + "/" + request,

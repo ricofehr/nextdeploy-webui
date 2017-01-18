@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingSettings body=false header=false footer=false size="lg" closedAction=(action 'closedSettings')}}
+{{#bs-modal open=isShowingSettings body=false header=false footer=false size="lg" closedAction=(action 'closedSettings') fade=fadeSettings}}
   {{#bs-modal-header}}{{#if isRunning}}Settings for {{vm.name}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if isRunning}}
@@ -135,7 +135,7 @@
             value=uriModal
             onLabel='true'
             offLabel='false'
-            onToggle=(mut uriModal)}}
+            onToggle=(action 'openSubModal')}}
     </div>
     {{#if uriToolTip}}
     <div class="col-sm-8 control-label simplify">
@@ -153,7 +153,7 @@
 {{/bs-modal}}
 
 
-{{#bs-modal header=false footer=false body=false open=uriModal}}
+{{#bs-modal header=false footer=false body=false open=uriModal closedAction=(action 'closedSubModal') size='lg' fade=false}}
    {{#bs-modal-header}}
      <div class="text-center">Uris for {{vm.name}}</div>
    {{/bs-modal-header}}

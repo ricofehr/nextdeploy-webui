@@ -7,15 +7,42 @@ export default Ember.Component.extend({
   requestRunning: false,
   message: null,
   viewPostinstall: false,
+  subModal: false,
+  fadeUris: true,
 
   // trigger function when model changes
   didReceiveAttrs() {
     this._super(...arguments);
+  },
+
+  reInit: function() {
     this.set('loadingModal', false);
     this.set('message', null);
     this.set('message2', null);
     this.set('requestRunning', false);
     this.set('viewPostinstall', false);
+    this.set('subModal', false);
+    this.set('fadeUris', true);
+  }.observes('vm'),
+
+
+  // if Command Modal is display, hide uris modal
+  showSubModal: function(show) {
+    var self = this;
+
+    this.set('subModal', show);
+    if (show) {
+      this.set('fadeUris', false);
+      this.set('isShowingUris', false);
+      this.set('loadingModal', true);
+    } else {
+      this.set('loadingModal', false);
+      this.set('isShowingUris', true);
+
+      Ember.run.later(function() {
+        self.set('fadeUris', true);
+      }, 500);
+    }
   },
 
   // inverse of isrunning
@@ -113,6 +140,10 @@ export default Ember.Component.extend({
     var self = this;
 
     this.set('URIS', []);
+    if (!this.get('isShowingUris')) {
+      return;
+    }
+
     this.get('vm').get('uris').forEach(function (ep) {
       if (ep.get('framework').get('name') !== 'NoWeb') {
         self.get('URIS').push({uri: ep.get('absolute'), href: self.getURI(ep.get('absolute'))});
@@ -209,7 +240,8 @@ export default Ember.Component.extend({
       this.set('requestRunning', true);
       this.set('message', null);
       this.set('message2', null);
-      this.set('loadingModal', true);
+
+      this.showSubModal(true);
 
       if (request === 'postinstall_display') {
         this.set('viewPostinstall', true);
@@ -229,21 +261,28 @@ export default Ember.Component.extend({
               self.set('message2', "Look with attention the content of this script.<br>And if you are agree with that, you can now execute this on the vm at your own risk !");
             }
           } else {
-            self.set('loadingModal', false);
+            self.showSubModal(false);
           }
         })
         .fail(function() {
           self.set('requestRunning', false);
           self.set('message', 'Error occurs during execution !');
           Ember.run.later(function(){
-            self.set('loadingModal', false);
+            self.showSubModal(false);
           }, 10000);
         });
     },
-    // close the modal, reset showing variable
+    // close the uris modal, reset showing variable
     closedUris: function() {
-      this.set('isBusy', false);
-      this.set('vm', null);
+      if (!this.get('subModal')) {
+        this.set('isBusy', false);
+        this.set('vm', null);
+      }
+    },
+
+    // close the loading/cmd modal
+    closedLoading: function() {
+      this.showSubModal(false);
     },
   }
 });

@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingUris body=false header=false footer=false closedAction=(action 'closedUris')}}
+{{#bs-modal open=isShowingUris body=false header=false footer=false closedAction=(action 'closedUris') fade=fadeUris}}
   {{#bs-modal-header}}{{#if isRunning}}{{#if isDev}}Urls & Tools{{else}}Urls{{/if}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if isRunning}}
@@ -34,7 +34,7 @@
             {{/if}}<br/>
 
           {{#each vm.uris as |uri|}}
-            {{uri-requests uri=uri vm=vm loadingModal=loadingModal requestRunning=requestRunning message=message}}
+            {{uri-requests uri=uri vm=vm loadingModal=loadingModal subModal=subModal isShowingUris=isShowingUris fadeUris=fadeUris requestRunning=requestRunning message=message}}
           {{/each}}
           {{/if}}
     {{else}}
@@ -44,7 +44,7 @@
   {{bs-modal-footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=closeModal classNames=['ember-view','loadingModal'] open=loadingModal}}
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=closeModal closedAction=(action 'closedLoading') classNames=['ember-view','loadingModal'] open=loadingModal size='lg' fade=false}}
    {{#bs-modal-header closeButton=closeModal}}
      <div class="text-center">
      {{#if requestRunning}}

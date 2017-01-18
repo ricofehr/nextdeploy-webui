@@ -19,13 +19,19 @@ export default Ember.Component.extend({
   ciToolTip: false,
   backupToolTip: false,
   uriModal: false,
+  subModal: false,
   oldTopic: '',
+  fadeSettings: true,
 
   // trigger function when model changes
   didReceiveAttrs() {
     this._super(...arguments);
-    this.set('loadingModal', false);
     this.set('checkListUris', Ember.Object.create());
+  },
+
+  reInit: function() {
+    this.set('loadingModal', false);
+    this.set('subModal', false);
 
     if (this.get('vm')) {
       if (this.get('vm.is_cached')) { this.set('toggleCached', true); }
@@ -58,6 +64,26 @@ export default Ember.Component.extend({
       this.set('backupToolTip', false);
       this.set('uriToolTip', false);
       this.set('uriModal', false);
+      this.set('fadeSettings', true);
+    }
+  }.observes('vm'),
+
+  // if Command Modal is display, hide uris modal
+  showSubModal: function(show) {
+    var self = this;
+
+    this.set('subModal', show);
+    if (show) {
+      this.set('fadeSettings', false);
+      this.set('isShowingSettings', false);
+      this.set('uriModal', true);
+    } else {
+      this.set('uriModal', false);
+      this.set('isShowingSettings', true);
+
+      Ember.run.later(function() {
+        self.set('fadeSettings', true);
+      }, 500);
     }
   },
 
@@ -176,10 +202,22 @@ export default Ember.Component.extend({
   }.property('vm.project'),
 
   actions: {
+    // open the submodal
+    openSubModal: function() {
+      this.showSubModal(true);
+    },
+
     // close the modal, reset showing variable
     closedSettings: function() {
-      this.set('isBusy', false);
-      this.set('vm', null);
+      if (!this.get('subModal')) {
+        this.set('isBusy', false);
+        this.set('vm', null);
+      }
+    },
+
+    // close the uri submodal
+    closedSubModal: function() {
+      this.showSubModal(false);
     },
 
     enterTopic: function() {

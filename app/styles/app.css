@@ -14,6 +14,16 @@ video {
   height: 378px;
 }
 
+pre {
+  word-wrap: normal;
+  margin-bottom: 1em;
+  padding: 5px;
+  width: auto;
+  overflow: auto;
+  font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+  font-size: 12px;
+}
+
 .blue {
   overflow-x: hidden;
   -webkit-font-smoothing:antialiased;

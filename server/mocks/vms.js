@@ -137,7 +137,9 @@ module.exports = function(app) {
   });
 
   vmsRouter.post('/:id/postinstall_display', function(req, res) {
-    res.status(200).end();
+    res.status(200).send('#!/bin/bash\n\n' +
+          'VMNAME="$1"\n' +
+          'DOCROOT="$(pwd)/server"');
   });
 
   vmsRouter.post('/:id/postinstall', function(req, res) {
@@ -145,11 +147,23 @@ module.exports = function(app) {
   });
 
   vmsRouter.post('/:id/gitpull', function(req, res) {
-    res.status(200).end();
+    res.status(200).send('Current branch master is up to date.\n' +
+          'tree 12c6796fdqsc09074d0bc6d0a2829dc5861f9f81\n' +
+          'parent ababb21dqsbf56b71fbd8c933cbc81916779814a7\n' +
+          'author ricofehr <ricofehr@nextdeploy.io> 1484235834 +0100\n' +
+          'committer ricofehr <ricofehr@nextdeploy.io> 1484235834 +0100\n' +
+          'Add a new content');
   });
 
   vmsRouter.post('/:id/logs', function(req, res) {
-    res.status(200).end();
+    res.status(200).send('==> /var/log/apache2/access.log <==\n' +
+          '127.0.0.1 - - [16/Jan/2017:20:22:02 +0000] "GET / HTTP/1.1" 200 82 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"\n' +
+          '127.0.0.1 - - [17/Jan/2017:16:57:33 +0000] "GET / HTTP/1.1" 200 82 "-" "Mozilla/5.0 (iPhone; CPU iPhone OS 10_2 like Mac OS X) AppleWebKit/602.3.12 (KHTML, like Gecko) Version/10.0 Mobile/14C92 Safari/602.1"\n\n' +
+          '==> /var/log/apache2/error.log <==\n\n' +
+          '==> /var/log/mail.log <==\n' +
+          'Jan 15 06:49:12 6-project-84235860 postfix/pickup[8190]: 38AC12F6D6: uid=0 from=<root>\n' +
+          'Jan 15 06:49:12 6-project-84235860 postfix/qmgr[1289]: 38AC12F6D6: from=<root@os.nextdeploy>, size=775, nrcpt=1 (queue active)\n' +
+          'Jan 15 06:49:12 6-project-84235860 postfix/qmgr[1289]: 38AC12F6D6: removed\n');
   });
 
   app.use('/api/v1/vms', require('body-parser').json(), vmsRouter);
