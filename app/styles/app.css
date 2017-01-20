@@ -5,8 +5,6 @@ html {
 
 body{
   font-size: 16px;
-  /*display: flex;
-  justify-content: space-between;*/
 }
 
 video {
@@ -44,6 +42,7 @@ pre {
   color: #fff;
 }
 
+.navbar-inverse .navbar-nav li a:hover,
 .navbar-default .navbar-nav li a:hover {
   background-image: unset;
   background-repeat: unset;
@@ -51,6 +50,11 @@ pre {
   color: #fff;
   background-color: #0958a2;
   border-color: #0958a2;
+}
+
+.navbar-inverse .navbar-nav li a:hover {
+	transition: 0.7s all linear;
+	height: 100%;
 }
 
 .navbar-default .navbar-nav > .active > a:hover,
@@ -317,6 +321,37 @@ iframe { border: none; }
   .simplify-mobile {
     display:none !important;
   }
+
+  video {
+    width: 400px;
+    height: auto;
+  }
+}
+
+/* collapse menu */
+@media (max-width: 767px) {
+    .ul-collapsed {
+      width: 100%;
+    }
+
+    .navbar-nav li a {
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .navbar-nav {
+      margin: 0;
+    }
+
+    .navbar-brand-toggle {
+      display: block;
+    }
+}
+
+@media (min-width: 768px) {
+    .navbar-brand-toggle {
+      display: none;
+    }
 }
 
 /* Mobile devices */
@@ -335,6 +370,10 @@ iframe { border: none; }
 
   .navbar-toggle {
     margin-right: 25px;
+  }
+
+  .navbar-brand-toggle {
+    margin-left: 15px;
   }
 
   .ember-power-select-trigger, .ember-power-select-option {
@@ -357,9 +396,12 @@ iframe { border: none; }
     display:none !important;
   }
 
+  /* Prevent freezed zoom after focus input field */
+  input:focus { font-size: 15px !important}
+
   video {
-    width: 401px;
-    height: 165px;
+    width: 300px;
+    height: auto;
   }
 
   .navbottom {
@@ -391,4 +433,17 @@ iframe { border: none; }
   .navbottom {
     width: 1410px;
   }
+}
+
+/* force portrait orientation for mobile */
+@media (orientation: landscape) and (max-device-width: 740px) {
+  html {
+      transform: rotate(-90deg);
+      transform-origin: left top;
+      width: 100vh;
+      overflow-x: hidden;
+      position: absolute;
+      top: 100%;
+      left: 0;
+    }
 }
