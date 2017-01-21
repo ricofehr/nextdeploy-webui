@@ -9,9 +9,7 @@
       {{/each}}
 
           <br/><b>HTTPS</b><br>
-          <div class="pull-left col-md-1 col-sm-1 col-xs-2">
           {{x-toggle value=isHTTPS onLabel='true' offLabel='false' onToggle=(mut isHTTPS)}}
-          </div><br/><br/>
           <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
           Login: {{vm.htlogin}}<br/>
           Password: {{vm.htpassword}}<br/><br/>
