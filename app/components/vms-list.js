@@ -15,6 +15,7 @@ export default Ember.Component.extend({
   isReload: false,
   vmSelected: null,
   loadingModal: false,
+  checkStatusLoop: false,
 
   // trigger when model changes
   didReceiveAttrs() {
@@ -24,6 +25,10 @@ export default Ember.Component.extend({
     if (!this.get('loadingModal') || !this.get('isBusy')) {
       this.cleanModel();
       this.prepareList();
+    }
+
+    if (!this.get('checkStatusLoop')) {
+      this.checkAllStatus();
     }
   },
 
@@ -175,6 +180,54 @@ export default Ember.Component.extend({
       this.set('pages', []);
     }
   }.observes('refreshList'),
+
+  // check all status
+  checkAllStatus: function() {
+    var self = this;
+
+    this.set('checkStatusLoop', true);
+
+    this.get('vms').map(function(model){
+      if (parseInt(model.get('status')) < 1) {
+        // jquery get setupcomplete
+        Ember.$.ajax({
+          url: config.APP.APIHost + "/api/v1/vms/" + model.get('id') + "/setupcomplete",
+          global: false,
+          async: false,
+          headers: { 'Authorization': 'Token token=' + self.get('session').get('data.authenticated.token') }
+        })
+        .done(function(data) {
+          model.set('status', data);
+          model.set('timeStatus', data);
+          model.set('textStatus', 'RUN');
+          model.set('sucStatus', true);
+          model.set('warnStatus', false);
+          model.set('dangStatus', false);
+        })
+        .fail(function(data) {
+          model.set('status', data.responseText);
+          model.set('timeStatus', -parseInt(data.responseText));
+
+          // check if error or setup
+          if (parseInt(data.responseText) === 1) {
+            model.set('textStatus', 'ERROR');
+            model.set('sucStatus', false);
+            model.set('warnStatus', false);
+            model.set('dangStatus', true);
+          } else {
+            model.set('textStatus', 'SETUP');
+            model.set('sucStatus', false);
+            model.set('warnStatus', true);
+            model.set('dangStatus', false);
+          }
+        });
+      }
+    });
+
+    Ember.run.later(function() {
+      self.checkAllStatus();
+    }, 15000);
+  },
 
   // delete records unsaved or deleted
   cleanModel: function() {
@@ -443,6 +496,7 @@ export default Ember.Component.extend({
     // ajax call to get current status
     checkStatus: function(model) {
       var vm_id = model.get('id');
+      var self = this;
 
       // jquery get setupcomplete
       Ember.$.ajax({
@@ -473,6 +527,10 @@ export default Ember.Component.extend({
             model.set('sucStatus', false);
             model.set('warnStatus', true);
             model.set('dangStatus', false);
+
+            Ember.run.later(function() {
+              self.checkStatus(model);
+            }, 10000);
           }
         });
     },

@@ -57,70 +57,62 @@
             </td>
         {{/if}}
         {{#if isDev}}
-            <td class="tdpopup">
+            <td class="tdpopup" title="Settings">
                 {{#if vm.is_ro}}
                     <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
-                    <button {{action "showSettings" vm}} class="btn btn-default btn-xs" title="Settings"><span class="glyphicon glyphicon-new-window"></span></button>
+                    <button {{action "showSettings" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
-            <td class="simplify-mobile tdpopup">
+            <td class="simplify-mobile tdpopup" title="Vnc Terminal">
                 {{#if vm.is_ro}}
                     <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
-                    <button {{action "openVnc" vm}} class="btn btn-default btn-xs" title="Vnc Terminal"><span class="glyphicon glyphicon-new-window"></span></button>
+                    <button {{action "openVnc" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
-            <td class="simplify-mobile tdpopup">
+            <td class="simplify-mobile tdpopup" title="Import/Export">
                 {{#if vm.is_ro}}
                     <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
-                    <button {{action "showIO" vm}} class="btn btn-default btn-xs" title="Import/Export"><span class="glyphicon glyphicon-new-window"></span></button>
+                    <button {{action "showIO" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
-            <td class="simplify-mobile tdpopup">
+            <td class="simplify-mobile tdpopup" title="Monitoring Graphs">
                 {{#if vm.is_ro}}
                   <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
-                  <button {{action "showMonitor" vm}} class="btn btn-default btn-xs" title="Monitoring Graphs"><span class="glyphicon glyphicon-new-window"></span></button>
+                  <button {{action "showMonitor" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
         {{/if}}
         {{#if vm.sucStatus}}
             {{#if vm.isOk}}
-              <td class="success tdpopup">
+              <td class="success tdpopup faa-hover" title="Vm is running, build was done in {{vm.timeStatus}}s">
                 {{#if vm.is_ro}}
-                  <button class="btn btn-default btn-xs" title="Vm is running, build was done in {{vm.timeStatus}}s" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                  <span class="fa fa-plane faa-float animated-hover status-align"></span>
                 {{else}}
-                  <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="Vm is running, build was done in {{vm.timeStatus}}s"><span class="glyphicon glyphicon-new-window"></span></button>
+                  <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-plane faa-float animated-hover"></span></a>
                 {{/if}}
               </td>
             {{else}}
-              <td class="danger tdpopup">
+              <td class="danger tdpopup faa-hover" title="One or more services are down">
                 {{#if vm.is_ro}}
-                  <button class="btn btn-default btn-xs" title="One or more services are down" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                  <span class="fa fa-warning faa-flash animated faa-slow status-align"></span>
                 {{else}}
-                  <button {{action "showSupervise" vm}} class="btn btn-default btn-xs" title="One or more services are down"><span class="glyphicon glyphicon-new-window"></span></button>
+                  <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-warning faa-flash animated faa-slow"></span></a>
                 {{/if}}
               </td>
             {{/if}}
         {{/if}}
         {{#if vm.warnStatus}}
-            <td class="warning tdpopup">
-                {{#if vm.is_ro}}
-                    <button class="btn btn-default btn-xs warning" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done" disabled><span class="glyphicon glyphicon-refresh"></span></button>
-                {{else}}
-                    <button {{action "checkStatus" vm}} class="btn btn-default btn-xs warning" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done"><span class="glyphicon glyphicon-refresh"></span></button>
-                {{/if}}
+            <td class="warning tdpopup faa-hover" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done">
+              <span class="fa fa-wrench faa-wrench animated status-align"></span>
             </td>
         {{/if}}
         {{#if vm.dangStatus}}
-            <td class="danger tdpopup">
-                {{#if vm.is_ro}}
-                    <button class="btn btn-default btn-sm danger" title="Vm is on error during build" disabled><span class="glyphicon glyphicon-refresh"></span></button>
-                {{else}}
-                    <button {{action "checkStatus" vm}} class="btn btn-default btn-xs danger" title="Vm is on error during build"><span class="glyphicon glyphicon-refresh"></span></button>
-                {{/if}}
+            <td class="danger tdpopup" title="Vm is on error during build" {{action "checkStatus" vm on="mouseEnter"}}>
+                <span class="fa fa-warning faa-flash animated faa-slow status-align"></span>
             </td>
         {{/if}}
         {{#if isLead}}

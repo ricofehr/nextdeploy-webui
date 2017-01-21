@@ -69,7 +69,7 @@ module.exports = function(app) {
         "id": req.params.id,
         "nova_id":"0d345f2a-2486-44b3-9" + osid + "-f39ccfb3adee",
         "floating_ip":"192.168.11." + ipid,
-        "status": "420",
+        "status": "-420",
         "vnc_url": "/images/vnc.png",
         "created_at": vm.created_at,
         "name": vm.name,
@@ -94,6 +94,10 @@ module.exports = function(app) {
         "systemimage": vm.systemimage
       }
     });
+  });
+
+  vmsRouter.get('/:id/setupcomplete', function(req, res) {
+    res.status(401).send("-120");
   });
 
   vmsRouter.delete('/:id', function(req, res) {

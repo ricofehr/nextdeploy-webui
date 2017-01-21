@@ -88,6 +88,15 @@ td a:hover,
   text-decoration: none;
 }
 
+.status-align {
+  padding-left: 5px;
+}
+
+.faa-hover a:hover {
+  background-color: unset;
+  color: unset;
+}
+
 /* Put your CSS here */
 .ember-application {
   margin: 20px;
