@@ -1,7 +1,7 @@
 <table class="table table-hover" {{action "closeHover" on="mouseLeave"}}>
  <thead>
     <tr {{action "closeHover" on="mouseEnter"}}>
-        {{#if isVm}}<th class="simplify-mobile"><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>{{/if}}
+        {{#if isVm}}<th class="simplify-mobile">&nbsp;</th>{{/if}}
         <th>Uris<span class="simplify"> &amp; Tools</span></th>
         <th class="simplify" title="Commit date (YMD) - Topic and Commit Message on hover">Details</th>
         {{#if isDev}}

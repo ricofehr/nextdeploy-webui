@@ -2,59 +2,59 @@
   <legend>{{#if user.id}}Edit user {{user.email}}{{else}}Add new user{{/if}}</legend>
   <div class="form-group">
     {{#if errorEmail}}
-        <label class="control-label alert-danger col-sm-2">Invalid Email !</label>
+        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Invalid Email !</label>
     {{else}}
       {{#if errorEmail2}}
-        <label class="control-label col-sm-2 alert-danger">Already taken</label>
+        <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Already taken</label>
       {{else}}
-        <label class="control-label alert-success col-sm-2">Email Address</label>
+        <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Email Address</label>
       {{/if}}
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="email" classNames="form-control" value=user.email placeholder="Email Address" disabled=isDisable}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorFirstname}}
-      <label class="control-label alert-danger col-sm-2">Can't be blank !</label>
+      <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Can't be blank !</label>
     {{else}}
-      <label class="control-label alert-success col-sm-2">Firstname</label>
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Firstname</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" value=user.firstname placeholder="Firstname" disabled=isDisable}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorLastname}}
-      <label class="control-label alert-danger col-sm-2">Can't be blank !</label>
+      <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Can't be blank !</label>
     {{else}}
-      <label class="control-label alert-success col-sm-2">Lastname</label>
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Lastname</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" value=user.lastname placeholder="Lastname" disabled=isDisable}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorCompany}}
-      <label class="control-label alert-danger col-sm-2">Can't be blank !</label>
+      <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Can't be blank !</label>
     {{else}}
-      <label class="control-label alert-success col-sm-2">Company</label>
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Company</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" value=user.company placeholder="Company" disabled=isDisable}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorGroup}}
-      <label class="control-label col-sm-2 alert-danger">Group</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Group</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Group</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Group</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select
       options=groups
       searchField="name"
@@ -72,9 +72,9 @@
 
   {{#if is_project_create_display}}
   <div class="form-group">
-      <label class="control-label alert-success col-sm-2">Project Creation</label>
-    <div class="col-sm-3">
-      <label style="padding-top: 5px;">
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Project Creation</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
         {{x-toggle
               value=user.is_project_create
               disabled=is_project_create_ro
@@ -88,9 +88,9 @@
 
   {{#if is_user_create_display}}
   <div class="form-group">
-      <label class="control-label alert-success col-sm-2">User Creation</label>
-    <div class="col-sm-3">
-      <label style="padding-top: 5px;">
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">User Creation</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
         {{x-toggle
               value=user.is_user_create
               disabled=is_user_create_ro
@@ -103,8 +103,8 @@
   {{/if}}
 
   <div class="form-group">
-    <label class="control-label alert-success col-sm-2">Quotavm</label>
-    <div class="col-sm-3">
+    <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Quotavm</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select
       options=quotavmlist
       selected=user.quotavm
@@ -121,8 +121,8 @@
 
   {{#if isDev}}
   <div class="form-group">
-      <label class="control-label alert-success col-sm-2">Quota for prod vms</label>
-    <div class="col-sm-3">
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Quota for prod vms</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
       {{#power-select
       options=quotavmlist
       selected=user.quotaprod
@@ -139,8 +139,8 @@
   {{/if}}
 
   <div class="form-group">
-    <label class="control-label alert-success col-sm-2">Keyboard</label>
-    <div class="col-sm-3">
+    <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Keyboard</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select
       options=layoutlist
       selected=user.layout
@@ -158,19 +158,19 @@
   <div class="form-group">
     {{#if successPassword}}
       {{#if successPassword2}}
-        <label class="control-label alert-success col-sm-2">Password</label>
+        <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Password</label>
       {{else}}
-        <label class="control-label alert-danger col-sm-2">Must be equal with Confirm !</label>
+        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Must be equal with Confirm !</label>
       {{/if}}
     {{else}}
       {{#if errorPassword}}
-        <label class="control-label alert-danger col-sm-2"> > 7 chars !</label>
+        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4"> > 7 chars !</label>
       {{else}}
-        <label class="control-label col-sm-2">Password</label>
+        <label class="control-label col-md-2 col-sm-3 col-xs-4">Password</label>
       {{/if}}
     {{/if}}
 
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="password" classNames="form-control" value=user.password placeholder="Password" disabled=isDisable}}
     </div>
   </div>
@@ -178,17 +178,17 @@
   <div class="form-group">
     {{#if successPasswordConfirmation}}
       {{#if successPassword2}}
-        <label class="control-label alert-success col-sm-2">Password Confirmation</label>
+        <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Password Confirmation</label>
       {{else}}
-        <label class="control-label alert-danger col-sm-2">Must be equal with Password !</label>
+        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Must be equal with Password !</label>
       {{/if}}
     {{else}}
       {{#if errorPasswordConfirmation}}
-        <label class="control-label alert-danger col-sm-2"> >= 8 chars !</label>
+        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4"> >= 8 chars !</label>
       {{else}}
-        <label class="control-label col-sm-2">Password Confirmation</label>
+        <label class="control-label col-md-2 col-sm-3 col-xs-4">Password Confirmation</label>
       {{/if}}
-    {{/if}}<div class="col-sm-3">
+    {{/if}}<div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="password" classNames="form-control" value=user.password_confirmation placeholder="Password" disabled=isDisable}}
     </div>
   </div>
@@ -196,9 +196,9 @@
 
   {{#if user.password}}
   <div class="form-group">
-      <label class="control-label alert-success col-sm-2">Send Credentials</label>
-    <div class="col-sm-3">
-      <label style="padding-top: 5px;">
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Send Credentials</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
         {{x-toggle
               value=user.is_credentials_send
               onToggle=(mut user.is_credentials_send)
@@ -212,8 +212,8 @@
 
   {{#if isEnable}}
   <div class="form-group">
-    <label class="control-label col-sm-2 alert-success">Projects</label>
-    <div class="col-sm-6">
+    <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Projects</label>
+    <div class="col-md-6 col-sm-8 col-xs-8">
     {{#power-select-multiple
       options=projectSort
       searchField="name"
@@ -232,8 +232,8 @@
   {{/if}}
 
   <div class="form-group">
-    <div class="control-label col-sm-2">
-      <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+      <button type="submit" class="pull-right btn btn-primary">Submit</button>
     </div>
   </div>
 </form>

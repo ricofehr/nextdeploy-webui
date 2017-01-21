@@ -81,7 +81,8 @@ pre {
 }
 
 .pages a:hover,
-td a:hover {
+td a:hover,
+.form-group a:hover {
   background-color: rgb(51,122,183);
   color: #fff;
   text-decoration: none;
@@ -302,14 +303,6 @@ iframe { border: none; }
 
 /* Desktop devices but window < 600px */
 @media all and (max-width: 620px) and (min-device-width: 740px) {
-  body {
-    font-size: 13px;
-  }
-
-  .ember-power-select-trigger, .ember-power-select-option {
-    font-size: 11px;
-  }
-
   .tduser {
     width: 115px;
   }
@@ -328,8 +321,15 @@ iframe { border: none; }
   }
 }
 
-/* collapse menu */
+/* collapse menu, xs devices */
 @media (max-width: 767px) {
+  body {
+    font-size: 13px;
+  }
+
+  .col-xs0 {
+    display: none;
+  }
     .ul-collapsed {
       width: 100%;
     }
@@ -346,6 +346,36 @@ iframe { border: none; }
     .navbar-brand-toggle {
       display: block;
     }
+
+    .form-control {
+      height: 1.75em;
+    }
+
+    .x-toggle-ios.medium {
+      width: 3.60em;
+      height: 1.75em;
+    }
+
+    .x-toggle-container.medium {
+      width: 3.50rem;
+    }
+}
+
+.x-toggle-container.medium {
+     width: unset;
+     font-size: unset;
+}
+
+.x-toggle-container {
+    display: unset;
+    justify-content: unset;
+    /* height: auto; */
+    padding: unset;
+}
+
+.x-toggle-component {
+    display: unset;
+    justify-content: unset;
 }
 
 @media (min-width: 768px) {
@@ -354,10 +384,28 @@ iframe { border: none; }
     }
 }
 
+@media (max-width: 991px) {
+  .col-sm-0 {
+    display: none;
+  }
+}
+
+@media (max-width: 1199px) {
+  .col-md-0 {
+    display: none;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-0 {
+    display: none;
+  }
+}
+
 /* Mobile devices */
 @media all and (max-device-width: 740px) {
   body {
-    font-size: 13px;
+    overflow-x: hidden;
   }
 
   .ember-application {
@@ -376,10 +424,6 @@ iframe { border: none; }
     margin-left: 15px;
   }
 
-  .ember-power-select-trigger, .ember-power-select-option {
-    font-size: 11px;
-  }
-
   .tduser {
     width: 110px;
   }
@@ -396,9 +440,6 @@ iframe { border: none; }
     display:none !important;
   }
 
-  /* Prevent freezed zoom after focus input field */
-  input:focus { font-size: 15px !important}
-
   video {
     width: 300px;
     height: auto;
@@ -411,10 +452,12 @@ iframe { border: none; }
   }
 }
 
+/* Hide Custom mobile block in desktop devices */
 @media all and (min-device-width: 740px) {
   .simplify-inverse{display:none !important;}
 }
 
+/* Large screen */
 @media all and (min-width: 1400px) {
   .tdinfo {
     width: 36%;
@@ -440,7 +483,6 @@ iframe { border: none; }
   html {
       transform: rotate(-90deg);
       transform-origin: left top;
-      width: 100vh;
       overflow-x: hidden;
       position: absolute;
       top: 100%;

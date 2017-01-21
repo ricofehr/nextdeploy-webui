@@ -5,13 +5,13 @@
     <div class="form-horizontal">
     {{#each vm.supervises as |sv|}}
     <div class="form-group">
-      <label class="control-label col-sm-4">{{sv.techno.name}}<br>({{sv.techno.technotype.name}})</label>
+      <label class="control-label col-md-4 col-sm-6 col-xs-6">{{sv.techno.name}}<br>({{sv.techno.technotype.name}})</label>
     {{#if sv.status}}
-    <div class="col-sm-2" style="padding-top: 16px;">
+    <div class="col-md-2 col-sm-3 col-xs-4" style="padding-top: 16px;">
       <span class="fa fa-check fa-2x success"></span>
     </div>
     {{else}}
-    <div class="col-sm-2" style="padding-top: 16px;">
+    <div class="col-md-2 col-sm-3 col-xs-4" style="padding-top: 16px;">
       <span class="fa fa-fire fa-2x danger"></span>
     </div>
     {{/if}}
@@ -19,23 +19,23 @@
   {{/each}}
   {{#if isDev}}
   <div class="form-group">
-    <label style="padding-top: 28px;" {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-sm-4 control-label">Soft Reboot</label><br>
-    <div {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-sm-2">
+    <label style="padding-top: 28px;" {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-md-4 col-sm-6 col-xs-6 control-label">Soft Reboot</label><br>
+    <div {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-md-2 col-sm-3 col-xs-4">
       <button {{action 'reboot' 'SOFT'}} class="btn btn-success">Reboot !</button>
     </div>
     {{#if softToolTip}}
-    <div class="col-sm-6 control-label">
+    <div class="col-md-6 col-sm-8 col-xs-8 control-label">
       <i>Reboot "software" (like restart into your operating system)</i>
     </div>
     {{/if}}
   </div>
   <div class="form-group">
-    <label style="padding-top: 28px;" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}} class="col-sm-4 control-label">Hard Reboot</label><br>
-    <div class="col-sm-2" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}}>
+    <label style="padding-top: 28px;" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}} class="col-md-4 col-sm-6 col-xs-6 control-label">Hard Reboot</label><br>
+    <div class="col-md-2 col-sm-3 col-xs-4" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}}>
       <button {{action 'reboot' 'HARD'}} class="btn btn-success">Reboot !</button>
     </div>
     {{#if hardToolTip}}
-    <div class="col-sm-6 control-label">
+    <div class="col-md-6 col-sm-8 col-xs-8 control-label">
       <i>Reboot "hardware" (like push reset button on laptop)</i>
     </div>
     {{/if}}

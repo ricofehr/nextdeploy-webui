@@ -1,10 +1,10 @@
   <div class="form-group">
     {{#if errorFramework}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Framework</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-danger">Framework</label>
     {{else}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Cms</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Cms</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select
       disabled=isExist
       options=frameworks
@@ -22,40 +22,40 @@
 
   <div class="form-group">
     {{#if errorPrefix}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">URI Prefix</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-danger"><span class="simplify">URI </span>Prefix</label>
     {{else}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">URI Prefix</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success"><span class="simplify">URI </span>Prefix</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.prefix placeholder="URI Prefix" disabled=isExist}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorPath}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Path</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-danger">Path</label>
     {{else}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Path</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Path</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.path placeholder="Path" disabled=isExist}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorPort}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Port</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-danger">Port</label>
     {{else}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Port</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Port</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.port placeholder="Port" disabled=isExist}}
     </div>
   </div>
 
   <div class="form-group">
-    <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Ipfilter</label>
-    <div class="col-sm-3">
+    <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Ipfilter</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{textarea
             classNames="form-control"
             rows=2
@@ -67,30 +67,30 @@
 
   <div class="form-group">
     {{#if errorEnv}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Env vars</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-danger">Env<span class="simplify"> vars</span></label>
     {{else}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Env vars</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Env<span class="simplify"> vars</span></label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.envvars placeholder="Env vars" disabled=isExist}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorAliases}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-danger">Aliases</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-danger">Aliases</label>
     {{else}}
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Aliases</label>
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Aliases</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" autocomplete="off" value=endpoint.aliases placeholder="Aliases" disabled=isExist}}
     </div>
   </div>
 
   {{#if isAdmin}}
     <div class="form-group">
-      <label class="control-label col-sm-1 col-sm-offset-1 alert-success">Custom Vhost Block</label>
-      <div class="col-sm-3">
+      <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Custom Vhost Block</label>
+      <div class="col-md-3 col-sm-5 col-xs-6">
       {{textarea
               classNames="form-control"
               rows=8
@@ -104,10 +104,10 @@
 
   {{#unless isExist}}
   <div class="form-group">
-      <label class="control-label alert-success col-sm-1 col-sm-offset-1">Install ?</label>
-    <div class="col-sm-3">
+      <label class="control-label alert-success col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">Install</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
       {{#if project.id}}
-        <label style="padding-top: 5px;">
+        <label>
           {{x-toggle
                 value=endpoint.is_install
                 onLabel='true'
@@ -115,7 +115,7 @@
                 disabled=true}}
         </label>
       {{else}}
-        <label style="padding-top: 5px;">
+        <label>
           {{x-toggle
                 value=endpoint.is_install
                 onLabel='true'
@@ -128,9 +128,9 @@
   {{/unless}}
 
   <div class="form-group">
-      <label class="control-label alert-success col-sm-1 col-sm-offset-1">Scripts ?</label>
-    <div class="col-sm-3">
-      <label style="padding-top: 5px;">
+      <label class="control-label alert-success col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">Scripts</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
         {{x-toggle
               value=endpoint.is_sh
               onToggle=(action 'toggleShFlag' isExist)
@@ -143,11 +143,11 @@
 
   {{#unless isDisableCreate}}
   <div class="form-group">
-    <div class="col-sm-3 col-sm-offset-2">
+    <div class="col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">
       {{#if isExist}}
-      <button class="btn btn-primary" {{action 'deleteEndpoint'}}>Delete</button>
+      <button class="pull-right btn btn-primary" {{action 'deleteEndpoint'}}>Delete</button>
       {{else}}
-      <button class="btn btn-primary" {{action 'addEndpoint'}}>Add</button>
+      <button class="pull-right btn btn-primary" {{action 'addEndpoint'}}>Add</button>
       {{/if}}
     </div>
   </div>

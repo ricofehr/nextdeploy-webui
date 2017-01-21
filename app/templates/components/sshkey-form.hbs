@@ -1,17 +1,17 @@
 <form {{action "postItem" on="submit"}} class="form-horizontal">
   <legend>Add new sshkey</legend>
   <div class="form-group">
-      <label class="control-label col-sm-2 alert-success">User</label>
-    <div class="col-sm-3">{{user.email}}</div>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">User</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">{{user.email}}</div>
   </div>
 
   <div class="form-group">
     {{#if errorName}}
-      <label class="control-label col-sm-2 alert-danger">Name</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Name</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Name</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Name</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
       {{input type="text"
             classNames="form-control"
             value=sshkey.name
@@ -21,9 +21,9 @@
 
   <div class="form-group">
     {{#if errorKey}}
-      <label class="control-label col-sm-2 alert-danger">Key</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Key</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Key</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Key</label>
     {{/if}}
     <div class="col-sm-4">
     {{textarea
@@ -35,8 +35,8 @@
   </div>
 
   <div class="form-group">
-    <div class="control-label col-sm-2">
-      <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+      <button type="submit" class="pull-right btn btn-primary">Submit</button>
     </div>
   </div>
 </form>

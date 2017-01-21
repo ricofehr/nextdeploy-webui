@@ -2,11 +2,11 @@
   <legend>{{#if project.id}}Edit project {{project.name}}{{else}}Add new project{{/if}}</legend>
   <div class="form-group">
     {{#if errorBrand}}
-      <label class="control-label col-sm-2 alert-danger">Brand</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Brand</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Brand</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Brand</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select
       disabled=isDisableEditAdmin
       options=brandsSort
@@ -24,19 +24,19 @@
 
   <div class="form-group">
     {{#if errorName}}
-      <label class="control-label col-sm-2 alert-danger">Name</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Name</label>
     {{else}}
       {{#if errorName2}}
-        <label class="control-label col-sm-2 alert-danger">Already taken</label>
+        <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Already taken</label>
       {{else}}
         {{#if errorName3}}
-          <label class="control-label col-sm-2 alert-danger"> >5 chars !</label>
+          <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger"> >5 chars !</label>
         {{else}}
-          <label class="control-label col-sm-2 alert-success">Name</label>
+          <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Name</label>
         {{/if}}
       {{/if}}
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text"
             classNames="form-control"
             maxlength="32"
@@ -49,15 +49,15 @@
 
   <div class="form-group">
     {{#if errorBrand}}
-      <label class="control-label col-sm-2 alert-danger">Gitpath</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Gitpath</label>
     {{else}}
       {{#if errorName}}
-        <label class="control-label col-sm-2 alert-danger">Gitpath</label>
+        <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Gitpath</label>
       {{else}}
-        <label class="control-label col-sm-2 alert-success">Gitpath</label>
+        <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Gitpath</label>
       {{/if}}
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text"
             classNames="form-control"
             value=project.gitpath
@@ -68,30 +68,30 @@
 
   <div class="form-group">
     {{#if errorLogin}}
-      <label class="control-label col-sm-2 alert-danger">Login</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Login</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Login</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Login</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" autocomplete="off" value=project.login placeholder="Login" disabled=isDisableAdmin}}
     </div>
   </div>
 
   <div class="form-group">
     {{#if errorPassword}}
-      <label class="control-label col-sm-2 alert-danger">Password</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Password</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Password</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Password</label>
     {{/if}}
-    <div class="col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text" classNames="form-control" maxlength="8" value=project.password placeholder="Password" disabled=isDisableAdmin}}
     </div>
   </div>
 
   <div class="form-group">
-      <label class="control-label alert-success col-sm-2" title="Permit override apache setting with .htaccess file">Htaccess</label>
-    <div class="col-sm-3">
-      <label style="padding-top: 5px;">
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4" title="Permit override apache setting with .htaccess file">Htaccess</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
         {{x-toggle
               value=project.is_ht
               onToggle=(action 'toggleHtFlag' isDisableCreate)
@@ -104,9 +104,9 @@
 
   <div class="form-group">
     {{#if errorEndpoints}}
-      <label class="control-label col-sm-2 alert-danger">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
     {{/if}}
   </div>
 
@@ -120,11 +120,11 @@
 
   <div class="form-group">
     {{#if errorVmsizes}}
-      <label class="control-label col-sm-2 alert-danger">Sizing</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Sizing</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Sizing</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Sizing</label>
     {{/if}}
-    <div class="checkbox col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select-multiple
       options=vmsizesSort
       searchEnabled=false
@@ -141,11 +141,11 @@
 
   <div class="form-group">
     {{#if errorSystem}}
-      <label class="control-label col-sm-2 alert-danger">System</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">System</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">System</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">System</label>
     {{/if}}
-    <div class="checkbox col-sm-3">
+    <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select-multiple
       options=systemsSort
       searchEnabled=false
@@ -162,9 +162,9 @@
 
   {{#each project_technotypes as |technoproxy|}}
   <div class="form-group">
-      <label class="control-label col-sm-2 alert-success">{{technoproxy.technotype.name}}</label>
-    <div class="col-sm-3">
-    <label style="padding-top: 5px;">
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">{{technoproxy.technotype.name}}</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+    <label>
       {{x-toggle
             onToggle=(action 'displayTechno' isDisableCreate)
             value=technoproxy.toggled
@@ -192,11 +192,11 @@
 
   <div class="form-group">
     {{#if errorUsers}}
-      <label class="control-label col-sm-2 alert-danger">Users</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Users</label>
     {{else}}
-      <label class="control-label col-sm-2 alert-success">Users</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Users</label>
     {{/if}}
-    <div class="checkbox col-sm-6">
+    <div class="col-md-6 col-sm-8 col-xs-8">
     {{#power-select-multiple
       options=usersSort
       searchField="email"
@@ -210,8 +210,8 @@
   </div>
 
   <div class="form-group">
-    <div class="control-label col-sm-2">
-        <button type="submit" class="btn btn-primary">Submit</button>
+    <div class="col-md-2 col-sm-3 col-xs-4">
+        <button type="submit" class="pull-right btn btn-primary">Submit</button>
     </div>
   </div>
 </form>

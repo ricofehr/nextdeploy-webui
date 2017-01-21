@@ -2,9 +2,9 @@
 {{#if vm.is_prod}}
     <div class="form-group">
       {{#if errorAbsolute}}
-        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-danger">URI</label>
+        <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-danger">URI</label>
       {{else}}
-        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">URI</label>
+        <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">URI</label>
       {{/if}}
       <div class="{{colSmRight}}">
       {{input type="text" classNames="form-control" autocomplete="off" value=uri.absolute placeholder="Absolute URI" focus-in="displayFocus"}}
@@ -13,9 +13,9 @@
 
     <div class="form-group">
       {{#if errorAliases}}
-        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-danger">Alias</label>
+        <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-danger">Alias</label>
       {{else}}
-        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Alias</label>
+        <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">Alias</label>
       {{/if}}
       <div class="{{colSmRight}}">
       {{textarea
@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">IpFilter</label>
+      <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">IpFilter</label>
       <div class="{{colSmRight}}">
       {{textarea
               classNames="form-control"
@@ -40,9 +40,9 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label alert-success {{colSmLeft}} col-sm-offset-1">Scripts</label>
+      <label class="control-label alert-success {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2">Scripts</label>
       <div class="col-sm-3">
-        <label style="padding-top: 5px;">
+        <label>
           {{x-toggle
                 value=uri.is_sh
                 onToggle=(mut uri.is_sh)
@@ -55,21 +55,21 @@
 
     {{#if uriFocused}}
     <div class="form-group">
-        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Cms</label>
+        <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">Cms</label>
       <div class="{{colSmRight}}">
       {{input type="text" classNames="form-control" autocomplete="off" value=uri.framework.name disabled=true}}
        </div>
     </div>
 
     <div class="form-group">
-        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Path</label>
+        <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">Path</label>
       <div class="{{colSmRight}}">
       {{input type="text" classNames="form-control" autocomplete="off" value=uri.path disabled=true}}
       </div>
     </div>
 
     <div class="form-group">
-      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Port</label>
+      <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">Port</label>
       <div class="{{colSmRight}}">
         {{input type="text" classNames="form-control" autocomplete="off" value=uri.port disabled=true}}
       </div>
@@ -87,7 +87,7 @@
     {{/if}}
 {{else}}
     <div class="form-group">
-        <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">URI</label>
+        <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">URI</label>
 
       <div class="{{colSmRight}}">
         {{input type="text" classNames="form-control" autocomplete="off" value=uri.absolute disabled=true}}
@@ -95,7 +95,7 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label {{colSmLeft}} col-sm-offset-1 alert-success">Ipfilter</label>
+      <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">Ipfilter</label>
       <div class="{{colSmRight}}">
       {{textarea
               classNames="form-control"
@@ -107,9 +107,9 @@
     </div>
 
     <div class="form-group">
-      <label class="control-label alert-success {{colSmLeft}} col-sm-offset-1">Scripts ?</label>
+      <label class="control-label alert-success {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2">Scripts</label>
       <div class="{{colSmRight}}">
-        <label style="padding-top: 5px;">
+        <label>
           {{x-toggle
                 value=uri.is_sh
                 onToggle=(mut uri.is_sh)

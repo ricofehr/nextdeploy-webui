@@ -13,28 +13,28 @@ export default Ember.Component.extend({
   // manage popin / vm form display
   colSmLeft: function() {
     if (this.get('isPopin')) {
-      return 'col-sm-2';
+      return 'col-md-2 col-sm-3 col-xs-4';
     }
     else {
-      return 'col-sm-1';
+      return 'col-md-1 col-sm-2 col-xs-2';
     }
   }.property('isPopin'),
 
   colSmRight: function() {
     if (this.get('isPopin')) {
-      return 'col-sm-5';
+      return 'col-md-5 col-sm-6 col-xs-6';
     }
     else {
-      return 'col-sm-3';
+      return 'col-md-3 col-sm-5 col-xs-6';
     }
   }.property('isPopin'),
 
   colSmOffsetSubmit: function() {
     if (this.get('isPopin')) {
-      return 'col-sm-offset-3';
+      return 'col-md-offset-3 col-sm-offset-3 col-xs-offset-4';
     }
     else {
-      return 'col-sm-offset-2';
+      return 'col-md-offset-2 col-sm-offset-2 col-xs-offset-3';
     }
   }.property('isPopin'),
 
