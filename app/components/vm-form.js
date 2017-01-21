@@ -312,6 +312,29 @@ export default Ember.Component.extend({
 
   actions: {
 
+    // Reset login to default value if empty
+    checkLogin: function() {
+      var htlogin = null;
+      var projectLogin = this.store.peekRecord('project', this.get('vm.project.id')).get('login');
+
+      htlogin = this.get('vm.htlogin');
+      if (htlogin === '') {
+        Ember.Logger.debug(projectLogin);
+        this.set('vm.htlogin', projectLogin);
+      }
+    },
+
+    // Reset password to default value if empty
+    checkPassword: function() {
+      var htpassword = null;
+
+      htpassword = this.get('vm.htpassword');
+      if (htpassword === '') {
+        Ember.Logger.debug(this.get('vm.project.password'));
+        this.set('vm.htpassword', this.get('vm.project.password'));
+      }
+    },
+
     // check disableed state and toggle flag
     toggleFlagVm: function(disabled, property, toggle) {
       if (disabled) {
