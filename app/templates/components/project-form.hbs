@@ -104,10 +104,20 @@
 
   <div class="form-group">
     {{#if errorEndpoints}}
-      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Endpoints</label>
     {{else}}
-      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Endpoints{{#unless isDisableCreate}}&nbsp;{{#if newFlag}}<span {{action 'toggleNewFlag'}} class="fa fa-minus-square-o fa-lg"></span>{{else}}<span {{action 'toggleNewFlag'}} class="fa fa-plus-circle"></span>{{/if}}{{/unless}}</label>
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Endpoints</label>
     {{/if}}
+
+    {{#unless isDisableCreate}}
+    <div class="control-label col-md-3 col-sm-5 col-xs-6">
+    {{#if newFlag}}
+    <a href="#" {{action "toggleNewFlag"}} class="pull-left"><span class="glyphicon glyphicon-collapse-up"></span> Hide</a>
+    {{else}}
+    <a href="#" {{action "toggleNewFlag"}} class="pull-left"><span class="glyphicon glyphicon-collapse-down"></span> Add</a>
+    {{/if}}
+    </div>
+    {{/unless}}
   </div>
 
   {{#if newFlag}}
