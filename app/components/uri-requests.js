@@ -3,12 +3,14 @@ import config from '../config/environment';
 
 export default Ember.Component.extend({
   SCRIPTS: [],
+  mustConfirmSiteInstall: false,
 
   // trigger when model changes
   didReceiveAttrs() {
     this._super(...arguments);
     this.set('SCRIPTS', []);
     this.initScripts();
+    this.set('mustConfirmSiteInstall', false);
   },
 
   // if Command Modal is display, hide uris modal
@@ -176,6 +178,12 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    // must confirm an action
+    confirm: function(request) {
+        this.set('mustConfirm' + request, true);
+    },
+
+    // launch request to api
     requestTool: function(request, command) {
       var self = this;
       var current_id = this.get('uri').get('id');

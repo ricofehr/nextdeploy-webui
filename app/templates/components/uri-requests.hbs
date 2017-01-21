@@ -15,7 +15,11 @@
 
             {{#if isDrupal}}
               {{#unless vm.is_prod}}
-              <a {{action 'requestTool' 'siteinstall'}}>Execute site-install command</a><br/>
+                {{#if mustConfirmSiteInstall}}
+                <a {{action 'requestTool' 'siteinstall'}}>Execute site-install command ... Please Confirm !</a><br/>
+                {{else}}
+                <a {{action 'confirm' 'SiteInstall'}}>Execute site-install command</a><br/>
+                {{/if}}
               {{/unless}}
               {{#if isDrupal8}}
                 <a {{action 'requestTool' 'drush' 'cim'}}>Import Config</a><br/>
