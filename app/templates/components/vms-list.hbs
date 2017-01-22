@@ -31,9 +31,17 @@
             {{/if}}
         {{/if}}
         {{#if vm.is_ro}}
-            <td>{{vm.project.name}}</td>
+            {{#if vm.is_prod}}
+              <td class="prod-vm-mobile">{{vm.project.name}}</td>
+            {{else}}
+              <td>{{vm.project.name}}</td>
+            {{/if}}
         {{else}}
-            <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools"><a href="">{{vm.project.name}}</a></td>
+            {{#if vm.is_prod}}
+              <td {{action "showUris" vm}} class="tdhref prod-vm-mobile" title="Uris and Tools">{{vm.project.name}}</td>
+            {{else}}
+              <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools">{{vm.project.name}}</td>
+            {{/if}}
         {{/if}}
         {{#if isDev}}
             {{#if vm.is_ro}}
@@ -45,7 +53,7 @@
             {{else}}
                 <td class="simplify tdinfo tdinfoh tdhref" {{action "showDetails" vm}} title="Commit date (YMD) - Topic and Commit Message on hover">
                     <span class="info-branch-commit">
-                        <a href="">{{vm-hover vm=vm isShowingHovers=isShowingHovers}}</a>
+                        {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
                     </span>
                 </td>
             {{/if}}
@@ -134,7 +142,7 @@
                         {{/power-select}}
                       </td>
                     {{else}}
-                        <td class="tdhref tduser" {{action 'showUserList' vm}} title="{{vm.user.email}}"><a href="">{{vm.user.shortname}}</a></td>
+                        <td class="tdhref tduser" {{action 'showUserList' vm}} title="{{vm.user.email}}">{{vm.user.shortname}}</td>
                     {{/if}}
                 {{else}}
                     <td title="{{vm.user.email}}" class="tduser">{{vm.user.shortname}}</td>

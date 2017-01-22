@@ -26,10 +26,10 @@
       {{/if}}
 
       {{#if isAdmin}}
-        {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}<a href="">{{user.email}}</a>{{/link-to}}
+        {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}{{user.email}}{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}<a href="">{{user.email}}</a>{{/link-to}}
+          {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}{{user.email}}{{/link-to}}
         {{else}}
           <td>{{user.email}}</td>
         {{/if}}
@@ -39,7 +39,7 @@
         {{#if groupId}}
           <td class="simplify-mobile">{{user.group.name}}</td>
         {{else}}
-          {{#link-to 'users.bygroup' user.group.id tagName="td" classNames="tdhref simplify-mobile"}}<a href="">{{user.group.name}}</a>{{/link-to}}
+          {{#link-to 'users.bygroup' user.group.id tagName="td" classNames="tdhref simplify-mobile"}}{{user.group.name}}{{/link-to}}
         {{/if}}
       {{else}}
         <td>{{user.group.name}}</td>
@@ -48,20 +48,20 @@
       <td class="simplify">{{user.company}}</td>
 
       {{#if isLead}}
-        <td>{{#link-to 'projects.byuser' user.id}}{{user.projects.length}}{{/link-to}}</td>
+        {{#link-to 'projects.byuser' user.id tagName="td" classNames="tdhref"}}{{user.projects.length}}{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          <td>{{#link-to 'projects.byuser' user.id}}{{user.projects.length}}{{/link-to}}</td>
+          {{#link-to 'projects.byuser' user.id tagName="td" classNames="tdhref"}}{{user.projects.length}}{{/link-to}}
         {{else}}
           <td>{{user.projects.length}}</td>
         {{/if}}
       {{/if}}
 
       {{#if isLead}}
-        <td>{{#link-to 'vms.byuser' user.id}}{{user.vms.length}}{{/link-to}}</td>
+        {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref"}}{{user.vms.length}}{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          <td>{{#link-to 'vms.byuser' user.id}}{{user.vms.length}}{{/link-to}}</td>
+          {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref"}}{{user.vms.length}}{{/link-to}}
         {{else}}
           <td>{{user.vms.length}}</td>
         {{/if}}

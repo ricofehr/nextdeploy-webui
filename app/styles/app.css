@@ -80,14 +80,6 @@ pre {
   font-size: 14px;
 }
 
-td a:hover,
-.paging-cell:hover,
-.form-group a:hover {
-  background-color: rgb(51,122,183);
-  color: #fff;
-  text-decoration: none;
-}
-
 .status-align {
   padding-left: 5px;
 }
@@ -117,14 +109,16 @@ td a:hover,
   z-index: 11000;
 }
 
-/* manage rollover in table rows */
-.table-hover tr:hover .tdinfo {
-  color: #31708f;
-  background-color: #d9edf7;
-  border-color: #bcdff1;
-  overflow: unset;
-  text-overflow: unset;
-  white-space: unset;
+/* Disable user select and ensure click working on mobile */
+.table-hover {
+  -webkit-tap-highlight-color:transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background: transparent;
 }
 
 .table-hover tr td {
@@ -136,6 +130,11 @@ td a:hover,
 
 .first-col {
   width: 45px;
+}
+
+.tdhref {
+  color: #337ab7;
+  cursor: pointer;
 }
 
 .tdinfo {
@@ -162,28 +161,6 @@ td a:hover,
   white-space: nowrap;
 }
 
-.table-hover tr:hover .tdinfoh:hover {
-  background-color: #327AB7;
-}
-
-.tdhref:hover, .tdhref:hover {
-  background-color: #327AB7;
-}
-
-.tdhref:hover a {
-  color: #d9edf7;
-}
-
-.tdhref:hover a:hover {
-  color: #d9edf7;
-}
-
-.tdhref a {
-  text-decoration: none;
-  width:100%;
-  display:block;
-}
-
 .info-branch-commit {
   width: 100%;
   display: block;
@@ -196,18 +173,6 @@ td a:hover,
   padding: 9px 8px;
   right: 0;
   left: 0;
-}
-
-tr:hover .info-branch-commit .ember-view {
-  background-color: #d9edf7;
-  border-color: #bcdff1;
-  z-index: 1;
-  color: #327AB7;
-}
-
-.tdinfo:hover .info-branch-commit .ember-view {
-  background: #327AB7;
-  color: #d9edf7;
 }
 
 a .nodec {
@@ -266,7 +231,6 @@ a .nodec {
 .pages {
   display: inline-block;
   font-size: 17px;
-  float: center;
   margin: 7px 0px 0px 0px;
 }
 
@@ -277,6 +241,7 @@ a .nodec {
   margin-right: auto;
   left: 0;
   right: 0;
+  bottom: 0px;
   -webkit-tap-highlight-color:transparent;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
@@ -300,8 +265,8 @@ a .nodec {
 }
 
 .paging-current-cell-true {
-  background-color: rgb(51,122,183);
-  color: white;
+  background-color: rgb(51,122,183) !important;
+  color: white !important;
   cursor: unset;
 }
 
@@ -351,7 +316,10 @@ iframe { border: none; }
 
 /* Desktop devices but window < 870px */
 @media all and (max-width: 870px) and (min-device-width: 740px) {
-  body {font-size: 15px;}
+  body {
+    font-size: 15px;
+  }
+
   .ember-power-select-trigger, .ember-power-select-option {
     font-size: 12px;
   }
@@ -453,12 +421,19 @@ iframe { border: none; }
 /* Mobile and very small devices */
 /* width < 430 */
 @media all and (max-width: 445px) {
+  /* disable horizontal scroll bar */
   body {
     overflow-x: hidden;
   }
 
   .ember-application {
     margin: 0;
+  }
+
+  .prod-vm-mobile {
+    background-color: #d9edf7;
+    border-color: #bcdff1;
+    color: #327AB7;
   }
 
   .container-fluid {
@@ -546,4 +521,63 @@ iframe { border: none; }
       top: 100%;
       left: 0;
     }
+}
+
+/* hover properties */
+@media (hover:hover) {
+  td a:hover,
+  .paging-cell:hover,
+  .form-group a:hover {
+    background-color: rgb(51,122,183);
+    color: #fff;
+    text-decoration: none;
+  }
+
+  /* manage rollover in table rows */
+  .table-hover tr:hover .tdinfo {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bcdff1;
+    overflow: unset;
+    text-overflow: unset;
+    white-space: unset;
+  }
+
+  .table-hover tr:hover .tdinfoh:hover {
+    background-color: #327AB7;
+  }
+
+  .tdhref:hover {
+    background-color: #327AB7;
+    color: #d9edf7;
+  }
+
+  tr:hover .info-branch-commit .ember-view {
+    background-color: #d9edf7;
+    border-color: #bcdff1;
+    z-index: 1;
+    color: #327AB7;
+  }
+
+  .tdinfo:hover .info-branch-commit .ember-view {
+    background: #327AB7;
+    color: #d9edf7;
+  }
+}
+
+@media (hover:none), (hover:on-demand) {
+  /* disable all hover events */
+  a:hover {
+      text-decoration: none;
+  }
+
+  .form-group a:hover,
+  .table-hover tr:hover .tdinfo,
+  .table-hover tr:hover .tdinfoh:hover,
+  .tdhref:hover,
+  td a:hover,
+  .paging-cell:hover {
+    color: unset;
+    background-color: unset;
+   }
 }
