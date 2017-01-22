@@ -31,9 +31,9 @@
             {{/if}}
         {{/if}}
         {{#if vm.is_ro}}
-            <td>{{vm.project.name}} <span class="simplify-inverse">({{vm.topic}})</span></td>
+            <td>{{vm.project.name}}</td>
         {{else}}
-            <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools"><a href="">{{vm.project.name}} <span class="simplify-inverse">({{vm.topic}})</span></a></td>
+            <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools"><a href="">{{vm.project.name}}</a></td>
         {{/if}}
         {{#if isDev}}
             {{#if vm.is_ro}}
@@ -153,7 +153,26 @@
       <button {{action "newItem"}} class="btn btn-default btn-sm" title="Create a New Instance"><span class="glyphicon glyphicon-plus-sign"></span></button>
       <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm simplify-mobile" title="Delete checked Instances"><span class="glyphicon glyphicon-trash"></span></button>
     </div>
-    <div class="pages">{{#each pages as |page|}}<a href="#" {{action 'changePage' page.cp}}>{{#if page.current}}<span style="background-color: rgb(51,122,183);color: white;"><span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;</span>{{else}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{page.cp}}<span class="simplify-inverse">&nbsp;</span>&nbsp;{{/if}}</a>{{/each}}</div>
+    <div class="pages-center">
+    <table class="pages"><tr>
+        {{#if pages}}
+          {{#if previousPage}}
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}}><i class="fa fa-backward faa-pulse animated-hover"/></td>
+          {{else}}
+            <td class="paging-cell-arrow disabled"><i class="fa fa-backward"/></td>
+          {{/if}}
+        {{/if}}
+        {{#each pages as |page|}}<td class="paging-cell paging-current-cell-{{page.current}}" {{action 'changePage' page.cp}}>{{page.cp}}</td>
+        {{#if page.partial}}<td class="paging-cell-partial">...</td>{{/if}}{{/each}}
+        {{#if pages}}
+          {{#if nextPage}}
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}}><i class="fa fa-forward faa-pulse animated-hover"/></td>
+          {{else}}
+            <td class="paging-cell-arrow disabled"><i class="fa fa-forward"/></td>
+          {{/if}}
+        {{/if}}
+      </tr></table>
+      </div>
 </div>
 
 {{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}

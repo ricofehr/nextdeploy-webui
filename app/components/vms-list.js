@@ -40,8 +40,11 @@ export default Ember.Component.extend({
     var cp = this.get('currentPage') || 1;
     var ncp = 1;
     var ibp = 0;
+    var j = 1;
     var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
+    var pagesLine = [];
+    var ncp2;
 
     this.set('loadingModal', false);
 
@@ -158,7 +161,7 @@ export default Ember.Component.extend({
       // paging system
       if (model.get('isShow')) {
         if (!pages.isAny('cp', ncp)) {
-          pages.addObject(Ember.Object.create({cp: ncp, current: ncp === cp}));
+          pages.addObject(Ember.Object.create({cp: ncp, current: ncp === cp, partial: false}));
         }
 
         if (ncp !== cp) {
@@ -174,8 +177,45 @@ export default Ember.Component.extend({
     });
 
     // set paging numbers
+    // max 8 paging numbers
+    this.set('previousPage', false);
+    this.set('nextPage', false);
     if (pages.length > 1) {
-      this.set('pages', pages);
+      if (pages.length < 9) {
+        pagesLine = pages;
+      } else {
+        pagesLine[0] = pages[0];
+
+        ncp2 = cp >= 4 ? (cp-1) : 3;
+        ncp2 = (ncp2 <= pages.length - 5) ? ncp2 : pages.length - 5;
+
+        if (ncp2 !== 3) {
+          pagesLine[0].set('partial', true);
+        }
+
+        for (var i = 1; i < 7; i++) {
+          if (ncp2 !== 3 && i === 1 ||
+              ncp2 !== pages.length - 5 && i === 6) {
+                continue;
+          }
+          pagesLine[j++] = pages[(ncp2-3)+i];
+        }
+        pagesLine[j] = pages[pages.length - 1];
+
+        if (ncp2 !== pages.length - 5) {
+          pagesLine[pagesLine.length - 2].set('partial', true);
+        }
+      }
+      this.set('pages', pagesLine);
+
+      // Set previous and next page
+      if (cp !== pagesLine[0].cp) {
+        this.set('previousPage', cp - 1);
+      }
+
+      if (cp !== pagesLine[pagesLine.length - 1].cp) {
+        this.set('nextPage', cp + 1);
+      }
     } else {
       this.set('pages', []);
     }
