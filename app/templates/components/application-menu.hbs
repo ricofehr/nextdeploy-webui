@@ -2,6 +2,12 @@
     <div class="container-fluid">
       <div class="navbar-header">
         {{#link-to 'dashboard' href=false class="navbar-brand navbar-brand-toggle"}}<a href="#"><img src="images/logo.png" border="0" alt="NextDeploy" class="inline-block img-responsive"/></a>{{/link-to}}
+        {{#if showSearch}}
+        <div class="col-xs-offset-4 navbar-search-xs">
+          <span class="col-xs-9">{{input value=search classNames="form-control" placeholder="Search" size="12" autocapitalize="off"}}</span>
+          <span class="fa fa-chevron-circle-left fa-2x cancel-search-xs" aria-hidden="true" {{action 'resetSearch'}}></span>
+        </div>
+        {{/if}}
         <button type="button" class="navbar-toggle collapsed" {{action 'toggleCollapsed'}}>
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>

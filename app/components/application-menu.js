@@ -47,6 +47,11 @@ export default Ember.Component.extend({
       this.set('modalHelp', true);
     },
 
+    // reset Search field
+    resetSearch() {
+      this.set('search', '');
+    },
+
     // logout current user
     invalidateSession() {
       this.get('session').invalidate();

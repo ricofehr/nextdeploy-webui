@@ -154,7 +154,7 @@ pre {
 }
 
 .tduser .ember-power-select-trigger,
-.tduser.ember-power-select-option {
+.tduser .ember-power-select-option {
   width: 170px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -379,6 +379,25 @@ iframe { border: none; }
       display: block;
     }
 
+    .navbar-search-xs {
+      position: absolute;
+      display: block;
+      top: 13px;
+    }
+
+    .cancel-search-xs {
+      color: white;
+      -webkit-tap-highlight-color:transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      background: transparent;
+      cursor: pointer;
+    }
+
     .form-control {
       height: 1.75em;
     }
@@ -395,6 +414,10 @@ iframe { border: none; }
 
 @media (min-width: 768px) {
     .navbar-brand-toggle {
+      display: none;
+    }
+
+    .navbar-search-xs {
       display: none;
     }
 }
