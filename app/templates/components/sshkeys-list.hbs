@@ -1,17 +1,17 @@
 <table class="table table-hover">
  <thead>
     <tr>
-        <th><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>
-        <th>Name</th>
+        <th class="col-lg-1 col-md-1 col-sm-2 col-xs-2"><span {{action "toggleDeleteAll"}} class="glyphicon glyphicon-check"></span></th>
+        <th class="col-lg-2 col-md-2 col-sm-3 col-xs-3">Name</th>
         <th>Key</th>
     </tr>
 </thead>
 <tbody>
     {{#each user.sshkeys as |sshkey|}}
     <tr>
-        <td>{{input type="checkbox" checked=sshkey.todelete}}</td>
-        <td>{{sshkey.name}}</td>
-        <td>{{sshkey.key_short}}</td>
+        <td class="col-lg-1 col-md-1 col-sm-2 col-xs-2">{{input type="checkbox" checked=sshkey.todelete}}</td>
+        <td class="col-lg-2 col-md-2 col-sm-3 col-xs-3">{{sshkey.name}}</td>
+        <td class="col-lg-9 col-md-9 col-sm-7 col-xs-7">{{sshkey.key_short}}</td>
     </tr>
     {{/each}}
 </tbody>
