@@ -422,6 +422,13 @@ export default Ember.Component.extend({
 
   // actions binding with user event
   actions: {
+    // hide all userlist
+    hideAllUsersList: function() {
+      this.get('vms').map(function(model){
+        model.set('isUserList', false);
+      });
+    },
+
     // change page action
     changePage: function(cp) {
       this.set('currentPage', cp);
