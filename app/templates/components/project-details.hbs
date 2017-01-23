@@ -1,7 +1,23 @@
-{{#bs-modal open=isShowingDetail body=false footer=false title="Details" autoClose=false closeAction=(action 'closeDetails')}}
+{{#bs-modal open=isShowingDetails body=false footer=false title="Details" autoClose=false closeAction=(action 'closeDetails') size='lg'}}
   {{#bs-modal-body}}
     <b>Git</b><br>
     git clone {{project.gitpath_href}}<br><br>
+    {{#if isLead}}
+    <b>Users</b><br/>
+      <div style="width: 80%;">
+      {{#power-select-multiple
+        options=usersSort
+        searchField="email"
+        selected=project_users
+        dropdownClass="inmodal"
+        onchange=(action 'changeUsers')
+        as |user|
+      }}
+        {{user.email}} ({{user.lastname}})
+      {{/power-select-multiple}}
+      </div>
+    <br/>
+    {{/if}}
     <b>Http access</b><br>
     User: {{project.login}}<br>
     Password: {{project.password}}<br><br>
@@ -15,7 +31,16 @@
     User: {{getFtpUser}}<br>
     Password: {{getFtpPassword}}<br>
     Host: {{getFtpHost}}<br><br>
-    *The purpose of this ftp repository is to provide datas and assets import for the project during vm creation.<br>Dont import prod datas !! Only a fixtures snapshot for provide some use cases.<br>Files bigger than 100Mo will be deleted.
+    *The purpose of this ftp repository is to provide datas and assets import for the project during vm creation.
   {{/bs-modal-body}}
   {{bs-modal-footer closeTitle="Close"}}
+{{/bs-modal}}
+
+{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
+   {{#bs-modal-header closeButton=false}}
+     <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
+   {{/bs-modal-header}}
+   {{#bs-modal-body}}
+        <div class="text-center">Setting is curently applied, please waiting</div>
+     {{/bs-modal-body}}
 {{/bs-modal}}

@@ -25,10 +25,18 @@
         {{/if}}
       {{/if}}
 
-      {{#if isLead}}
-        {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref"}}{{project.name}}{{/link-To}}
+      {{#if isProjectCreate}}
+        {{#if project.owner}}
+          {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref"}}{{project.name}}{{/link-To}}
+        {{else}}
+          {{#if isAdmin}}
+            {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref"}}{{project.name}}{{/link-To}}
+          {{else}}
+            <td {{action "showDetails" project}} class="tdhref">{{project.name}}</td>
+          {{/if}}
+        {{/if}}
       {{else}}
-        <td {{action "showDetails" project.id}} class="tdhref">{{project.name}}</td>
+        <td {{action "showDetails" project}} class="tdhref">{{project.name}}</td>
       {{/if}}
 
       {{#if isAdmin}}
@@ -97,6 +105,4 @@
 {{/bs-modal}}
 {{/if}}
 
-{{#each projects as |project|}}
-  {{project-details project=project isShowingDetails=isShowingDetails isBusy=isBusy}}
-{{/each}}
+{{project-details project=projectSelected isShowingDetails=isShowingDetails users=users isBusy=isBusy}}

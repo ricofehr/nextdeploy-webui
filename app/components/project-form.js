@@ -533,8 +533,6 @@ export default Ember.Component.extend({
       // return to projects list after adding a new one
       var projectslist = function() {
         readytoList = readytoList + 1;
-        Ember.Logger.debug(readytoList);
-        Ember.Logger.debug(nbEndpoints);
         if (readytoList === nbEndpoints) {
           router.transitionTo('projects.list');
         }

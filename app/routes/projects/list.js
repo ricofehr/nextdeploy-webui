@@ -7,7 +7,8 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       projects: this.store.peekAll('project').toArray().sort(function(a, b) {
         return Ember.compare(parseInt(b.id), parseInt(a.id));
       }),
-      vms: this.store.peekAll('vm')
+      vms: this.store.peekAll('vm'),
+      users: this.store.peekAll('user')
     });
   },
 

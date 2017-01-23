@@ -7,6 +7,8 @@ export default Ember.Component.extend({
   projectsSort: Ember.computed.sort('projects', 'computeSorting'),
   // Show / hide on html side
   isShowingDeleteConfirmation: false,
+  projectSelected: null,
+  isShowingDetails: false,
 
   // trigger when model changes
   didReceiveAttrs() {
@@ -245,6 +247,16 @@ export default Ember.Component.extend({
     return this.get('session').get('data.authenticated.user.is_project_create');
   }.property('session.data.authenticated.access_level'),
 
+  // reload selected project object
+  reloadProject: function() {
+    var self = this;
+    var project = this.get('projectSelected');
+
+    project.reload().then(function () {
+      self.set('isShowingDetails', true);
+    });
+  },
+
   // actions binding with user event
   actions: {
     // change listing page
@@ -260,9 +272,10 @@ export default Ember.Component.extend({
     },
 
     // open detail modal for targetted project (with projectId parameter)
-    showDetails: function(projectId) {
-      this.set('isShowingDetails', projectId);
+    showDetails: function(project) {
+      this.set('projectSelected', project);
       this.set('isBusy', true);
+      this.reloadProject();
     },
 
     // action for delete event
