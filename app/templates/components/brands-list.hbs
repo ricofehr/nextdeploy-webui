@@ -11,11 +11,11 @@
     {{#if brand.isShow}}
     <tr>
         {{#if isAdmin}}
-        <td class="simplify-mobile first-col">{{input type="checkbox" checked=brand.todelete}}</td>
+        <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=brand.todelete}}</td>
         {{/if}}
-        {{#if isAdmin}}{{#link-To 'brands.edit' brand.id tagName="td" classNames="tdhref"}}{{brand.name}}{{/link-To}}
+        {{#if isAdmin}}{{#link-To 'brands.edit' brand.id tagName="td" classNames="tdhref" title="Edit Brand"}}{{brand.name}}{{/link-To}}
         {{else}}{{brand.name}}{{/if}}
-        {{#link-To 'projects.bybrand' brand.id tagName="td" classNames="tdhref"}}{{brand.projects.length}}{{/link-To}}
+        {{#link-To 'projects.bybrand' brand.id tagName="td" classNames="tdhref" title="Projects for this Brand"}}{{brand.projects.length}}{{/link-To}}
     </tr>
     {{/if}}
     {{/each}}
@@ -31,7 +31,7 @@
     <table class="pages"><tr>
         {{#if pages}}
           {{#if previousPage}}
-            <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}}><i class="fa fa-backward faa-pulse animated-hover"/></td>
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}} title="Previous Page"><i class="fa fa-backward faa-pulse animated-hover"/></td>
           {{else}}
             <td class="paging-cell-arrow disabled"><i class="fa fa-backward"/></td>
           {{/if}}
@@ -40,7 +40,7 @@
         {{#if page.partial}}<td class="paging-cell-partial">...</td>{{/if}}{{/each}}
         {{#if pages}}
           {{#if nextPage}}
-            <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}}><i class="fa fa-forward faa-pulse animated-hover"/></td>
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}} title="Next Page"><i class="fa fa-forward faa-pulse animated-hover"/></td>
           {{else}}
             <td class="paging-cell-arrow disabled"><i class="fa fa-forward"/></td>
           {{/if}}

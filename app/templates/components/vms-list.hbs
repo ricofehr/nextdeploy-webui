@@ -26,7 +26,7 @@
                 {{#if vm.is_ro}}
                     <td class="simplify-mobile first-col">&nbsp;</td>
                 {{else}}
-                    <td class="simplify-mobile first-col">{{input type="checkbox" checked=vm.todelete}}</td>
+                    <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=vm.todelete}}</td>
                 {{/if}}
             {{/if}}
         {{/if}}
@@ -165,7 +165,7 @@
     <table class="pages"><tr>
         {{#if pages}}
           {{#if previousPage}}
-            <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}}><i class="fa fa-backward faa-pulse animated-hover"/></td>
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}} title="Previous Page"><i class="fa fa-backward faa-pulse animated-hover"/></td>
           {{else}}
             <td class="paging-cell-arrow disabled"><i class="fa fa-backward"/></td>
           {{/if}}
@@ -174,7 +174,7 @@
         {{#if page.partial}}<td class="paging-cell-partial">...</td>{{/if}}{{/each}}
         {{#if pages}}
           {{#if nextPage}}
-            <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}}><i class="fa fa-forward faa-pulse animated-hover"/></td>
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}} title="Next Page"><i class="fa fa-forward faa-pulse animated-hover"/></td>
           {{else}}
             <td class="paging-cell-arrow disabled"><i class="fa fa-forward"/></td>
           {{/if}}

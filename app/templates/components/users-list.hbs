@@ -16,7 +16,7 @@
     {{#if user.isShow}}
     <tr>
       {{#if isAdmin}}
-      <td class="simplify-mobile first-col">
+      <td class="simplify-mobile first-col" title="Check for delete">
         {{#if user.isCurrent}}
           &nbsp;
         {{else}}
@@ -26,10 +26,10 @@
       {{/if}}
 
       {{#if isAdmin}}
-        {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}{{user.email}}{{/link-to}}
+        {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref" title="Edit User"}}{{user.email}}{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref"}}{{user.email}}{{/link-to}}
+          {{#link-to 'users.edit' user.id tagName="td" classNames="tdhref" title="Edit User"}}{{user.email}}{{/link-to}}
         {{else}}
           <td>{{user.email}}</td>
         {{/if}}
@@ -39,7 +39,7 @@
         {{#if groupId}}
           <td class="simplify-mobile">{{user.group.name}}</td>
         {{else}}
-          {{#link-to 'users.bygroup' user.group.id tagName="td" classNames="tdhref simplify-mobile"}}{{user.group.name}}{{/link-to}}
+          {{#link-to 'users.bygroup' user.group.id tagName="td" classNames="tdhref simplify-mobile" title="Users for this group"}}{{user.group.name}}{{/link-to}}
         {{/if}}
       {{else}}
         <td>{{user.group.name}}</td>
@@ -48,25 +48,25 @@
       <td class="simplify">{{user.company}}</td>
 
       {{#if isLead}}
-        {{#link-to 'projects.byuser' user.id tagName="td" classNames="tdhref"}}{{user.projects.length}}{{/link-to}}
+        {{#link-to 'projects.byuser' user.id tagName="td" classNames="tdhref" title="Projects for this user"}}{{user.projects.length}}{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          {{#link-to 'projects.byuser' user.id tagName="td" classNames="tdhref"}}{{user.projects.length}}{{/link-to}}
+          {{#link-to 'projects.byuser' user.id tagName="td" classNames="tdhref" title="Projects for this user"}}{{user.projects.length}}{{/link-to}}
         {{else}}
           <td>{{user.projects.length}}</td>
         {{/if}}
       {{/if}}
 
       {{#if isLead}}
-        {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref"}}{{user.vms.length}}{{/link-to}}
+        {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref" title="Vms for this user"}}{{user.vms.length}}{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref"}}{{user.vms.length}}{{/link-to}}
+          {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref" title="Vms for this user"}}{{user.vms.length}}{{/link-to}}
         {{else}}
           <td>{{user.vms.length}}</td>
         {{/if}}
       {{/if}}
-        {{#if isAdmin}}<td class="simplify">{{user.sshkeys.length}}</td>{{/if}}
+        {{#if isAdmin}}<td class="simplify" title="Sshkeys count">{{user.sshkeys.length}}</td>{{/if}}
     </tr>
     {{/if}}
   {{/each}}
@@ -82,7 +82,7 @@
   <table class="pages"><tr>
       {{#if pages}}
         {{#if previousPage}}
-          <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}}><i class="fa fa-backward faa-pulse animated-hover"/></td>
+          <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}} title="Previous Page"><i class="fa fa-backward faa-pulse animated-hover"/></td>
         {{else}}
           <td class="paging-cell-arrow disabled"><i class="fa fa-backward"/></td>
         {{/if}}
@@ -91,7 +91,7 @@
       {{#if page.partial}}<td class="paging-cell-partial">...</td>{{/if}}{{/each}}
       {{#if pages}}
         {{#if nextPage}}
-          <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}}><i class="fa fa-forward faa-pulse animated-hover"/></td>
+          <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}} title="Next Page"><i class="fa fa-forward faa-pulse animated-hover"/></td>
         {{else}}
           <td class="paging-cell-arrow disabled"><i class="fa fa-forward"/></td>
         {{/if}}

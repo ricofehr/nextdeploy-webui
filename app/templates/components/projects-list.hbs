@@ -6,7 +6,7 @@
         <th class="simplify">Brand</th>
         {{#if isAdmin}}<th><span class="fa fa-users" title="Users"></span></th>{{/if}}
         <th><span class="fa fa-plug" title="Vms"></span></th>
-        <th class="date-simplify tddate"><span class="fa fa-calendar" title="Y/M/D"></span></th>
+        <th class="date-simplify tddate" title="Creation Date (Y/M/D)"><span class="fa fa-calendar"></span></th>
     </tr>
 </thead>
 <tbody>
@@ -15,10 +15,10 @@
     <tr>
       {{#if isProjectCreate}}
         {{#if project.owner}}
-          <td class="simplify-mobile first-col">{{input type="checkbox" checked=project.todelete}}</td>
+          <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=project.todelete}}</td>
         {{else}}
           {{#if isAdmin}}
-            <td class="simplify-mobile first-col">{{input type="checkbox" checked=project.todelete}}</td>
+            <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=project.todelete}}</td>
           {{else}}
             <td class="simplify-mobile first-col">&nbsp;</td>
           {{/if}}
@@ -27,35 +27,35 @@
 
       {{#if isProjectCreate}}
         {{#if project.owner}}
-          {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref"}}{{project.name}}{{/link-To}}
+          {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref" title="Edit Project"}}{{project.name}}{{/link-To}}
         {{else}}
           {{#if isAdmin}}
-            {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref"}}{{project.name}}{{/link-To}}
+            {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref" title="Edit Project"}}{{project.name}}{{/link-To}}
           {{else}}
-            <td {{action "showDetails" project}} class="tdhref">{{project.name}}</td>
+            <td {{action "showDetails" project}} class="tdhref" title="Details">{{project.name}}</td>
           {{/if}}
         {{/if}}
       {{else}}
-        <td {{action "showDetails" project}} class="tdhref">{{project.name}}</td>
+        <td {{action "showDetails" project}} class="tdhref" title="Details">{{project.name}}</td>
       {{/if}}
 
       {{#if isAdmin}}
         {{#if brandId}}
           <td class="simplify">{{project.brand.name}}</td>
         {{else}}
-          {{#link-to 'projects.bybrand' project.brand.id tagName="td" classNames="simplify tdhref"}}{{project.brand.name}}{{/link-to}}
+          {{#link-to 'projects.bybrand' project.brand.id tagName="td" classNames="simplify tdhref" title="Projects for this Brand"}}{{project.brand.name}}{{/link-to}}
         {{/if}}
       {{else}}
         <td class="simplify">{{project.brand.name}}</td>
       {{/if}}
 
       {{#if isAdmin}}
-        {{#link-to 'users.byproject' project.id tagName="td" classNames="tdhref"}}{{project.users.length}}{{/link-to}}
-        {{#link-to 'vms.byproject' project.id tagName="td" classNames="tdhref"}}{{project.vms.length}}{{/link-to}}
+        {{#link-to 'users.byproject' project.id tagName="td" classNames="tdhref" title="Users"}}{{project.users.length}}{{/link-to}}
+        {{#link-to 'vms.byproject' project.id tagName="td" classNames="tdhref" title="Vms"}}{{project.vms.length}}{{/link-to}}
       {{else}}
-        {{#link-to 'vms.byproject' project.id tagName="td" classNames="tdhref"}}<i class="fa fa-external-link-square" aria-hidden="true"></i>{{/link-to}}
+        {{#link-to 'vms.byproject' project.id tagName="td" classNames="tdhref" title="Vms"}}<i class="fa fa-external-link-square" aria-hidden="true"></i>{{/link-to}}
       {{/if}}
-      <td class="date-simplify tddate">{{project.created_at_short}}</td>
+      <td class="date-simplify tddate" title="Creation Date (Y/M/D)">{{project.created_at_short}}</td>
     </tr>
     {{/if}}
   {{/each}}
@@ -72,7 +72,7 @@
     <table class="pages"><tr>
         {{#if pages}}
           {{#if previousPage}}
-            <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}}><i class="fa fa-backward faa-pulse animated-hover"/></td>
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' previousPage}} title="Previous Page"><i class="fa fa-backward faa-pulse animated-hover"/></td>
           {{else}}
             <td class="paging-cell-arrow disabled"><i class="fa fa-backward"/></td>
           {{/if}}
@@ -81,7 +81,7 @@
         {{#if page.partial}}<td class="paging-cell-partial">...</td>{{/if}}{{/each}}
         {{#if pages}}
           {{#if nextPage}}
-            <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}}><i class="fa fa-forward faa-pulse animated-hover"/></td>
+            <td class="paging-cell paging-cell-arrow" {{action 'changePage' nextPage}} title="Next Page"><i class="fa fa-forward faa-pulse animated-hover"/></td>
           {{else}}
             <td class="paging-cell-arrow disabled"><i class="fa fa-forward"/></td>
           {{/if}}
