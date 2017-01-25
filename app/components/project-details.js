@@ -47,7 +47,7 @@ export default Ember.Component.extend({
     if (! gitpath) { return ""; }
 
     return gitpath.replace(/.*\//g, "");
-  }.property('project.gitpath'),
+  }.property('isShowingDetails'),
 
   // Return ftp password for the current project
   getFtpPassword: function() {
@@ -64,7 +64,7 @@ export default Ember.Component.extend({
     }
 
     return ftppasswd;
-  }.property('project.password'),
+  }.property('isShowingDetails'),
 
   // Return ftp host for current project
   getFtpHost: function() {
