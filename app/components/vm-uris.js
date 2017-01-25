@@ -37,6 +37,7 @@ export default Ember.Component.extend({
       this.set('loadingModal', true);
     } else {
       this.set('loadingModal', false);
+      this.set('message2', null);
       this.set('isShowingUris', true);
 
       Ember.run.later(function() {
