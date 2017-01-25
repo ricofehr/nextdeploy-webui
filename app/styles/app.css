@@ -588,7 +588,7 @@ iframe { border: none; }
   }
 }
 
-@media (hover:none), (hover:on-demand) {
+@media (hover:none) {
   /* disable all hover events */
   a:hover {
       text-decoration: none;
