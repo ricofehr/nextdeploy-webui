@@ -177,6 +177,19 @@
   </div>
 
   <div class="form-group">
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Read-Only</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
+        {{x-toggle
+              value=vm.is_ro
+              onLabel='true'
+              offLabel='false'
+              onToggle=(mut vm.is_ro)}}
+      </label>
+    </div>
+  </div>
+
+  <div class="form-group">
       <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Web Cache</label>
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>

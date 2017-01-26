@@ -3,38 +3,46 @@
   {{#bs-modal-body}}
     {{#if isRunning}}
       {{#if isWeb}}
-      <b>URIS</b><br/>
-      {{#each URIS as |uri|}}
-        <a href="{{uri.href}}" target="_blank">{{uri.uri}}</a><br/>
-      {{/each}}
+        <b>URIS</b><br/>
+        {{#each URIS as |uri|}}
+          <a href="{{uri.href}}" target="_blank">{{uri.uri}}</a><br/>
+        {{/each}}
 
-          <br/><b>HTTPS</b><br>
-          {{x-toggle value=isHTTPS onLabel='true' offLabel='false' onToggle=(mut isHTTPS)}}
-          <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
-          Login: {{vm.htlogin}}<br/>
-          Password: {{vm.htpassword}}<br/><br/>
+        <br/><b>HTTPS</b><br>
+        {{x-toggle value=isHTTPS onLabel='true' offLabel='false' onToggle=(mut isHTTPS)}}
+        <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
+        Login: {{vm.htlogin}}<br/>
+        Password: {{vm.htpassword}}<br/><br/>
       {{/if}}
-          {{#if isPM}}
-          <b>Tools</b><br/>
-          <a {{action 'requestTool' 'gitpull'}}>Gitpull</a><br/>
-            {{#if isDev}}
-              {{#if isWeb}}
-                  {{#if isMysql}}
-                  <a href="{{pmaURI}}" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>
-                  {{/if}}
-                  <a href="{{pminfoURI}}" target="_blank">Phpinfo</a><br/>
-              {{/if}}
-              <a {{action 'requestTool' 'logs'}}>Logs</a><br/>
-              <a {{action 'requestTool' 'postinstall_display'}}>Check postinstall script</a><br/>
-              {{#if viewPostinstall}}
-              <a {{action 'requestTool' 'postinstall'}}>Execute postinstall script</a><br/>
-              {{/if}}
-            {{/if}}<br/>
 
-          {{#each vm.uris as |uri|}}
-            {{uri-requests uri=uri vm=vm loadingModal=loadingModal subModal=subModal isShowingUris=isShowingUris fadeUris=fadeUris requestRunning=requestRunning message=message}}
-          {{/each}}
+      {{#if isPM}}
+        <b>Tools{{#if vm.is_ro}}, <i style="color:red;">Read-Only state, some tools disabled</i>{{/if}}</b><br/>
+        {{#unless vm.is_ro}}
+          <a {{action 'requestTool' 'gitpull'}}>Gitpull</a><br/>
+        {{/unless}}
+
+        {{#if isDev}}
+          {{#if isWeb}}
+              {{#if isMysql}}
+                {{#unless vm.is_ro}}
+                  <a href="{{pmaURI}}" target="_blank">Phpmyadmin (s_bdd/s_bdd)</a><br/>
+                {{/unless}}
+              {{/if}}
+              <a href="{{pminfoURI}}" target="_blank">Phpinfo</a><br/>
           {{/if}}
+          <a {{action 'requestTool' 'logs'}}>Logs</a><br/>
+          {{#unless vm.is_ro}}
+            <a {{action 'requestTool' 'postinstall_display'}}>Check postinstall script</a><br/>
+            {{#if viewPostinstall}}
+            <a {{action 'requestTool' 'postinstall'}}>Execute postinstall script</a><br/>
+            {{/if}}
+          {{/unless}}
+        {{/if}}<br/>
+
+        {{#each vm.uris as |uri|}}
+          {{uri-requests uri=uri vm=vm loadingModal=loadingModal subModal=subModal isShowingUris=isShowingUris fadeUris=fadeUris requestRunning=requestRunning message=message}}
+        {{/each}}
+      {{/if}}
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}

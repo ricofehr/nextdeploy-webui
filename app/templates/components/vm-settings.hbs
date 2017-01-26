@@ -112,6 +112,23 @@
   </div>
 
   <div class="form-group">
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 col-xs-4">Read-Only</label>
+    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'ro' on="mouseEnter"}} {{action "hideToolTip" 'ro' on="mouseLeave"}}>
+      {{x-toggle
+            value=toggleRo
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeRo' isDisabledRo)
+            disabled=isDisabledRo}}
+    </div>
+    {{#if roToolTip}}
+    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+      <i>Make this vm on read-only state</i>
+    </div>
+    {{/if}}
+  </div>
+
+  <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Prod</label>
     <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
       {{x-toggle

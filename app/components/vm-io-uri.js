@@ -12,13 +12,17 @@ export default Ember.Component.extend({
   isImport: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
 
+    if (this.get('vm').get('is_ro')) {
+      return false;
+    }
+
     if (this.get('vm').get('is_prod') && access_level < 50) {
       return false;
     } else {
       return true;
     }
 
-  }.property('vm.is_prod'),
+  }.property('vm.is_prod', 'vm.is_ro'),
 
   actions: {
     // start export

@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   toggleHt: false,
   toggleCi: false,
   toggleCors: false,
+  toggleRo: false,
   toggleBackup: false,
   toggleAuth: false,
   checkListUris: null,
@@ -49,6 +50,9 @@ export default Ember.Component.extend({
       if (this.get('vm.is_cors')) { this.set('toggleCors', true); }
       else { this.set('toggleCors', false); }
 
+      if (this.get('vm.is_ro')) { this.set('toggleRo', true); }
+      else { this.set('toggleRo', false); }
+
       if (this.get('vm.is_auth')) { this.set('toggleAuth', true); }
       else { this.set('toggleAuth', false); }
 
@@ -61,6 +65,7 @@ export default Ember.Component.extend({
       this.set('htToolTip', false);
       this.set('ciToolTip', false);
       this.set('corsToolTip', false);
+      this.set('roToolTip', false);
       this.set('backupToolTip', false);
       this.set('uriToolTip', false);
       this.set('uriModal', false);
@@ -101,6 +106,8 @@ export default Ember.Component.extend({
       return true;
     }
 
+    // if read-only, disabled
+    if (this.get('vm.is_ro')) { return true; }
     // admin users have complete rights on all vms
     if (access_level === 50) { return false; }
     // only admin can manage admin vms
@@ -110,9 +117,25 @@ export default Ember.Component.extend({
     // only admin can open dev vms
     if (this.get('vm.is_prod')) { return false; }
     return true;
-  }.property('vm.name', 'vm.is_prod'),
+  }.property('vm.name', 'vm.is_prod', 'vm.is_ro'),
 
   isDisabledAdminVms: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+    var user = this.get('vm.user');
+
+    if (!this.get('vm.name')) {
+      return true;
+    }
+
+    // only admin can manage admin vms
+    if (access_level !== 50 && parseInt(user.get('group.access_level')) === 50) { return true; }
+    // if read-only, disabled
+    if (this.get('vm.is_ro')) { return true; }
+
+    return false;
+  }.property('vm.name', 'vm.is_ro'),
+
+  isDisabledRo: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
     var user = this.get('vm.user');
 
@@ -133,6 +156,8 @@ export default Ember.Component.extend({
       return true;
     }
 
+    // if read-only, disabled
+    if (this.get('vm.is_ro')) { return true; }
     // admin users have complete rights on all vms
     if (access_level === 50) { return false; }
     // user can disable prod "flag" in any conditions
@@ -142,7 +167,7 @@ export default Ember.Component.extend({
     // check quota number
     if (parseInt(user.get('quotaprod')) > parseInt(user.get('vms').filterBy('is_prod', true).length)) { return false; }
     return true;
-  }.property('vm.name'),
+  }.property('vm.name', 'vm.is_ro'),
 
     // Return true if user is a Dev or more
   isDev: function() {
@@ -174,6 +199,14 @@ export default Ember.Component.extend({
   isDisabledBackup: function() {
     if (!this.get('vm')) { return true; }
 
+    var access_level = this.get('session').get('data.authenticated.access_level');
+    var user = this.get('vm.user');
+
+    // only admin can manage admin vms
+    if (access_level !== 50 && parseInt(user.get('group.access_level')) === 50) { return true; }
+    // if read-only, disabled
+    if (this.get('vm.is_ro')) { return true; }
+
     var uris = this.get('vm.uris');
     var technos = this.get('vm.project.technos');
     var isData = false;
@@ -199,7 +232,7 @@ export default Ember.Component.extend({
     }
 
     return true;
-  }.property('vm.project'),
+  }.property('vm.project', 'vm.is_ro'),
 
   actions: {
     // open the submodal
@@ -517,6 +550,42 @@ export default Ember.Component.extend({
         self.set('loadingModal', false);
         self.set('vm.is_cors', isCors);
         self.set('toggleCors', isCors);
+      })
+      .fail(function() {
+        self.set('message', 'Error occurs during execution !');
+        Ember.run.later(function(){
+          self.set('loadingModal', false);
+        }, 3000);
+      });
+    },
+
+    changeRo: function(disabled, toggle) {
+      var self = this;
+      var isRo = toggle.newValue;
+
+      if (!this.get('vm')) {
+        return;
+      }
+
+      if (isRo === this.get('vm.is_ro')) {
+        return;
+      }
+
+      if (disabled) {
+        return;
+      }
+
+      self.set('loadingModal', true);
+      Ember.$.ajax({
+        url: config.APP.APIHost + "/api/v1/vms/" + this.get('vm').get('id') + "/togglero",
+        method: "POST",
+        global: false,
+        headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
+      })
+      .done(function() {
+        self.set('loadingModal', false);
+        self.set('vm.is_ro', isRo);
+        self.set('toggleRo', isRo);
       })
       .fail(function() {
         self.set('message', 'Error occurs during execution !');

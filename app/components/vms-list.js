@@ -62,8 +62,7 @@ export default Ember.Component.extend({
       var branchName = '';
       var today = new Date();
 
-      // by default a vm is not read-only and userlist is hidden
-      model.set('is_ro', false);
+      // by default userlist is hidden
       model.set('isUserList', false);
 
       // check if current model is reliable

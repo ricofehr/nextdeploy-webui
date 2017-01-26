@@ -21,7 +21,11 @@
   <div class="form-group">
     <label style="padding-top: 28px;" {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-md-4 col-sm-6 col-xs-6 control-label">Soft Reboot</label><br>
     <div {{action "showToolTip" 'soft' on="mouseEnter"}} {{action "hideToolTip" 'soft' on="mouseLeave"}} class="col-md-2 col-sm-3 col-xs-4">
-      <button {{action 'reboot' 'SOFT'}} class="btn btn-success">Reboot !</button>
+      {{#if vm.is_ro}}
+        <button class="btn btn-success disabled" title="Vm is in read-only state">Reboot !</button>
+      {{else}}
+        <button {{action 'reboot' 'SOFT'}} class="btn btn-success">Reboot !</button>
+      {{/if}}
     </div>
     {{#if softToolTip}}
     <div class="col-md-6 col-sm-8 col-xs-8 control-label">
@@ -32,7 +36,11 @@
   <div class="form-group">
     <label style="padding-top: 28px;" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}} class="col-md-4 col-sm-6 col-xs-6 control-label">Hard Reboot</label><br>
     <div class="col-md-2 col-sm-3 col-xs-4" {{action "showToolTip" 'hard' on="mouseEnter"}} {{action "hideToolTip" 'hard' on="mouseLeave"}}>
-      <button {{action 'reboot' 'HARD'}} class="btn btn-success">Reboot !</button>
+      {{#if vm.is_ro}}
+        <button class="btn btn-success disabled" title="Vm is in read-only state">Reboot !</button>
+      {{else}}
+        <button {{action 'reboot' 'HARD'}} class="btn btn-success">Reboot !</button>
+      {{/if}}
     </div>
     {{#if hardToolTip}}
     <div class="col-md-6 col-sm-8 col-xs-8 control-label">

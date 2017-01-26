@@ -1,44 +1,60 @@
             <i>For {{uri.absolute}}</i><br>
             {{#if isNpm}}
-              <a {{action 'requestTool' 'npm'}}>Npm / Grunt / Bower / Gulp</a><br/>
+              {{#unless vm.is_ro}}
+                <a {{action 'requestTool' 'npm'}}>Npm / Grunt / Bower / Gulp</a><br/>
+              {{/unless}}
             {{/if}}
 
             {{#if isNodejs}}
               <a {{action 'requestTool' 'logs'}}>Nodejs Logs</a><br/>
-              <a {{action 'requestTool' 'nodejs'}}>Rebuild nodejs app</a><br/>
+              {{#unless vm.is_ro}}
+                <a {{action 'requestTool' 'nodejs'}}>Rebuild nodejs app</a><br/>
+              {{/unless}}
             {{/if}}
 
             {{#if isReactjs}}
               <a {{action 'requestTool' 'logs'}}>Nodejs Logs</a><br/>
-              <a {{action 'requestTool' 'reactjs'}}>Rebuild reactjs app</a><br/>
+              {{#unless vm.is_ro}}
+                <a {{action 'requestTool' 'reactjs'}}>Rebuild reactjs app</a><br/>
+              {{/unless}}
             {{/if}}
 
             {{#if isDrupal}}
-              {{#unless vm.is_prod}}
-                {{#if mustConfirmSiteInstall}}
-                <a {{action 'requestTool' 'siteinstall'}}>Execute site-install command ... Please Confirm !</a><br/>
-                {{else}}
-                <a {{action 'confirm' 'SiteInstall'}}>Execute site-install command</a><br/>
-                {{/if}}
+              {{#unless vm.is_ro}}
+                {{#unless vm.is_prod}}
+                  {{#if mustConfirmSiteInstall}}
+                  <a {{action 'requestTool' 'siteinstall'}}>Execute site-install command ... Please Confirm !</a><br/>
+                  {{else}}
+                  <a {{action 'confirm' 'SiteInstall'}}>Execute site-install command</a><br/>
+                  {{/if}}
+                {{/unless}}
               {{/unless}}
               {{#if isDrupal8}}
-                <a {{action 'requestTool' 'drush' 'cim'}}>Import Config</a><br/>
+                {{#unless vm.is_ro}}
+                  <a {{action 'requestTool' 'drush' 'cim'}}>Import Config</a><br/>
+                {{/unless}}
                 <a {{action 'requestTool' 'drush' 'cr'}}>Clear all caches</a><br/>
               {{else}}
                 <a {{action 'requestTool' 'drush' 'cc all'}}>Clear all caches</a><br/>
               {{/if}}
-              <a {{action 'requestTool' 'drush' 'updb'}}>Execute updb command</a><br/>
+              {{#unless vm.is_ro}}
+                <a {{action 'requestTool' 'drush' 'updb'}}>Execute updb command</a><br/>
+              {{/unless}}
             {{/if}}
 
             {{#if isComposer}}
-            <a {{action 'requestTool' 'composer'}}>ComposerInstall</a><br/>
+              {{#unless vm.is_ro}}
+                <a {{action 'requestTool' 'composer'}}>ComposerInstall</a><br/>
+              {{/unless}}
             {{/if}}
 
             {{#if isSf2}}
             <a {{action 'requestTool' 'logs'}}>Symfony Logs</a><br/>
             <a {{action 'requestTool' 'sfcmd' 'cc'}}>Cc: cc, assets, assetic</a><br/>
-            <a {{action 'requestTool' 'sfcmd' 'doctrine'}}>Db Schema: schema-update, cc, assets, assetic</a><br/>
-            <a {{action 'requestTool' 'sfcmd' 'migration'}}>Db Migration: migrate, cc, assets, assetic</a><br/>
+            {{#unless vm.is_ro}}
+              <a {{action 'requestTool' 'sfcmd' 'doctrine'}}>Db Schema: schema-update, cc, assets, assetic</a><br/>
+              <a {{action 'requestTool' 'sfcmd' 'migration'}}>Db Migration: migrate, cc, assets, assetic</a><br/>
+            {{/unless}}
             {{/if}}
 
             {{#if vm.is_cached}}
@@ -46,8 +62,10 @@
             {{/if}}
 
             {{#if uri.is_sh}}
-            {{#each SCRIPTS as |script|}}
-              <a {{action 'requestTool' 'script' script.command}}>{{script.sbin}} ({{script.sfolder}})</a><br/>
-            {{/each}}
+            {{#unless vm.is_ro}}
+              {{#each SCRIPTS as |script|}}
+                <a {{action 'requestTool' 'script' script.command}}>{{script.sbin}} ({{script.sfolder}})</a><br/>
+              {{/each}}
+            {{/unless}}
             {{/if}}
           <br/><br/>

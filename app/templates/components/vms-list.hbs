@@ -30,33 +30,17 @@
                 {{/if}}
             {{/if}}
         {{/if}}
-        {{#if vm.is_ro}}
-            {{#if vm.is_prod}}
-              <td class="prod-vm-mobile">{{vm.project.name}}</td>
-            {{else}}
-              <td>{{vm.project.name}}</td>
-            {{/if}}
+        {{#if vm.is_prod}}
+          <td {{action "showUris" vm}} class="tdhref prod-vm-mobile" title="Uris and Tools" {{action 'hideAllUsersList' on='mouseEnter'}}>{{vm.project.name}}</td>
         {{else}}
-            {{#if vm.is_prod}}
-              <td {{action "showUris" vm}} class="tdhref prod-vm-mobile" title="Uris and Tools" {{action 'hideAllUsersList' on='mouseEnter'}}>{{vm.project.name}}</td>
-            {{else}}
-              <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools" {{action 'hideAllUsersList' on='mouseEnter'}}>{{vm.project.name}}</td>
-            {{/if}}
+          <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools" {{action 'hideAllUsersList' on='mouseEnter'}}>{{vm.project.name}}</td>
         {{/if}}
         {{#if isDev}}
-            {{#if vm.is_ro}}
-                <td class="simplify tdinfo">
-                    <span class="info-branch-commit">
-                        {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
-                    </span>
-                </td>
-            {{else}}
-                <td class="simplify tdinfo tdinfoh tdhref" title="Commit date (YMD) - Topic and Commit Message on hover" {{action "showDetails" vm}} {{action 'hideAllUsersList' on='mouseEnter'}}>
-                    <span class="info-branch-commit">
-                        {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
-                    </span>
-                </td>
-            {{/if}}
+            <td class="simplify tdinfo tdinfoh tdhref" title="Commit date (YMD) - Topic and Commit Message on hover" {{action "showDetails" vm}} {{action 'hideAllUsersList' on='mouseEnter'}}>
+                <span class="info-branch-commit">
+                    {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
+                </span>
+            </td>
         {{else}}
             <td class="simplify tdinfo" title="Commit date (YMD) - Topic and Commit Message on hover" {{action 'hideAllUsersList' on='mouseEnter'}}>
                 <span class="info-branch-commit">
@@ -66,50 +50,30 @@
         {{/if}}
         {{#if isDev}}
             <td class="tdpopup" title="Settings">
-                {{#if vm.is_ro}}
-                    <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
-                {{else}}
-                    <button {{action "showSettings" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
-                {{/if}}
+                <button {{action "showSettings" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
             </td>
             <td class="simplify-mobile tdpopup" title="Vnc Terminal">
                 {{#if vm.is_ro}}
-                    <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
+                    <button class="btn btn-default btn-xs" title="Vm is on Read-Only state" disabled><span class="glyphicon glyphicon-new-window"></span></button>
                 {{else}}
                     <button {{action "openVnc" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
                 {{/if}}
             </td>
             <td class="simplify-mobile tdpopup" title="Import/Export">
-                {{#if vm.is_ro}}
-                    <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
-                {{else}}
-                    <button {{action "showIO" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
-                {{/if}}
+                <button {{action "showIO" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
             </td>
             <td class="simplify-mobile tdpopup" title="Monitoring Graphs">
-                {{#if vm.is_ro}}
-                  <button class="btn btn-default btn-xs" disabled><span class="glyphicon glyphicon-new-window"></span></button>
-                {{else}}
-                  <button {{action "showMonitor" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
-                {{/if}}
+                <button {{action "showMonitor" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
             </td>
         {{/if}}
         {{#if vm.sucStatus}}
             {{#if vm.isOk}}
               <td class="success tdpopup faa-hover" title="Vm is running, build was done in {{vm.timeStatus}}s" {{action 'hideAllUsersList' on='mouseEnter'}}>
-                {{#if vm.is_ro}}
-                  <span class="fa fa-plane faa-float animated-hover status-align"></span>
-                {{else}}
                   <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-plane faa-float animated-hover"></span></a>
-                {{/if}}
               </td>
             {{else}}
               <td class="danger tdpopup faa-hover" title="One or more services are down">
-                {{#if vm.is_ro}}
-                  <span class="fa fa-warning faa-flash animated faa-slow status-align"></span>
-                {{else}}
                   <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-warning faa-flash animated faa-slow"></span></a>
-                {{/if}}
               </td>
             {{/if}}
         {{/if}}
