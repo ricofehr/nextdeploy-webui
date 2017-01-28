@@ -2,6 +2,7 @@
 module.exports = function(app) {
   var express = require('express');
   var commitsRouter = express.Router();
+  var branch_id = '';
 
   commitsRouter.get('/:id', function(req, res) {
     switch(req.params.id) {
@@ -40,6 +41,11 @@ module.exports = function(app) {
         break;
       case '6-develop-5fa7c7269d0dfba4e09528de60e443065e4c8cfb':
         res.send({"commit":{"id":"6-develop-5fa7c7269d0dfba4e09528de60e443065e4c8cfb","commit_hash":"5fa7c7269d0dfba4e09528de60e443065e4c8cfb","short_id":"5fa7c726","title":"Init project","author_name":"root","author_email":"admin@example.com","message":"Init project\n","created_at":new Date().toLocaleString(),"branche":"6-develop","vms":[]}});
+        break;
+      default:
+        branch_id = req.params.id.split('-');
+        branch_id.pop();
+        res.send({"commit":{"id":req.params.id,"commit_hash":req.params.id.replace(/^.*-/g, ''),"short_id":req.params.id.replace(/^.*-/g, '').substr(0,6),"title":"Init project","author_name":"root","author_email":"admin@example.com","message":"Init project\n","created_at":new Date().toLocaleString(),"branche":branch_id.join('-'),"vms":[]}});
         break;
     }
   });

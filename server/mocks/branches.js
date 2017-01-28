@@ -2,6 +2,8 @@
 module.exports = function(app) {
   var express = require('express');
   var branchesRouter = express.Router();
+  var project_id = 0;
+  var branchname = "";
 
   branchesRouter.get('/:id', function(req, res) {
     switch(req.params.id) {
@@ -40,6 +42,11 @@ module.exports = function(app) {
         break;
       case '6-develop':
         res.send({"branche":{"id":"6-develop","name":"develop","commits":["6-develop-5fa7c7269d0dfba4e09528de60e443065e4c8cfb"],"project":6}});
+        break;
+      default:
+        project_id = req.params.id.replace(/-.*$/, '');
+        branchname = req.params.id.replace(/^.*-/, '');
+        res.send({"branche":{"id":req.params.id,"name":branchname,"commits":[req.params.id + "-5fa7c7453d0dfba4e09528de60e443065e4c8cfb"],"project":project_id}});
         break;
     }
   });

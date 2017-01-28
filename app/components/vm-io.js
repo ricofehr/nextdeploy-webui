@@ -41,36 +41,21 @@ export default Ember.Component.extend({
     return this.get('vm.name').replace(/\..*$/,'');
   }.property('vm.name'),
 
-  // check if we have a framework or a database
+  // check if we have import flag for uris
   isIO: function() {
     if (!this.get('vm')) { return false; }
 
     var uris = this.get('vm.uris');
-    var technos = this.get('vm.project.technos');
     var isData = false;
-    var framework = null;
-
-    technos.forEach(function (techno) {
-      if (techno.get('technotype').get('name').match(/Data/)) {
-        isData = true;
-      }
-    });
 
     uris.forEach(function (uri) {
-      framework = uri.get('framework');
-      if (framework.get('name').match(/Symfony/) ||
-        framework.get('name').match(/Drupal/) ||
-        framework.get('name').match(/Wordpress/)) {
+      if (uri.get('is_import')) {
         isData = true;
       }
     });
 
-    if (isData) {
-      return true;
-    }
-
-    return false;
-  }.property('vm.project'),
+    return isData;
+  }.property('vm.id'),
 
   initBranchs: function() {
     if (!this.get('isShowingIO')) { return false; }
@@ -79,9 +64,18 @@ export default Ember.Component.extend({
     var self = this;
     var project_id = this.get('vm.project').get('id');
     var branchs = ['default'];
+    var uris = this.get('vm.uris');
+    var isData = false;
 
     this.set('export_branchs', null);
-    if (!project_id) {
+
+    uris.forEach(function (uri) {
+      if (uri.get('is_import')) {
+        isData = true;
+      }
+    });
+
+    if (!project_id || !isData) {
       return;
     }
 
@@ -97,8 +91,12 @@ export default Ember.Component.extend({
         });
 
         self.set('branchs', branchs);
-        self.set('isShowingIO', true);
-        self.set('loadingModal', false);
+
+        // Ensure loader is running at least 1s (avoid flicker)
+        Ember.run.later(function() {
+          self.set('isShowingIO', true);
+          self.set('loadingModal', false);
+        }, 1000);
       });
     });
 

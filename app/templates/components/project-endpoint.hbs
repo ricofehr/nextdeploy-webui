@@ -141,6 +141,20 @@
     </div>
   </div>
 
+  <div class="form-group">
+      <label class="control-label alert-success col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">Import</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
+        {{x-toggle
+              value=endpoint.is_import
+              onToggle=(action 'toggleImportFlag' isExist)
+              onLabel='true'
+              offLabel='false'
+              disabled=isExist}}
+      </label>
+    </div>
+  </div>
+
   {{#unless isDisableCreate}}
   <div class="form-group">
     <div class="col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1">

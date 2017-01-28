@@ -14,5 +14,13 @@ module.exports = function(app) {
     });
   });
 
+  vmsizesRouter.get('/:id', function(req, res) {
+    res.send({
+      'vmsize':{
+        id: req.params.id
+      }
+    });
+  });
+
   app.use('/api/v1/vmsizes', vmsizesRouter);
 };

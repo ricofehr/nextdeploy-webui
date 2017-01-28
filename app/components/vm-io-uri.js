@@ -9,6 +9,7 @@ export default Ember.Component.extend({
     this.set('exportRunning', false);
   }.observes('uri'),
 
+  // check if import is disabled (prod or read-only state)
   isImport: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
 

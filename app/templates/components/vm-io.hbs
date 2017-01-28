@@ -9,9 +9,11 @@
 
 {{#bs-accordion selected=0}}
   {{#each vm.uris as |uri|}}
-    {{#bs-accordion-item value=uri.id title=uri.absolute}}
-      {{vm-io-uri branchs=branchs loadingModal=loadingModal uri=uri vm=vm errorIO=errorIO importRunning=importRunning exportRunning=exportRunning}}
-    {{/bs-accordion-item}}
+    {{#if uri.is_import}}
+      {{#bs-accordion-item value=uri.id title=uri.absolute}}
+        {{vm-io-uri branchs=branchs loadingModal=loadingModal uri=uri vm=vm errorIO=errorIO importRunning=importRunning exportRunning=exportRunning}}
+      {{/bs-accordion-item}}
+    {{/if}}
   {{/each}}
 {{/bs-accordion}}
 
