@@ -339,8 +339,6 @@ export default Ember.Component.extend({
         return;
       }
 
-      Ember.Logger.debug(disabled);
-
       if (disabled) {
         return;
       }

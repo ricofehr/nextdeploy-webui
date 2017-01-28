@@ -2,8 +2,10 @@ import Ember from 'ember';
 import config from '../config/environment';
 
 export default Ember.Component.extend({
-  // qota power-select values
+  // quota power-select values
   quotavmlist: ['0','1','2','3','4','5','6','7','8','9','10','15','20','30','50','100'],
+  // nbpages power-select values
+  nbpageslist: [6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25],
   // layout values for terminal login
   layoutlist: ['fr','us','es','de'],
   // field is_project/user_create is read-only ?
@@ -584,7 +586,7 @@ export default Ember.Component.extend({
       var access_level = this.get('session').get('data.authenticated.access_level');
 
       // rdirect to users list if success
-      var pass = function(){
+      var pass = function() {
         // return tu user list if project lead, else homepage
         if (access_level >= 40) {
           router.transitionTo('users.list');

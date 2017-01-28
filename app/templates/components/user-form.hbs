@@ -139,6 +139,23 @@
   {{/if}}
 
   <div class="form-group">
+    <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Items by page</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+    {{#power-select
+      options=nbpageslist
+      selected=user.nbpages
+      searchEnabled=false
+      disabled=isDisable
+      placeholder="Set items count by Page"
+      onchange=(action 'changeProperty' 'user.nbpages')
+      as |nbpage|
+    }}
+      {{nbpage}}
+    {{/power-select}}
+    </div>
+  </div>
+
+  <div class="form-group">
     <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Keyboard</label>
     <div class="col-md-3 col-sm-5 col-xs-6">
     {{#power-select

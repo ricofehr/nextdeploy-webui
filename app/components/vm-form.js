@@ -319,7 +319,6 @@ export default Ember.Component.extend({
 
       htlogin = this.get('vm.htlogin');
       if (htlogin === '') {
-        Ember.Logger.debug(projectLogin);
         this.set('vm.htlogin', projectLogin);
       }
     },
@@ -330,7 +329,6 @@ export default Ember.Component.extend({
 
       htpassword = this.get('vm.htpassword');
       if (htpassword === '') {
-        Ember.Logger.debug(this.get('vm.project.password'));
         this.set('vm.htpassword', this.get('vm.project.password'));
       }
     },

@@ -41,7 +41,8 @@ export default Ember.Component.extend({
     var ncp = 1;
     var ibp = 0;
     var j = 1;
-    var ibpmax = config.APP.NBITEMSBYPAGE;
+    var current_user_id = this.get('session').get('data.authenticated.user.id');
+    var ibpmax = this.get('store').peekRecord('user', current_user_id).get('nbpages');
     var pages = [];
     var pagesLine = [];
     var ncp2;

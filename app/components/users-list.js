@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import config from '../config/environment';
 
 export default Ember.Component.extend({
   isShowingDeleteConfirmation: false,
@@ -22,11 +21,12 @@ export default Ember.Component.extend({
     var ncp2 = 1;
     var ibp = 0;
     var j = 1;
-    var ibpmax = config.APP.NBITEMSBYPAGE;
     var pages = [];
     var pagesLine = [];
     var current_id = this.get('session').get('data.authenticated.user.id');
     var access_level = this.get('session').get('data.authenticated.access_level');
+    var current_user_id = this.get('session').get('data.authenticated.user.id');
+    var ibpmax = this.get('store').peekRecord('user', current_user_id).get('nbpages');
 
     firstUser = this.store.peekRecord('user', current_id);
     if (firstUser) {
