@@ -208,21 +208,10 @@ export default Ember.Component.extend({
     if (this.get('vm.is_ro')) { return true; }
 
     var uris = this.get('vm.uris');
-    var technos = this.get('vm.project.technos');
     var isData = false;
-    var framework = null;
-
-    technos.forEach(function (techno) {
-      if (techno.get('technotype').get('name').match(/Data/)) {
-        isData = true;
-      }
-    });
 
     uris.forEach(function (uri) {
-      framework = uri.get('framework');
-      if (framework.get('name').match(/Symfony/) ||
-        framework.get('name').match(/Drupal/) ||
-        framework.get('name').match(/Wordpress/)) {
+      if (uri.get('is_import')) {
         isData = true;
       }
     });
