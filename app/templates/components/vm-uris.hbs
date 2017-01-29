@@ -16,7 +16,7 @@
       {{/if}}
 
       {{#if isPM}}
-        <b>Tools{{#if vm.is_ro}}, <i style="color:red;">Read-Only state, some tools disabled</i>{{/if}}</b><br/>
+        <b>Tools{{#if vm.is_ro}} <i style="color:red;">Read-Only state, some tools disabled</i>{{/if}}</b><br/>
         {{#unless vm.is_ro}}
           <a {{action 'requestTool' 'gitpull'}}>Gitpull</a><br/>
         {{/unless}}

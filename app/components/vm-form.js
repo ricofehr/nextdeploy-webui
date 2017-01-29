@@ -308,7 +308,7 @@ export default Ember.Component.extend({
                           { framework: ep.get('framework'), path: ep.get('path'), absolute: absolute,
                             envvars: ep.get('envvars'), aliases: aliases, port: ep.get('port'),
                             ipfilter: ep.get('ipfilter'), customvhost: ep.get('customvhost'),
-                            is_sh: ep.get('is_sh'), is_import: ep.get('is_import') });
+                            is_sh: ep.get('is_sh'), is_import: ep.get('is_import'), is_redir_alias: false });
       self.get('vm.uris').addObject(uri);
     });
 

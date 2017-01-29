@@ -27,6 +27,22 @@
       </div>
     </div>
 
+    {{#if uri.aliases}}
+    <div class="form-group">
+      <label class="control-label alert-success {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2" title="Redirect Alias to URI">Redirect</label>
+      <div class="col-sm-3">
+        <label title="Redirect Alias to URI">
+          {{x-toggle
+                value=uri.is_redir_alias
+                onToggle=(action 'toggleRedirectFlag')
+                onLabel='true'
+                offLabel='false'
+                focus-in="displayFocus"}}
+        </label>
+      </div>
+    </div>
+    {{/if}}
+
     <div class="form-group">
       <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">IpFilter</label>
       <div class="{{colSmRight}}">
@@ -45,7 +61,7 @@
         <label>
           {{x-toggle
                 value=uri.is_sh
-                onToggle=(mut uri.is_sh)
+                onToggle=(action 'toggleShFlag')
                 onLabel='true'
                 offLabel='false'
                 change="displayFocus"}}

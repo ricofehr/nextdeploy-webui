@@ -10,6 +10,7 @@ export default DS.Model.extend({
   customvhost: DS.attr('string'),
   is_sh: DS.attr('boolean'),
   is_import: DS.attr('boolean'),
+  is_redir_alias: DS.attr('boolean'),
   vm: DS.belongsTo('vm', {async: true}),
   framework: DS.belongsTo('framework', {async: true})
 });

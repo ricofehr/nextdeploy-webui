@@ -6,13 +6,13 @@ module.exports = function(app) {
   urisRouter.get('/', function(req, res) {
     res.send({
       'uris':[
-        {"id":1,"absolute":"3-www-drupalmycompany-com-74486777.os.nextdeploy.local","path":"server","envvars":"","aliases":"","ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":1,"framework":4},
-        {"id":2,"absolute":"2-www-drupalmycompany-com-74475477.os.nextdeploy.local","path":"server","envvars":"","aliases":"","ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":2,"framework":4},
-        {"id":3,"absolute":"3-www-symfonyhiscompany-com-76475472.os.nextdeploy.local","path":"server","envvars":"","aliases":"sf2s.3-www-symfonyhiscompany-com-76475472.os.nextdeploy.local","ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":3,"framework":1},
-        {"id":4,"absolute":"1-www-wordpressmycompany-com-72475432.os.nextdeploy.local","path":"server","envvars":"","aliases":"","ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":4,"framework":5},
-        {"id":5,"absolute":"html.1-www-wordpressmycompany-com-72475432.os.nextdeploy.local","path":"server","envvars":"","aliases":"","ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":false,"vm":4,"framework":8},
-        {"id":6,"absolute":"2-www-statichiscompany-com-72495402.os.nextdeploy.local","path":"server","envvars":"","aliases":"","ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":false,"vm":5,"framework":8},
-        {"id":7,"absolute":"4-www-drupalmycompany-com-75685412.os.nextdeploy.local","path":"server","envvars":"","aliases":"","ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":6,"framework":4}
+        {"id":1,"absolute":"3-www-drupalmycompany-com-74486777.os.nextdeploy.local","path":"server","envvars":"","aliases":"","is_redir_alias":false,"ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":1,"framework":4},
+        {"id":2,"absolute":"2-www-drupalmycompany-com-74475477.os.nextdeploy.local","path":"server","envvars":"","aliases":"","is_redir_alias":false,"ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":2,"framework":4},
+        {"id":3,"absolute":"3-www-symfonyhiscompany-com-76475472.os.nextdeploy.local","path":"server","envvars":"","aliases":"sf2s.3-www-symfonyhiscompany-com-76475472.os.nextdeploy.local","is_redir_alias":true,"ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":3,"framework":1},
+        {"id":4,"absolute":"1-www-wordpressmycompany-com-72475432.os.nextdeploy.local","path":"server","envvars":"","aliases":"","is_redir_alias":false,"ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":4,"framework":5},
+        {"id":5,"absolute":"html.1-www-wordpressmycompany-com-72475432.os.nextdeploy.local","path":"server","envvars":"","aliases":"","is_redir_alias":false,"ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":false,"vm":4,"framework":8},
+        {"id":6,"absolute":"2-www-statichiscompany-com-72495402.os.nextdeploy.local","path":"server","envvars":"","aliases":"","is_redir_alias":false,"ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":false,"vm":5,"framework":8},
+        {"id":7,"absolute":"4-www-drupalmycompany-com-75685412.os.nextdeploy.local","path":"server","envvars":"","aliases":"","is_redir_alias":false,"ipfilter":"","port":8080,"customvhost":"","is_sh":false,"is_import":true,"vm":6,"framework":4}
       ]
     });
   });
@@ -32,6 +32,7 @@ module.exports = function(app) {
           "customvhost": uri.customvhost,
           "is_sh": uri.is_sh,
           "is_import": uri.is_import,
+          "is_redir_alias": uri.is_redir_alias,
           "vm": uri.vm,
           "framework":uri.framework
         }
@@ -61,6 +62,7 @@ module.exports = function(app) {
           "customvhost": uri.customvhost,
           "is_sh": uri.is_sh,
           "is_import": uri.is_import,
+          "is_redir_alias": uri.is_redir_alias,
           "vm": uri.vm,
           "framework":uri.framework
         }

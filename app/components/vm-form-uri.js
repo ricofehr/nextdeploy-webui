@@ -187,10 +187,23 @@ export default Ember.Component.extend({
   },
 
   actions: {
+    // change is_sh flag
+    toggleShFlag: function(toggle) {
+      this.set('uri.is_sh', toggle.newValue);
+      this.set('uriFocused', true);
+    },
+
+    // change is_sh flag
+    toggleRedirectFlag: function(toggle) {
+      this.set('uri.is_redir_alias', toggle.newValue);
+      this.set('uriFocused', true);
+    },
+
     // set focused flag to true
     displayFocus: function() {
       this.set('uriFocused', true);
     },
+
     // insert or update current brand object
     postItem: function() {
       var router = this.get('router');

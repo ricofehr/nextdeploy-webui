@@ -534,7 +534,7 @@ iframe { border: none; }
   }
 }
 
-/* force portrait orientation for mobile */
+/* force portrait orientation for mobile
 @media (orientation: landscape) and (max-device-width: 740px) {
   html {
       transform: rotate(-90deg);
@@ -545,6 +545,7 @@ iframe { border: none; }
       left: 0;
     }
 }
+*/
 
 /* hover properties */
 @media (hover:hover) {

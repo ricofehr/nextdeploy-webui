@@ -148,11 +148,7 @@
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Uris</label>
     <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'uri' on="mouseEnter"}} {{action "hideToolTip" 'uri' on="mouseLeave"}}>
-      {{x-toggle
-            value=uriModal
-            onLabel='true'
-            offLabel='false'
-            onToggle=(action 'openSubModal')}}
+      <i class="fa fa-external-link-square fa-2x" aria-hidden="true" {{action 'openSubModal'}}></i>
     </div>
     {{#if uriToolTip}}
     <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
