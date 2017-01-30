@@ -29,7 +29,7 @@
               {{#link-to 'brands' tagName='li' href=false}}<a href="">Brands</a>{{/link-to}}
             {{/if}}
             {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href="">Profile</a>{{/link-to}}
-            {{#if isDev}}<li><a href="" {{action 'openGitlab'}}>Gitlab</a></li>{{/if}}
+            {{#if isPM}}<li><a href="" {{action 'openGitlab'}}>Gitlab</a></li>{{/if}}
             <li><a href="" {{action 'invalidateSession'}} >Logout</a></li>
           {{else}}
             <li>{{#link-to 'login'}}Login{{/link-to}}</li>
@@ -69,7 +69,7 @@
           </li>
           {{/if}}
           {{#link-to 'users.edit' currentUser.id tagName='li' href=false}}<a href=""><span class="glyphicon glyphicon-user"></span> Profile</a>{{/link-to}}
-          {{#if isDev}}<li><a href="/gitlab" target="_blank"><span class="fa fa-gitlab" title="Gitlab"></span> Gitlab</a></li>{{/if}}
+          {{#if isPM}}<li><a href="/gitlab" target="_blank"><span class="fa fa-gitlab" title="Gitlab"></span> Gitlab</a></li>{{/if}}
           <li><a href="" {{action 'invalidateSession'}} ><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         </ul>
 
