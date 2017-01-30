@@ -2,7 +2,7 @@
  <thead>
     <tr {{action "closeHover" on="mouseEnter"}}>
         {{#if isVm}}<th class="simplify-mobile">&nbsp;</th>{{/if}}
-        <th>Uris<span class="simplify"> &amp; Tools</span></th>
+        <th>Uris{{#if isPM}}<span class="simplify"> &amp; Tools</span>{{/if}}</th>
         <th class="simplify" title="Commit date (YMD) - Topic and Commit Message on hover">Details</th>
         {{#if isDev}}
             <th class="tdpopup"><span class="fa fa-sliders" title="Settings"></span></th>
@@ -69,11 +69,19 @@
         {{#if vm.sucStatus}}
             {{#if vm.isOk}}
               <td class="success tdpopup faa-hover" title="Vm is running, build was done in {{vm.timeStatus}}s" {{action 'hideAllUsersList' on='mouseEnter'}}>
-                  <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-plane faa-float animated-hover"></span></a>
+                  {{#if isPM}}
+                    <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-plane faa-float animated-hover"></span></a>
+                  {{else}}
+                    <span class="status-align fa fa-plane faa-float animated-hover"></span>
+                  {{/if}}
               </td>
             {{else}}
               <td class="danger tdpopup faa-hover" title="One or more services are down">
-                  <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-warning faa-flash animated faa-slow"></span></a>
+                  {{#if isPM}}
+                    <a href="#" {{action "showSupervise" vm}} class="status-align"><span class="fa fa-warning faa-flash animated faa-slow"></span></a>
+                  {{else}}
+                    <span class="status-align fa fa-warning faa-flash animated faa-slow"></span>
+                  {{/if}}
               </td>
             {{/if}}
         {{/if}}
