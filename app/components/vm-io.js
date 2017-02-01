@@ -62,7 +62,6 @@ export default Ember.Component.extend({
     if (!this.get('vm')) { return false; }
 
     var self = this;
-    var project_id = this.get('vm.project').get('id');
     var branchs = ['default'];
     var uris = this.get('vm.uris');
     var isData = false;
@@ -75,7 +74,7 @@ export default Ember.Component.extend({
       }
     });
 
-    if (!project_id || !isData) {
+    if (!isData) {
       return;
     }
 
@@ -83,20 +82,22 @@ export default Ember.Component.extend({
     this.set('isShowingIO', false);
     this.set('loadingModal', true);
 
-    //update project datas
-    this.store.findRecord('project', project_id, { backgroundReload: false, reload: true }).then(function(project) {
-      project.get('branches').then(function(branches) {
-        branches.forEach(function(branch) {
-          branchs.push(branch.get('name'));
+    // ensure vm and project objects are reloaded
+    this.get('vm').reload().then(function(vm) {
+      self.store.findRecord('project', vm.get('project.id'), { backgroundReload: false, reload: true }).then(function(project) {
+        project.get('branches').then(function(branches) {
+          branches.forEach(function(branch) {
+            branchs.push(branch.get('name'));
+          });
+
+          self.set('branchs', branchs);
+
+          // Ensure loader is running at least 1s (avoid flicker)
+          Ember.run.later(function() {
+            self.set('isShowingIO', true);
+            self.set('loadingModal', false);
+          }, 1000);
         });
-
-        self.set('branchs', branchs);
-
-        // Ensure loader is running at least 1s (avoid flicker)
-        Ember.run.later(function() {
-          self.set('isShowingIO', true);
-          self.set('loadingModal', false);
-        }, 1000);
       });
     });
 
