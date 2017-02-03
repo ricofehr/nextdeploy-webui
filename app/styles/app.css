@@ -109,18 +109,6 @@ pre {
   z-index: 11000;
 }
 
-/* Disable user select and ensure click working on mobile */
-.table-hover {
-  -webkit-tap-highlight-color:transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background: transparent;
-}
-
 .table-hover tr td {
   max-width: 0;
   overflow: hidden;
@@ -242,14 +230,6 @@ a .nodec {
   left: 0;
   right: 0;
   bottom: 0px;
-  -webkit-tap-highlight-color:transparent;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  background: transparent;
 }
 
 .paging-cell {
@@ -387,14 +367,6 @@ iframe { border: none; }
 
     .cancel-search-xs {
       color: white;
-      -webkit-tap-highlight-color:transparent;
-      -webkit-touch-callout: none;
-      -webkit-user-select: none;
-      -khtml-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      background: transparent;
       cursor: pointer;
     }
 
@@ -603,5 +575,22 @@ iframe { border: none; }
   .paging-cell:hover {
     color: unset;
     background-color: unset;
+   }
+
+   /* Disable user select and ensure click working on mobile */
+   body,
+   a {
+     -webkit-tap-highlight-color:transparent;
+     -webkit-touch-callout: none;
+     -webkit-user-select: none;
+     -khtml-user-select: none;
+     -moz-user-select: none;
+     -ms-user-select: none;
+     user-select: none;
+     background: transparent;
+   }
+
+   a {
+     cursor: pointer;
    }
 }
