@@ -102,6 +102,22 @@
   </div>
   {{/if}}
 
+  {{#if is_recv_vms_display}}
+  <div class="form-group">
+      <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">New Vm Alerts</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+      <label>
+        {{x-toggle
+              value=user.is_recv_vms
+              disabled=isDisable
+              onLabel='true'
+              offLabel='false'
+              onToggle=(action 'toggleFlagUser' false 'is_recv_vms')}}
+      </label>
+    </div>
+  </div>
+  {{/if}}
+
   <div class="form-group">
     <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Quotavm</label>
     <div class="col-md-3 col-sm-5 col-xs-6">

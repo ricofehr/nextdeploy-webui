@@ -87,8 +87,7 @@ export default Ember.Component.extend({
 
     this.groupsFilter();
     this.formIsValid();
-    this.checkProjectCreate();
-    this.checkUserCreate();
+    this.checkGroupChange();
   },
 
   // ensure email attribute is not empty
@@ -200,14 +199,21 @@ export default Ember.Component.extend({
     this.set('errorGroup', errorGroup);
   }.observes('user.group'),
 
-  // check if projectcreate attribute can be shown
-  checkProjectCreate: function() {
+  // check if some attributes can be shown follow group value
+  checkGroupChange: function() {
     var access_level_user = null;
     var access_level_current = this.get('session').get('data.authenticated.access_level');
 
-    // default is never creat project
+    // default is never create project
     this.set('is_project_create_ro', true);
     this.set('is_project_create_display', false);
+
+    // default is never create user
+    this.set('is_user_create_ro', true);
+    this.set('is_user_create_display', false);
+
+    // default is not recv vms
+    this.set('is_recv_vms_display', false);
 
     if (!this.get('user.group') || !this.get('user.group.id')) { return; }
 
@@ -216,47 +222,25 @@ export default Ember.Component.extend({
     // an admin can always create project
     if (access_level_user >= 50) {
       this.set('user.is_project_create', true);
-    }
-
-    if (access_level_user < 40) {
-      this.set('user.is_project_create', false);
-    } else {
-      this.set('is_project_create_display', true);
-    }
-
-    // Only ProjectLead can have project-creation right
-    if (access_level_current >= 50 && access_level_user < 50 && access_level_user >= 40) {
-      this.set('is_project_create_ro', false);
-    }
-
-  }.observes('user.group'),
-
-  // check if usercreate attribute can be shown
-  checkUserCreate: function() {
-    var access_level_user = null;
-    var access_level_current = this.get('session').get('data.authenticated.access_level');
-
-    // default is never creat user
-    this.set('is_user_create_ro', true);
-    this.set('is_user_create_display', false);
-
-    if (!this.get('user.group') || !this.get('user.group.id')) { return; }
-
-    access_level_user = this.get('user.group').get('access_level');
-
-    // an admin can always create project
-    if (access_level_user >= 50) {
       this.set('user.is_user_create', true);
     }
 
     if (access_level_user < 40) {
+      this.set('user.is_project_create', false);
       this.set('user.is_user_create', false);
-    } else {
-      this.set('is_user_create_display', true);
-    }
+      this.set('user.is_recv_vms', false);
 
+    } else {
+      this.set('is_project_create_display', true);
+      this.set('is_user_create_display', true);
+      this.set('is_recv_vms_display', true);
+    }
+    Ember.Logger.debug(this.get('is_project_create_display'));
+    Ember.Logger.debug(this.get('is_user_create_display'));
+    Ember.Logger.debug(this.get('is_recv_vms_display'));
     // Only ProjectLead can have project-creation right
     if (access_level_current >= 50 && access_level_user < 50 && access_level_user >= 40) {
+      this.set('is_project_create_ro', false);
       this.set('is_user_create_ro', false);
     }
 
