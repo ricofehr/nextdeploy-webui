@@ -225,7 +225,11 @@ export default Ember.Component.extend({
   checkAllStatus: function() {
     var self = this;
 
-    this.set('checkStatusLoop', true);
+    if (self) {
+      self.set('checkStatusLoop', true);
+    } else {
+      return;
+    }
 
     this.get('vms').map(function(model){
       if (parseInt(model.get('status')) < 1) {

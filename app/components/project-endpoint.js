@@ -234,16 +234,23 @@ export default Ember.Component.extend({
   addEndpointOnSubmitProject: function() {
     var ep = this.get('endpoint');
     var endpoint = null;
+    var is_main = false;
 
     // check if form is valid
     if (!this.get('projectSave') || !this.formIsValid() || ep.get('id')) {
       return;
     }
 
+    // main is the first
+    if (this.get('project').get('endpoints').toArray().length === 0) {
+      is_main = true;
+    }
+
     endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'),
                                                      path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'),
                                                      port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'),
-                                                     is_sh: ep.get('is_sh'), is_import: ep.get('is_import'), customvhost: ep.get('customvhost') });
+                                                     is_sh: ep.get('is_sh'), is_import: ep.get('is_import'), customvhost: ep.get('customvhost'),
+                                                     is_main: is_main });
 
     this.get('project').get('endpoints').addObject(endpoint);
   }.observes('projectSave'),

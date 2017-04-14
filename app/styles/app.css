@@ -163,6 +163,24 @@ pre {
   left: 0;
 }
 
+.info-branch-commit .info-branch-commit-hover-hide {
+  display: block;
+  width:180px;
+  height:120px;
+}
+
+.info-branch-commit .info-branch-commit-hover-display {
+  display: none;
+}
+
+.info-branch-commit:hover .info-branch-commit-hover-hide {
+  display: none;
+}
+
+.info-branch-commit:hover .info-branch-commit-hover-display {
+  display: block;
+}
+
 a .nodec {
   text-decoration: none;
 }

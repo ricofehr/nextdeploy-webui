@@ -11,6 +11,7 @@ export default DS.Model.extend({
   htlogin: DS.attr('string'),
   htpassword: DS.attr('string'),
   vnc_url: DS.attr('string'),
+  thumb: DS.attr('string'),
   termpassword: DS.attr('string'),
   layout: DS.attr('string'),
   is_prod: DS.attr('boolean'),

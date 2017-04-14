@@ -11,6 +11,7 @@ export default DS.Model.extend({
   is_sh: DS.attr('boolean'),
   is_import: DS.attr('boolean'),
   is_redir_alias: DS.attr('boolean'),
+  is_main: DS.attr('boolean'),
   vm: DS.belongsTo('vm', {async: true}),
   framework: DS.belongsTo('framework', {async: true})
 });

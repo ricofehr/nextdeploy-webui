@@ -1,5 +1,6 @@
 {{#if isShowingHover}}
-  {{commitTitle}}
+    <span class="info-branch-commit-hover-display">{{commitTitle}}</span>
+    <img class="simplify info-branch-commit-hover-hide" src="{{vm.thumb}}" border="0"/>
 {{else}}
   <span class="simplify">{{commitDate}}</span>{{vm.topic}}
 {{/if}}
