@@ -115,13 +115,20 @@ export default Ember.Component.extend({
         // if status is negative => setup in progress
         model.set('timeStatus', -(status));
       }
-      else if (status > 1) { textStatus = 'RUN'; sucStatus = true; model.set('timeStatus', (status)); }
-      else { textStatus = 'ERROR'; dangStatus = true; }
+      else if (status > 1) {
+        textStatus = 'RUN';
+        sucStatus = true;
+        model.set('timeStatus', (status));
+      } else {
+        textStatus = 'ERROR';
+        dangStatus = true;
+      }
 
       model.set('textStatus', textStatus);
       model.set('sucStatus', sucStatus);
       model.set('warnStatus', warnStatus);
       model.set('dangStatus', dangStatus);
+      model.set('nanStatus', false);
 
       // filtering item display with search field, userId, projectId and paging system
       model.set('isShow', true);
@@ -249,20 +256,33 @@ export default Ember.Component.extend({
           model.set('dangStatus', false);
         })
         .fail(function(data) {
-          model.set('status', data.responseText);
-          model.set('timeStatus', -parseInt(data.responseText));
+          if (data.status === 410) {
+            model.set('status', data.responseText);
+            model.set('timeStatus', -parseInt(data.responseText));
 
-          // check if error or setup
-          if (parseInt(data.responseText) === 1) {
+            // check if error or setup
+            if (parseInt(data.responseText) === 1) {
+              model.set('textStatus', 'ERROR');
+              model.set('sucStatus', false);
+              model.set('warnStatus', false);
+              model.set('dangStatus', true);
+              model.set('nanStatus', false);
+            } else {
+              model.set('textStatus', 'SETUP');
+              model.set('sucStatus', false);
+              model.set('warnStatus', true);
+              model.set('dangStatus', false);
+              model.set('nanStatus', false);
+            }
+          } else {
+            model.set('status', 0);
+            model.set('timeStatus', 0);
+
             model.set('textStatus', 'ERROR');
             model.set('sucStatus', false);
             model.set('warnStatus', false);
-            model.set('dangStatus', true);
-          } else {
-            model.set('textStatus', 'SETUP');
-            model.set('sucStatus', false);
-            model.set('warnStatus', true);
             model.set('dangStatus', false);
+            model.set('nanStatus', true);
           }
         });
       }
@@ -555,7 +575,6 @@ export default Ember.Component.extend({
     // ajax call to get current status
     checkStatus: function(model) {
       var vm_id = model.get('id');
-      var self = this;
 
       // jquery get setupcomplete
       Ember.$.ajax({
@@ -570,26 +589,36 @@ export default Ember.Component.extend({
           model.set('sucStatus', true);
           model.set('warnStatus', false);
           model.set('dangStatus', false);
+          model.set('nanStatus', false);
         })
         .fail(function(data) {
-          model.set('status', data.responseText);
-          model.set('timeStatus', -parseInt(data.responseText));
+          if (data.status === 410) {
+            model.set('status', data.responseText);
+            model.set('timeStatus', -parseInt(data.responseText));
 
-          // check if error or setup
-          if (parseInt(data.responseText) === 1) {
+            // check if error or setup
+            if (parseInt(data.responseText) === 1) {
+              model.set('textStatus', 'ERROR');
+              model.set('sucStatus', false);
+              model.set('warnStatus', false);
+              model.set('dangStatus', true);
+              model.set('nanStatus', false);
+            } else {
+              model.set('textStatus', 'SETUP');
+              model.set('sucStatus', false);
+              model.set('warnStatus', true);
+              model.set('dangStatus', false);
+              model.set('nanStatus', false);
+            }
+          } else {
+            model.set('status', 0);
+            model.set('timeStatus', 0);
+
             model.set('textStatus', 'ERROR');
             model.set('sucStatus', false);
             model.set('warnStatus', false);
-            model.set('dangStatus', true);
-          } else {
-            model.set('textStatus', 'SETUP');
-            model.set('sucStatus', false);
-            model.set('warnStatus', true);
             model.set('dangStatus', false);
-
-            Ember.run.later(function() {
-              self.checkStatus(model);
-            }, 10000);
+            model.set('nanStatus', true);
           }
         });
     },

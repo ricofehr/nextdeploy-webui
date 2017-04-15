@@ -95,6 +95,11 @@
                 <span class="fa fa-warning faa-flash animated faa-slow status-align"></span>
             </td>
         {{/if}}
+        {{#if vm.nanStatus}}
+            <td class="danger tdpopup" title="Internet error, verify your connection">
+                <span class="fa fa-wifi faa-flash animated faa-slow status-align"></span>
+            </td>
+        {{/if}}
         {{#if isLead}}
             {{#if vm.is_ro}}
                 <td title="{{vm.user.email}}" class="tduser">{{vm.user.shortname}}</td>
