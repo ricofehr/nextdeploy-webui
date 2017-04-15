@@ -538,7 +538,7 @@ iframe { border: none; }
 */
 
 /* hover properties */
-@media (hover:hover) {
+@media (hover:hover), (-moz-touch-enabled: 0), (pointer: fine) {
   td a:hover,
   .paging-cell:hover,
   .form-group a:hover {
@@ -579,7 +579,7 @@ iframe { border: none; }
   }
 }
 
-@media (hover: none) {
+@media (hover: none), (-moz-touch-enabled: 1), (pointer: coarse) {
   /* disable all hover events */
   a:hover {
       text-decoration: none;
