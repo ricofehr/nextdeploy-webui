@@ -254,6 +254,9 @@ export default Ember.Component.extend({
           model.set('sucStatus', true);
           model.set('warnStatus', false);
           model.set('dangStatus', false);
+          self.get('store').findRecord('vm', model.get('id')).then(function (vm) {
+            model.set('thumb', vm.get('thumb'));
+          });
         })
         .fail(function(data) {
           if (data.status === 410) {
@@ -575,6 +578,7 @@ export default Ember.Component.extend({
     // ajax call to get current status
     checkStatus: function(model) {
       var vm_id = model.get('id');
+      var self = this;
 
       // jquery get setupcomplete
       Ember.$.ajax({
@@ -590,6 +594,9 @@ export default Ember.Component.extend({
           model.set('warnStatus', false);
           model.set('dangStatus', false);
           model.set('nanStatus', false);
+          self.get('store').findRecord('vm', model.get('id')).then(function (vm) {
+            model.set('thumb', vm.get('thumb'));
+          });
         })
         .fail(function(data) {
           if (data.status === 410) {
