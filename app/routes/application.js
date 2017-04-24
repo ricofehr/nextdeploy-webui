@@ -26,9 +26,11 @@ export default Ember.Route.extend({
     var nbprojects = this.store.peekAll('project').toArray().length;
     var nbbrands = this.store.peekAll('brand').toArray().length;
     var nbhpmessages = this.store.peekAll('hpmessage').toArray().length;
-    var nbvms = this.store.peekAll('vm').toArray().length;
     var nbusers = this.store.peekAll('user').toArray().length;
     var self = this;
+    var idvms = this.store.peekAll('vm').toArray().reduce(function(previousValue, vm){
+        return previousValue + parseInt(vm.get("id"));
+    }, 0);
 
     var fail = function(){};
     // index is the first route when ember is launching
@@ -50,7 +52,11 @@ export default Ember.Route.extend({
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "vms.list") {
-        if (vms.toArray().length !== nbvms) {
+        var idvms_2 = vms.toArray().reduce(function(previousValue, vm){
+            return previousValue + parseInt(vm.get("id"));
+        }, 0);
+
+        if (idvms_2 !== idvms) {
           self.set('refreshVms', true);
         }
 

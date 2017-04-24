@@ -239,6 +239,16 @@ export default Ember.Component.extend({
     }
 
     this.get('vms').map(function(model){
+      // check if current model is reliable
+      if (!model.get('commit') ||
+          !model.get('commit.id') ||
+          !model.get('user') ||
+          !model.get('user.email') ||
+          !model.get('project') ||
+          !model.get('project.id')) {
+        return;
+      }
+
       if (parseInt(model.get('status')) < 1) {
         // jquery get setupcomplete
         Ember.$.ajax({
@@ -277,6 +287,9 @@ export default Ember.Component.extend({
               model.set('dangStatus', false);
               model.set('nanStatus', false);
             }
+          } else if (data.status === 404) {
+            self.get('router.router').refresh();
+            return;
           } else {
             model.set('status', 0);
             model.set('timeStatus', 0);
