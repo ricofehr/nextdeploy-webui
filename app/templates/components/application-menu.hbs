@@ -19,6 +19,9 @@
         <ul class="nav navbar-nav ul-collapsed" {{action 'toggleCollapsed'}}>
           {{#if session.isAuthenticated}}
             {{#link-to 'vms' tagName='li' href=false}}<a href="">Vms</a>{{/link-to}}
+            {{#if isLead}}
+              {{#link-to 'cis' tagName='li' href=false}}<a href="">CI</a>{{/link-to}}
+            {{/if}}
             {{#if isDev}}
               {{#link-to 'projects' tagName='li' href=false}}<a href="">Projects</a>{{/link-to}}
             {{/if}}
@@ -46,7 +49,9 @@
         <ul class="nav navbar-nav">
           {{#if session.isAuthenticated}}
             {{#link-to 'vms' tagName='li' href=false}}<a href="">Vms</a>{{/link-to}}
-
+            {{#if isLead}}
+              {{#link-to 'cis' tagName='li' href=false}}<a href="">CI</a>{{/link-to}}
+            {{/if}}
             {{#if isDev}}
               {{#link-to 'projects' tagName='li' href=false}}<a href="">Projects</a>{{/link-to}}
             {{/if}}

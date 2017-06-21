@@ -2,15 +2,28 @@
   {{#bs-modal-header}}{{#if isRunning}}{{#if isDev}}Urls & Tools{{else}}Urls{{/if}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
   {{#bs-modal-body}}
     {{#if isRunning}}
+      {{#if vm.is_jenkins}}
+        <b>CI Tools</b><br/>
+        <a href="https://{{vm.htlogin}}:{{vm.htpassword}}@jenkins-{{vm.name}}/" target="_blank">jenkins-{{vm.name}}</a><br/>
+        <a href="https://{{vm.htlogin}}:{{vm.htpassword}}@sonar-{{vm.name}}/" target="_blank">sonar-{{vm.name}}</a><br/>
+        {{#if isWeb}}<a href="https://{{vm.htlogin}}:{{vm.htpassword}}@pmdoc.{{vm.name}}/" target="_blank">pmdoc.{{vm.name}}</a><br/>{{/if}}
+        <br/>
+      {{/if}}
       {{#if isWeb}}
         <b>URIS</b><br/>
         {{#each URIS as |uri|}}
           <a href="{{uri.href}}" target="_blank">{{uri.uri}}</a><br/>
         {{/each}}
 
+        {{#unless vm.is_jenkins}}
         <br/><b>HTTPS</b><br>
         {{x-toggle value=isHTTPS onLabel='true' offLabel='false' onToggle=(mut isHTTPS)}}
-        <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
+        {{/unless}}
+        {{#unless vm.is_jenkins}}
+          <br/><b>{{#if vm.is_auth}}Http & {{/if}}CMS Access</b><br/>
+        {{else}}
+          <br/><b>Credentials</b><br/>
+        {{/unless}}
         Login: {{vm.htlogin}}<br/>
         Password: {{vm.htpassword}}<br/><br/>
       {{/if}}
@@ -18,7 +31,9 @@
       {{#if isPM}}
         <b>Tools{{#if vm.is_ro}} <i style="color:red;">Read-Only state, some tools disabled</i>{{/if}}</b><br/>
         {{#unless vm.is_ro}}
-          <a {{action 'requestTool' 'gitpull'}}>Gitpull</a><br/>
+          {{#unless vm.is_jenkins}}
+            <a {{action 'requestTool' 'gitpull'}}>Gitpull</a><br/>
+          {{/unless}}
         {{/unless}}
 
         {{#if isDev}}
@@ -32,16 +47,20 @@
           {{/if}}
           <a {{action 'requestTool' 'logs'}}>Logs</a><br/>
           {{#unless vm.is_ro}}
-            <a {{action 'requestTool' 'postinstall_display'}}>Check postinstall script</a><br/>
-            {{#if viewPostinstall}}
-            <a {{action 'requestTool' 'postinstall'}}>Execute postinstall script</a><br/>
-            {{/if}}
+            {{#unless vm.is_jenkins}}
+              <a {{action 'requestTool' 'postinstall_display'}}>Check postinstall script</a><br/>
+              {{#if viewPostinstall}}
+              <a {{action 'requestTool' 'postinstall'}}>Execute postinstall script</a><br/>
+              {{/if}}
+            {{/unless}}
           {{/unless}}
         {{/if}}<br/>
 
-        {{#each vm.uris as |uri|}}
-          {{uri-requests uri=uri vm=vm loadingModal=loadingModal subModal=subModal isShowingUris=isShowingUris fadeUris=fadeUris requestRunning=requestRunning message=message}}
-        {{/each}}
+        {{#unless vm.is_jenkins}}
+          {{#each vm.uris as |uri|}}
+            {{uri-requests uri=uri vm=vm loadingModal=loadingModal subModal=subModal isShowingUris=isShowingUris fadeUris=fadeUris requestRunning=requestRunning message=message}}
+          {{/each}}
+        {{/unless}}
       {{/if}}
     {{else}}
       <b>Vm is not on running status.</b>

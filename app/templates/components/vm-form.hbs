@@ -1,5 +1,5 @@
 <form {{action "createItem" on="submit"}} class="form-horizontal">
-  <legend>Launch new vm</legend>
+  <legend>Launch new {{#if isJenkins}}Jenkins {{/if}}vm</legend>
   <div class="form-group">
     {{#if errorProject}}
       <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Project</label>
@@ -65,6 +65,7 @@
   </div>
   {{/if}}
 
+  {{#if vm.project}}
   <div class="form-group">
     {{#if errorBranch}}
       <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Branch</label>
@@ -85,6 +86,7 @@
     {{/power-select}}
     </div>
   </div>
+  {{/if}}
 
   {{#if advancedForm}}
   <div class="form-group">
@@ -285,6 +287,7 @@
   {{/each}}
   {{/if}}
 
+  {{#unless isJenkins}}
   {{#if isDev}}
   {{#if vm.project}}
   <div class="form-group">
@@ -298,12 +301,15 @@
   </div>
   {{/if}}
   {{/if}}
+  {{/unless}}
 
+  {{#if isValid}}
   <div class="form-group">
   <div class="col-md-2 col-sm-3 col-xs-4">
     <button type="submit" class="pull-right btn btn-primary">Submit</button>
   </div>
   </div>
+  {{/if}}
 </form>
 {{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
    {{#bs-modal-header closeButton=false}}

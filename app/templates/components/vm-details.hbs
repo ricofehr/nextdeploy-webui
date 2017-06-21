@@ -5,10 +5,12 @@
       <b>System</b><br>
       Image: {{vm.systemimage.name}}<br>
       Sizing: {{vm.vmsize.title}} ({{vm.vmsize.description}})<br><br>
+      {{#unless vm.is_jenkins}}
       <b>SAMBA Share</b><br>
       smb://modem:{{vm.termpassword}}@{{vm.floating_ip}}/{{vmName}}<br/>
       User: modem<br/>
       Password: {{vm.termpassword}}<br/><br/>
+      {{/unless}}
       <b>Remote Access</b><br/>
       SSH: ssh modem@{{vm.floating_ip}}<br>
       Htaccess: {{vm.htlogin}} / {{vm.htpassword}}<br><br>

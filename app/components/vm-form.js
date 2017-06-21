@@ -192,6 +192,38 @@ export default Ember.Component.extend({
     this.checkUris();
     this.checkTopic();
 
+    if (this.get('errorProject')) {
+      Ember.Logger.debug('Nok project');
+    }
+
+    if (this.get('errorUser')) {
+      Ember.Logger.debug('Nok user');
+    }
+
+    if (this.get('errorBranch')) {
+      Ember.Logger.debug('Nok branch');
+    }
+
+    if (this.get('errorCommit')) {
+      Ember.Logger.debug('Nok commit');
+    }
+
+    if (this.get('errorOs')) {
+      Ember.Logger.debug('Nok os');
+    }
+
+    if (this.get('errorUris')) {
+      Ember.Logger.debug('Nok uris');
+    }
+
+    if (this.get('errorVmsize')) {
+      Ember.Logger.debug('Nok vmsize');
+    }
+
+    if (this.get('errorTopic')) {
+      Ember.Logger.debug('Nok topic');
+    }
+
     if (!this.get('errorProject') &&
         !this.get('errorUser') &&
         !this.get('errorBranch') &&
@@ -202,6 +234,50 @@ export default Ember.Component.extend({
         !this.get('errorTopic')) { return true; }
     return false;
   },
+
+  isValid: function() {
+    if (this.get('errorProject')) {
+      Ember.Logger.debug('Nok project');
+    }
+
+    if (this.get('errorUser')) {
+      Ember.Logger.debug('Nok user');
+    }
+
+    if (this.get('errorBranch')) {
+      Ember.Logger.debug('Nok branch');
+    }
+
+    if (this.get('errorCommit')) {
+      Ember.Logger.debug('Nok commit');
+    }
+
+    if (this.get('errorOs')) {
+      Ember.Logger.debug('Nok os');
+    }
+
+    if (this.get('errorUris')) {
+      Ember.Logger.debug('Nok uris');
+    }
+
+    if (this.get('errorVmsize')) {
+      Ember.Logger.debug('Nok vmsize');
+    }
+
+    if (this.get('errorTopic')) {
+      Ember.Logger.debug('Nok topic');
+    }
+
+    if (!this.get('errorProject') &&
+        !this.get('errorUser') &&
+        !this.get('errorBranch') &&
+        !this.get('errorCommit') &&
+        !this.get('errorOs') &&
+        !this.get('errorUris') &&
+        !this.get('errorVmsize') &&
+        !this.get('errorTopic')) { return true; }
+    return false;
+  }.property('errorProject', 'errorUser', 'errorBranch', 'errorCommit', 'errorOs', 'errorUris', 'errorVmsize', 'errorTopic'),
 
   // Return true if user is a Dev or more
   isDev: function() {
@@ -402,7 +478,12 @@ export default Ember.Component.extend({
         self.set('vm.technos', project.get('technos').toArray());
         self.set('vm.user', project.get('users').toArray()[user_index]);
         self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
-        self.set('vm.vmsize', project.get('vmsizes').toArray()[0]);
+
+        if (self.get('isJenkins')) {
+          self.set('vm.vmsize', self.store.peekAll('vmsize').toArray()[2]);
+        } else {
+          self.set('vm.vmsize', project.get('vmsizes').toArray()[0]);
+        }
 
         // init default branch and commit
         self.get('vm.project').get('branches').then(function(branchs) {
@@ -442,6 +523,7 @@ export default Ember.Component.extend({
       var vm = this.get('vm');
       var nbUris = parseInt(this.get('vm.uris.length'));
       var readytoBoot = 0;
+      var self = this;
 
       // check if form is valid
       if (!this.formIsValid()) {
@@ -455,11 +537,19 @@ export default Ember.Component.extend({
         readytoBoot = readytoBoot + 1;
         if (readytoBoot === nbUris) {
           var okboot = function() {
-            router.transitionTo('vms.list');
+            if (self.get('isJenkins')) {
+              router.transitionTo('cis.list');
+            } else {
+              router.transitionTo('vms.list');
+            }
           };
 
           var failboot = function() {
-            router.transitionTo('vms.list');
+            if (self.get('isJenkins')) {
+              router.transitionTo('cis.list');
+            } else {
+              router.transitionTo('vms.list');
+            }
           };
 
           vm.save().then(okboot, failboot);

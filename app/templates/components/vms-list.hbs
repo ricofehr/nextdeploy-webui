@@ -2,16 +2,24 @@
  <thead>
     <tr {{action "closeHover" on="mouseEnter"}}>
         {{#if isVm}}<th class="simplify-mobile first-col">&nbsp;</th>{{/if}}
-        <th>Uris{{#if isPM}}<span class="simplify"> &amp; Tools</span>{{/if}}</th>
+        {{#if isJenkins}}
+          <th>Tools</th>
+        {{else}}
+          <th>Uris{{#if isPM}}<span class="simplify"> &amp; Tools</span>{{/if}}</th>
+        {{/if}}
         <th class="simplify" title="Commit date (YMD) - Topic and Commit Message on hover">Details</th>
         {{#if isDev}}
+          {{#unless isJenkins}}
             <th class="tdpopup"><span class="fa fa-sliders" title="Settings"></span></th>
             <th class="simplify-mobile tdpopup"><span class="fa fa-terminal" title="Vnc Terminal"></span></th>
             <th class="simplify-mobile tdpopup"><span class="fa fa-database" title="Import/Export"></span></th>
+          {{/unless}}
             <th class="simplify-mobile tdpopup"><span class="fa fa-bar-chart" title="Monitoring Graphs"></span></th>
         {{/if}}
         <th class="tdpopup"><span class="fa fa-heartbeat" title="Status"></span></th>
-        {{#if isLead}}<th class="tduser"><span class="fa fa-user-circle" title="User"></span></th>{{/if}}
+        {{#unless isJenkins}}
+          {{#if isLead}}<th class="tduser"><span class="fa fa-user-circle" title="User"></span></th>{{/if}}
+        {{/unless}}
         <th class="tddate date-simplify"><span class="fa fa-calendar" title="Date creation (Y/M/D)"></span></th>
     </tr>
 </thead>
@@ -49,6 +57,7 @@
             </td>
         {{/if}}
         {{#if isDev}}
+          {{#unless isJenkins}}
             <td class="tdpopup" title="Settings">
                 <button {{action "showSettings" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
             </td>
@@ -62,6 +71,7 @@
             <td class="simplify-mobile tdpopup" title="Import/Export">
                 <button {{action "showIO" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
             </td>
+          {{/unless}}
             <td class="simplify-mobile tdpopup" title="Monitoring Graphs">
                 <button {{action "showMonitor" vm}} class="btn btn-default btn-xs"><span class="glyphicon glyphicon-new-window"></span></button>
             </td>
@@ -100,6 +110,7 @@
                 <span class="fa fa-wifi faa-flash animated faa-slow status-align"></span>
             </td>
         {{/if}}
+        {{#unless isJenkins}}
         {{#if isLead}}
             {{#if vm.is_ro}}
                 <td title="{{vm.user.email}}" class="tduser">{{vm.user.shortname}}</td>
@@ -126,6 +137,7 @@
                 {{/if}}
             {{/if}}
         {{/if}}
+        {{/unless}}
         <td class="simplify tddate date-simplify" title="Date creation (Y/M/D)" {{action 'hideAllUsersList' on='mouseEnter'}}>{{vm.created_at_short}}</td>
     </tr>
     {{/if}}

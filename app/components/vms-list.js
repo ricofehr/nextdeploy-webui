@@ -687,7 +687,12 @@ export default Ember.Component.extend({
     // Action for add a new item, change current page to create form
     newItem: function() {
       var router = this.get('router');
-      router.transitionTo('vms.new');
+
+      if (this.get('isJenkins')) {
+        router.transitionTo('cis.new');
+      } else {
+        router.transitionTo('vms.new');
+      }
     },
 
     // Toggle or untoggle all items

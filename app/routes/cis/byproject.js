@@ -20,7 +20,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   // Setup the controller for vms.list with this model
   setupController: function(controller, model) {
     this.controllerFor('vms.list').setProperties({model: model,
-                                                  ciVms: false,
+                                                  ciVms: true,
                                                   userId: 0,
                                                   projectId: model.projectId,
                                                   currentPage: 0});

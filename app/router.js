@@ -37,6 +37,11 @@ Router.map(function() {
     this.route('byproject', { path:'/byproject/:project_id' });
   });
 
+  this.route('cis', function() {
+    this.route('list');
+    this.route('new');
+  });
+
   this.route('dashboard');
   this.route('login');
   this.route('error');

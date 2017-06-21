@@ -8,7 +8,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
       vms: this.store.peekAll('vm').toArray().sort(function(a, b) {
         return Ember.compare(parseInt(b.id), parseInt(a.id));
       }),
-      projectId: params.project_id
+      userId: params.user_id
     });
   },
 
@@ -20,9 +20,9 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   // Setup the controller for vms.list with this model
   setupController: function(controller, model) {
     this.controllerFor('vms.list').setProperties({model: model,
-                                                  ciVms: false,
-                                                  userId: 0,
-                                                  projectId: model.projectId,
+                                                  userId: model.userId,
+                                                  ciVms: true,
+                                                  projectId: 0,
                                                   currentPage: 0});
   }
 });

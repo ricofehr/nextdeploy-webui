@@ -6,7 +6,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
 
     return Ember.RSVP.hash({
       // sort by status, prod flag and id
-      vms: this.store.peekAll('vm').toArray().filterBy('is_jenkins', false).sort(function(a, b) {
+      vms: this.store.peekAll('vm').toArray().filterBy('is_jenkins', true).sort(function(a, b) {
         var prod_a = a.get('is_prod') ? 1 : 0;
         var prod_b = b.get('is_prod') ? 1 : 0;
         var status_a = parseInt(a.get('status'));
@@ -36,9 +36,14 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     });
   },
 
+  // Same template than the standard list
+  renderTemplate:function () {
+    this.render('cis/list');
+  },
+
   // Setup the controller for vms.list with this model
   setupController: function(controller, model) {
-    this.controllerFor('vms.list').setProperties({model: model,
+    this.controllerFor('cis.list').setProperties({model: model,
                                                   ciVms: true,
                                                   userId: 0,
                                                   projectId: 0});

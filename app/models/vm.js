@@ -21,6 +21,7 @@ export default DS.Model.extend({
   is_ci: DS.attr('boolean'),
   is_cors: DS.attr('boolean'),
   is_ro: DS.attr('boolean'),
+  is_jenkins: DS.attr('boolean'),
   user: DS.belongsTo('user', {async: true}),
   project: DS.belongsTo('project', {async: true}),
   systemimage: DS.belongsTo('systemimage', {async: true}),

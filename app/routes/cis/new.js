@@ -14,7 +14,12 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
                                           vmsize: null, systemimage: null, commit: null,
                                           is_auth: true, is_prod: false, is_cached: false,
                                           is_backup: false, is_ci: false, is_cors: true,
-                                          is_ro: false, technos: [], is_jenkins: false })
+                                          is_ro: false, technos: [], is_jenkins: true })
     });
+  },
+
+  // Same template than the standard list
+  renderTemplate:function () {
+    this.render('cis/new');
   },
 });
