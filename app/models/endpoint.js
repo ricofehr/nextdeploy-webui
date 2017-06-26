@@ -9,6 +9,7 @@ export default DS.Model.extend({
   is_sh: DS.attr('boolean'),
   is_import: DS.attr('boolean'),
   is_main: DS.attr('boolean'),
+  is_ssl: DS.attr('boolean'),
   port: DS.attr('string'),
   ipfilter: DS.attr('string'),
   customvhost: DS.attr('string'),

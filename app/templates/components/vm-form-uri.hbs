@@ -56,6 +56,20 @@
     </div>
 
     <div class="form-group">
+      <label class="control-label alert-success {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2">Ssl</label>
+      <div class="col-sm-3">
+        <label>
+          {{x-toggle
+                value=uri.is_ssl
+                onToggle=(action 'toggleSslFlag')
+                onLabel='true'
+                offLabel='false'
+                change="displayFocus"}}
+        </label>
+      </div>
+    </div>
+
+    <div class="form-group">
       <label class="control-label alert-success {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2">Scripts</label>
       <div class="col-sm-3">
         <label>
@@ -119,6 +133,20 @@
               value=uri.ipfilter
               placeholder="Ipfilter"
               focus-in="displayFocus"}}
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="control-label alert-success {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2">Ssl</label>
+      <div class="{{colSmRight}}">
+        <label>
+          {{x-toggle
+                value=uri.is_ssl
+                onToggle=(mut uri.is_ssl)
+                onLabel='true'
+                offLabel='false'
+                change="displayFocus"}}
+        </label>
       </div>
     </div>
 

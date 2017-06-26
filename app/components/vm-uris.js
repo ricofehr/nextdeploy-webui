@@ -147,10 +147,10 @@ export default Ember.Component.extend({
 
     this.get('vm').get('uris').forEach(function (ep) {
       if (ep.get('framework').get('name') !== 'NoWeb') {
-        self.get('URIS').push({uri: ep.get('absolute'), href: self.getURI(ep.get('absolute'))});
+        self.get('URIS').push({uri: ep.get('absolute'), href: self.getURI(ep.get('absolute'), ep.get('is_ssl'))});
         if (ep.get('aliases') && ep.get('aliases') !== '') {
           ep.get('aliases').split(' ').forEach(function (aliase) {
-            self.get('URIS').push({uri: aliase, href: self.getURI(aliase)});
+            self.get('URIS').push({uri: aliase, href: self.getURI(aliase, ep.get('is_ssl'))});
           });
         }
       }
@@ -178,7 +178,7 @@ export default Ember.Component.extend({
   }.property('isShowingUris', 'isHTTPS'),
 
   // open vm uri
-  getURI: function(uri) {
+  getURI: function(uri, is_ssl) {
     var login = this.get('vm.htlogin');
     var password = this.get('vm.htpassword');
     var authcreds = login + ":" + password + "@";
@@ -191,7 +191,7 @@ export default Ember.Component.extend({
     var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
     var scheme = 'http';
 
-    if (this.get('isHTTPS')) {
+    if (is_ssl) {
       scheme = 'https';
     }
 
@@ -223,8 +223,8 @@ export default Ember.Component.extend({
       scheme = 'https';
     }
 
-    uri_with_creds = scheme + '://' + authcreds + 'pmtools.' + uri + '/' + uritype + '/';
-    uri_xmlhttp_req = scheme + '://pmtools.' + uri + '/' + uritype + '/';
+    uri_with_creds = 'https://' + authcreds + 'pmtools-' + uri + '/' + uritype + '/';
+    uri_xmlhttp_req = 'https://pmtools-' + uri + '/' + uritype + '/';
 
     if (is_chrome || is_ff || is_iphone || is_ipad) {
       return uri_with_creds;

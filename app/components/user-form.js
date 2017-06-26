@@ -235,9 +235,7 @@ export default Ember.Component.extend({
       this.set('is_user_create_display', true);
       this.set('is_recv_vms_display', true);
     }
-    Ember.Logger.debug(this.get('is_project_create_display'));
-    Ember.Logger.debug(this.get('is_user_create_display'));
-    Ember.Logger.debug(this.get('is_recv_vms_display'));
+
     // Only ProjectLead can have project-creation right
     if (access_level_current >= 50 && access_level_user < 50 && access_level_user >= 40) {
       this.set('is_project_create_ro', false);

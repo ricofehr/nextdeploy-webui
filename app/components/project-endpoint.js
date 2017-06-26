@@ -15,7 +15,7 @@ export default Ember.Component.extend({
       this.set('endpoint', Ember.Object.create(
                               { prefix: '', path: '', aliases: '', envvars: '', framework: null,
                                 port: '8080', ipfilter: '', is_install: true, is_sh: false,
-                                is_import: true, customvhost: '' }));
+                                is_import: true, is_ssl: true, customvhost: '' }));
 
       if (this.get('project.id')) {
         this.get('endpoint').set('is_install', false);
@@ -249,7 +249,7 @@ export default Ember.Component.extend({
     endpoint = this.store.createRecord('endpoint', { framework: ep.get('framework'), prefix: ep.get('prefix'),
                                                      path: ep.get('path'), envvars: ep.get('envvars'), aliases: ep.get('aliases'),
                                                      port: ep.get('port'), ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'),
-                                                     is_sh: ep.get('is_sh'), is_import: ep.get('is_import'), customvhost: ep.get('customvhost'),
+                                                     is_sh: ep.get('is_sh'), is_import: ep.get('is_import'), is_ssl: ep.get('is_ssl'), customvhost: ep.get('customvhost'),
                                                      is_main: is_main });
 
     this.get('project').get('endpoints').addObject(endpoint);
@@ -288,6 +288,14 @@ export default Ember.Component.extend({
       this.set('endpoint.is_sh', toggle.newValue);
     },
 
+    toggleSslFlag: function(disabled, toggle) {
+      if (disabled) {
+        return;
+      }
+
+      this.set('endpoint.is_ssl', toggle.newValue);
+    },
+
     toggleImportFlag: function(disabled, toggle) {
       if (disabled) {
         return;
@@ -309,7 +317,7 @@ export default Ember.Component.extend({
                               { framework: ep.get('framework'), prefix: ep.get('prefix'), path: ep.get('path'),
                                 envvars: ep.get('envvars'), aliases: ep.get('aliases'), port: ep.get('port'),
                                 ipfilter: ep.get('ipfilter'), is_install: ep.get('is_install'), is_sh: ep.get('is_sh'),
-                                is_import: ep.get('is_import'), customvhost: ep.get('customvhost') });
+                                is_import: ep.get('is_import'), is_ssl: ep.get('is_ssl'), customvhost: ep.get('customvhost') });
 
       this.get('project').get('endpoints').addObject(endpoint);
       this.set('newFlag', false);

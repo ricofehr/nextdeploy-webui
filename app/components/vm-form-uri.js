@@ -193,7 +193,13 @@ export default Ember.Component.extend({
       this.set('uriFocused', true);
     },
 
-    // change is_sh flag
+    // change is_ssl flag
+    toggleSslFlag: function(toggle) {
+      this.set('uri.is_ssl', toggle.newValue);
+      this.set('uriFocused', true);
+    },
+
+    // change is_redirect flag
     toggleRedirectFlag: function(toggle) {
       this.set('uri.is_redir_alias', toggle.newValue);
       this.set('uriFocused', true);
