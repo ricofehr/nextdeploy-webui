@@ -79,7 +79,7 @@ export default Ember.Component.extend({
 
     if (this.get('endpoint.prefix')) {
       // normalize prefix field
-      this.set('endpoint.prefix', this.get('endpoint.prefix').toLowerCase().replace(/_/g,'').replace(/ /g,''));
+      this.set('endpoint.prefix', this.get('endpoint.prefix').toLowerCase().replace(/_/g,'').replace(/ /g,'').replace(/\./g,'-'));
       prefix = this.get('endpoint.prefix');
     }
 
@@ -150,7 +150,7 @@ export default Ember.Component.extend({
 
     if (this.get('endpoint.aliases')) {
     // normalize prefix field
-      this.set('endpoint.aliases', this.get('endpoint.aliases').toLowerCase().replace(/_/g,''));
+      this.set('endpoint.aliases', this.get('endpoint.aliases').toLowerCase().replace(/_/g,'').replace(/\./g,'-'));
       aliases = this.get('endpoint.aliases').split(" ");
     }
     prefix = this.get('endpoint.prefix');
