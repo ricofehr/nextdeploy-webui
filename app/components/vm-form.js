@@ -365,7 +365,7 @@ export default Ember.Component.extend({
     endpoints.forEach(function (ep) {
       absolute = ep.get('prefix');
       if (absolute && absolute !== '') {
-        absolute = absolute + '.';
+        absolute = absolute + '-';
       }
       absolute = absolute + vmname;
 
@@ -374,7 +374,7 @@ export default Ember.Component.extend({
       if (ep.get('aliases')) {
         aliasesT = ep.get('aliases').split(' ');
         aliasesT = aliasesT.map(function (aliase) {
-          aliase = aliase + '.' + vmname;
+          aliase = aliase + '-' + vmname;
           return aliase;
         });
         aliases = aliasesT.join(' ');
