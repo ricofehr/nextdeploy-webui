@@ -133,10 +133,10 @@
       <label>
         {{x-toggle
               value=endpoint.is_ssl
-              onToggle=(action 'toggleSslFlag' isExist)
+              onToggle=(action 'toggleSslFlag' isLocal)
               onLabel='true'
               offLabel='false'
-              disabled=isExist}}
+              disabled=isLocal}}
       </label>
     </div>
   </div>

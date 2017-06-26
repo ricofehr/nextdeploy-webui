@@ -142,9 +142,10 @@
         <label>
           {{x-toggle
                 value=uri.is_ssl
-                onToggle=(mut uri.is_ssl)
+                onToggle=(action 'toggleSslFlag' isLocal)
                 onLabel='true'
                 offLabel='false'
+                disabled=isLocal
                 change="displayFocus"}}
         </label>
       </div>

@@ -15,7 +15,7 @@ export default Ember.Component.extend({
       this.set('endpoint', Ember.Object.create(
                               { prefix: '', path: '', aliases: '', envvars: '', framework: null,
                                 port: '8080', ipfilter: '', is_install: true, is_sh: false,
-                                is_import: true, is_ssl: true, customvhost: '' }));
+                                is_import: true, is_ssl: false, customvhost: '' }));
 
       if (this.get('project.id')) {
         this.get('endpoint').set('is_install', false);
@@ -24,6 +24,11 @@ export default Ember.Component.extend({
 
     this.formIsValid();
   },
+
+  // return true if local nextdeploy install
+  isLocal: function() {
+    return this.get('isExist') || document.URL.match(/nextdeploy.local/);
+  }.property('isExist', 'project.id'),
 
   // ensure framework attribute is not empty
   checkFramework: function() {

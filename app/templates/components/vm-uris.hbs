@@ -4,9 +4,15 @@
     {{#if isRunning}}
       {{#if vm.is_jenkins}}
         <b>CI Tools</b><br/>
-        <a href="https://{{vm.htlogin}}:{{vm.htpassword}}@jenkins-{{vm.name}}/" target="_blank">jenkins-{{vm.name}}</a><br/>
-        <a href="https://{{vm.htlogin}}:{{vm.htpassword}}@sonar-{{vm.name}}/" target="_blank">sonar-{{vm.name}}</a><br/>
-        {{#if isWeb}}<a href="https://{{vm.htlogin}}:{{vm.htpassword}}@pmdoc-{{vm.name}}/" target="_blank">pmdoc-{{vm.name}}</a><br/>{{/if}}
+        {{#unless isLocal}}
+          <a href="https://{{vm.htlogin}}:{{vm.htpassword}}@jenkins-{{vm.name}}/" target="_blank">jenkins-{{vm.name}}</a><br/>
+          <a href="https://{{vm.htlogin}}:{{vm.htpassword}}@sonar-{{vm.name}}/" target="_blank">sonar-{{vm.name}}</a><br/>
+          {{#if isWeb}}<a href="https://{{vm.htlogin}}:{{vm.htpassword}}@pmdoc-{{vm.name}}/" target="_blank">pmdoc-{{vm.name}}</a><br/>{{/if}}
+        {{else}}
+          <a href="http://{{vm.htlogin}}:{{vm.htpassword}}@jenkins-{{vm.name}}/" target="_blank">jenkins-{{vm.name}}</a><br/>
+          <a href="http://{{vm.htlogin}}:{{vm.htpassword}}@sonar-{{vm.name}}/" target="_blank">sonar-{{vm.name}}</a><br/>
+          {{#if isWeb}}<a href="http://{{vm.htlogin}}:{{vm.htpassword}}@pmdoc-{{vm.name}}/" target="_blank">pmdoc-{{vm.name}}</a><br/>{{/if}}
+        {{/unless}}
         <br/>
       {{/if}}
       {{#if isWeb}}

@@ -51,7 +51,7 @@ model() {
           ep = self.store.createRecord('endpoint',
                             { prefix: '', path: 'server', envvars: '', aliases: '',
                               port: 8080, ipfilter: '', is_install: true,
-                              is_sh: false, is_import: true, is_ssl: true, framework: framework });
+                              is_sh: false, is_import: true, is_ssl: false, framework: framework });
 
           content.get('endpoints').addObject(ep);
         }
@@ -60,7 +60,7 @@ model() {
           ep = self.store.createRecord('endpoint',
                             { prefix: 'html', path: 'html', envvars: '', aliases: '',
                               port: 8080, ipfilter: '', is_install: true,
-                              is_sh: false, is_import: false, is_ssl: true, framework: framework });
+                              is_sh: false, is_import: false, is_ssl: false, framework: framework });
 
           content.get('endpoints').addObject(ep);
         }

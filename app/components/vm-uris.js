@@ -131,11 +131,6 @@ export default Ember.Component.extend({
     return false;
   }.property('isShowingUris'),
 
-  // reset isHTTPS property
-  resetHTTPS: function () {
-    this.set('isHTTPS', false);
-  }.observes('isShowingUris'),
-
   // init URIS array
   initURIS: function () {
     var self = this;
@@ -155,27 +150,33 @@ export default Ember.Component.extend({
         }
       }
     });
-  }.observes('isShowingUris', 'isHTTPS'),
+  }.observes('isShowingUris'),
+
+  // return true if local nextdeploy install
+  isLocal: function() {
+    var vm_name = this.get('vm.name');
+    return vm_name.match(/os.nextdeploy$/);
+  }.property('isShowingUris'),
 
   // return phpmyadmin uri for the vm
   pmaURI: function() {
     return this.getTOOL('phpmyadmin');
-  }.property('isShowingUris', 'isHTTPS'),
+  }.property('isShowingUris'),
 
   // return logs uri for the vm
   tailURI: function() {
     return this.getTOOL('tail');
-  }.property('isShowingUris', 'isHTTPS'),
+  }.property('isShowingUris'),
 
   // return phpinfo uri for the vm
   pminfoURI: function() {
     return this.getTOOL('pminfo');
-  }.property('isShowingUris', 'isHTTPS'),
+  }.property('isShowingUris'),
 
   // return (sf) logs uri for the vm
   sflogsURI: function() {
     return this.getTOOL('tailsf2');
-  }.property('isShowingUris', 'isHTTPS'),
+  }.property('isShowingUris'),
 
   // open vm uri
   getURI: function(uri, is_ssl) {
@@ -217,14 +218,15 @@ export default Ember.Component.extend({
     var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
     var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
-    var scheme = 'http';
+    var scheme = 'https';
 
-    if (this.get('isHTTPS')) {
-      scheme = 'https';
+
+    if (uri.match(/os.nextdeploy$/)) {
+      scheme = 'http';
     }
 
-    uri_with_creds = 'https://' + authcreds + 'pmtools-' + uri + '/' + uritype + '/';
-    uri_xmlhttp_req = 'https://pmtools-' + uri + '/' + uritype + '/';
+    uri_with_creds = scheme + '://' + authcreds + 'pmtools-' + uri + '/' + uritype + '/';
+    uri_xmlhttp_req = scheme + '://pmtools-' + uri + '/' + uritype + '/';
 
     if (is_chrome || is_ff || is_iphone || is_ipad) {
       return uri_with_creds;

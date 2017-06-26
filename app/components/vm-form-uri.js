@@ -38,6 +38,12 @@ export default Ember.Component.extend({
     }
   }.property('isPopin'),
 
+  // return true if local nextdeploy install
+  isLocal: function() {
+    var vm_name = this.get('vm.name');
+    return vm_name.match(/os\.nextdeploy$/);
+  }.property('vm.name'),
+
   // ensure absolute attribute is not empty
   checkAbsolute: function() {
     var absolute = '';
@@ -193,10 +199,13 @@ export default Ember.Component.extend({
       this.set('uriFocused', true);
     },
 
-    // change is_ssl flag
-    toggleSslFlag: function(toggle) {
-      this.set('uri.is_ssl', toggle.newValue);
+    toggleSslFlag: function(disabled, toggle) {
+      if (disabled) {
+        return;
+      }
+
       this.set('uriFocused', true);
+      this.set('uri.is_ssl', toggle.newValue);
     },
 
     // change is_redirect flag
