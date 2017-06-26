@@ -8,6 +8,7 @@ export default Ember.Component.extend({
   toggleHt: false,
   toggleCi: false,
   toggleCors: false,
+  toggleOffline: false,
   toggleRo: false,
   toggleBackup: false,
   toggleAuth: false,
@@ -50,6 +51,9 @@ export default Ember.Component.extend({
       if (this.get('vm.is_cors')) { this.set('toggleCors', true); }
       else { this.set('toggleCors', false); }
 
+      if (this.get('vm.is_offline')) { this.set('toggleOffline', true); }
+      else { this.set('toggleOffline', false); }
+
       if (this.get('vm.is_ro')) { this.set('toggleRo', true); }
       else { this.set('toggleRo', false); }
 
@@ -65,6 +69,7 @@ export default Ember.Component.extend({
       this.set('htToolTip', false);
       this.set('ciToolTip', false);
       this.set('corsToolTip', false);
+      this.set('offlineToolTip', false);
       this.set('roToolTip', false);
       this.set('backupToolTip', false);
       this.set('uriToolTip', false);
@@ -573,6 +578,42 @@ export default Ember.Component.extend({
         self.set('loadingModal', false);
         self.set('vm.is_ro', isRo);
         self.set('toggleRo', isRo);
+      })
+      .fail(function() {
+        self.set('message', 'Error occurs during execution !');
+        Ember.run.later(function(){
+          self.set('loadingModal', false);
+        }, 3000);
+      });
+    },
+
+    changeOffline: function(disabled, toggle) {
+      var self = this;
+      var isOffline = toggle.newValue;
+
+      if (!this.get('vm')) {
+        return;
+      }
+
+      if (isOffline === this.get('vm.is_offline')) {
+        return;
+      }
+
+      if (disabled) {
+        return;
+      }
+
+      self.set('loadingModal', true);
+      Ember.$.ajax({
+        url: config.APP.APIHost + "/api/v1/vms/" + this.get('vm').get('id') + "/toggleoffline",
+        method: "POST",
+        global: false,
+        headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
+      })
+      .done(function() {
+        self.set('loadingModal', false);
+        self.set('vm.is_offline', isOffline);
+        self.set('toggleOffline', isOffline);
       })
       .fail(function() {
         self.set('message', 'Error occurs during execution !');

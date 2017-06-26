@@ -34,7 +34,11 @@
                 {{#if vm.is_ro}}
                     <td class="simplify-mobile first-col">&nbsp;</td>
                 {{else}}
-                    <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=vm.todelete}}</td>
+                  {{#if vm.is_offline}}
+                      <td class="simplify-mobile first-col warning" title="Offline Vm !">{{input type="checkbox" checked=vm.todelete}}</td>
+                  {{else}}
+                      <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=vm.todelete}}</td>
+                  {{/if}}
                 {{/if}}
             {{/if}}
         {{/if}}
@@ -96,7 +100,7 @@
             {{/if}}
         {{/if}}
         {{#if vm.warnStatus}}
-            <td class="warning tdpopup faa-hover" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done">
+            <td class="info tdpopup faa-hover" title="Vm is building since {{vm.timeStatus}}s, please waiting that setup is done">
               <span class="fa fa-wrench faa-wrench animated status-align"></span>
             </td>
         {{/if}}

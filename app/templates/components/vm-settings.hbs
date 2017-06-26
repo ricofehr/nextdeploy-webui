@@ -9,6 +9,24 @@
           {{input type="text" classNames="form-control" maxlength="20" value=vm.topic placeholder="Topic" disabled=isDisabledAdminVms focus-in="enterTopic" focus-out="updateTopic"}}
         </div>
     </div>
+
+    <div class="form-group">
+        <label class="control-label col-md-2 col-sm-3 col-xs-4 col-xs-4">Offline</label>
+      <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'offline' on="mouseEnter"}} {{action "hideToolTip" 'offline' on="mouseLeave"}}>
+        {{x-toggle
+              value=toggleOffline
+              onLabel='true'
+              offLabel='false'
+              onToggle=(action 'changeOffline' isDisabledAdminVms)
+              disabled=isDisabledAdminVms}}
+      </div>
+      {{#if offlineToolTip}}
+      <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+        <i>Redirect all vm endpoints to the NextDeploy offline page</i>
+      </div>
+      {{/if}}
+    </div>
+
     <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Caching</label>
     <div class="col-md-2 col-sm-4 col-xs-4" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
