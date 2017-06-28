@@ -204,8 +204,8 @@ export default Ember.Component.extend({
         return;
       }
 
-      this.set('uriFocused', true);
       this.set('uri.is_ssl', toggle.newValue);
+      this.set('uriFocused', true);
     },
 
     // change is_redirect flag
