@@ -199,7 +199,7 @@ export default Ember.Component.extend({
     uri_with_creds = scheme + '://' + authcreds + uri + '/';
     uri_xmlhttp_req = scheme + '://' + uri + '/';
 
-    if (is_auth && (is_chrome || is_ff || is_iphone || is_ipad)) {
+    if (is_auth && (is_ff || is_iphone || is_ipad)) {
       return uri_with_creds;
     } else {
       return uri_xmlhttp_req;
@@ -228,7 +228,7 @@ export default Ember.Component.extend({
     uri_with_creds = scheme + '://' + authcreds + 'pmtools-' + uri + '/' + uritype + '/';
     uri_xmlhttp_req = scheme + '://pmtools-' + uri + '/' + uritype + '/';
 
-    if (is_chrome || is_ff || is_iphone || is_ipad) {
+    if (is_ff || is_iphone || is_ipad) {
       return uri_with_creds;
     } else {
       return uri_xmlhttp_req;
