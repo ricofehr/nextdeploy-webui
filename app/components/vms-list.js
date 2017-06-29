@@ -415,8 +415,10 @@ export default Ember.Component.extend({
   // Check if current user can launch vm
   isVm: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
+    var is_jenkins = this.get('isJenkins');
 
-    if (access_level >= 20) { return true; }
+    if (is_jenkins && access_level >= 40) { return true; }
+    if (!is_jenkins && access_level >= 20) { return true; }
     return false;
   }.property('session.data.authenticated.access_level'),
 
