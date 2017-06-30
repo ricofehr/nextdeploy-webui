@@ -151,7 +151,7 @@ export default Ember.Component.extend({
     if (this.get('uri.ipfilter') && this.get('uri.ipfilter') !== '') {
       this.set('uri.ipfilter', this.get('uri.ipfilter').replace(/,/g,' '));
       this.set('uri.ipfilter', this.get('uri.ipfilter').replace(/\n/g,' '));
-      this.set('uri.ipfilter', this.get('uri.ipfilter').replace(/  /g,' '));
+      this.set('uri.ipfilter', this.get('uri.ipfilter').replace(/[ ]{2}/g,' '));
       this.set('uri.ipfilter', this.get('uri.ipfilter').replace(/\.[0-9]+\/[0-9]+/g, '.0/24'));
       this.set('uri.ipfilter', this.get('uri.ipfilter').replace(/[^ 0-9\./]/g,''));
       this.set('uri.ipfilter', this.get('uri.ipfilter').replace(/ $/g,''));

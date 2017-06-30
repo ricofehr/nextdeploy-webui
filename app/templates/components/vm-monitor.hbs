@@ -1,6 +1,6 @@
-{{#bs-modal elementId="modalMonitor" open=isShowingMonitor body=false header=false footer=false size="lg" closedAction=(action 'closedMonitor')}}
-  {{#bs-modal-header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/bs-modal-header}}
-  {{#bs-modal-body}}
+{{#bs-modal elementId="modalMonitor" open=isShowingMonitor body=false header=false footer=false size="lg" closedAction=(action 'closedMonitor') as |modal|}}
+  {{#modal.header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/modal.header}}
+  {{#modal.body}}
   {{#if isShowingMonitor}}
   <center>
 
@@ -288,12 +288,12 @@
 
   </center>
   {{/if}}
-{{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Close"}}
+{{/modal.body}}
+  {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
-   {{#bs-modal-header closeButton=false}}
+{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal as |modal|}}
+   {{#modal.header closeButton=false}}
      <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
-   {{/bs-modal-header}}
+   {{/modal.header}}
 {{/bs-modal}}

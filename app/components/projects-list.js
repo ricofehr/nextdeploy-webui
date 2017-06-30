@@ -64,7 +64,7 @@ export default Ember.Component.extend({
         model.set('created_at_short', hour + ":" + minute);
       } else {
         if (parseInt(day) < 10) { day = '0' + day; }
-        if (parseInt(month) < 10) { month = '0' + month; }
+        if (parseInt(month) < 10) { month = '0' + month; }
         year = year + '';
         model.set('created_at_short', year.substring(2) + "/" + month + "/" + day);
       }

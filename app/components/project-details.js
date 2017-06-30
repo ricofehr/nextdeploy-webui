@@ -44,7 +44,7 @@ export default Ember.Component.extend({
     }
 
     gitpath = this.get('project').get('gitpath');
-    if (! gitpath) { return ""; }
+    if (!gitpath) { return ""; }
 
     return gitpath.replace(/.*\//g, "");
   }.property('isShowingDetails'),

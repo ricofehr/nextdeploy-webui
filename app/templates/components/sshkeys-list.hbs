@@ -21,8 +21,8 @@
     <button {{action "showDeleteConfirmation"}} class="btn btn-default btn-sm"><span class="glyphicon glyphicon-trash"></span></button>
 </div>
 
-{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems")}}
-  {{#bs-modal-body}}
+{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") as |modal|}}
+  {{#modal.body}}
     Are you sure to proceed ?<br/>{{{deleteText}}}
     You are going to delete the following items<br/>
     <ul>
@@ -30,6 +30,6 @@
       <li>{{item}}</li>
     {{/each}}
     </ul>
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+  {{/modal.body}}
+  {{modal.footer closeTitle="Cancel" submitTitle="Ok"}}
 {{/bs-modal}}

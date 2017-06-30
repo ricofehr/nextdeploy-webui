@@ -1,11 +1,14 @@
 /*jshint node:true*/
 /* global require, module */
-var EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
 module.exports = function(defaults) {
   var app = new EmberApp(defaults, {
     'ember-bootstrap': {
-      'importBootstrapTheme': true
+      'importBootstrapTheme': true,
+      'bootstrapVersion': 3,
+      'importBootstrapFont': true,
+      'importBootstrapCSS': true
     }
   });
 

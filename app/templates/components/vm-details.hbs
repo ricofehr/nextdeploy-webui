@@ -1,6 +1,6 @@
-{{#bs-modal open=isShowingDetails body=false header=false footer=false size="lg" closedAction=(action 'closedDetails')}}
-  {{#bs-modal-header}}{{#if isRunning}}Details{{else}}Please try again later{{/if}}{{/bs-modal-header}}
-  {{#bs-modal-body}}
+{{#bs-modal open=isShowingDetails body=false header=false footer=false size="lg" closedAction=(action 'closedDetails') as |modal|}}
+  {{#modal.header}}{{#if isRunning}}Details{{else}}Please try again later{{/if}}{{/modal.header}}
+  {{#modal.body}}
     {{#if isRunning}}
       <b>System</b><br>
       Image: {{vm.systemimage.name}}<br>
@@ -25,6 +25,6 @@
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Close"}}
+  {{/modal.body}}
+  {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}

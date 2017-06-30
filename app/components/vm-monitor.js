@@ -110,7 +110,7 @@ export default Ember.Component.extend({
     return ret;
   }.property('isShowingMonitor'),
 
-  // Check if we have redis into model
+  // Check if we have memcache into model
   isMemcache: function() {
     if (!this.get('vm')) {
       return false;
@@ -126,10 +126,11 @@ export default Ember.Component.extend({
     });
 
     // graphs not yet implemented
-    return false;
+    ret = false;
+    return ret;
   }.property('isShowingMonitor'),
 
-  // Check if we have redis into model
+  // Check if we have elastic into model
   isElastic: function() {
     if (!this.get('vm')) {
       return false;
@@ -145,7 +146,8 @@ export default Ember.Component.extend({
     });
 
     // graphs not yet implemented
-    return false;
+    ret = false;
+    return ret;
   }.property('isShowingMonitor'),
 
   // short vm name

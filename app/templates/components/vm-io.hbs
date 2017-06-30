@@ -1,18 +1,18 @@
-{{#bs-modal open=isShowingIO body=false header=false footer=false renderInPlace=true closedAction=(action 'closedIO')}}
-  {{#bs-modal-header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/bs-modal-header}}
-  {{#bs-modal-body}}
+{{#bs-modal open=isShowingIO body=false header=false footer=false renderInPlace=true closedAction=(action 'closedIO') as |modal|}}
+  {{#modal.header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/modal.header}}
+  {{#modal.body}}
     {{#if errorIO}}
       <b>{{errorIO}}</b>
     {{else}}
       {{#if isRunning}}
         {{#if isIO}}
 
-{{#bs-accordion selected=0}}
+{{#bs-accordion selected=0 as |acc|}}
   {{#each vm.uris as |uri|}}
     {{#if uri.is_import}}
-      {{#bs-accordion-item value=uri.id title=uri.absolute}}
+      {{#acc.item value=uri.id title=uri.absolute}}
         {{vm-io-uri branchs=branchs loadingModal=loadingModal uri=uri vm=vm errorIO=errorIO importRunning=importRunning exportRunning=exportRunning}}
-      {{/bs-accordion-item}}
+      {{/acc.item}}
     {{/if}}
   {{/each}}
 {{/bs-accordion}}
@@ -24,23 +24,23 @@
         <b>Vm is not on running status.</b>
       {{/if}}
     {{/if}}
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Close"}}
+  {{/modal.body}}
+  {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=false classNames=['ember-view','loadingModal'] open=loadingModal}}
-   {{#bs-modal-header closeButton=false}}
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=false classNames=['ember-view','loadingModal'] open=loadingModal as |modal|}}
+   {{#modal.header closeButton=false}}
      <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
-   {{/bs-modal-header}}
+   {{/modal.header}}
    {{#if importRunning}}
-     {{#bs-modal-body}}
+     {{#modal.body}}
         <div class="text-center">Import is a long task, please waiting some minutes</div>
-     {{/bs-modal-body}}
+     {{/modal.body}}
    {{/if}}
 
    {{#if exportRunning}}
-     {{#bs-modal-body}}
+     {{#modal.body}}
         <div class="text-center">Export is a long task, please waiting some minutes</div>
-     {{/bs-modal-body}}
+     {{/modal.body}}
    {{/if}}
 {{/bs-modal}}

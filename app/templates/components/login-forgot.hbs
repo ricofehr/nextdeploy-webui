@@ -2,11 +2,11 @@
   <a {{action "forgotPassword" email password}} href="">forgot password</a>
 </div>
 
-{{#bs-modal open=modalForgot body=false footer=false header=false}}
-   {{#bs-modal-header}}
+{{#bs-modal open=modalForgot body=false footer=false header=false as |modal|}}
+   {{#modal.header}}
      <h4 class="modal-title">Forgot Password</h4>
-   {{/bs-modal-header}}
-   {{#bs-modal-body}}
+   {{/modal.header}}
+   {{#modal.body}}
     {{#if emailSend}}
       <b>An email is sending to your Inbox*. Please check this last one and your spam inbox too.</b><br><br>
       *Only if you have a valid record
@@ -21,5 +21,5 @@
         {{/if}}
       {{/if}}
     {{/if}}
-  {{/bs-modal-body}}
+  {{/modal.body}}
  {{/bs-modal}}

@@ -1,8 +1,8 @@
-{{#bs-modal open=modalHelp body=false footer=false header=false}}
-   {{#bs-modal-header}}
+{{#bs-modal open=modalHelp body=false footer=false header=false as |modal|}}
+   {{#modal.header}}
      <h4 class="modal-title">Help</h4>
-   {{/bs-modal-header}}
-   {{#bs-modal-body}}
+   {{/modal.header}}
+   {{#modal.body}}
     {{#if session.isAuthenticated}}
       <strong>Vm tab</strong>
       <ul>
@@ -50,5 +50,5 @@
       </ul>
       {{/if}}
     {{/if}}
-  {{/bs-modal-body}}
+  {{/modal.body}}
  {{/bs-modal}}

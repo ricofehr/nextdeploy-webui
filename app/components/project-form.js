@@ -419,7 +419,7 @@ export default Ember.Component.extend({
   updateGitpath: function() {
     var gitpath;
 
-    if (!this.get('project.brand') || !this.get('project.name')) { return; }
+    if (!this.get('project.brand') || !this.get('project.name')) { return; }
     gitpath = this.get('project.brand').get('name').replace(/[\. ]/g,'') + "-" + this.get('project.name').replace(/[\. ]/g,'-');
     this.set('project.gitpath', gitpath.toLowerCase());
 

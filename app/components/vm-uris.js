@@ -25,7 +25,6 @@ export default Ember.Component.extend({
     this.set('fadeUris', true);
   }.observes('vm'),
 
-
   // if Command Modal is display, hide uris modal
   showSubModal: function(show) {
     var self = this;
@@ -186,7 +185,7 @@ export default Ember.Component.extend({
     var is_auth = this.get('vm.is_auth');
     var uri_with_creds = '';
     var uri_xmlhttp_req = '';
-    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    // var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
     var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
@@ -214,7 +213,7 @@ export default Ember.Component.extend({
     var uri = this.get('vm.name');
     var uri_with_creds = '';
     var uri_xmlhttp_req = '';
-    var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    // var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
     var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
     var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
     var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;

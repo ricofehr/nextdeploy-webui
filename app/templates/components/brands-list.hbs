@@ -48,8 +48,8 @@
       </tr></table>
       </div>
 </div>
-{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal')}}
-  {{#bs-modal-body}}
+{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") closeAction=(action 'closeDeleteModal') as |modal|}}
+  {{#modal.body}}
     Are you sure to proceed ?<br/>{{{deleteText}}}
     You are going to delete the following items<br/>
     <ul>
@@ -57,7 +57,7 @@
       <li>{{item}}</li>
     {{/each}}
     </ul>
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+  {{/modal.body}}
+  {{modal.footer closeTitle="Cancel" submitTitle="Ok"}}
 {{/bs-modal}}
 {{/if}}

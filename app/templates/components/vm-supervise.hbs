@@ -1,6 +1,6 @@
-{{#bs-modal open=isShowingSupervise body=false header=false footer=false size="lg" closedAction=(action 'closedSupervise')}}
-  {{#bs-modal-header}}{{#if isRunning}}Supervise for {{vm.name}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
-  {{#bs-modal-body}}
+{{#bs-modal open=isShowingSupervise body=false header=false footer=false size="lg" closedAction=(action 'closedSupervise') as |modal|}}
+  {{#modal.header}}{{#if isRunning}}Supervise for {{vm.name}}{{else}}Please try again later{{/if}}{{/modal.header}}
+  {{#modal.body}}
     {{#if isRunning}}
     <div class="form-horizontal">
     {{#each vm.supervises as |sv|}}
@@ -53,22 +53,22 @@
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Close"}}
+  {{/modal.body}}
+  {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal open=isShowingRebootConfirmation body=false footer=false title="Attention" submitAction=(action "rebootVm")}}
-  {{#bs-modal-body}}
+{{#bs-modal open=isShowingRebootConfirmation body=false footer=false title="Attention" submitAction=(action "rebootVm") as |modal|}}
+  {{#modal.body}}
     Are you sure to proceed (Vm reboot action) ?<br/>
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Cancel" submitTitle="Ok"}}
+  {{/modal.body}}
+  {{modal.footer closeTitle="Cancel" submitTitle="Ok"}}
 {{/bs-modal}}
 
-{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=false classNames=['ember-view','loadingModal'] open=loadingModal}}
-   {{#bs-modal-header closeButton=false}}
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=false classNames=['ember-view','loadingModal'] open=loadingModal as |modal|}}
+   {{#modal.header closeButton=false}}
      <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
-   {{/bs-modal-header}}
-      {{#bs-modal-body}}
+   {{/modal.header}}
+      {{#modal.body}}
         <div class="text-center">Reboot request is sending ...</div>
-     {{/bs-modal-body}}
+     {{/modal.body}}
 {{/bs-modal}}

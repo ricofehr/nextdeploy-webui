@@ -37,31 +37,31 @@ export default Ember.Component.extend({
 
     if (this.get('vm')) {
       if (this.get('vm.is_cached')) { this.set('toggleCached', true); }
-      else { this.set('toggleCached', false); }
+      else { this.set('toggleCached', false); }
 
       if (this.get('vm.is_prod')) { this.set('toggleProd', true); }
-      else { this.set('toggleProd', false); }
+      else { this.set('toggleProd', false); }
 
       if (this.get('vm.is_ht')) { this.set('toggleHt', true); }
-      else { this.set('toggleHt', false); }
+      else { this.set('toggleHt', false); }
 
       if (this.get('vm.is_ci')) { this.set('toggleCi', true); }
-      else { this.set('toggleCi', false); }
+      else { this.set('toggleCi', false); }
 
       if (this.get('vm.is_cors')) { this.set('toggleCors', true); }
-      else { this.set('toggleCors', false); }
+      else { this.set('toggleCors', false); }
 
       if (this.get('vm.is_offline')) { this.set('toggleOffline', true); }
-      else { this.set('toggleOffline', false); }
+      else { this.set('toggleOffline', false); }
 
       if (this.get('vm.is_ro')) { this.set('toggleRo', true); }
-      else { this.set('toggleRo', false); }
+      else { this.set('toggleRo', false); }
 
       if (this.get('vm.is_auth')) { this.set('toggleAuth', true); }
-      else { this.set('toggleAuth', false); }
+      else { this.set('toggleAuth', false); }
 
       if (this.get('vm.is_backup')) { this.set('toggleBackup', true); }
-      else { this.set('toggleBackup', false); }
+      else { this.set('toggleBackup', false); }
 
       this.set('cachedToolTip', false);
       this.set('prodToolTip', false);

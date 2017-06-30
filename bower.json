@@ -1,9 +1,1 @@
-{
-  "name": "nextdeploy",
-  "dependencies": {
-    "ember": "~2.8.1",
-    "ember-cli-shims": "0.1.1",
-    "bootstrap": "~3.3.5",
-    "font-awesome-animation": "^0.0.10"
-  }
-}
+{"name":"nextdeploy","dependencies":{"font-awesome-animation":"^0.0.10"}}

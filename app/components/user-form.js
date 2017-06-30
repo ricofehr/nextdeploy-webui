@@ -255,7 +255,7 @@ export default Ember.Component.extend({
       successPassword = false;
     }
 
-    if (!password || password.length === 0) {
+    if (!password || password.length === 0) {
       errorPassword = true;
       if (this.get('user.id')) {
         errorPassword = false;
@@ -279,7 +279,7 @@ export default Ember.Component.extend({
       successPasswordConfirmation = false;
     }
 
-    if (!passwordConfirmation || passwordConfirmation.length === 0) {
+    if (!passwordConfirmation || passwordConfirmation.length === 0) {
       errorPasswordConfirmation = true;
       if (this.get('user.id')) {
         errorPasswordConfirmation = false;

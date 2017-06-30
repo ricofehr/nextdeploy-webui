@@ -311,8 +311,8 @@
   </div>
   {{/if}}
 </form>
-{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
-   {{#bs-modal-header closeButton=false}}
+{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal as |modal|}}
+   {{#modal.header closeButton=false}}
      <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
-   {{/bs-modal-header}}
+   {{/modal.header}}
 {{/bs-modal}}

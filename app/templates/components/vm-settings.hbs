@@ -1,6 +1,6 @@
-{{#bs-modal open=isShowingSettings body=false header=false footer=false size="lg" closedAction=(action 'closedSettings') fade=fadeSettings}}
-  {{#bs-modal-header}}{{#if isRunning}}Settings for {{vm.name}}{{else}}Please try again later{{/if}}{{/bs-modal-header}}
-  {{#bs-modal-body}}
+{{#bs-modal open=isShowingSettings body=false header=false footer=false size="lg" closedAction=(action 'closedSettings') fade=fadeSettings as |modal|}}
+  {{#modal.header}}{{#if isRunning}}Settings for {{vm.name}}{{else}}Please try again later{{/if}}{{/modal.header}}
+  {{#modal.body}}
     {{#if isRunning}}
     <div class="form-horizontal">
     <div class="form-group">
@@ -11,8 +11,8 @@
     </div>
 
     <div class="form-group">
-        <label class="control-label col-md-2 col-sm-3 col-xs-4 col-xs-4">Offline</label>
-      <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'offline' on="mouseEnter"}} {{action "hideToolTip" 'offline' on="mouseLeave"}}>
+        <label class="control-label col-md-2 col-sm-3 col-xs-4">Offline</label>
+      <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'offline' on="mouseEnter"}} {{action "hideToolTip" 'offline' on="mouseLeave"}}>
         {{x-toggle
               value=toggleOffline
               onLabel='true'
@@ -21,7 +21,7 @@
               disabled=isDisabledAdminVms}}
       </div>
       {{#if offlineToolTip}}
-      <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+      <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
         <i>Redirect all vm endpoints to the NextDeploy offline page</i>
       </div>
       {{/if}}
@@ -29,7 +29,7 @@
 
     <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Caching</label>
-    <div class="col-md-2 col-sm-4 col-xs-4" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
       {{x-toggle
             value=toggleCached
             onLabel='true'
@@ -38,7 +38,7 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if cachedToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Enable varnish cache for static objects</i>
     </div>
     {{/if}}
@@ -46,7 +46,7 @@
 
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">BasicAuth</label>
-    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'auth' on="mouseEnter"}} {{action "hideToolTip" 'auth' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'auth' on="mouseEnter"}} {{action "hideToolTip" 'auth' on="mouseLeave"}}>
       {{x-toggle
             value=toggleAuth
             onLabel='true'
@@ -55,7 +55,7 @@
             disabled=isDisabledAuth}}
     </div>
     {{#if authToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Enable basic authentification for the website</i>
     </div>
     {{/if}}
@@ -63,7 +63,7 @@
 
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Htaccess</label>
-    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'ht' on="mouseEnter"}} {{action "hideToolTip" 'ht' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'ht' on="mouseEnter"}} {{action "hideToolTip" 'ht' on="mouseLeave"}}>
       {{x-toggle
             value=toggleHt
             onLabel='true'
@@ -72,7 +72,7 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if htToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Enable custom apache htacces file in webroot, not recommended !</i>
     </div>
     {{/if}}
@@ -80,7 +80,7 @@
 
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Backup</label>
-    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'backup' on="mouseEnter"}} {{action "hideToolTip" 'backup' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'backup' on="mouseEnter"}} {{action "hideToolTip" 'backup' on="mouseLeave"}}>
       {{x-toggle
             value=toggleBackup
             onLabel='true'
@@ -89,7 +89,7 @@
             disabled=isDisabledBackup}}
     </div>
     {{#if backupToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>{{#if isDisabledBackup}}Nothing to backup (database or assets) for this project{{else}}Enable daily backup with one week history{{/if}}</i>
     </div>
     {{/if}}
@@ -97,7 +97,7 @@
 
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">CI</label>
-    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'ci' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'ci' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
       {{x-toggle
             value=toggleCi
             onLabel='true'
@@ -106,7 +106,7 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if ciToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Updates each 30 min with the last commit pushed on the branch</i>
     </div>
     {{/if}}
@@ -114,7 +114,7 @@
 
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4 col-xs-4">Cors</label>
-    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'cors' on="mouseEnter"}} {{action "hideToolTip" 'cors' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'cors' on="mouseEnter"}} {{action "hideToolTip" 'cors' on="mouseLeave"}}>
       {{x-toggle
             value=toggleCors
             onLabel='true'
@@ -123,7 +123,7 @@
             disabled=isDisabledAdminVms}}
     </div>
     {{#if corsToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Add cors header for authorize external website to request vm</i>
     </div>
     {{/if}}
@@ -131,7 +131,7 @@
 
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4 col-xs-4">Read-Only</label>
-    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'ro' on="mouseEnter"}} {{action "hideToolTip" 'ro' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'ro' on="mouseEnter"}} {{action "hideToolTip" 'ro' on="mouseLeave"}}>
       {{x-toggle
             value=toggleRo
             onLabel='true'
@@ -140,7 +140,7 @@
             disabled=isDisabledRo}}
     </div>
     {{#if roToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Make this vm on read-only state</i>
     </div>
     {{/if}}
@@ -148,7 +148,7 @@
 
   <div class="form-group">
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Prod</label>
-    <div class="col-md-1 col-sm-2 col-xs-2" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
+    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
       {{x-toggle
             value=toggleProd
             onLabel='true'
@@ -157,7 +157,7 @@
             disabled=isDisabledProd}}
     </div>
     {{#if prodToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Enable Production Flag with higher security level, custom uris fields, ...</i>
     </div>
     {{/if}}
@@ -169,7 +169,7 @@
       <i class="fa fa-external-link-square fa-2x" aria-hidden="true" {{action 'openSubModal'}}></i>
     </div>
     {{#if uriToolTip}}
-    <div class="col-lg-8 col-md-0 col-sm-0 col-xs-0 control-label">
+    <div class="col-lg-7 col-md-0 col-sm-0 col-xs-0 control-label">
       <i>Open uris settings popin for ipfilters {{#if vm.is_prod}}and DNS settings{{/if}}</i>
     </div>
     {{/if}}
@@ -179,16 +179,16 @@
     {{else}}
       <b>Vm is not on running status.</b>
     {{/if}}
-  {{/bs-modal-body}}
-  {{bs-modal-footer closeTitle="Close"}}
+  {{/modal.body}}
+  {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
 
-{{#bs-modal header=false footer=false body=false open=uriModal closedAction=(action 'closedSubModal') size='lg' fade=false}}
-   {{#bs-modal-header}}
+{{#bs-modal header=false footer=false body=false open=uriModal closedAction=(action 'closedSubModal') size='lg' fade=false as |modal|}}
+   {{#modal.header}}
      <div class="text-center">Uris for {{vm.name}}</div>
-   {{/bs-modal-header}}
-   {{#bs-modal-body}}
+   {{/modal.header}}
+   {{#modal.body}}
    <div class="form-horizontal">
         <div class="form-group">
     {{#if errorUri}}
@@ -201,15 +201,15 @@
       {{vm-form-uri vm=vm uri=uri checkListUris=checkListUris isPopin=1}}
   {{/each}}
   </div>
-   {{/bs-modal-body}}
-   {{bs-modal-footer closeTitle="Close"}}
+   {{/modal.body}}
+   {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal}}
-   {{#bs-modal-header closeButton=false}}
+{{#bs-modal header=false footer=false body=false autoClose=false open=loadingModal as |modal|}}
+   {{#modal.header closeButton=false}}
      <div class="text-center"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...</div>
-   {{/bs-modal-header}}
-   {{#bs-modal-body}}
+   {{/modal.header}}
+   {{#modal.body}}
         <div class="text-center">Setting is curently applied, please waiting</div>
-     {{/bs-modal-body}}
+     {{/modal.body}}
 {{/bs-modal}}
