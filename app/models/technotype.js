@@ -2,5 +2,5 @@ import DS from 'ember-data';
 
 export default DS.Model.extend({
   name: DS.attr('string'),
-  technos: DS.hasMany('techno', {async: true})
+  technos: DS.hasMany('techno')
 });

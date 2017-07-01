@@ -64,6 +64,27 @@ module.exports = function(app) {
           "endpoints": []
         }
       });
+    } else if (req.params.id === '1') {
+      res.send({
+        'project':{
+          "id":1,
+          "name":"www.drupalmycompany.com",
+          "gitpath":"gitlab.nextdeploy.local:/root/mycompany-www-drupalmycompany-com",
+          "enabled":true,
+          "login":"modem",
+          "password":"modem",
+          "created_at":new Date().toLocaleString(),
+          "is_ht":false,
+          "users":[1,2,3,4,5,6],
+          "endpoints":[5],
+          "technos":[6,10,1,7,5,4],
+          "vmsizes":[1,2],
+          "systemimages":[1,2],
+          "branches":["1-develop","1-master"],
+          "owner":1,
+          "brand":1
+        }
+      });
     } else {
       res.send({
         'project':{
