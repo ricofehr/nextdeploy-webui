@@ -46,7 +46,7 @@ module.exports = function(environment) {
   }
 
   // x-toggle parameters
-  ENV['ember-cli-toggle'] = {
+  ENV['ember-toggle'] = {
     includedThemes: ['light', 'default', 'ios'],
     defaultTheme: 'ios',
     defaultSize: 'medium'
