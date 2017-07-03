@@ -157,6 +157,21 @@ export default Ember.Component.extend({
     return vm_name.match(/os.nextdeploy$/);
   }.property('isShowingUris'),
 
+  // return jenkins uri for the vm
+  jenkinsURI: function() {
+    return this.getCITOOL('jenkins');
+  }.property('isShowingUris'),
+
+  // return sonar uri for the vm
+  sonarURI: function() {
+    return this.getCITOOL('sonar');
+  }.property('isShowingUris'),
+
+  // return pmdoc uri for the vm
+  pmdocURI: function() {
+    return this.getCITOOL('pmdoc');
+  }.property('isShowingUris'),
+
   // return phpmyadmin uri for the vm
   pmaURI: function() {
     return this.getTOOL('phpmyadmin');
@@ -226,6 +241,34 @@ export default Ember.Component.extend({
 
     uri_with_creds = scheme + '://' + authcreds + 'pmtools-' + uri + '/' + uritype + '/';
     uri_xmlhttp_req = scheme + '://pmtools-' + uri + '/' + uritype + '/';
+
+    if (is_ff || is_iphone || is_ipad) {
+      return uri_with_creds;
+    } else {
+      return uri_xmlhttp_req;
+    }
+  },
+
+  getCITOOL: function(uritype) {
+    var login = this.get('vm.htlogin');
+    var password = this.get('vm.htpassword');
+    var authcreds = login + ":" + password + "@";
+    var uri = this.get('vm.name');
+    var uri_with_creds = '';
+    var uri_xmlhttp_req = '';
+    // var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
+    var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
+    var scheme = 'https';
+
+
+    if (uri.match(/os.nextdeploy$/)) {
+      scheme = 'http';
+    }
+
+    uri_with_creds = scheme + '://' + authcreds + uritype + '-' + uri + '/';
+    uri_xmlhttp_req = scheme + '://' + uritype + '-' + uri + '/';
 
     if (is_ff || is_iphone || is_ipad) {
       return uri_with_creds;
