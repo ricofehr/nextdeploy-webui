@@ -240,6 +240,7 @@ export default Ember.Component.extend({
       this.set('nc', 0);
       this.set('nc2', 0);
       this.set('vm', null);
+      this.set('isShowingMonitor', false);
     }
   }
 });

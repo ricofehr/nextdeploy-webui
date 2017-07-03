@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingDetails body=false footer=false title="Details" autoClose=false closeAction=(action 'closeDetails') size='lg' as |modal|}}
+{{#bs-modal open=isShowingDetails body=false footer=false title="Details" autoClose=false onHidden=(action 'closeDetails') size='lg' as |modal|}}
   {{#modal.body}}
     <b>Git</b><br>
     git clone {{project.gitpath_href}}<br><br>

@@ -239,6 +239,7 @@ export default Ember.Component.extend({
       if (!this.get('subModal')) {
         this.set('isBusy', false);
         this.set('vm', null);
+        this.set('isShowingSettings', false);
       }
     },
 

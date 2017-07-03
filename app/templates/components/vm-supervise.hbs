@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingSupervise body=false header=false footer=false size="lg" closedAction=(action 'closedSupervise') as |modal|}}
+{{#bs-modal open=isShowingSupervise body=false header=false footer=false size="lg" onHidden=(action 'closedSupervise') as |modal|}}
   {{#modal.header}}{{#if isRunning}}Supervise for {{vm.name}}{{else}}Please try again later{{/if}}{{/modal.header}}
   {{#modal.body}}
     {{#if isRunning}}

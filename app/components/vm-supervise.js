@@ -27,6 +27,7 @@ export default Ember.Component.extend({
     closedSupervise: function() {
       this.set('vm', null);
       this.set('isBusy', false);
+      this.set('isShowingSupervise', false);
     },
 
     // show / hide tooltip for reboot features

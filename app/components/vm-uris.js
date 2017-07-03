@@ -277,6 +277,7 @@ export default Ember.Component.extend({
     // close the uris modal, reset showing variable
     closedUris: function() {
       if (!this.get('subModal')) {
+        this.set('isShowingUris', false);
         this.set('isBusy', false);
         this.set('vm', null);
       }

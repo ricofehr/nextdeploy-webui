@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingSettings body=false header=false footer=false size="lg" closedAction=(action 'closedSettings') fade=fadeSettings as |modal|}}
+{{#bs-modal open=isShowingSettings body=false header=false footer=false size="lg" onHidden=(action 'closedSettings') fade=fadeSettings as |modal|}}
   {{#modal.header}}{{#if isRunning}}Settings for {{vm.name}}{{else}}Please try again later{{/if}}{{/modal.header}}
   {{#modal.body}}
     {{#if isRunning}}
@@ -184,7 +184,7 @@
 {{/bs-modal}}
 
 
-{{#bs-modal header=false footer=false body=false open=uriModal closedAction=(action 'closedSubModal') size='lg' fade=false as |modal|}}
+{{#bs-modal header=false footer=false body=false open=uriModal onHidden=(action 'closedSubModal') size='lg' fade=false as |modal|}}
    {{#modal.header}}
      <div class="text-center">Uris for {{vm.name}}</div>
    {{/modal.header}}

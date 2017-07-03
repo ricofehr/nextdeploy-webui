@@ -108,6 +108,7 @@ export default Ember.Component.extend({
     closedIO: function() {
       this.set('isBusy', false);
       this.set('vm', null);
+      this.set('isShowingIO', false);
     },
   }
 });

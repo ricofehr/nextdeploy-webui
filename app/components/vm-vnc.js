@@ -8,6 +8,7 @@ export default Ember.Component.extend({
       this.set('vncPassword', '');
       this.set('vncLayout', '');
       this.set('isBusy', false);
+      this.set('isShowingVnc', false);
     }
   }
 });

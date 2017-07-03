@@ -22,6 +22,7 @@ export default Ember.Component.extend({
     closedDetails: function() {
       this.set('isBusy', false);
       this.set('vm', null);
+      this.set('isShowingDetails', false);
     },
   }
 });

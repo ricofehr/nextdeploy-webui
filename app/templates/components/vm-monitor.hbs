@@ -1,4 +1,4 @@
-{{#bs-modal elementId="modalMonitor" open=isShowingMonitor body=false header=false footer=false size="lg" closedAction=(action 'closedMonitor') as |modal|}}
+{{#bs-modal elementId="modalMonitor" open=isShowingMonitor body=false header=false footer=false size="lg" onHidden=(action 'closedMonitor') as |modal|}}
   {{#modal.header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/modal.header}}
   {{#modal.body}}
   {{#if isShowingMonitor}}

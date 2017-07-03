@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingDetails body=false header=false footer=false size="lg" closedAction=(action 'closedDetails') as |modal|}}
+{{#bs-modal open=isShowingDetails body=false header=false footer=false size="lg" onHidden=(action 'closedDetails') as |modal|}}
   {{#modal.header}}{{#if isRunning}}Details{{else}}Please try again later{{/if}}{{/modal.header}}
   {{#modal.body}}
     {{#if isRunning}}

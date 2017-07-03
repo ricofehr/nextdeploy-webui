@@ -1,4 +1,4 @@
-{{#bs-modal open=isShowingUris body=false header=false footer=false closedAction=(action 'closedUris') fade=fadeUris as |modal|}}
+{{#bs-modal open=isShowingUris body=false header=false footer=false onHidden=(action 'closedUris') fade=fadeUris as |modal|}}
   {{#modal.header}}{{#if isRunning}}{{#if isDev}}Urls & Tools{{else}}Urls{{/if}}{{else}}Please try again later{{/if}}{{/modal.header}}
   {{#modal.body}}
     {{#if isRunning}}
@@ -71,7 +71,7 @@
   {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=closeModal closedAction=(action 'closedLoading') classNames=['ember-view','loadingModal'] open=loadingModal size='lg' fade=false as |modal|}}
+{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=closeModal onHidden=(action 'closedLoading') classNames=['ember-view','loadingModal'] open=loadingModal size='lg' fade=false as |modal|}}
    {{#modal.header closeButton=closeModal}}
      <div class="text-center">
      {{#if requestRunning}}
