@@ -101,7 +101,7 @@
 </div>
 
 {{#if isAdmin}}
-{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" submitAction=(action "deleteItems") onHide=(action 'closeDeleteModal') as |modal|}}
+{{#bs-modal open=isShowingDeleteConfirmation body=false footer=false title="Attention" onSubmit=(action "deleteItems") onHide=(action 'closeDeleteModal') as |modal|}}
   {{#modal.body}}
     Are you sure to proceed ?<br/>{{{deleteText}}}
     You are going to delete the following items<br/>

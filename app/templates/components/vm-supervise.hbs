@@ -57,7 +57,7 @@
   {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal open=isShowingRebootConfirmation body=false footer=false title="Attention" submitAction=(action "rebootVm") as |modal|}}
+{{#bs-modal open=isShowingRebootConfirmation body=false footer=false title="Attention" onSubmit=(action "rebootVm") as |modal|}}
   {{#modal.body}}
     Are you sure to proceed (Vm reboot action) ?<br/>
   {{/modal.body}}
