@@ -5,7 +5,7 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
   model(params) {
 
     return Ember.RSVP.hash({
-      vms: this.store.peekAll('vm').toArray().sort(function(a, b) {
+      vms: this.store.peekAll('vm').toArray().filterBy('is_jenkins', false).sort(function(a, b) {
         return Ember.compare(parseInt(b.id), parseInt(a.id));
       }),
       projectId: params.project_id

@@ -7,6 +7,7 @@
     <th class="simplify">Company</th>
     <th><span class="fa fa-industry" title="Projects"></span></th>
     <th><span class="fa fa-plug" title="Vms"></span></th>
+    {{#if isLead}}<th><span class="fa fa-flask" title="CI Vms"></span></th>{{/if}}
     {{#if isAdmin}}<th class="simplify"><span class="fa fa-key" title="Ssh Keys"></span></th>{{/if}}
   </tr>
 </thead>
@@ -58,14 +59,15 @@
       {{/if}}
 
       {{#if isLead}}
-        {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref" title="Vms for this user"}}{{user.vms.length}}{{/link-to}}
+        {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref" title="Vms for this user"}}{{user.countVms}}{{/link-to}}
       {{else}}
         {{#if user.isCurrent}}
-          {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref" title="Vms for this user"}}{{user.vms.length}}{{/link-to}}
+          {{#link-to 'vms.byuser' user.id tagName="td" classNames="tdhref" title="Vms for this user"}}{{user.countVms}}{{/link-to}}
         {{else}}
-          <td>{{user.vms.length}}</td>
+          <td>{{user.countVms}}</td>
         {{/if}}
       {{/if}}
+      {{#if isLead}}{{#link-to 'cis.byuser' user.id tagName="td" classNames="tdhref" title="CI Vms for this user"}}{{user.countCis}}{{/link-to}}{{/if}}
         {{#if isAdmin}}<td class="simplify" title="Sshkeys count">{{user.sshkeys.length}}</td>{{/if}}
     </tr>
     {{/if}}

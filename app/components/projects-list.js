@@ -103,6 +103,9 @@ export default Ember.Component.extend({
 
       // paging system
       if (model.get('isShow')) {
+        model.set('countVms', model.get('vms').filterBy('is_jenkins', false).toArray().length);
+        model.set('countCis', model.get('vms').filterBy('is_jenkins', true).toArray().length);
+
         if (!pages.isAny('cp', ncp)) {
           pages.addObject(Ember.Object.create({cp: ncp, current: ncp === cp}));
         }

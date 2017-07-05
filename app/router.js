@@ -40,6 +40,8 @@ Router.map(function() {
   this.route('cis', function() {
     this.route('list');
     this.route('new');
+    this.route('byuser', { path:'/byuser/:user_id' });
+    this.route('byproject', { path:'/byproject/:project_id' });
   });
 
   this.route('dashboard');
