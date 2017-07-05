@@ -2,20 +2,19 @@
   <a {{action "forgotPassword" email password}} href="">forgot password</a>
 </div>
 
-{{#bs-modal open=modalForgot body=false footer=false header=false as |modal|}}
+{{#bs-modal open=modalForgot body=false footer=false header=false onHidden=(action 'closeForgot') as |modal|}}
    {{#modal.header}}
      <h4 class="modal-title">Forgot Password</h4>
    {{/modal.header}}
    {{#modal.body}}
     {{#if emailSend}}
-      <b>An email is sending to your Inbox*. Please check this last one and your spam inbox too.</b><br><br>
-      *Only if you have a valid record
+      An email is sending.<br /> Please check your inbox or your spam folder.
     {{else}}
       {{#if errorMail}}
         <b>Please fill the "Email Address" field</b>
       {{else}}
         {{#if errorPass}}
-          <b>Only fill the "Email Address" field.<br/>The password field must be empty.</b>
+          Please only fill the "Email Address" field.<br/>The password field must be empty.
         {{else}}
           <b>Email is sending ...</b>
         {{/if}}
