@@ -7,7 +7,7 @@
         {{else}}
           <th>Uris{{#if isPM}}<span class="simplify"> &amp; Tools</span>{{/if}}</th>
         {{/if}}
-        <th class="simplify" title="Commit date (YMD) - Topic and Commit Message on hover">Details</th>
+        <th title="Commit date (YMD) - Topic and Commit Message on hover">Details</th>
         {{#if isDev}}
           {{#unless isJenkins}}
             <th class="tdpopup"><span class="fa fa-sliders" title="Settings"></span></th>
@@ -18,7 +18,7 @@
         {{/if}}
         <th class="tdpopup"><span class="fa fa-heartbeat" title="Status"></span></th>
         {{#unless isJenkins}}
-          {{#if isLead}}<th class="tduser"><span class="fa fa-user-circle" title="User"></span></th>{{/if}}
+          {{#if isLead}}<th class="simplify-mobile tduser"><span class="fa fa-user-circle" title="User"></span></th>{{/if}}
         {{/unless}}
         <th class="tddate date-simplify"><span class="fa fa-calendar" title="Date creation (Y/M/D)"></span></th>
     </tr>
@@ -48,13 +48,13 @@
           <td {{action "showUris" vm}} class="tdhref" title="Uris and Tools" {{action 'hideAllUsersList' on='mouseEnter'}}>{{vm.project.name}}</td>
         {{/if}}
         {{#if isDev}}
-            <td class="simplify tdinfo tdinfoh tdhref" title="Commit date (YMD) - Topic and Commit Message on hover" {{action "showDetails" vm}} {{action 'hideAllUsersList' on='mouseEnter'}}>
+            <td class="tdinfo tdinfoh tdhref" title="Commit date (YMD) - Topic and Commit Message on hover" {{action "showDetails" vm}} {{action 'hideAllUsersList' on='mouseEnter'}}>
                 <span class="info-branch-commit">
                     {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
                 </span>
             </td>
         {{else}}
-            <td class="simplify tdinfo" title="Commit date (YMD) - Topic and Commit Message on hover" {{action 'hideAllUsersList' on='mouseEnter'}}>
+            <td class="tdinfo" title="Commit date (YMD) - Topic and Commit Message on hover" {{action 'hideAllUsersList' on='mouseEnter'}}>
                 <span class="info-branch-commit">
                     {{vm-hover vm=vm isShowingHovers=isShowingHovers}}
                 </span>
@@ -117,11 +117,11 @@
         {{#unless isJenkins}}
         {{#if isLead}}
             {{#if vm.is_ro}}
-                <td title="{{vm.user.email}}" class="tduser">{{vm.user.shortname}}</td>
+                <td title="{{vm.user.email}}" class="simplify-mobile tduser">{{vm.user.shortname}}</td>
             {{else}}
                 {{#if vm.sucStatus}}
                     {{#if vm.isUserList}}
-                        <td class="tduser">{{#power-select
+                        <td class="simplify-mobile tduser">{{#power-select
                           options=vm.project.users
                           searchField="email"
                           selected=vm.user
@@ -134,10 +134,10 @@
                         {{/power-select}}
                       </td>
                     {{else}}
-                        <td class="tdhref tduser" {{action 'showUserList' vm}} title="{{vm.user.email}}">{{vm.user.shortname}}</td>
+                        <td class="tdhref simplify-mobile tduser" {{action 'showUserList' vm}} title="{{vm.user.email}}">{{vm.user.shortname}}</td>
                     {{/if}}
                 {{else}}
-                    <td title="{{vm.user.email}}" class="tduser">{{vm.user.shortname}}</td>
+                    <td title="{{vm.user.email}}" class="simplify-mobile tduser">{{vm.user.shortname}}</td>
                 {{/if}}
             {{/if}}
         {{/if}}
