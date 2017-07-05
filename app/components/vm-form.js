@@ -480,18 +480,7 @@ export default Ember.Component.extend({
         self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
 
         if (self.get('isJenkins')) {
-          // Ugly hack for force ubuntu1404 (install issue on other systems)
-          var os = project.get('systemimages').toArray().filter(function(sys) {
-            return sys.get('name') === 'Ubuntu1404';
-          });
-
-          if (os.length == 0) {
-            os = self.store.peekAll('systemimage').toArray().filter(function(sys) {
-              return sys.get('name') === 'Ubuntu1404';
-            });
-          }
-
-          self.set('vm.systemimage', os[0]);
+          self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
           self.set('vm.vmsize', self.store.peekAll('vmsize').toArray()[2]);
         } else {
           self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
