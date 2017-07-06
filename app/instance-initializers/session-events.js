@@ -12,8 +12,12 @@ export function initialize(container) {
     applicationRoute.transitionTo('index');
   };
 
+  var successSupervise = function() {
+    store.findAll('hpmessage', { backgroundReload: false, reload: true }).then(success, fail);
+  };
+
   var successUri = function() {
-    store.findAll('supervise', { backgroundReload: false, reload: true }).then(success, fail);
+    store.findAll('supervise', { backgroundReload: false, reload: true }).then(successSupervise, fail);
   };
 
   var successVm = function() {
