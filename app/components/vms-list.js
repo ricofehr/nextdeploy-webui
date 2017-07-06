@@ -306,7 +306,7 @@ export default Ember.Component.extend({
 
     Ember.run.later(function() {
       self.checkAllStatus();
-    }, 15000);
+    }, 30000);
   },
 
   // delete records unsaved or deleted
