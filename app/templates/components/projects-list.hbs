@@ -16,10 +16,10 @@
     <tr>
       {{#if isProjectCreate}}
         {{#if project.owner}}
-          <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=project.todelete}}</td>
+          <td class="simplify-mobile first-col" title="Check to delete">{{input type="checkbox" checked=project.todelete}}</td>
         {{else}}
           {{#if isAdmin}}
-            <td class="simplify-mobile first-col" title="Check for delete">{{input type="checkbox" checked=project.todelete}}</td>
+            <td class="simplify-mobile first-col" title="Check to delete">{{input type="checkbox" checked=project.todelete}}</td>
           {{else}}
             <td class="simplify-mobile first-col">&nbsp;</td>
           {{/if}}
