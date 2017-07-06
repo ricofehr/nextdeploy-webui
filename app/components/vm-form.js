@@ -350,7 +350,10 @@ export default Ember.Component.extend({
 
     cleanUris.forEach(function (clean) {
       if (clean) {
-        clean.get('framework').get('uris').removeObject(clean);
+        if (clean.get('framework')) {
+          clean.get('framework').get('uris').removeObject(clean);
+        }
+
         if (clean.get('vm')) {
           clean.get('vm').get('uris').removeObject(clean);
         }

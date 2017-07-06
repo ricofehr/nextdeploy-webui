@@ -2,7 +2,7 @@
   <a {{action "forgotPassword" email password}} href="">forgot password</a>
 </div>
 
-{{#bs-modal open=modalForgot body=false footer=false header=false onHidden=(action 'closeForgot') as |modal|}}
+{{#bs-modal open=modalForgot  header=false onHidden=(action 'closeForgot') as |modal|}}
    {{#modal.header}}
      <h4 class="modal-title">Forgot Password</h4>
    {{/modal.header}}

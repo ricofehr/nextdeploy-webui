@@ -6,7 +6,7 @@
         <b>CI</b><br/>
         <a href="{{jenkinsURI}}" target="_blank">Jenkins</a><br/>
         <a href="{{sonarURI}}" target="_blank">SonarQube</a><br/>
-        {{#if isWeb}}<a href="{{pmdocURI}}" target="_blank">PhpDocumentor</a><br/>{{/if}}
+        {{#if isWeb}}<a href="{{pmdocURI}}" target="_blank">Documentation</a><br/>{{/if}}
         <br/>
       {{/if}}
       {{#if isWeb}}
@@ -65,7 +65,7 @@
   {{modal.footer closeTitle="Close"}}
 {{/bs-modal}}
 
-{{#bs-modal header=false footer=false body=false renderInPlace=true autoClose=closeModal onHidden=(action 'closedLoading') classNames=['ember-view','loadingModal'] open=loadingModal size='lg' fade=false as |modal|}}
+{{#bs-modal renderInPlace=true autoClose=closeModal onHidden=(action 'closedLoading') classNames=['ember-view','loadingModal'] open=loadingModal size='lg' fade=false as |modal|}}
    {{#modal.header closeButton=closeModal}}
      <div class="text-center">
      {{#if requestRunning}}
