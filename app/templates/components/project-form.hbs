@@ -26,11 +26,11 @@
     {{#if errorName}}
       <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Name</label>
     {{else}}
-      {{#if errorName2}}
+      {{#if errorNameUnique}}
         <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Already taken</label>
       {{else}}
-        {{#if errorName3}}
-          <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger"> >5 chars !</label>
+        {{#if errorNameLength}}
+          <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Too shorter !</label>
         {{else}}
           <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">Name</label>
         {{/if}}
@@ -38,12 +38,12 @@
     {{/if}}
     <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text"
-            classNames="form-control"
-            maxlength="32"
-            autocomplete="off"
-            value=project.name
-            placeholder="Name"
-            disabled=isDisableEdit}}
+        classNames="form-control"
+        maxlength="32"
+        autocomplete="off"
+        value=project.name
+        placeholder="Name"
+        disabled=isDisableEdit}}
      </div>
   </div>
 
@@ -59,10 +59,10 @@
     {{/if}}
     <div class="col-md-3 col-sm-5 col-xs-6">
     {{input type="text"
-            classNames="form-control"
-            value=project.gitpath
-            placeholder="Gitpath"
-            disabled=true}}
+        classNames="form-control"
+        value=gitPath
+        placeholder="Gitpath"
+        disabled=true}}
     </div>
   </div>
 
@@ -176,12 +176,12 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
     <label>
       {{x-toggle
-            onToggle=(action 'displayTechno' isDisableCreate)
-            value=technoproxy.toggled
-            onLabel='true'
-            offLabel='false'
-            name=technoproxy.technotype.id
-            disabled=isDisableCreate}}<br/>
+          onToggle=(action 'displayTechno' isDisableCreate)
+          value=technoproxy.toggled
+          onLabel='true'
+          offLabel='false'
+          name=technoproxy.technotype.id
+          disabled=isDisableCreate}}<br/>
     </label>
     {{#if technoproxy.toggled}}
     {{#power-select

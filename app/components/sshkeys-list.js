@@ -1,18 +1,42 @@
 import Ember from 'ember';
 
+/**
+ *  This component manages the sshkeys list
+ *
+ *  @module components/sshkey-list
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-// Show / hide on html side
+  /**
+   *  Flag to show the delete confirm modal
+   *
+   *  @type {Boolean}
+   */
   isShowingDeleteConfirmation: false,
+
+  /**
+   *  Flag to select all the user sshkeys to being deleted
+   *
+   *  @type {Boolean}
+   */
   isAllDelete: false,
 
-  // trigger when model changes
+  /**
+   *  Trigger when receives models
+   *
+   *  @function
+   */
   didReceiveAttrs() {
     this._super(...arguments);
     this.cleanModel();
     this.shortKey();
   },
 
-  // delete records unsaved or deleted
+  /**
+   *  Delete records unsaved or deleted
+   *
+   *  @function
+   */
   cleanModel: function() {
     var self = this;
     var cleanKeys = this.get('user').get('sshkeys').filterBy('isDeleted', true);
@@ -30,7 +54,11 @@ export default Ember.Component.extend({
     });
   },
 
-  // add key_short parameter
+  /**
+   *  Generates key_short attribute
+   *
+   *  @function
+   */
   shortKey() {
     var self = this;
     this.get('user').get('sshkeys').map(function (model) {
@@ -40,68 +68,11 @@ export default Ember.Component.extend({
         var key_s = key;
 
         // crop key for display it into array
-        if (key_l>70) {
+        if (key_l > 70) {
           key_s = key.substring(0,30) + '...' + key.substring(key_l-40, key_l);
         }
         model.set('key_short', key_s);
       });
     });
-  },
-
-  // actions binding with user event
-  actions: {
-    // action for delete event
-    deleteItems: function() {
-      var router = this.get('router');
-      var pass = function(){};
-      var fail = function(){ router.transitionTo('error'); };
-
-      var items = this.get('user.sshkeys').filterBy('todelete', true);
-
-      for(var i=0; i<items.length; i++) {
-        if (items[i] && items[i].todelete) {
-          items[i].destroyRecord().then(pass, fail);
-          items[i].get('user').get('sshkeys').removeObject(items[i]);
-          this.store.peekAll('sshkey').removeObject(items[i]);
-        }
-      }
-
-      this.set('isShowingDeleteConfirmation', false);
-      this.set('isAllDelete', false);
-    },
-
-    // Change hide/show for delete confirmation
-    showDeleteConfirmation: function() {
-      var items = this.get('user.sshkeys').filterBy('todelete', true);
-      var deleteItems = [];
-
-      for(var i=0; i<items.length; i++) {
-        deleteItems.push(items[i].get('name'));
-      }
-
-      if (deleteItems.length > 0) {
-        this.set('deleteItems', deleteItems);
-        this.set('isShowingDeleteConfirmation', true);
-      }
-    },
-
-    // Action for add a new item, change current page to create form
-    newItem: function() {
-      var router = this.get('router');
-      var user = this.get('user');
-
-      router.transitionTo('sshkeys.new', user.get('id'));
-    },
-
-    // Toggle or untoggle all items
-    toggleDeleteAll: function() {
-      this.set('isShowingDeleteConfirmation', false);
-      if (this.get('isAllDelete')) {
-        this.set('isAllDelete', false);
-      } else {
-        this.set('isAllDelete', true);
-      }
-      this.get('user.sshkeys').setEach('todelete', this.get('isAllDelete'));
-    }
   }
 });

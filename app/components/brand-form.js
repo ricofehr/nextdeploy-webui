@@ -1,56 +1,18 @@
 import Ember from 'ember';
 
+/**
+ *  This component manages the brand form for creation and editing
+ *
+ *  @module components/brand-form
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-  //validation variables
-  errorName: false,
-  errorName2: false,
-
-  //validation function
-  checkName: function() {
-    var name = this.get('brand.name');
-    var errorName = false;
-
-    if (!name) {
-      errorName = true;
-    }
-
-    this.set('errorName', errorName);
-  }.observes('brand.name'),
-
-  // check if brand name is uniq
-  checkName2: function() {
-    var brands = this.get('brands');
-    var name = this.get('brand.name');
-    var current_id = this.get('brand.id');
-    var self = this;
-    var errorName2 = false;
-
-    if (!brands || brands.length === 0) { return; }
-    if (!name || name.length === 0) { return; }
-
-    brands.filterBy('name').forEach(function (item) {
-      if (item.id !== current_id) {
-        if (item.get('name') === name) {
-          errorName2 = true;
-        }
-      }
-    });
-
-    self.set('errorName2', errorName2);
-  }.observes('brand.name'),
-
-  // check form before submit
-  formIsValid: function() {
-    this.checkName();
-    this.checkName2();
-
-    if (!this.get('errorName') && !this.get('errorName')) { return true; }
-    return false;
-  },
-
-
   actions: {
-    // insert or update current brand object
+    /**
+     *  Submit form for create or update current object
+     *
+     *  @function
+     */
     postItem: function() {
       var router = this.get('router');
 
@@ -73,5 +35,67 @@ export default Ember.Component.extend({
       router.transitionTo('loading');
       this.get('brand').save().then(pass, fail);
     },
+  },
+
+  /**
+   *  Ensure the name attribute is filled
+   *
+   *  @function
+   *  @returns {Boolean} true if no valid field
+   */
+  errorName: function() {
+    var name = this.get('brand.name');
+    var errorName = false;
+
+    if (!name) {
+      errorName = true;
+    }
+
+    return errorName;
+  }.property('brand.name'),
+
+  /**
+   *  Ensure the name attribute is unique
+   *
+   *  @function
+   *  @returns {Boolean} true if no valid field
+   */
+  errorNameUnique: function() {
+    var brands = this.get('brands');
+    var name = this.get('brand.name');
+    var current_id = this.get('brand.id');
+    var errorName = false;
+
+    if (!brands || brands.length === 0) {
+      return false;
+    }
+
+    if (!name || name.length === 0) {
+      return false;
+    }
+
+    brands.filterBy('name').forEach(function (item) {
+      if (item.id !== current_id) {
+        if (item.get('name') === name) {
+          errorName = true;
+        }
+      }
+    });
+
+    return errorName;
+  }.property('brand.name'),
+
+  /**
+   *  Ensure the form is valid before submit
+   *
+   *  @function
+   *  @returns {Boolean} true if valid
+   */
+  formIsValid: function() {
+    if (!this.get('errorName') &&
+        !this.get('errorNameUnique')) {
+          return true;
+    }
+    return false;
   }
 });

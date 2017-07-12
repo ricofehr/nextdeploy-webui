@@ -1,33 +1,71 @@
 import Ember from 'ember';
 
+/**
+ *  This component manages the project details modal
+ *
+ *  @module components/project-details
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-  loadingModal: false,
-  // sort properties
+  /**
+   *  Sort property for users list
+   *
+   *  @type {String[]}
+   */
   emailSorting: ['email'],
 
-  // sort each listing items
+  /**
+   *  Array of users sorted
+   *
+   *  @type {User[]}
+   */
   usersSort: Ember.computed.sort('users', 'emailSorting'),
 
-  // trigger function when model changes
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.initBuffer();
-    this.set('loadingModal', false);
-  },
+  actions: {
+    /**
+     *  Add or remove an user
+     *
+     *  @function
+     */
+    changeUsers: function(value) {
+      var self = this;
 
-  // use a buffer for array attributes for avoid weird issue with power-select
-  initBuffer: function() {
-    if (this.get('isShowingDetails')) {
-      this.set('project_users', this.get('project').get('users').toArray());
+      this.set('loadingModal', true);
+      // set model properties from temporary buffer
+      this.set('project_users', value);
+      this.checkAdminUsers();
+      this.flushBuffer();
+
+      this.get('project').save().then(function() {
+        self.set('loadingModal', false);
+      });
+    },
+
+    /**
+     *  Close the details modal
+     *
+     *  @function
+     */
+    closeDetails: function() {
+      this.set('isShowingDetails', false);
+      this.set('isBusy', false);
+      this.set('project', null);
     }
   },
 
-  // use a buffer for array attributes for avoid weird issue with power-select
-  flushBuffer: function() {
-    this.get('project').set('users', this.get('project_users'));
-  },
+  /**
+   *  Flag to display the modal
+   *
+   *  @type {Boolean}
+   */
+  loadingModal: false,
 
-  // Return true if user is a Lead Dev
+  /**
+   *  Check if current user is admin or lead
+   *
+   *  @function
+   *  @returns {Boolean} True if admin or lead
+   */
   isLead: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
 
@@ -35,7 +73,12 @@ export default Ember.Component.extend({
     return false;
   }.property('session.data.authenticated.access_level'),
 
-  // Return ftp username for current project
+  /**
+   *  Return ftp username for current project
+   *
+   *  @function
+   *  @returns {String} The ftp username
+   */
   getFtpUser: function() {
     var gitpath = '';
 
@@ -46,10 +89,16 @@ export default Ember.Component.extend({
     gitpath = this.get('project').get('gitpath');
     if (!gitpath) { return ""; }
 
+    // HACK find the ftp username from the gitpath value
     return gitpath.replace(/.*\//g, "");
   }.property('isShowingDetails'),
 
-  // Return ftp password for the current project
+  /**
+   *  Return ftp password for current project
+   *
+   *  @function
+   *  @returns {String} The ftp password
+   */
   getFtpPassword: function() {
     var ftppasswd = 'nextdeploy';
     var password = '';
@@ -66,47 +115,66 @@ export default Ember.Component.extend({
     return ftppasswd;
   }.property('isShowingDetails'),
 
-  // Return ftp host for current project
+  /**
+   *  Return ftp hostname for current project
+   *
+   *  @function
+   *  @returns {String} The ftp hostname
+   */
   getFtpHost: function() {
+    // HACK find the ftp host from the WebUI URI
     return 'f.' + window.location.hostname.replace(/^ui\./,'');
   }.property('project.gitpath'),
 
-  // we cant remove admin users or himself from a project
+  /**
+   *  Trigger when receives models
+   *
+   *  @function
+   */
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.initBuffer();
+    this.set('loadingModal', false);
+  },
+
+  /**
+   *  Init a buffer for array attributes
+   *  HACK use a buffer to avoid weird issue with power-select
+   *
+   *  @function
+   */
+  initBuffer: function() {
+    if (this.get('isShowingDetails')) {
+      this.set('project_users', this.get('project').get('users').toArray());
+    }
+  },
+
+  /**
+   *  Flush a buffer for array attributes
+   *  HACK use a buffer to avoid weird issue with power-select
+   *
+   *  @function
+   */
+  flushBuffer: function() {
+    this.get('project').set('users', this.get('project_users'));
+  },
+
+  /**
+   *  Ensure that no admin or himself are removed from the project
+   *
+   *  @function
+   */
   checkAdminUsers: function() {
     var self = this;
     var user_id = this.get('session').get('data.authenticated.user.id');
 
     this.get('users').forEach(function (user) {
-      if (user.get('group').get('access_level') === 50 || parseInt(user.id) === user_id) {
+      if (user.get('group').get('access_level') === 50 ||
+          parseInt(user.id) === user_id) {
         if (!self.get('project_users').contains(user)) {
           self.get('project_users').pushObject(user);
         }
       }
     });
-  },
-
-  actions: {
-    // add or remove an user
-    changeUsers: function(value) {
-      var self = this;
-
-      this.set('loadingModal', true);
-      // set model properties from temporary buffer
-      this.set('project_users', value);
-      this.checkAdminUsers();
-      this.flushBuffer();
-
-      this.get('project').save().then(function() {
-        self.set('loadingModal', false);
-        //self.initBuffer();
-      });
-    },
-
-    // close the modal, reset showing variable
-    closeDetails: function() {
-      this.set('isShowingDetails', false);
-      this.set('isBusy', false);
-      this.set('project', null);
-    }
   }
 });

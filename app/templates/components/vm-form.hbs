@@ -13,7 +13,7 @@
       verticalPosition='below'
       selected=vm.project
       placeholder="Select a project"
-      onchange=(action 'projectChange')
+      onchange=(action 'changeProject')
       as |project|
     }}
       {{project.name}}
@@ -35,7 +35,7 @@
       selected=vm.vmsize
       verticalPosition='below'
       placeholder="Select a size"
-      onchange=(action 'changeProperty' 'vm.vmsize')
+      onchange=(action (mut vm.vmsize))
       as |vmsize|
     }}
       {{vmsize.title}} ({{vmsize.description}})
@@ -56,7 +56,7 @@
       selected=vm.user
       verticalPosition='below'
       placeholder="Select an user"
-      onchange=(action 'changeProperty' 'vm.user')
+      onchange=(action 'changeUser')
       as |user|
     }}
     {{user.email}}
@@ -79,7 +79,7 @@
       selected=branche
       verticalPosition='below'
       placeholder="Select a branch"
-      onchange=(action 'changeProperty' 'branche')
+      onchange=(action 'changeBranche')
       as |branche|
     }}
     {{branche.name}}
@@ -102,7 +102,7 @@
       selected=vm.commit
       verticalPosition='below'
       placeholder="Select a commit"
-      onchange=(action 'changeProperty' 'vm.commit')
+      onchange=(action (mut vm.commit))
       as |commit|
     }}
     {{commit.short_id}}
@@ -113,11 +113,11 @@
   <div class="form-group">
     <div class="col-sm-5">
     {{textarea
-            readonly="true"
-            classNames="form-control"
-            rows=7
-            value=vm.commit.message
-            placeholder="Commit Msg"}}
+        readonly="true"
+        classNames="form-control"
+        rows=7
+        value=vm.commit.message
+        placeholder="Commit Msg"}}
      </div>
   </div>
 
@@ -133,7 +133,7 @@
       selected=vm.systemimage
       verticalPosition='below'
       placeholder="Select an OS"
-      onchange=(action 'changeProperty' 'vm.systemimage')
+      onchange=(action (mut vm.systemimage))
       as |systemimage|
     }}
     {{systemimage.name}}
@@ -157,10 +157,10 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=vm.is_ht
-              onLabel='true'
-              offLabel='false'
-              onToggle=(mut vm.is_ht)}}
+            value=vm.is_ht
+            onLabel='true'
+            offLabel='false'
+            onToggle=(mut vm.is_ht)}}
       </label>
     </div>
   </div>
@@ -170,10 +170,10 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=vm.is_cors
-              onLabel='true'
-              offLabel='false'
-              onToggle=(mut vm.is_cors)}}
+            value=vm.is_cors
+            onLabel='true'
+            offLabel='false'
+            onToggle=(mut vm.is_cors)}}
       </label>
     </div>
   </div>
@@ -183,10 +183,10 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=vm.is_ro
-              onLabel='true'
-              offLabel='false'
-              onToggle=(mut vm.is_ro)}}
+            value=vm.is_ro
+            onLabel='true'
+            offLabel='false'
+            onToggle=(mut vm.is_ro)}}
       </label>
     </div>
   </div>
@@ -196,10 +196,10 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=vm.is_cached
-              onLabel='true'
-              offLabel='false'
-              onToggle=(mut vm.is_cached)}}
+            value=vm.is_cached
+            onLabel='true'
+            offLabel='false'
+            onToggle=(mut vm.is_cached)}}
       </label>
     </div>
   </div>
@@ -209,11 +209,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=vm.is_prod
-              onLabel='true'
-              offLabel='false'
-              onToggle=(action 'toggleFlagVm' isDisabledProd 'is_prod')
-              disabled=isDisabledProd}}
+            value=vm.is_prod
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'changeProd')
+            disabled=isDisabledProd}}
       </label>
     </div>
   </div>
@@ -223,11 +223,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=vm.is_auth
-              onLabel='true'
-              offLabel='false'
-              onToggle=(action 'toggleFlagVm' isDisabledAuth 'is_auth')
-              disabled=isDisabledAuth}}
+            value=vm.is_auth
+            onLabel='true'
+            offLabel='false'
+            onToggle=(mut vm.is_auth)
+            disabled=isDisabledAuth}}
       </label>
     </div>
   </div>

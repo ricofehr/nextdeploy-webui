@@ -1,5 +1,5 @@
 {{#bs-modal open=isShowingIO body=false header=false footer=false renderInPlace=true onHidden=(action 'closedIO') as |modal|}}
-  {{#modal.header}}{{#if isRunning}}{{vmName}} ({{branchName}}) {{else}}Please try again later{{/if}}{{/modal.header}}
+  {{#modal.header}}{{#if isRunning}}{{vmName}} ({{vm.commit.branche.name}}) {{else}}Please try again later{{/if}}{{/modal.header}}
   {{#modal.body}}
     {{#if errorIO}}
       <b>{{errorIO}}</b>

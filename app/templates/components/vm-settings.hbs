@@ -14,10 +14,10 @@
         <label class="control-label col-md-2 col-sm-3 col-xs-4">Offline</label>
       <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'offline' on="mouseEnter"}} {{action "hideToolTip" 'offline' on="mouseLeave"}}>
         {{x-toggle
-              value=toggleOffline
+              value=vm.is_offline
               onLabel='true'
               offLabel='false'
-              onToggle=(action 'changeOffline' isDisabledAdminVms)
+              onToggle=(action 'changeToggle' 'offline')
               disabled=isDisabledAdminVms}}
       </div>
       {{#if offlineToolTip}}
@@ -31,10 +31,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Caching</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'cached' on="mouseEnter"}} {{action "hideToolTip" 'cached' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleCached
+            value=vm.is_cached
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeCached' isDisabledAdminVms)
+            onToggle=(action 'changeToggle' 'cached')
             disabled=isDisabledAdminVms}}
     </div>
     {{#if cachedToolTip}}
@@ -48,10 +48,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4">BasicAuth</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'auth' on="mouseEnter"}} {{action "hideToolTip" 'auth' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleAuth
+            value=vm.is_auth
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeAuth' isDisabledAuth)
+            onToggle=(action 'changeToggle' 'auth')
             disabled=isDisabledAuth}}
     </div>
     {{#if authToolTip}}
@@ -65,10 +65,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Htaccess</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'ht' on="mouseEnter"}} {{action "hideToolTip" 'ht' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleHt
+            value=vm.is_ht
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeHtaccess' isDisabledAdminVms)
+            onToggle=(action 'changeToggle' 'ht')
             disabled=isDisabledAdminVms}}
     </div>
     {{#if htToolTip}}
@@ -82,10 +82,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Backup</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'backup' on="mouseEnter"}} {{action "hideToolTip" 'backup' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleBackup
+            value=vm.is_backup
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeBackup' isDisabledBackup)
+            onToggle=(action 'changeToggle' 'backup')
             disabled=isDisabledBackup}}
     </div>
     {{#if backupToolTip}}
@@ -99,10 +99,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4">CI</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'ci' on="mouseEnter"}} {{action "hideToolTip" 'ci' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleCi
+            value=vm.is_ci
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeCi' isDisabledAdminVms)
+            onToggle=(action 'changeToggle' 'ci')
             disabled=isDisabledAdminVms}}
     </div>
     {{#if ciToolTip}}
@@ -116,10 +116,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4 col-xs-4">Cors</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'cors' on="mouseEnter"}} {{action "hideToolTip" 'cors' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleCors
+            value=vm.is_cors
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeCors' isDisabledAdminVms)
+            onToggle=(action 'changeToggle' 'cors')
             disabled=isDisabledAdminVms}}
     </div>
     {{#if corsToolTip}}
@@ -133,10 +133,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4 col-xs-4">Read-Only</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'ro' on="mouseEnter"}} {{action "hideToolTip" 'ro' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleRo
+            value=vm.is_ro
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeRo' isDisabledRo)
+            onToggle=(action 'changeToggle' 'ro')
             disabled=isDisabledRo}}
     </div>
     {{#if roToolTip}}
@@ -150,10 +150,10 @@
       <label class="control-label col-md-2 col-sm-3 col-xs-4">Prod</label>
     <div class="col-lg-3 col-md-4 col-sm-4 col-xs-4" {{action "showToolTip" 'prod' on="mouseEnter"}} {{action "hideToolTip" 'prod' on="mouseLeave"}}>
       {{x-toggle
-            value=toggleProd
+            value=vm.is_prod
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'changeProd' isDisabledProd)
+            onToggle=(action 'changeProd')
             disabled=isDisabledProd}}
     </div>
     {{#if prodToolTip}}

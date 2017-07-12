@@ -12,7 +12,7 @@
       selected=endpoint.framework
       searchEnabled=false
       placeholder="Select a framework"
-      onchange=(action 'changeProperty' 'endpoint.framework')
+      onchange=(action 'changeFramework')
       as |framework|
     }}
       {{framework.name}}
@@ -57,11 +57,12 @@
     <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Ipfilter</label>
     <div class="col-md-3 col-sm-5 col-xs-6">
     {{textarea
-            classNames="form-control"
-            rows=2
-            value=endpoint.ipfilter
-            placeholder="Ipfilter"
-            disabled=isExist}}
+        classNames="form-control"
+        rows=2
+        key-up=(action 'checkIpfilter')
+        value=endpoint.ipfilter
+        placeholder="Ipfilter"
+        disabled=isExist}}
     </div>
   </div>
 
@@ -92,12 +93,11 @@
       <label class="control-label col-md-1 col-sm-2 col-xs-3 col-md-offset-1 col-sm-offset-1 col-xs-offset-1 alert-success">Custom Vhost Block</label>
       <div class="col-md-3 col-sm-5 col-xs-6">
       {{textarea
-              classNames="form-control"
-              rows=8
-              value=endpoint.customvhost
-              placeholder="Custom Block"
-              disabled=isExist
-              }}
+          classNames="form-control"
+          rows=8
+          value=endpoint.customvhost
+          placeholder="Custom Block"
+          disabled=isExist}}
       </div>
     </div>
   {{/if}}
@@ -109,18 +109,18 @@
       {{#if project.id}}
         <label>
           {{x-toggle
-                value=endpoint.is_install
-                onLabel='true'
-                offLabel='false'
-                disabled=true}}
+              value=endpoint.is_install
+              onLabel='true'
+              offLabel='false'
+              disabled=true}}
         </label>
       {{else}}
         <label>
           {{x-toggle
-                value=endpoint.is_install
-                onLabel='true'
-                offLabel='false'
-                onToggle=(mut endpoint.is_install)}}
+              value=endpoint.is_install
+              onLabel='true'
+              offLabel='false'
+              onToggle=(mut endpoint.is_install)}}
         </label>
       {{/if}}
     </div>
@@ -132,11 +132,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=endpoint.is_ssl
-              onToggle=(action 'toggleSslFlag' isLocal)
-              onLabel='true'
-              offLabel='false'
-              disabled=isLocal}}
+            value=endpoint.is_ssl
+            onToggle=(action 'toggleSslFlag' isLocal)
+            onLabel='true'
+            offLabel='false'
+            disabled=isLocal}}
       </label>
     </div>
   </div>
@@ -146,11 +146,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=endpoint.is_sh
-              onToggle=(action 'toggleShFlag' isExist)
-              onLabel='true'
-              offLabel='false'
-              disabled=isExist}}
+            value=endpoint.is_sh
+            onToggle=(action 'toggleShFlag' isExist)
+            onLabel='true'
+            offLabel='false'
+            disabled=isExist}}
       </label>
     </div>
   </div>
@@ -160,11 +160,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=endpoint.is_import
-              onToggle=(action 'toggleImportFlag' isExist)
-              onLabel='true'
-              offLabel='false'
-              disabled=isExist}}
+            value=endpoint.is_import
+            onToggle=(action 'toggleImportFlag' isExist)
+            onLabel='true'
+            offLabel='false'
+            disabled=isExist}}
       </label>
     </div>
   </div>

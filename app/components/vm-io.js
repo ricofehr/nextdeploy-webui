@@ -1,19 +1,59 @@
 import Ember from 'ember';
 
+/**
+ *  This component manages export/import for vms
+ *
+ *  @module components/vm-io
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
+  actions: {
+    /**
+     *  Close the modal, reset component variables
+     *
+     *  @function
+     */
+    closedIO: function() {
+      this.set('isBusy', false);
+      this.set('vm', null);
+      this.set('isShowingIO', false);
+    },
+  },
+
+  /**
+   *  Display the loading modal
+   *
+   *  @type {Boolean}
+   */
   loadingModal: false,
+
+  /**
+   *  Flag setted during an import
+   *
+   *  @type {Boolean}
+   */
   importRunning: false,
+
+  /**
+   *  Flag setted during an export
+   *
+   *  @type {Boolean}
+   */
   exportRunning: false,
+
+  /**
+   *  Flag setted if errors occurs
+   *
+   *  @type {Boolean}
+   */
   errorIO: null,
 
-  // reset value when open popin
-  resetFlags: function() {
-    this.set('errorIO', null);
-    this.set('importRunning', false);
-    this.set('exportRunning', false);
-  }.observes('vm'),
-
-  // Return true if is running state
+  /**
+   *  Return true if vm is on running state
+   *
+   *  @function
+   *  @returns {Boolean}
+   */
   isRunning: function() {
     if (!this.get('vm')) {
       return false;
@@ -23,16 +63,12 @@ export default Ember.Component.extend({
     return false;
   }.property('vm.status'),
 
-  // get branch name (fix for weird bug with name property)
-  branchName: function() {
-    if (!this.get('vm')) {
-      return null;
-    }
-
-    return this.get('vm.commit.id').replace(/^[0-9][0-9]*-/,'').replace(/-[A-Za-z0-9][A-Za-z0-9]*$/,'');
-  }.property('vm.commit'),
-
-  // short vm name
+  /**
+   *  Get shorter vm name
+   *
+   *  @function
+   *  @returns {String}
+   */
   vmName: function() {
     if (!this.get('vm')) {
       return false;
@@ -41,12 +77,20 @@ export default Ember.Component.extend({
     return this.get('vm.name').replace(/\..*$/,'');
   }.property('vm.name'),
 
-  // check if we have import flag for uris
+  /**
+   *  Check if we have import flag for uris
+   *
+   *  @function
+   *  @returns {Boolean}
+   */
   isIO: function() {
     if (!this.get('vm')) { return false; }
 
     var uris = this.get('vm.uris');
     var isData = false;
+
+    // Reset some component variables
+    this.resetFlags();
 
     uris.forEach(function (uri) {
       if (uri.get('is_import')) {
@@ -57,7 +101,13 @@ export default Ember.Component.extend({
     return isData;
   }.property('vm.id'),
 
-  initBranchs: function() {
+  /**
+   *  Generates branchs list array
+   *
+   *  @function
+   *  @returns {String[]}
+   */
+  branchs: function() {
     if (!this.get('isShowingIO')) { return false; }
     if (!this.get('vm')) { return false; }
 
@@ -79,18 +129,18 @@ export default Ember.Component.extend({
     }
 
     // loading waiting
-    this.set('isShowingIO', false);
     this.set('loadingModal', true);
 
     // ensure vm and project objects are reloaded
     this.get('vm').reload().then(function(vm) {
-      self.store.findRecord('project', vm.get('project.id'), { backgroundReload: false, reload: true }).then(function(project) {
+      self.store.findRecord('project',
+                            vm.get('project.id'),
+                            { backgroundReload: false, reload: true }
+                          ).then(function(project) {
         project.get('branches').then(function(branches) {
           branches.forEach(function(branch) {
             branchs.push(branch.get('name'));
           });
-
-          self.set('branchs', branchs);
 
           // Ensure loader is running at least 1s (avoid flicker)
           Ember.run.later(function() {
@@ -101,14 +151,17 @@ export default Ember.Component.extend({
       });
     });
 
-  }.observes('vm.project'),
+    return branchs;
+  }.property('vm.project'),
 
-  actions: {
-    // close the modal, reset showing variable
-    closedIO: function() {
-      this.set('isBusy', false);
-      this.set('vm', null);
-      this.set('isShowingIO', false);
-    },
+  /**
+   *  Reset component variables
+   *
+   *  @function
+   */
+  resetFlags: function() {
+    this.set('errorIO', null);
+    this.set('importRunning', false);
+    this.set('exportRunning', false);
   }
 });

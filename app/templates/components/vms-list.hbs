@@ -29,7 +29,11 @@
         <tr {{action "showHover" vm.id on="mouseEnter"}}>
         {{#if isVm}}
             {{#if vm.is_prod}}
-                <td class="simplify-mobile alert-info first-col" title="Prod Vm"><span class="fa fa-cloud"></span></td>
+              {{#if vm.is_offline}}
+                  <td class="simplify-mobile alert-warning first-col" title="Offline Prod Vm !"><span class="fa fa-cloud"></span></td>
+              {{else}}
+                  <td class="simplify-mobile alert-info first-col" title="Prod Vm"><span class="fa fa-cloud"></span></td>
+              {{/if}}
             {{else}}
                 {{#if vm.is_ro}}
                     <td class="simplify-mobile first-col">&nbsp;</td>

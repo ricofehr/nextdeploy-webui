@@ -1,23 +1,504 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
+/**
+ *  This component manages vms list
+ *
+ *  @module components/vm-io-uri
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-  // Show / hide on html side
-  isAllDelete: false,
+  actions: {
+    /**
+     *  Hide users list for all vms lines
+     *
+     *  @function
+     */
+    hideAllUsersList: function() {
+      this.get('vms').map(function(model){
+        model.set('isUserList', false);
+      });
+    },
+
+    /**
+     *  Change the current page of the list
+     *
+     *  @function
+     *  @param {Integer} cp The new page number
+     */
+    changePage: function(cp) {
+      this.set('currentPage', cp);
+      this.prepareList();
+    },
+
+    /**
+     *  Display the users list for a targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    showUserList: function(vm) {
+      this.get('vms').map(function(model){
+        model.set('isUserList', false);
+      });
+
+      vm.set('isUserList', true);
+    },
+
+    /**
+     *  Change user for the targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     *  @param {user} the new user associated with the vm
+     */
+    changeUser: function(vm, user) {
+      var self = this;
+
+      this.set('isBusy', true);
+
+      this.set('loadingModal', true);
+      this.set('messageUser', '<p style="text-align: left;"><b>Vm</b> ' +
+               vm.get('name').replace(/\..*/g, '') + '<br/><b>From</b> ' +
+               vm.get('user').get('email') + '<br/><b>To</b> ' +
+               user.get('email') + "<br/></p>");
+      vm.set('user', user);
+
+      vm.save().then(function (){
+        self.set('loadingModal', false);
+        self.set('messageUser', '');
+        self.set('isBusy', false);
+      });
+    },
+
+    /**
+     *  Display the details modal for a targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    showDetails: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingDetails', true);
+      this.set('isBusy', true);
+
+      if (!this.get('isReload')) {
+        this.reloadVm();
+      }
+    },
+
+    /**
+     *  Display the settings modal for a targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    showSettings: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingSettings', true);
+      this.set('isBusy', true);
+
+      if (!this.get('isReload')) {
+        this.reloadVm();
+      }
+    },
+
+    /**
+     *  Display rollover message for a targetted vm
+     *
+     *  @function
+     *  @param {vmId} the vm id targetted
+     */
+    showHover: function(vmId) {
+      this.set('isShowingHovers', vmId);
+    },
+
+    /**
+     *  Hide rollover message
+     *
+     *  @function
+     */
+    closeHover: function() {
+      this.set('isShowingHovers', -1);
+    },
+
+    /**
+     *  Display the uris & tools modal for a targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    showUris: function(vm) {
+      var self = this;
+
+      this.set('vmSelected', vm);
+      this.set('isBusy', true);
+
+      Ember.run.later(function(){
+        self.set('isShowingUris', true);
+      }, 500);
+    },
+
+    /**
+     *  Display the io (import/export) modal from targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    showIO: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingIO', true);
+      this.set('isBusy', true);
+    },
+
+    /**
+     *  Display the monitor modal from targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    showMonitor: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingMonitor', true);
+      this.set('isBusy', true);
+    },
+
+    /**
+     *  Display the supervise modal from targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    showSupervise: function(vm) {
+      this.set('vmSelected', vm);
+      this.set('isShowingSupervise', true);
+      this.set('isBusy', true);
+    },
+
+    /**
+     *  Display the vnc terminal modal from targetted vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    openVnc: function(vm) {
+      var self = this;
+
+      this.set('vmSelected', vm);
+      this.set('isShowingVnc', true);
+      this.set('isBusy', true);
+
+      this.get('vmSelected').reload().then(function (vmVnc) {
+        self.set('vncUrl', vmVnc.get('vnc_url'));
+        self.set('vncPassword', vmVnc.get('termpassword'));
+        self.set('vncLayout', vmVnc.get('layout'));
+
+        if (!self.get('isReload')) {
+          self.reloadVm();
+        }
+      });
+    },
+
+    /**
+     *  Close deletes modal
+     *
+     *  @function
+     */
+    closeDeleteModal: function() {
+      this.set('isShowingDeleteConfirmation', false);
+      this.set('isBusy', false);
+    },
+
+    /**
+     *  Request the running status of a vm
+     *
+     *  @function
+     *  @param {Vm} the vm object targetted
+     */
+    checkStatus: function(vm) {
+      var vmId = vm.get('id');
+      var self = this;
+
+      // jquery get setupcomplete
+      Ember.$.ajax({
+        url: config.APP.APIHost + "/api/v1/vms/" + vmId + "/setupcomplete",
+        global: false,
+        headers: {
+          'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token')
+        }
+      })
+      .done(function(data) {
+        vm.set('status', data);
+        vm.set('timeStatus', data);
+        vm.set('textStatus', 'RUN');
+        vm.set('sucStatus', true);
+        vm.set('warnStatus', false);
+        vm.set('dangStatus', false);
+        vm.set('nanStatus', false);
+
+        self.get('store').findRecord('vm', vm.get('id')).then(function (vmRecord) {
+          vmRecord.set('thumb', vmRecord.get('thumb'));
+        });
+      })
+      .fail(function(data) {
+        if (data.status === 410) {
+          vm.set('status', data.responseText);
+          vm.set('timeStatus', -parseInt(data.responseText));
+
+          // check if error or setup
+          if (parseInt(data.responseText) === 1) {
+            vm.set('textStatus', 'ERROR');
+            vm.set('sucStatus', false);
+            vm.set('warnStatus', false);
+            vm.set('dangStatus', true);
+            vm.set('nanStatus', false);
+          } else {
+            vm.set('textStatus', 'SETUP');
+            vm.set('sucStatus', false);
+            vm.set('warnStatus', true);
+            vm.set('dangStatus', false);
+            vm.set('nanStatus', false);
+          }
+        } else {
+          vm.set('status', 0);
+          vm.set('timeStatus', 0);
+
+          vm.set('textStatus', 'ERROR');
+          vm.set('sucStatus', false);
+          vm.set('warnStatus', false);
+          vm.set('dangStatus', false);
+          vm.set('nanStatus', true);
+        }
+      });
+    },
+
+    /**
+     *  Submit delete event
+     *
+     *  @function
+     */
+    deleteItems: function() {
+      var items = this.get('vms').filterBy('todelete', true);
+      var self = this;
+
+      items.forEach(function(model) {
+        if (model && model.get('todelete')) {
+          model.destroyRecord();
+          self.get('vms').removeObject(model);
+          model.get('user').get('vms').removeObject(model);
+          model.get('project').get('vms').removeObject(model);
+        }
+      });
+
+      // rewind to first page and display refreshed list
+      this.set('currentPage', 0);
+      this.cleanModel();
+      this.prepareList();
+
+      // close confirm modal
+      this.set('isBusy', false);
+      this.set('isShowingDeleteConfirmation', false);
+      this.set('isAllDelete', false);
+    },
+
+    /**
+     *  Display delete confirmation modal
+     *
+     *  @function
+     */
+    showDeleteConfirmation: function() {
+      var items = this.get('vms').filterBy('todelete', true);
+      var deleteItems = [];
+
+      for(var i=0; i<items.length; i++) {
+        deleteItems.push(items[i].get('name') + ", user:" + items[i].get('user').get('email'));
+      }
+
+      if (deleteItems.length > 0) {
+        this.set('isBusy', true);
+        this.set('deleteItems', deleteItems);
+        this.set('isShowingDeleteConfirmation', true);
+      }
+    },
+
+    /**
+     *  Go to vm creation form
+     *
+     *  @function
+     */
+    newItem: function() {
+      var router = this.get('router');
+
+      if (this.get('isJenkins')) {
+        router.transitionTo('cis.new');
+      } else {
+        router.transitionTo('vms.new');
+      }
+    }
+  },
+
+  /**
+   *  Flag to show the delete confirm modal
+   *
+   *  @type {Boolean}
+   */
   isShowingDeleteConfirmation: false,
+
+  /**
+   *  Flag to show the vnc terminal modal
+   *
+   *  @type {Boolean}
+   */
   isShowingVnc: false,
+
+  /**
+   *  Flag to show the uris modal
+   *
+   *  @type {Boolean}
+   */
   isShowingUris: false,
+
+  /**
+   *  Flag to show the import/export modal
+   *
+   *  @type {Boolean}
+   */
   isShowingIO: false,
+
+  /**
+   *  Flag to show the graph monitor modal
+   *
+   *  @type {Boolean}
+   */
   isShowingMonitor: false,
+
+  /**
+   *  Flag to show the details vm modal
+   *
+   *  @type {Boolean}
+   */
   isShowingDetails: false,
+
+  /**
+   *  Flag to show the settings vm modal
+   *
+   *  @type {Boolean}
+   */
   isShowingSettings: false,
+
+  /**
+   *  Flag to show the supervise vm modal
+   *
+   *  @type {Boolean}
+   */
   isShowingSupervise: false,
+
+  /**
+   *  Flag to set a reload state record for a vm
+   *
+   *  @type {Boolean}
+   */
   isReload: false,
+
+  /**
+   *  Store the current selected vm object
+   *
+   *  @type {Vm}
+   */
   vmSelected: null,
+
+  /**
+   *  Flag to show the loading modal
+   *
+   *  @type {Boolean}
+   */
   loadingModal: false,
+
+  /**
+   *  Flag to set the statusloop running state
+   *
+   *  @type {Boolean}
+   */
   checkStatusLoop: false,
 
-  // trigger when model changes
+  /**
+   *  Check if current user is admin
+   *
+   *  @function
+   *  @returns {Boolean} True if admin
+   */
+  isAdmin: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level === 50) { return true; }
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Check if current user is admin or lead
+   *
+   *  @function
+   *  @returns {Boolean} True if admin or lead
+   */
+  isLead: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level >= 40) { return true; }
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Check if current user is admin, lead, or dev
+   *
+   *  @function
+   *  @returns {Boolean} True if admin, lead, or dev
+   */
+  isDev: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level >= 30) { return true; }
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Check if current user is admin, lead, dev, or ProjectManager
+   *
+   *  @function
+   *  @returns {Boolean} True if admin, lead, dev, or pm
+   */
+  isPM: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level >= 20) { return true; }
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Check if current user can launch vm
+   *
+   *  @function
+   *  @returns {Boolean}
+   */
+  isVm: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+    var is_jenkins = this.get('isJenkins');
+
+    if (is_jenkins && access_level >= 40) {
+      return true;
+    }
+
+    if (!is_jenkins && access_level >= 20) {
+      return true;
+    }
+
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Trigger when receives models
+   *
+   *  @function
+   */
   didReceiveAttrs() {
     this._super(...arguments);
 
@@ -32,7 +513,86 @@ export default Ember.Component.extend({
     }
   },
 
-  // format vms list
+  /**
+   *  Delete records unsaved or deleted
+   *
+   *  @function
+   */
+  cleanModel: function() {
+    var self = this;
+    var cleanUsers = this.store.peekAll('user').filterBy('isDeleted', true);
+    var cleanVms = this.get('vms').filterBy('isDeleted', true);
+    var cleanProjects = this.store.peekAll('project').filterBy('isDeleted', true);
+    var cleanBrands = this.store.peekAll('brand').filterBy('isDeleted', true);
+    var cleanUris = this.store.peekAll('uri').filterBy('isDeleted', true);
+
+    cleanUsers.forEach(function (clean) {
+      if (clean) { self.store.peekAll('user').removeObject(clean); }
+    });
+
+    cleanProjects.forEach(function (clean) {
+      if (clean) { self.store.peekAll('project').removeObject(clean); }
+    });
+
+    cleanVms.forEach(function (clean) {
+      if (clean) { self.get('vms').removeObject(clean); }
+    });
+
+    cleanUris.forEach(function (clean) {
+      if (clean) { self.store.peekAll('uri').removeObject(clean); }
+    });
+
+    cleanBrands.forEach(function (clean) {
+      if (clean) { self.store.peekAll('brand').removeObject(clean); }
+    });
+
+    cleanUsers = this.store.peekAll('user').filterBy('id', null);
+    cleanVms = this.get('vms').filterBy('id', null);
+    cleanBrands = this.store.peekAll('brand').filterBy('id', null);
+    cleanProjects = this.store.peekAll('project').filterBy('id', null);
+    cleanUris = this.store.peekAll('uri').filterBy('id', null);
+
+    cleanUris.forEach(function (clean) {
+      if (clean) {
+        self.store.peekAll('uri').removeObject(clean);
+        clean.deleteRecord();
+      }
+    });
+
+    cleanUsers.forEach(function (clean) {
+      if (clean) {
+        self.store.peekAll('user').removeObject(clean);
+        clean.deleteRecord();
+      }
+    });
+
+    cleanProjects.forEach(function (clean) {
+      if (clean) {
+       self.store.peekAll('project').removeObject(clean);
+       clean.deleteRecord();
+     }
+    });
+
+    cleanVms.forEach(function (clean) {
+      if (clean) {
+        self.get('vms').removeObject(clean);
+        clean.deleteRecord();
+      }
+    });
+
+    cleanBrands.forEach(function (clean) {
+      if (clean) {
+        self.store.peekAll('brand').removeObject(clean);
+        clean.deleteRecord();
+      }
+    });
+  },
+
+  /**
+   *  Prepare and format vms list
+   *
+   *  @function
+   */
   prepareList: function() {
     var userId = parseInt(this.get('userId'));
     var projectId = parseInt(this.get('projectId'));
@@ -62,6 +622,9 @@ export default Ember.Component.extend({
       var minute = '';
       var branchName = '';
       var today = new Date();
+
+      // reset delete state
+      model.set('todelete', false);
 
       // by default userlist is hidden
       model.set('isUserList', false);
@@ -168,7 +731,9 @@ export default Ember.Component.extend({
       // paging system
       if (model.get('isShow')) {
         if (!pages.isAny('cp', ncp)) {
-          pages.addObject(Ember.Object.create({cp: ncp, current: ncp === cp, partial: false}));
+          pages.addObject(
+            Ember.Object.create({cp: ncp, current: ncp === cp, partial: false})
+          );
         }
 
         if (ncp !== cp) {
@@ -183,8 +748,7 @@ export default Ember.Component.extend({
       }
     });
 
-    // set paging numbers
-    // max 8 paging numbers
+    // Set paging number with no more 8 paging numbers
     this.set('previousPage', false);
     this.set('nextPage', false);
     if (pages.length > 1) {
@@ -228,7 +792,11 @@ export default Ember.Component.extend({
     }
   }.observes('refreshList'),
 
-  // check all status
+  /**
+   *  Loop function who update vms status
+   *
+   *  @function
+   */
   checkAllStatus: function() {
     var self = this;
 
@@ -255,7 +823,9 @@ export default Ember.Component.extend({
           url: config.APP.APIHost + "/api/v1/vms/" + model.get('id') + "/setupcomplete",
           global: false,
           async: false,
-          headers: { 'Authorization': 'Token token=' + self.get('session').get('data.authenticated.token') }
+          headers: {
+            'Authorization': 'Token token=' + self.get('session').get('data.authenticated.token')
+          }
         })
         .done(function(data) {
           model.set('status', data);
@@ -309,120 +879,11 @@ export default Ember.Component.extend({
     }, 30000);
   },
 
-  // delete records unsaved or deleted
-  cleanModel: function() {
-    var self = this;
-    var cleanUsers = this.store.peekAll('user').filterBy('isDeleted', true);
-    var cleanVms = this.get('vms').filterBy('isDeleted', true);
-    var cleanProjects = this.store.peekAll('project').filterBy('isDeleted', true);
-    var cleanBrands = this.store.peekAll('brand').filterBy('isDeleted', true);
-    var cleanUris = this.store.peekAll('uri').filterBy('isDeleted', true);
-
-    cleanUsers.forEach(function (clean) {
-      if (clean) { self.store.peekAll('user').removeObject(clean); }
-    });
-
-    cleanProjects.forEach(function (clean) {
-      if (clean) { self.store.peekAll('project').removeObject(clean); }
-    });
-
-    cleanVms.forEach(function (clean) {
-      if (clean) { self.get('vms').removeObject(clean); }
-    });
-
-    cleanUris.forEach(function (clean) {
-      if (clean) { self.store.peekAll('uri').removeObject(clean); }
-    });
-
-    cleanBrands.forEach(function (clean) {
-      if (clean) { self.store.peekAll('brand').removeObject(clean); }
-    });
-
-    cleanUsers = this.store.peekAll('user').filterBy('id', null);
-    cleanVms = this.get('vms').filterBy('id', null);
-    cleanBrands = this.store.peekAll('brand').filterBy('id', null);
-    cleanProjects = this.store.peekAll('project').filterBy('id', null);
-    cleanUris = this.store.peekAll('uri').filterBy('id', null);
-
-    cleanUris.forEach(function (clean) {
-      if (clean) {
-        self.store.peekAll('uri').removeObject(clean);
-        clean.deleteRecord();
-      }
-    });
-
-    cleanUsers.forEach(function (clean) {
-      if (clean) {
-        self.store.peekAll('user').removeObject(clean);
-        clean.deleteRecord();
-      }
-    });
-
-    cleanProjects.forEach(function (clean) {
-      if (clean) {
-       self.store.peekAll('project').removeObject(clean);
-       clean.deleteRecord();
-     }
-    });
-
-    cleanVms.forEach(function (clean) {
-      if (clean) {
-        self.get('vms').removeObject(clean);
-        clean.deleteRecord();
-      }
-    });
-
-    cleanBrands.forEach(function (clean) {
-      if (clean) {
-        self.store.peekAll('brand').removeObject(clean);
-        clean.deleteRecord();
-      }
-    });
-  },
-
-  // Return true if user is an admin
-  isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-
-    if (access_level === 50) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  // Return true if user is a Lead Dev
-  isLead: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-
-    if (access_level >= 40) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  // Return true if user is a Dev or more
-  isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-
-    if (access_level >= 30) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  // Return true if user is a Pm or more
-  isPM: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-
-    if (access_level >= 20) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  // Check if current user can launch vm
-  isVm: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-    var is_jenkins = this.get('isJenkins');
-
-    if (is_jenkins && access_level >= 40) { return true; }
-    if (!is_jenkins && access_level >= 20) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  // reload selected vm object
+  /**
+   *  Reload from server the selected vm object
+   *
+   *  @function
+   */
   reloadVm: function() {
     var self = this;
     var vm = this.get('vmSelected');
@@ -443,272 +904,13 @@ export default Ember.Component.extend({
     self.set('isReload', false);
   },
 
-  settingVnc: function() {
-    var self = this;
-
-    if (this.get('isShowingVnc')) {
-      this.get('vmSelected').reload().then(function (vmVnc) {
-        self.set('vncUrl', vmVnc.get('vnc_url'));
-        self.set('vncPassword', vmVnc.get('termpassword'));
-        self.set('vncLayout', vmVnc.get('layout'));
-      });
-
-      if (!this.get('isReload')) {
-        this.reloadVm();
-      }
-    }
-  }.observes('isShowingVnc'),
-
-  // reset to delete flag
-  resetDelete: function() {
-    this.get('vms').setEach('todelete', false);
-    this.set('isAllDelete', false);
-  }.observes('search', 'projectId', 'userId', 'currentPage'),
-
-  // hide userlist
+  /**
+   *  Hide the users list for a targetted vm
+   *
+   *  @function
+   *  @param {Vm} the vm object targetted
+   */
   hideUserList: function(vm) {
     vm.set('isUserList', false);
   },
-
-  // actions binding with user event
-  actions: {
-    // hide all userlist
-    hideAllUsersList: function() {
-      this.get('vms').map(function(model){
-        model.set('isUserList', false);
-      });
-    },
-
-    // change page action
-    changePage: function(cp) {
-      this.set('currentPage', cp);
-      this.prepareList();
-    },
-
-    // display userlist
-    showUserList: function(vm) {
-      this.get('vms').map(function(model){
-        model.set('isUserList', false);
-      });
-
-      vm.set('isUserList', true);
-    },
-
-    // change user
-    changeUser: function(vm, user) {
-      var self = this;
-
-      this.set('isBusy', true);
-
-      this.set('loadingModal', true);
-      this.set('messageUser', '<p style="text-align: left;"><b>Vm</b> ' + vm.get('name').replace(/\..*/g, '') + '<br/><b>From</b> ' + vm.get('user').get('email') +
-        '<br/><b>To</b> ' + user.get('email') + "<br/></p>");
-      vm.set('user', user);
-
-      vm.save().then(function (){
-        self.set('loadingModal', false);
-        self.set('messageUser', '');
-        self.set('isBusy', false);
-      });
-    },
-
-    // open detail modal for targetted vm (vmId parameter)
-    showDetails: function(vm) {
-      this.set('vmSelected', vm);
-      this.set('isShowingDetails', true);
-      this.set('isBusy', true);
-
-      if (!this.get('isReload')) {
-        this.reloadVm();
-      }
-    },
-
-    // open detail modal for targetted vm (vmId parameter)
-    showSettings: function(vm) {
-      this.set('vmSelected', vm);
-      this.set('isShowingSettings', true);
-      this.set('isBusy', true);
-
-      if (!this.get('isReload')) {
-        this.reloadVm();
-      }
-    },
-
-    // open rollover modal for targetted vm
-    showHover: function(vmId) {
-      this.set('isShowingHovers', vmId);
-    },
-
-    // close the modal, reset showing variable
-    closeHover: function() {
-      this.set('isShowingHovers', -1);
-    },
-
-    // open uris modal from targetted vm (vm parameter)
-    showUris: function(vm) {
-      var self = this;
-
-      this.set('vmSelected', vm);
-      this.set('isBusy', true);
-
-      Ember.run.later(function(){
-        self.set('isShowingUris', true);
-      }, 500);
-    },
-
-    // open io modal from targetted vm (vm parameter)
-    showIO: function(vm) {
-      this.set('vmSelected', vm);
-      this.set('isShowingIO', true);
-      this.set('isBusy', true);
-    },
-
-    // open monitor modal from targetted vm (vm parameter)
-    showMonitor: function(vm) {
-      this.set('vmSelected', vm);
-      this.set('isShowingMonitor', true);
-      this.set('isBusy', true);
-    },
-
-    // open supervise modal from targetted vm (vm parameter)
-    showSupervise: function(vm) {
-      this.set('vmSelected', vm);
-      this.set('isShowingSupervise', true);
-      this.set('isBusy', true);
-    },
-
-    // open vnc window
-    openVnc: function(vm) {
-      this.set('vmSelected', vm);
-      this.set('isShowingVnc', true);
-      this.set('isBusy', true);
-    },
-
-    // close deletes modal
-    closeDeleteModal: function() {
-      this.set('isShowingDeleteConfirmation', false);
-      this.set('isBusy', false);
-    },
-
-    // ajax call to get current status
-    checkStatus: function(model) {
-      var vm_id = model.get('id');
-      var self = this;
-
-      // jquery get setupcomplete
-      Ember.$.ajax({
-          url: config.APP.APIHost + "/api/v1/vms/" + vm_id + "/setupcomplete",
-          global: false,
-          headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
-        })
-        .done(function(data) {
-          model.set('status', data);
-          model.set('timeStatus', data);
-          model.set('textStatus', 'RUN');
-          model.set('sucStatus', true);
-          model.set('warnStatus', false);
-          model.set('dangStatus', false);
-          model.set('nanStatus', false);
-          self.get('store').findRecord('vm', model.get('id')).then(function (vm) {
-            model.set('thumb', vm.get('thumb'));
-          });
-        })
-        .fail(function(data) {
-          if (data.status === 410) {
-            model.set('status', data.responseText);
-            model.set('timeStatus', -parseInt(data.responseText));
-
-            // check if error or setup
-            if (parseInt(data.responseText) === 1) {
-              model.set('textStatus', 'ERROR');
-              model.set('sucStatus', false);
-              model.set('warnStatus', false);
-              model.set('dangStatus', true);
-              model.set('nanStatus', false);
-            } else {
-              model.set('textStatus', 'SETUP');
-              model.set('sucStatus', false);
-              model.set('warnStatus', true);
-              model.set('dangStatus', false);
-              model.set('nanStatus', false);
-            }
-          } else {
-            model.set('status', 0);
-            model.set('timeStatus', 0);
-
-            model.set('textStatus', 'ERROR');
-            model.set('sucStatus', false);
-            model.set('warnStatus', false);
-            model.set('dangStatus', false);
-            model.set('nanStatus', true);
-          }
-        });
-    },
-
-    // action for delete event
-    deleteItems: function() {
-      var items = this.get('vms').filterBy('todelete', true);
-      var self = this;
-
-      items.forEach(function(model) {
-        if (model && model.get('todelete')) {
-          model.destroyRecord();
-          self.get('vms').removeObject(model);
-          model.get('user').get('vms').removeObject(model);
-          model.get('project').get('vms').removeObject(model);
-        }
-      });
-
-      // rewind to first page and display refreshed list
-      this.set('currentPage', 0);
-      this.cleanModel();
-      this.prepareList();
-
-      // close confirm modal
-      this.set('isBusy', false);
-      this.set('isShowingDeleteConfirmation', false);
-      this.set('isAllDelete', false);
-    },
-
-    // Change hide/show for delete confirmation
-    showDeleteConfirmation: function() {
-      var items = this.get('vms').filterBy('todelete', true);
-      var deleteItems = [];
-
-      for(var i=0; i<items.length; i++) {
-        deleteItems.push(items[i].get('name') + ", user:" + items[i].get('user').get('email'));
-      }
-
-      if (deleteItems.length > 0) {
-        this.set('isBusy', true);
-        this.set('deleteItems', deleteItems);
-        this.set('isShowingDeleteConfirmation', true);
-      }
-    },
-
-    // Action for add a new item, change current page to create form
-    newItem: function() {
-      var router = this.get('router');
-
-      if (this.get('isJenkins')) {
-        router.transitionTo('cis.new');
-      } else {
-        router.transitionTo('vms.new');
-      }
-    },
-
-    // Toggle or untoggle all items
-    toggleDeleteAll: function() {
-      if (this.get('isAllDelete')) { this.set('isAllDelete', false); }
-      else { this.set('isAllDelete', true); }
-
-      if (this.get('isAllDelete')) {
-        this.get('vms').forEach(function(vm) {
-          vm.set('todelete', vm.get('isShow'));
-        });
-      } else {
-        this.resetDelete();
-      }
-    },
-  }
 });

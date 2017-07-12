@@ -1,19 +1,28 @@
 import Ember from 'ember';
 import config from '../config/environment';
 
+/**
+ *  This component manages the forget password form
+ *
+ *  @module components/login-forgot
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-  errorMail: false,
-  errorPass: false,
-  emailSend: false,
-  modalForgot: false,
-
   actions: {
-    // close forgot modal
+    /**
+     *  Close forgot modal
+     *
+     *  @function
+     */
     closeForgot: function() {
       this.set('modalForgot', false);
     },
 
-    // submit forgot password form
+    /**
+     *  Submit forgot password form
+     *
+     *  @function
+     */
     forgotPassword: function(email, password) {
       var self = this;
 
@@ -42,5 +51,33 @@ export default Ember.Component.extend({
           }
       });
     }
-  }
+  },
+
+  /**
+   *  Validate email field
+   *
+   *  @type {Boolean}
+   */
+  errorMail: false,
+
+  /**
+   *  Validate password field
+   *
+   *  @type {Boolean}
+   */
+  errorPass: false,
+
+  /**
+   *  Flag on email sending
+   *
+   *  @type {Boolean}
+   */
+  emailSend: false,
+
+  /**
+   *  Flag to display the forgot modal
+   *
+   *  @type {Boolean}
+   */
+  modalForgot: false
 });

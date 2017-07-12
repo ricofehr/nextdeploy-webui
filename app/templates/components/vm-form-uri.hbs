@@ -19,11 +19,11 @@
       {{/if}}
       <div class="{{colSmRight}}">
       {{textarea
-              classNames="form-control"
-              rows=3
-              value=uri.aliases
-              placeholder="Aliases"
-              focus-in="displayFocus"}}
+          classNames="form-control"
+          rows=3
+          value=uri.aliases
+          placeholder="Aliases"
+          focus-in="displayFocus"}}
       </div>
     </div>
 
@@ -33,11 +33,11 @@
       <div class="col-sm-3">
         <label title="Redirect Alias to URI">
           {{x-toggle
-                value=uri.is_redir_alias
-                onToggle=(action 'toggleRedirectFlag')
-                onLabel='true'
-                offLabel='false'
-                focus-in="displayFocus"}}
+              value=uri.is_redir_alias
+              onToggle=(action 'toggleRedirectFlag')
+              onLabel='true'
+              offLabel='false'
+              focus-in="displayFocus"}}
         </label>
       </div>
     </div>
@@ -47,11 +47,12 @@
       <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">IpFilter</label>
       <div class="{{colSmRight}}">
       {{textarea
-              classNames="form-control"
-              rows=2
-              value=uri.ipfilter
-              placeholder="Ipfilter"
-              focus-in="displayFocus"}}
+          classNames="form-control"
+          rows=2
+          value=uri.ipfilter
+          placeholder="Ipfilter"
+          key-up=(action 'checkIpfilter')
+          focus-in="displayFocus"}}
       </div>
     </div>
 
@@ -60,12 +61,12 @@
       <div class="col-sm-3">
         <label>
           {{x-toggle
-                value=uri.is_ssl
-                onToggle=(action 'toggleSslFlag' isLocal)
-                onLabel='true'
-                offLabel='false'
-                disabled=isLocal
-                change="displayFocus"}}
+              value=uri.is_ssl
+              onToggle=(action 'toggleSslFlag')
+              onLabel='true'
+              offLabel='false'
+              disabled=isLocal
+              change="displayFocus"}}
         </label>
       </div>
     </div>
@@ -75,11 +76,11 @@
       <div class="col-sm-3">
         <label>
           {{x-toggle
-                value=uri.is_sh
-                onToggle=(action 'toggleShFlag')
-                onLabel='true'
-                offLabel='false'
-                change="displayFocus"}}
+              value=uri.is_sh
+              onToggle=(action 'toggleShFlag')
+              onLabel='true'
+              offLabel='false'
+              change="displayFocus"}}
         </label>
       </div>
     </div>
@@ -129,11 +130,12 @@
       <label class="control-label {{colSmLeft}} col-md-offset-1 col-sm-offset-1 col-xs-offset-2 alert-success">Ipfilter</label>
       <div class="{{colSmRight}}">
       {{textarea
-              classNames="form-control"
-              rows=2
-              value=uri.ipfilter
-              placeholder="Ipfilter"
-              focus-in="displayFocus"}}
+          classNames="form-control"
+          rows=2
+          value=uri.ipfilter
+          placeholder="Ipfilter"
+          key-up=(action 'checkIpfilter')
+          focus-in="displayFocus"}}
       </div>
     </div>
 
@@ -142,12 +144,12 @@
       <div class="{{colSmRight}}">
         <label>
           {{x-toggle
-                value=uri.is_ssl
-                onToggle=(action 'toggleSslFlag' isLocal)
-                onLabel='true'
-                offLabel='false'
-                disabled=isLocal
-                change="displayFocus"}}
+              value=uri.is_ssl
+              onToggle=(action 'toggleSslFlag')
+              onLabel='true'
+              offLabel='false'
+              disabled=isLocal
+              change="displayFocus"}}
         </label>
       </div>
     </div>
@@ -157,11 +159,11 @@
       <div class="{{colSmRight}}">
         <label>
           {{x-toggle
-                value=uri.is_sh
-                onToggle=(mut uri.is_sh)
-                onLabel='true'
-                offLabel='false'
-                change="displayFocus"}}
+              value=uri.is_sh
+              onToggle=(mut uri.is_sh)
+              onLabel='true'
+              offLabel='false'
+              change="displayFocus"}}
         </label>
       </div>
     </div>

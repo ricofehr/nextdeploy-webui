@@ -28,7 +28,7 @@
         <b>Tools{{#if vm.is_ro}} <i style="color:red;">Read-Only state, some tools disabled</i>{{/if}}</b><br/>
         {{#unless vm.is_ro}}
           {{#unless vm.is_jenkins}}
-            <a {{action 'requestTool' 'gitpull'}}>Gitpull</a><br/>
+            <a {{action 'requestTool' 'gitpull'}} class="vm-uris-tools">Gitpull</a><br/>
           {{/unless}}
         {{/unless}}
 
@@ -41,12 +41,12 @@
               {{/if}}
               <a href="{{pminfoURI}}" target="_blank">Phpinfo</a><br/>
           {{/if}}
-          <a {{action 'requestTool' 'logs'}}>Logs</a><br/>
+          <a {{action 'requestTool' 'logs'}} class="vm-uris-tools">Logs</a><br/>
           {{#unless vm.is_ro}}
             {{#unless vm.is_jenkins}}
-              <a {{action 'requestTool' 'postinstall_display'}}>Check postinstall script</a><br/>
+              <a {{action 'requestTool' 'postinstall_display'}} class="vm-uris-tools">Check postinstall script</a><br/>
               {{#if viewPostinstall}}
-              <a {{action 'requestTool' 'postinstall'}}>Execute postinstall script</a><br/>
+              <a {{action 'requestTool' 'postinstall'}} class="vm-uris-tools">Execute postinstall script</a><br/>
               {{/if}}
             {{/unless}}
           {{/unless}}

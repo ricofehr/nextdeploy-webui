@@ -1,54 +1,18 @@
 import Ember from 'ember';
 
+/**
+ *  This component manages the sshkey form
+ *
+ *  @module components/sshkey-form
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-  //validation variables
-  errorName: false,
-  errorKey: false,
-
-  // trigger when model changes
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.formIsValid();
-  },
-
-  // ensure that name attribute is not empty
-  checkName: function() {
-    var name = this.get('sshkey.name');
-    var errorName = false;
-
-    if (!name) {
-      errorName = true;
-    } else {
-      this.set('sshkey.name', this.get('sshkey.name').replace(/ /g,''));
-    }
-
-    this.set('errorName', errorName);
-  }.observes('sshkey.name'),
-
-  // ensure that key attribute is not empty
-  checkKey: function() {
-    var key = this.get('sshkey.key');
-    var errorKey = false;
-
-    if (!key) {
-      errorKey = true;
-    }
-
-    this.set('errorKey', errorKey);
-  }.observes('sshkey.key'),
-
-  //check form before submit
-  formIsValid: function() {
-    this.checkName();
-    this.checkKey();
-
-    if (!this.get('errorName') &&
-        !this.get('errorKey')) { return true; }
-    return false;
-  },
-
   actions: {
-    // submit form creation
+    /**
+     *  Submit form for create current object
+     *
+     *  @function
+     */
     postItem: function() {
       var router = this.get('router');
       var self = this;
@@ -72,5 +36,75 @@ export default Ember.Component.extend({
       router.transitionTo('loading');
       this.get('sshkey').save().then(pass, fail);
     }
+  },
+
+  /**
+   *  Trigger when receives models
+   *
+   *  @function
+   */
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.formIsValid();
+  },
+
+  /**
+   *  Ensure name is filled and normalize it
+   *
+   *  @function
+   *  @returns {Boolean} true if no valid field
+   */
+  errorName: function() {
+    var name = this.get('sshkey.name');
+    var errorName = true;
+    var self = this;
+
+    if (name) {
+      errorName = false;
+
+      // normalize
+      name = name.toLowerCase();
+      name = name.replace(/ /g, '');
+
+      if (this.get('sshkey.name') !== name) {
+          Ember.run.once(function() {
+            self.set('sshkey.name', name);
+          });
+      }
+    }
+
+    return errorName;
+  }.property('sshkey.name'),
+
+  /**
+   *  Ensure key is filled
+   *
+   *  @function
+   *  @returns {Boolean} true if no valid field
+   */
+  errorKey: function() {
+    var key = this.get('sshkey.key');
+
+    if (!key) {
+      return true;
+    }
+
+    return false;
+  }.property('sshkey.key'),
+
+  /**
+   *  Ensures all form fields are valids before submit
+   *
+   *  @function
+   */
+  formIsValid: function() {
+    this.checkName();
+    this.checkKey();
+
+    if (!this.get('errorName') &&
+        !this.get('errorKey')) {
+      return true;
+    }
+    return false;
   }
 });

@@ -1,20 +1,46 @@
 import Ember from 'ember';
 
+/**
+ *  This component manages hover mouse event on vms list
+ *
+ *  @module components/vm-hover
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-  isShowingHover: false,
+  actions: {
+    /**
+     *  Close the modal, reset component variables
+     *
+     *  @function
+     */
+    closeHover: function() {
+      this.set('isShowingHovers', -1);
+    }
+  },
 
+  /**
+   *  Generates the commit title
+   *
+   *  @function
+   *  @returns {String} the title
+   */
   commitTitle: function() {
     var ret = this.get('vm.commit.title');
 
     if (this.get('vm.commit.title') && this.get('vm.commit.title').match(/^Merge/)) {
-      ret = this.get('vm.commit.title').replace(/ of.*/g,'').replace(/ into.*/g,'');
+      ret = this.get('vm.commit.title').replace(/ of.*/g, '').replace(/ into.*/g, '');
     }
 
-    return ret.replace(/http:\/\/[^ ]+/g,'');
+    return ret.replace(/http:\/\/[^ ]+/g, '');
   }.property('vm.commit.title'),
 
+  /**
+   *  Generates the commit date
+   *
+   *  @function
+   *  @returns {String} the date
+   */
   commitDate: function() {
-
     if (!this.get('vm.commit.created_at')) {
       return '';
     }
@@ -51,33 +77,47 @@ export default Ember.Component.extend({
     return displayDate + ' - ';
   }.property('vm.commit.created_at'),
 
-  setShowingHover: function() {
+  /**
+   *  Flag to display the hover
+   *
+   *  @function
+   *  @returns {Boolean} true if hover is displayed
+   */
+  isShowingHover: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
-    if (access_level >= 20) {
-      this.set('isShowingHover', this.get('isShowingHovers') === this.get('vm').id);
-    } else {
-      this.set('isShowingHover', false);
-    }
-  }.observes('isShowingHovers'),
 
-  // Return true if is running state
+    if (access_level >= 20) {
+      return this.get('isShowingHovers') === this.get('vm').id;
+    } else {
+      return false;
+    }
+  }.property('isShowingHovers'),
+
+  /**
+   *  Return true if vm is on running state
+   *
+   *  @function
+   *  @returns {Boolean}
+   */
   isRunning: function() {
-    if (parseInt(this.get('vm.status'), 10) > 0) { return true; }
+    if (parseInt(this.get('vm.status'), 10) > 0) {
+      return true;
+    }
     return false;
   }.property('vm.status'),
 
-  // Return true if user is a Dev or more
+  /**
+   *  Check if current user is admin, lead, or dev
+   *
+   *  @function
+   *  @returns {Boolean} True if admin, lead, or dev
+   */
   isDev: function() {
     var access_level = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  actions: {
-    // close the modal, reset showing variable
-    closeHover: function() {
-      this.set('isShowingHovers', -1);
+    if (access_level >= 30) {
+      return true;
     }
-  }
+    return false;
+  }.property('session.data.authenticated.access_level')
 });

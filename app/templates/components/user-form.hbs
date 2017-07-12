@@ -4,7 +4,7 @@
     {{#if errorEmail}}
         <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Invalid Email !</label>
     {{else}}
-      {{#if errorEmail2}}
+      {{#if errorEmailUnique}}
         <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-danger">Already taken</label>
       {{else}}
         <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Email Address</label>
@@ -62,7 +62,7 @@
       searchEnabled=false
       disabled=isDisableAdmin
       placeholder="Select a group"
-      onchange=(action 'changeProperty' 'user.group')
+      onchange=(action 'changeGroup')
       as |group|
     }}
       {{#if group.isShow}}{{group.name}}{{/if}}
@@ -76,11 +76,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=user.is_project_create
-              disabled=is_project_create_ro
-              onLabel='true'
-              offLabel='false'
-              onToggle=(action 'toggleFlagUser' is_project_create_ro 'is_project_create')}}
+            value=user.is_project_create
+            disabled=is_project_create_ro
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'toggleFlagUser' is_project_create_ro 'is_project_create')}}
       </label>
     </div>
   </div>
@@ -92,11 +92,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=user.is_user_create
-              disabled=is_user_create_ro
-              onLabel='true'
-              offLabel='false'
-              onToggle=(action 'toggleFlagUser' is_user_create_ro 'is_user_create')}}
+            value=user.is_user_create
+            disabled=is_user_create_ro
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'toggleFlagUser' is_user_create_ro 'is_user_create')}}
       </label>
     </div>
   </div>
@@ -108,11 +108,11 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=user.is_recv_vms
-              disabled=isDisable
-              onLabel='true'
-              offLabel='false'
-              onToggle=(action 'toggleFlagUser' false 'is_recv_vms')}}
+            value=user.is_recv_vms
+            disabled=isDisable
+            onLabel='true'
+            offLabel='false'
+            onToggle=(action 'toggleFlagUser' false 'is_recv_vms')}}
       </label>
     </div>
   </div>
@@ -190,14 +190,14 @@
 
   <div class="form-group">
     {{#if successPassword}}
-      {{#if successPassword2}}
+      {{#if successSamePassword}}
         <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Password</label>
       {{else}}
         <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Must be equal with Confirm !</label>
       {{/if}}
     {{else}}
       {{#if errorPassword}}
-        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4"> > 7 chars !</label>
+        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Too shorter !</label>
       {{else}}
         <label class="control-label col-md-2 col-sm-3 col-xs-4">Password</label>
       {{/if}}
@@ -210,14 +210,14 @@
 
   <div class="form-group">
     {{#if successPasswordConfirmation}}
-      {{#if successPassword2}}
+      {{#if successSamePassword}}
         <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Password Confirmation</label>
       {{else}}
         <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Must be equal with Password !</label>
       {{/if}}
     {{else}}
       {{#if errorPasswordConfirmation}}
-        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4"> >= 8 chars !</label>
+        <label class="control-label alert-danger col-md-2 col-sm-3 col-xs-4">Too shorter !</label>
       {{else}}
         <label class="control-label col-md-2 col-sm-3 col-xs-4">Password Confirmation</label>
       {{/if}}
@@ -233,10 +233,10 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
-              value=user.is_credentials_send
-              onToggle=(mut user.is_credentials_send)
-              onLabel='true'
-              offLabel='false'}}
+            value=user.is_credentials_send
+            onToggle=(mut user.is_credentials_send)
+            onLabel='true'
+            offLabel='false'}}
       </label>
     </div>
   </div>

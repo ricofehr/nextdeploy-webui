@@ -1,22 +1,217 @@
 import Ember from 'ember';
 
+/**
+ *  This component manages the projects list
+ *
+ *  @module components/projects-list
+ *  @augments ember/Component
+ */
 export default Ember.Component.extend({
-  // sort propeties and projects sorting compute
+  /**
+   *  Sort property for projects list
+   *
+   *  @type {String[]}
+   */
   computeSorting: ['created_at:desc'],
+
+  /**
+   *  Array of projects sorted
+   *
+   *  @type {Project[]}
+   */
   projectsSort: Ember.computed.sort('projects', 'computeSorting'),
-  // Show / hide on html side
+
+  actions: {
+    /**
+     *  Change the current page of the list
+     *
+     *  @function
+     *  @param {Integer} cp The new page number
+     */
+    changePage: function(cp) {
+      this.set('currentPage', cp);
+      this.prepareList();
+    },
+
+    /**
+     *  Close deletes modal
+     *
+     *  @function
+     */
+    closeDeleteModal: function() {
+      this.set('isShowingDeleteConfirmation', false);
+      this.set('isBusy', false);
+    },
+
+    /**
+     *  Open detail modal for targetted project
+     *
+     *  @function
+     *  @param {Project} project Target for details modal
+     */
+    showDetails: function(project) {
+      this.set('projectSelected', project);
+      this.set('isBusy', true);
+      this.reloadProject();
+    },
+
+    /**
+     *  Submit delete event
+     *
+     *  @function
+     */
+    deleteItems: function() {
+      var router = this.get('router');
+      var self = this;
+      var items = this.get('projects').filterBy('todelete', true);
+      var pass = function(){};
+      var fail = function(){ router.transitionTo('error'); };
+
+      // Delete project and vms associated
+      items.forEach(function(model) {
+        if (model && model.get('todelete')) {
+          model.get('vms').forEach(function(vm) {
+            if (vm) {
+              vm.get('user').get('vms').removeObject(vm);
+              self.store.peekAll('vm').removeObject(vm);
+              vm.destroyRecord().then(pass, fail);
+            }
+          });
+
+          model.get('users').forEach(function(user) {
+            if (user) {
+              user.get('projects').removeObject(model);
+            }
+          });
+
+          model.get('brand').get('projects').removeObject(model);
+          self.get('projects').removeObject(model);
+          model.destroyRecord().then(pass, fail);
+        }
+      });
+
+      // rewind to first page and display refreshed list
+      this.set('currentPage', 0);
+      this.cleanModel();
+      this.prepareList();
+
+      // close confirm modal
+      this.set('isBusy', false);
+      this.set('isShowingDeleteConfirmation', false);
+    },
+
+    /**
+     *  Display delete confirmation modal
+     *
+     *  @function
+     */
+    showDeleteConfirmation: function() {
+      var items = this.get('projects').filterBy('todelete', true);
+      var deleteItems = [];
+
+      for(var i = 0; i < items.length; i++) {
+        deleteItems.push(items[i].get('brand').get('name') + ' - ' + items[i].get('name'));
+      }
+
+      if (deleteItems.length > 0) {
+        this.set('deleteItems', deleteItems);
+        this.set('isShowingDeleteConfirmation', true);
+      }
+    },
+
+    /**
+     *  Go to project creation form
+     *
+     *  @function
+     */
+    newItem: function() {
+      var router = this.get('router');
+      router.transitionTo('projects.new');
+    }
+  },
+
+  /**
+   *  Flag to show the delete confirm modal
+   *
+   *  @type {Boolean}
+   */
   isShowingDeleteConfirmation: false,
+
+  /**
+   *  Project targetted for an action or a modal
+   *
+   *  @type {Project}
+   */
   projectSelected: null,
+
+  /**
+   *  Flag to show the project details modal
+   *
+   *  @type {Boolean}
+   */
   isShowingDetails: false,
 
-  // trigger when model changes
+  /**
+   *  Check if current user is admin
+   *
+   *  @function
+   *  @returns {Boolean} True if admin
+   */
+  isAdmin: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level === 50) {
+      return true;
+    }
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Flag to show the delete confirm modal
+   *
+   *  @type {Boolean}
+   */
+  isLead: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level >= 40) {
+      return true;
+    }
+    return false;
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Check if current user can create project
+   *
+   *  @function
+   *  @returns {Boolean} True if he can
+   */
+  isProjectCreate: function() {
+    var access_level = this.get('session').get('data.authenticated.access_level');
+
+    if (access_level === 50) {
+      return true;
+    }
+
+    return this.get('session').get('data.authenticated.user.is_project_create');
+  }.property('session.data.authenticated.access_level'),
+
+  /**
+   *  Trigger when receives models
+   *
+   *  @function
+   */
   didReceiveAttrs() {
     this._super(...arguments);
     this.cleanModel();
     this.prepareList();
   },
 
-  // Return model array sorted
+  /**
+   *  Prepare and format projects list
+   *
+   *  @function
+   */
   prepareList: function() {
     var userId = parseInt(this.get('userId'));
     var brandId = parseInt(this.get('brandId'));
@@ -48,7 +243,9 @@ export default Ember.Component.extend({
         return;
       }
 
+      // add prefix to gitpath
       model.set('gitpath_href', "git@" + model.get('gitpath'));
+
       // init date value
       day = model.get('created_at').getDate();
       month = model.get('created_at').getMonth() + 1;
@@ -71,9 +268,12 @@ export default Ember.Component.extend({
 
       // filter project listing with brand, user, search field, and current page value
       model.set('isShow', true);
+
       // if brandId parameter exists
       if (brandId !== 0) {
-        if (parseInt(model.get('brand.id'), 10) !== brandId) { model.set('isShow', false); }
+        if (parseInt(model.get('brand.id'), 10) !== brandId) {
+          model.set('isShow', false);
+        }
       }
 
       // if userId parameter exists
@@ -96,7 +296,7 @@ export default Ember.Component.extend({
         }
       }
 
-      // if brand object is null, the project was deleted
+      // if brand object is null, the project had been deleted
       if (!model.get('brand')) {
         model.set('isShow', false);
       }
@@ -122,8 +322,7 @@ export default Ember.Component.extend({
       }
     });
 
-    // set paging numbers
-    // max 8 paging numbers
+    // Set paging numbern with no more 8 paging numbers
     this.set('previousPage', false);
     this.set('nextPage', false);
     if (pages.length > 1) {
@@ -167,7 +366,11 @@ export default Ember.Component.extend({
     }
   }.observes('refreshList'),
 
-  // delete records unsaved or deleted
+  /**
+   *  Delete records unsaved or deleted
+   *
+   *  @function
+   */
   cleanModel: function() {
     var self = this;
 
@@ -226,31 +429,11 @@ export default Ember.Component.extend({
     });
   },
 
-  // return true if current user is admin
-  isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-
-    if (access_level === 50) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  // Return true if user is a Lead Dev
-  isLead: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-
-    if (access_level >= 40) { return true; }
-    return false;
-  }.property('session.data.authenticated.access_level'),
-
-  // Check if current user can create project
-  isProjectCreate: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-    if (access_level === 50) { return true; }
-
-    return this.get('session').get('data.authenticated.user.is_project_create');
-  }.property('session.data.authenticated.access_level'),
-
-  // reload selected project object
+  /**
+   *  Reload from server the selected project
+   *
+   *  @function
+   */
   reloadProject: function() {
     var self = this;
     var project = this.get('projectSelected');
@@ -258,89 +441,5 @@ export default Ember.Component.extend({
     project.reload().then(function () {
       self.set('isShowingDetails', true);
     });
-  },
-
-  // actions binding with user event
-  actions: {
-    // change listing page
-    changePage: function(cp) {
-      this.set('currentPage', cp);
-      this.prepareList();
-    },
-
-    // close deletes modal
-    closeDeleteModal: function() {
-      this.set('isShowingDeleteConfirmation', false);
-      this.set('isBusy', false);
-    },
-
-    // open detail modal for targetted project (with projectId parameter)
-    showDetails: function(project) {
-      this.set('projectSelected', project);
-      this.set('isBusy', true);
-      this.reloadProject();
-    },
-
-    // action for delete event
-    deleteItems: function() {
-      var router = this.get('router');
-      var self = this;
-      var items = this.get('projects').filterBy('todelete', true);
-      var pass = function(){};
-      var fail = function(){ router.transitionTo('error'); };
-
-      // Delete project and vms associated
-      items.forEach(function(model) {
-        if (model && model.get('todelete')) {
-          model.get('vms').forEach(function(vm) {
-            if (vm) {
-              vm.get('user').get('vms').removeObject(vm);
-              self.store.peekAll('vm').removeObject(vm);
-              vm.destroyRecord().then(pass, fail);
-            }
-          });
-
-          model.get('users').forEach(function(user) {
-            if (user) {
-              user.get('projects').removeObject(model);
-            }
-          });
-
-          model.get('brand').get('projects').removeObject(model);
-          self.get('projects').removeObject(model);
-          model.destroyRecord().then(pass, fail);
-        }
-      });
-
-      // rewind to first page and display refreshed list
-      this.set('currentPage', 0);
-      this.cleanModel();
-      this.prepareList();
-
-      // close confirm modal
-      this.set('isBusy', false);
-      this.set('isShowingDeleteConfirmation', false);
-    },
-
-    // Change hide/show for delete confirmation
-    showDeleteConfirmation: function() {
-      var items = this.get('projects').filterBy('todelete', true);
-      var deleteItems = [];
-
-      for(var i=0; i<items.length; i++) {
-        deleteItems.push(items[i].get('brand').get('name') + ' - ' + items[i].get('name'));
-      }
-
-      if (deleteItems.length > 0) {
-        this.set('deleteItems', deleteItems);
-        this.set('isShowingDeleteConfirmation', true);
-      }
-    },
-
-    // Action for add a new item, change current page to create form
-    newItem: function() {
-      var router = this.get('router');
-      router.transitionTo('projects.new');
-    }
   }
 });

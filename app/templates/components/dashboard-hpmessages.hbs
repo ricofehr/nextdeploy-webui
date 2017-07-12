@@ -1,13 +1,13 @@
 <article class="note note-partial">
-            <h2 class="note-title">{{{title}}}</h2>
-            <time class="note-publish-datetime">{{date}}</time>
-            <div class="note-excerpt">
-                {{#if isTwitter}}
-                  {{#twitter-feed}}
-                    <p>{{yield}}</p>
-                  {{/twitter-feed}}
-                {{else}}
-                  <p>{{yield}}</p>
-                {{/if}}
-            </div>
+  <h2 class="note-title">{{{title}}}</h2>
+  <time class="note-publish-datetime">{{date}}</time>
+  <div class="note-excerpt">
+      {{#if isTwitter}}
+        {{#twitter-feed}}
+          <p>{{yield}}</p>
+        {{/twitter-feed}}
+      {{else}}
+        <p>{{yield}}</p>
+      {{/if}}
+  </div>
 </article><br/>
