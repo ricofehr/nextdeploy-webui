@@ -8,7 +8,7 @@
       {{#power-select-multiple
         options=usersSort
         searchField="email"
-        selected=project_users
+        selected=project.users
         dropdownClass="inmodal"
         onchange=(action 'changeUsers')
         as |user|

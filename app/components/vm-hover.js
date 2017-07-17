@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages hover mouse event on vms list
  *
- *  @module components/vm-hover
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmHover
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Close the modal, reset component variables
      *
-     *  @function
+     *  @event closeHover
      */
     closeHover: function() {
       this.set('isShowingHovers', -1);
@@ -21,7 +24,7 @@ export default Ember.Component.extend({
   /**
    *  Generates the commit title
    *
-   *  @function
+   *  @function commitTitle
    *  @returns {String} the title
    */
   commitTitle: function() {
@@ -37,7 +40,7 @@ export default Ember.Component.extend({
   /**
    *  Generates the commit date
    *
-   *  @function
+   *  @function commitDate
    *  @returns {String} the date
    */
   commitDate: function() {
@@ -80,13 +83,13 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the hover
    *
-   *  @function
+   *  @function isShowingHover
    *  @returns {Boolean} true if hover is displayed
    */
   isShowingHover: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 20) {
+    if (accessLevel >= 20) {
       return this.get('isShowingHovers') === this.get('vm').id;
     } else {
       return false;
@@ -96,7 +99,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm is on running state
    *
-   *  @function
+   *  @function isRunning
    *  @returns {Boolean}
    */
   isRunning: function() {
@@ -109,13 +112,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin, lead, or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) {
+    if (accessLevel >= 30) {
       return true;
     }
     return false;

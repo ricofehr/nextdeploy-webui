@@ -1,9 +1,16 @@
-// define session actions after authenticate and after logout
+/**
+ *  Define session actions after authenticate: load all models records
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class SessionEvents
+ *  @namespace instance-initializer
+ *  @module nextdeploy
+ */
 export function initialize(container) {
   var applicationRoute = container.lookup('route:application');
-  var session          = container.lookup('service:session');
-  var store          = container.lookup('service:store');
-  var fail  = function() {
+  var session = container.lookup('service:session');
+  var store = container.lookup('service:store');
+  var fail = function() {
     applicationRoute.transitionTo('error');
   };
 

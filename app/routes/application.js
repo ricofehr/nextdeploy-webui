@@ -1,18 +1,62 @@
 import Ember from 'ember';
 
+/**
+ *  Define the application route, main route of the webui
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Application
+ *  @namespace route
+ *  @module nextdeploy
+ *  @augments Ember/Route
+ */
 export default Ember.Route.extend({
-  // refresh variables during loadmodel
+  /**
+   *  Flag to keep the refresh ask of vms list
+   *
+   *  @property refreshVms
+   *  @type {Boolean}
+   */
   refreshVms: false,
+
+  /**
+   *  Flag to keep the refresh ask of users list
+   *
+   *  @property refreshUsers
+   *  @type {Boolean}
+   */
   refreshUsers: false,
+
+  /**
+   *  Flag to keep the refresh ask of projects list
+   *
+   *  @property refreshProjects
+   *  @type {Boolean}
+   */
   refreshProjects: false,
+
+  /**
+   *  Flag to keep the refresh ask of brands list
+   *
+   *  @property refreshBrands
+   *  @type {Boolean}
+   */
   refreshBrands: false,
 
-  // load all models collection on application loading
+  /**
+   *  Load once all the model records during application loading
+   *
+   *  @function model
+   *  @returns nothing
+   */
   model() {
     return this.loadModel("index");
   },
 
-  // start the refresh model loop
+  /**
+   *  Start the reloadModel refresh loop
+   *
+   *  @method afterModel
+   */
   afterModel() {
     var self = this;
 
@@ -21,18 +65,43 @@ export default Ember.Route.extend({
     }, 420000);
   },
 
-  // load synchronisely all models
+  /**
+   *  Load synchronisely all models records
+   *
+   *  @function loadModel
+   *  @param {String} currentRoute
+   *  @returns nothing
+   */
   loadModel: function(currentRoute) {
-    var nbprojects = this.store.peekAll('project').toArray().length;
-    var nbbrands = this.store.peekAll('brand').toArray().length;
-    var nbhpmessages = this.store.peekAll('hpmessage').toArray().length;
-    var nbusers = this.store.peekAll('user').toArray().length;
     var self = this;
-    var idvms = this.store.peekAll('vm').toArray().reduce(function(previousValue, vm){
+    var idProjects =
+      this.store.peekAll('project').toArray().reduce(function(previous, project) {
+        return previous + parseInt(project.get("id"));
+      }, 0);
+
+    var idBrands =
+      this.store.peekAll('brand').toArray().reduce(function(previous, brand) {
+        return previous + parseInt(brand.get("id"));
+      }, 0);
+
+    var idHpmessages =
+      this.store.peekAll('hpmessage').toArray().reduce(function(previous, hpm) {
+        return previous + parseInt(hpm.get("id"));
+      }, 0);
+
+    var idUsers =
+      this.store.peekAll('user').toArray().reduce(function(previous, user) {
+        return previous + parseInt(user.get("id"));
+      }, 0);
+
+    var idVms =
+      this.store.peekAll('vm').toArray().reduce(function(previousValue, vm){
         return previousValue + parseInt(vm.get("id"));
-    }, 0);
+      }, 0);
 
     var fail = function(){};
+    var opt = { backgroundReload: false, reload: true };
+
     // index is the first route when ember is launching
     if (currentRoute === "index") {
       fail = function() {
@@ -45,18 +114,18 @@ export default Ember.Route.extend({
     };
 
     var loadSupervises = function() {
-      return self.store.findAll('supervise', { backgroundReload: false, reload: true }).then(passSupervises, fail);
+      return self.store.findAll('supervise', opt).then(passSupervises, fail);
     };
 
     var loadUris = function(vms){
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "vms.list") {
-        var idvms_2 = vms.toArray().reduce(function(previousValue, vm){
+        var idVmsNow = vms.toArray().reduce(function(previousValue, vm){
             return previousValue + parseInt(vm.get("id"));
         }, 0);
 
-        if (idvms_2 !== idvms) {
+        if (idVmsNow !== idVms) {
           self.set('refreshVms', true);
         }
 
@@ -68,19 +137,22 @@ export default Ember.Route.extend({
         self.controllerFor("vms.list").prepareList();
       }
 
-      return self.store.findAll('uri', { backgroundReload: false, reload: true }).then(loadSupervises, fail);
+      return self.store.findAll('uri', opt).then(loadSupervises, fail);
     };
 
-
     var loadVms = function() {
-      return self.store.findAll('vm', { backgroundReload: false, reload: true }).then(loadUris, fail);
+      return self.store.findAll('vm', opt).then(loadUris, fail);
     };
 
     var loadEndpoints = function(projects) {
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "projects.list") {
-        if (projects.toArray().length !== nbprojects) {
+        var idProjectsNow = projects.toArray().reduce(function(previous, project){
+            return previous + parseInt(project.get("id"));
+        }, 0);
+
+        if (idProjectsNow !== idProjects) {
           self.set('refreshProjects', true);
         }
 
@@ -92,14 +164,18 @@ export default Ember.Route.extend({
         self.controllerFor("projects.list").prepareList();
       }
 
-      return self.store.findAll('endpoint', { backgroundReload: false, reload: true }).then(loadVms, fail);
+      return self.store.findAll('endpoint', opt).then(loadVms, fail);
     };
 
     var loadProjects = function(users) {
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "users.list") {
-        if (users.toArray().length !== nbusers) {
+        var idUsersNow = users.toArray().reduce(function(previous, user){
+            return previous + parseInt(user.get("id"));
+        }, 0);
+
+        if (idUsersNow !== idUsers) {
           self.set('refreshUsers', true);
         }
 
@@ -111,14 +187,18 @@ export default Ember.Route.extend({
         self.controllerFor("users.list").prepareList();
       }
 
-      return self.store.findAll('project', { backgroundReload: false, reload: true }).then(loadEndpoints, fail);
+      return self.store.findAll('project', opt).then(loadEndpoints, fail);
     };
 
     var loadUsers = function(brands) {
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "brands.list") {
-        if (brands.toArray().length !== nbbrands) {
+        var idBrandsNow = brands.toArray().reduce(function(previous, brand){
+          return previous + parseInt(brand.get("id"));
+        }, 0);
+
+        if (idBrandsNow !== idBrands) {
           self.set('refreshBrands', true);
         }
 
@@ -130,62 +210,70 @@ export default Ember.Route.extend({
         self.controllerFor("brands.list").prepareList();
       }
 
-      return self.store.findAll('user', { backgroundReload: false, reload: true }).then(loadProjects, fail);
+      return self.store.findAll('user', opt).then(loadProjects, fail);
     };
 
     var loadBrands = function(hpmessages) {
       var currentRoute = self.controllerFor("application").get("currentRouteName");
 
       if (currentRoute === "dashboard") {
-        if (hpmessages.toArray().length !== nbhpmessages) {
+        var idHpmessagesNow = hpmessages.toArray().reduce(function(previous, hpmessage){
+          return previous + parseInt(hpmessage.get("id"));
+        }, 0);
+
+        if (idHpmessagesNow !== idHpmessages) {
           self.get('router.router').refresh();
         }
       }
 
-      return self.store.findAll('brand', { backgroundReload: false, reload: true }).then(loadUsers, fail);
+      return self.store.findAll('brand', opt).then(loadUsers, fail);
     };
 
     var loadHpmessages = function() {
-      return self.store.findAll('hpmessage', { backgroundReload: false, reload: true }).then(loadBrands, fail);
+      return self.store.findAll('hpmessage', opt).then(loadBrands, fail);
     };
 
     var loadSshkeys = function() {
-      return self.store.findAll('sshkey', { backgroundReload: false, reload: true }).then(loadHpmessages, fail);
+      return self.store.findAll('sshkey', opt).then(loadHpmessages, fail);
     };
 
     var loadGroups = function() {
-      return self.store.findAll('group', { backgroundReload: false, reload: true }).then(loadSshkeys, fail);
+      return self.store.findAll('group', opt).then(loadSshkeys, fail);
     };
 
     var loadSystemimages = function() {
-      return self.store.findAll('systemimage', { backgroundReload: false, reload: true }).then(loadGroups, fail);
+      return self.store.findAll('systemimage', opt).then(loadGroups, fail);
     };
 
     var loadSystemtypes = function() {
-      return self.store.findAll('systemimagetype', { backgroundReload: false, reload: true }).then(loadSystemimages, fail);
+      return self.store.findAll('systemimagetype', opt).then(loadSystemimages, fail);
     };
 
     var loadTechnos = function() {
-      return self.store.findAll('techno', { backgroundReload: false, reload: true }).then(loadSystemtypes, fail);
+      return self.store.findAll('techno', opt).then(loadSystemtypes, fail);
     };
 
     var loadTechnotypes = function() {
-      return self.store.findAll('technotype', { backgroundReload: false, reload: true }).then(loadTechnos, fail);
+      return self.store.findAll('technotype', opt).then(loadTechnos, fail);
     };
 
     var loadFrameworks = function() {
-      return self.store.findAll('framework', { backgroundReload: false, reload: true }).then(loadTechnotypes, fail);
+      return self.store.findAll('framework', opt).then(loadTechnotypes, fail);
     };
 
     if (this.get('session').get('isAuthenticated')) {
       // begin recursive model load
-      return this.store.findAll('vmsize', { backgroundReload: false, reload: true }).then(loadFrameworks, fail);
+      return this.store.findAll('vmsize', opt).then(loadFrameworks, fail);
     } else {
       return;
     }
   },
 
-  // refresh model collections
+  /**
+   *  Refresh loop
+   *
+   *  @function
+   */
   reloadModel() {
     var self = this;
     var currentRoute = this.controllerFor("application").get("currentRouteName");
@@ -202,7 +290,11 @@ export default Ember.Route.extend({
   },
 
   actions: {
-    // logout action
+    /**
+     *  Logout action
+     *
+     *  @event invalidateSession
+     */
     invalidateSession() {
       var session = this.get('session');
 

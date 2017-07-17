@@ -1,13 +1,30 @@
 import Ember from 'ember';
 
+/**
+ *  This controller manages global search field
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Application
+ *  @namespace controller
+ *  @augments Ember.Controller
+ *  @module nextdeploy
+ */
 export default Ember.Controller.extend({
-
-  // difeine flag search and search value variable
-  showSearch: false,
+  /**
+   *  Define flag search and search value variable
+   *
+   *  @property search
+   *  @type {String}
+   */
   search: null,
 
-  // we want display search field only on list of items pages
-  hideSearch: function() {
+  /**
+   *  Display search field only on list of items pages
+   *
+   *  @function showSearch
+   *  @returns {Boolean}
+   */
+  showSearch: function() {
     var currentRoute = this.get("currentPath");
     var showSearch = false;
 
@@ -16,8 +33,8 @@ export default Ember.Controller.extend({
       showSearch = true;
     }
 
-    this.set('showSearch', showSearch);
     this.set('search', null);
 
-  }.observes('currentPath'),
+    return showSearch;
+  }.property('currentPath'),
 });

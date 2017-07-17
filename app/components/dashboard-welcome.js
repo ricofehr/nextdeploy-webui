@@ -3,14 +3,17 @@ import Ember from 'ember';
 /**
  *  This component manages the welcome message on the homepage Wall
  *
- *  @module components/dashboard-welcome
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class DashboardWelcome
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   /**
    *  Return the current user in session
    *
-   *  @function
+   *  @function currentUser
    *  @returns {User} the session user object
    */
   currentUser: function() {

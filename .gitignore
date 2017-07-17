@@ -16,5 +16,8 @@
 /libpeerconnection.log
 npm-debug.log
 testem.log
-                                                                                                   ²
+
+# docs
+/docs
+
 .idea/

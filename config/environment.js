@@ -1,9 +1,17 @@
-/* jshint node: true */
+/**
+ *  Environment Settings part
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Environment
+ *  @namespace config
+ *  @module nextdeploy
+ */
 module.exports = function(environment) {
   var ENV = {
     modulePrefix: 'nextdeploy',
     environment: environment,
     rootURL: '/',
+    APIHost: '',
     locationType: 'hash',
     contentSecurityPolicy: {
       'connect-src': "*"
@@ -12,36 +20,18 @@ module.exports = function(environment) {
       FEATURES: {}
     },
 
-    APP: {}
+    APP: {
+      APIHost: ''
+    }
   };
 
   if (environment === 'development') {
     ENV.APP.LOG_TRANSITIONS = true;
     ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
-
-    ENV.APP.APIHost = "";
     ENV.APP.NBITEMSBYPAGE = 5;
   }
 
-  if (environment === 'staging') {
-    ENV.APP.APIHost = "";
-    ENV.APP.NBITEMSBYPAGE = 6;
-  }
-
-  if (environment === 'test') {
-    // Testem prefers this...
-    ENV.rootURL = '/';
-    ENV.locationType = 'none';
-
-    // keep test console output quieter
-    ENV.APP.LOG_ACTIVE_GENERATION = false;
-    ENV.APP.LOG_VIEW_LOOKUPS = false;
-
-    ENV.APP.rootElement = '#ember-testing';
-  }
-
   if (environment === 'production') {
-    ENV.APP.APIHost = "";
     ENV.APP.NBITEMSBYPAGE = 11;
   }
 

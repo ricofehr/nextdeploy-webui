@@ -1,8 +1,20 @@
-/*jshint node:true*/
+/**
+ *  systemimagetypes mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Systemimagetype
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var systemimagetypesRouter = express.Router();
 
+  /**
+   *  Mock systemimagetypes list request
+   *
+   *  @method get:/
+   */
   systemimagetypesRouter.get('/', function(req, res) {
     res.send({
       'systemimagetypes':[
@@ -11,6 +23,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock show systemimagetype request
+   *
+   *  @method get:/$id
+   */
   systemimagetypesRouter.get('/:id', function(req, res) {
     res.send({
       'systemimagetype':{

@@ -3,13 +3,17 @@ import Ember from 'ember';
 /**
  *  This component manages the project details modal
  *
- *  @module components/project-details
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class ProjectDetails
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   /**
    *  Sort property for users list
    *
+   *  @attribute
    *  @type {String[]}
    */
   emailSorting: ['email'],
@@ -17,6 +21,7 @@ export default Ember.Component.extend({
   /**
    *  Array of users sorted
    *
+   *  @attribute
    *  @type {User[]}
    */
   usersSort: Ember.computed.sort('users', 'emailSorting'),
@@ -25,16 +30,16 @@ export default Ember.Component.extend({
     /**
      *  Add or remove an user
      *
-     *  @function
+     *  @event changeUsers
+     *  @param {User[]} value
      */
     changeUsers: function(value) {
       var self = this;
 
       this.set('loadingModal', true);
       // set model properties from temporary buffer
-      this.set('project_users', value);
+      this.set('project.users', value);
       this.checkAdminUsers();
-      this.flushBuffer();
 
       this.get('project').save().then(function() {
         self.set('loadingModal', false);
@@ -44,7 +49,7 @@ export default Ember.Component.extend({
     /**
      *  Close the details modal
      *
-     *  @function
+     *  @event closeDetails
      */
     closeDetails: function() {
       this.set('isShowingDetails', false);
@@ -56,6 +61,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -63,20 +69,23 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin or lead
    *
-   *  @function
+   *  @function isLead
    *  @returns {Boolean} True if admin or lead
    */
   isLead: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 40) { return true; }
+    if (accessLevel >= 40) {
+      return true;
+    }
+
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
    *  Return ftp username for current project
    *
-   *  @function
+   *  @function getFtpUser
    *  @returns {String} The ftp username
    */
   getFtpUser: function() {
@@ -87,7 +96,9 @@ export default Ember.Component.extend({
     }
 
     gitpath = this.get('project').get('gitpath');
-    if (!gitpath) { return ""; }
+    if (!gitpath) {
+      return "";
+    }
 
     // HACK find the ftp username from the gitpath value
     return gitpath.replace(/.*\//g, "");
@@ -96,7 +107,7 @@ export default Ember.Component.extend({
   /**
    *  Return ftp password for current project
    *
-   *  @function
+   *  @function getFtpPassword
    *  @returns {String} The ftp password
    */
   getFtpPassword: function() {
@@ -118,7 +129,7 @@ export default Ember.Component.extend({
   /**
    *  Return ftp hostname for current project
    *
-   *  @function
+   *  @function getFtpHost
    *  @returns {String} The ftp hostname
    */
   getFtpHost: function() {
@@ -129,50 +140,27 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
-    this.initBuffer();
     this.set('loadingModal', false);
-  },
-
-  /**
-   *  Init a buffer for array attributes
-   *  HACK use a buffer to avoid weird issue with power-select
-   *
-   *  @function
-   */
-  initBuffer: function() {
-    if (this.get('isShowingDetails')) {
-      this.set('project_users', this.get('project').get('users').toArray());
-    }
-  },
-
-  /**
-   *  Flush a buffer for array attributes
-   *  HACK use a buffer to avoid weird issue with power-select
-   *
-   *  @function
-   */
-  flushBuffer: function() {
-    this.get('project').set('users', this.get('project_users'));
   },
 
   /**
    *  Ensure that no admin or himself are removed from the project
    *
-   *  @function
+   *  @method checkAdminUsers
    */
   checkAdminUsers: function() {
     var self = this;
-    var user_id = this.get('session').get('data.authenticated.user.id');
+    var userId = this.get('session').get('data.authenticated.user.id');
 
     this.get('users').forEach(function (user) {
       if (user.get('group').get('access_level') === 50 ||
-          parseInt(user.id) === user_id) {
-        if (!self.get('project_users').contains(user)) {
-          self.get('project_users').pushObject(user);
+          parseInt(user.id) === userId) {
+        if (!self.get('project.users').contains(user)) {
+          self.get('project.users').pushObject(user);
         }
       }
     });

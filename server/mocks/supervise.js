@@ -1,8 +1,20 @@
-/*jshint node:true*/
+/**
+ *  supervises mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Supervise
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var supervisesRouter = express.Router();
 
+  /**
+   *  Mock supervises list request
+   *
+   *  @method get:/
+   */
   supervisesRouter.get('/', function(req, res) {
     res.send({
       'supervises':[
@@ -40,8 +52,11 @@ module.exports = function(app) {
     });
   });
 
-
-
+  /**
+   *  Mock show supervise request
+   *
+   *  @method get:/$id
+   */
   supervisesRouter.get('/:id', function(req, res) {
     res.send({
       'uri':{

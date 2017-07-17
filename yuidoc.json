@@ -1,0 +1,17 @@
+{
+  "name": "nextdeploy-webui",
+  "description": "WebUI for NextDeploy Project",
+  "version": "1.12.0",
+  "options": {
+    "paths": [
+      "app",
+      "server"
+    ],
+    "exclude": "vendor",
+    "outdir": "docs",
+    "linkNatives": true,
+    "quiet": true,
+    "parseOnly": false,
+    "lint": false
+  }
+}

@@ -15,11 +15,19 @@
     {{#if project.isShow}}
     <tr>
       {{#if isProjectCreate}}
-        {{#if project.owner}}
-          <td class="simplify-mobile first-col" title="Check to delete">{{input type="checkbox" checked=project.todelete}}</td>
+        {{#if project.isOwner}}
+          {{#if project.canBeDeleted}}
+            <td class="simplify-mobile first-col" title="Check to delete">{{input type="checkbox" checked=project.todelete}}</td>
+          {{else}}
+            <td class="simplify-mobile first-col" title="Has vms running, Can't be deleted">&nbsp;</td>
+          {{/if}}
         {{else}}
           {{#if isAdmin}}
-            <td class="simplify-mobile first-col" title="Check to delete">{{input type="checkbox" checked=project.todelete}}</td>
+            {{#if project.canBeDeleted}}
+              <td class="simplify-mobile first-col" title="Check to delete">{{input type="checkbox" checked=project.todelete}}</td>
+            {{else}}
+              <td class="simplify-mobile first-col" title="Has vms running, Can't be deleted">&nbsp;</td>
+            {{/if}}
           {{else}}
             <td class="simplify-mobile first-col">&nbsp;</td>
           {{/if}}
@@ -27,7 +35,7 @@
       {{/if}}
 
       {{#if isProjectCreate}}
-        {{#if project.owner}}
+        {{#if project.isOwner}}
           {{#link-To 'projects.edit' project.id tagName="td" classNames="tdhref" title="Edit Project"}}{{project.name}}{{/link-To}}
         {{else}}
           {{#if isAdmin}}
@@ -56,8 +64,6 @@
 
       {{#link-to 'vms.byproject' project.id tagName="td" classNames="tdhref" title="Vms"}}{{project.countVms}}{{/link-to}}
       {{#link-to 'cis.byproject' project.id tagName="td" classNames="tdhref" title="CI Vms"}}{{project.countCis}}{{/link-to}}
-      <!-- {{#link-to 'vms.byproject' project.id tagName="td" classNames="tdhref" title="Vms"}}<i class="fa fa-external-link-square" aria-hidden="true"></i>{{/link-to}} -->
-      <!-- {{#link-to 'vms.byproject' project.id tagName="td" classNames="tdhref" title="Vms"}}<i class="fa fa-external-link-square" aria-hidden="true"></i>{{/link-to}} -->
 
       <td class="date-simplify tddate" title="Creation Date (Y/M/D)">{{project.created_at_short}}</td>
     </tr>

@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages the webui header menu
  *
- *  @module components/application-menu
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class ApplicationMenu
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Display the help modal
      *
-     *  @function
+     *  @event help
      */
     help() {
       this.set('modalHelp', true);
@@ -20,7 +23,7 @@ export default Ember.Component.extend({
     /**
      *  Reset the Search field
      *
-     *  @function
+     *  @event resetSearch
      */
     resetSearch() {
       this.set('search', '');
@@ -29,7 +32,7 @@ export default Ember.Component.extend({
     /**
      *  Logout current user
      *
-     *  @function
+     *  @event invalidateSession
      */
     invalidateSession() {
       this.get('session').invalidate();
@@ -38,7 +41,7 @@ export default Ember.Component.extend({
     /**
      *  Open gitlab window
      *
-     *  @function
+     *  @event openGitlab
      */
     openGitlab() {
       window.open('/gitlab', '_blank');
@@ -47,7 +50,7 @@ export default Ember.Component.extend({
     /**
      *  Toggle or untoggle menu
      *
-     *  @function
+     *  @event toggleCollapsed
      */
     toggleCollapsed() {
       if (this.get('collapsed')) { this.set('collapsed', false); }
@@ -58,6 +61,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the help modal
    *
+   *  @property modalHelp
    *  @type {Boolean}
    */
   modalHelp: false,
@@ -65,6 +69,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collpase the menu
    *
+   *  @property collapsed
    *  @type {Boolean}
    */
   collapsed: true,
@@ -72,7 +77,7 @@ export default Ember.Component.extend({
   /**
    *  Return the current user in session
    *
-   *  @function
+   *  @function currentUser
    *  @returns {User} the session user object
    */
   currentUser: function() {
@@ -82,13 +87,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin
    *
-   *  @function
+   *  @function isAdmin
    *  @returns {Boolean} True if admin
    */
   isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) {
+    if (accessLevel === 50) {
       return true;
     }
 
@@ -98,13 +103,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin or lead
    *
-   *  @function
+   *  @function isLead
    *  @returns {Boolean} True if admin or lead
    */
   isLead: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 40) {
+    if (accessLevel >= 40) {
       return true;
     }
 
@@ -114,13 +119,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin, lead, or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) {
+    if (accessLevel >= 30) {
       return true;
     }
 
@@ -130,13 +135,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, dev, or ProjectManager
    *
-   *  @function
+   *  @function isPM
    *  @returns {Boolean} True if admin, lead, dev, or pm
    */
   isPM: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 20) {
+    if (accessLevel >= 20) {
       return true;
     }
 

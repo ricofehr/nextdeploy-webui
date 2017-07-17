@@ -4,15 +4,18 @@ import config from '../config/environment';
 /**
  *  This component manages settings modal for vm
  *
- *  @module components/vm-io-uri
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmSettings
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Display the uris settings submodal
      *
-     *  @function
+     *  @event openSubModal
      */
     openSubModal: function() {
       this.showSubModal(true);
@@ -21,7 +24,7 @@ export default Ember.Component.extend({
     /**
      *  Close the modal, reset component variables
      *
-     *  @function
+     *  @event closedSettings
      */
     closedSettings: function() {
       if (!this.get('subModal')) {
@@ -34,7 +37,7 @@ export default Ember.Component.extend({
     /**
      *  Hide the uris settings submodal
      *
-     *  @function
+     *  @event closedSubModal
      */
     closedSubModal: function() {
       this.showSubModal(false);
@@ -43,7 +46,7 @@ export default Ember.Component.extend({
     /**
      *  Store current topic in oldTopic parameter
      *
-     *  @function
+     *  @event enterTopic
      */
     enterTopic: function() {
       this.set('oldTopic', this.get('vm.topic'));
@@ -52,9 +55,7 @@ export default Ember.Component.extend({
     /**
      *  Update topic attribute
      *
-     *  @function
-     *  @param {Boolean} disabled True if toggle is not active
-     *  @param {Boolean} toggle The new value for the flag
+     *  @event updateTopic
      */
     updateTopic: function() {
       var self = this;
@@ -95,7 +96,7 @@ export default Ember.Component.extend({
     /**
      *  Change prod state setting
      *
-     *  @function
+     *  @event changeProd
      *  @param {Toggle} toggle The new value for the flag
      */
     changeProd: function(toggle) {
@@ -145,7 +146,7 @@ export default Ember.Component.extend({
     /**
      *  Change a toggle flag setting
      *
-     *  @function
+     *  @event changeToggle
      *  @param {String} property
      *  @param {Toggle} toggle The new value for the flag
      */
@@ -184,7 +185,7 @@ export default Ember.Component.extend({
     /**
      *  Display a tooltip
      *
-     *  @function
+     *  @event showToolTip
      *  @param {String} type id of the tooltip
      */
     showToolTip: function(type) {
@@ -194,7 +195,7 @@ export default Ember.Component.extend({
     /**
      *  Hide a tooltip
      *
-     *  @function
+     *  @event hideToolTip
      *  @param {String} type id of the tooltip
      */
     hideToolTip: function(type) {
@@ -205,6 +206,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the loading modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -212,20 +214,23 @@ export default Ember.Component.extend({
   /**
    *  Share uris array with submodal
    *
+   *  @property checkListUris
    *  @type {Object}
    */
   checkListUris: null,
 
   /**
-   *  Flag to display Varnish Cache tooltip
+   *  Uris list taken from uris component and store Uri valid state
    *
-   *  @type {Boolean}
+   *  @property cachedToolTip
+   *  @type {Hash} Uri => Boolean
    */
   cachedToolTip: false,
 
   /**
    *  Flag to display Prod state tooltip
    *
+   *  @property prodToolTip
    *  @type {Boolean}
    */
   prodToolTip: false,
@@ -233,6 +238,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display BasicAuth tooltip
    *
+   *  @property authToolTip
    *  @type {Boolean}
    */
   authToolTip: false,
@@ -240,6 +246,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display HtAccess tooltip
    *
+   *  @property htToolTip
    *  @type {Boolean}
    */
   htToolTip: false,
@@ -247,6 +254,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display CI tooltip
    *
+   *  @property ciToolTip
    *  @type {Boolean}
    */
   ciToolTip: false,
@@ -254,6 +262,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display Backup tooltip
    *
+   *  @property backupToolTip
    *  @type {Boolean}
    */
   backupToolTip: false,
@@ -261,6 +270,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display uris setting modal
    *
+   *  @property uriModal
    *  @type {Boolean}
    */
   uriModal: false,
@@ -268,6 +278,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display submodal
    *
+   *  @property subModal
    *  @type {Boolean}
    */
   subModal: false,
@@ -275,6 +286,7 @@ export default Ember.Component.extend({
   /**
    *  Store the old topic attribute
    *
+   *  @property oldTopic
    *  @type {String}
    */
   oldTopic: '',
@@ -282,6 +294,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to enable fade animation on modal
    *
+   *  @property fadeSettings
    *  @type {Boolean}
    */
   fadeSettings: true,
@@ -289,7 +302,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm is on running state
    *
-   *  @function
+   *  @function isRunning
    *  @returns {Boolean}
    */
   isRunning: function() {
@@ -300,11 +313,11 @@ export default Ember.Component.extend({
   /**
    *  Return true if BasicAuth toggle must be disabled
    *
-   *  @function
+   *  @function isDisabledAuth
    *  @returns {Boolean}
    */
   isDisabledAuth: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
     var user = this.get('vm.user');
 
     if (!this.get('vm.name')) {
@@ -314,11 +327,11 @@ export default Ember.Component.extend({
     // if read-only, disabled
     if (this.get('vm.is_ro')) { return true; }
     // admin users have complete rights on all vms
-    if (access_level === 50) { return false; }
+    if (accessLevel === 50) { return false; }
     // only admin can manage admin vms
     if (parseInt(user.get('group.access_level')) === 50) { return true; }
     // lead users have this right on vms
-    if (access_level === 40) { return false; }
+    if (accessLevel === 40) { return false; }
     // only admin can open dev vms
     if (this.get('vm.is_prod')) { return false; }
     return true;
@@ -327,11 +340,11 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm not changeable
    *
-   *  @function
+   *  @function isDisabledAdminVms
    *  @returns {Boolean}
    */
   isDisabledAdminVms: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
     var user = this.get('vm.user');
 
     if (!this.get('vm.name')) {
@@ -339,7 +352,7 @@ export default Ember.Component.extend({
     }
 
     // only admin can manage admin vms
-    if (access_level < 40 &&
+    if (accessLevel < 40 &&
         parseInt(user.get('group.access_level')) === 50) {
           return true;
     }
@@ -355,18 +368,18 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm is not changeable
    *
-   *  @function
+   *  @function isDisabledRo
    *  @returns {Boolean}
    */
   isDisabledRo: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
     var user = this.get('vm.user');
 
     if (!this.get('vm.name')) {
       return true;
     }
 
-    if (access_level < 40 &&
+    if (accessLevel < 40 &&
         parseInt(user.get('group.access_level')) === 50) {
       return true;
     }
@@ -377,11 +390,11 @@ export default Ember.Component.extend({
   /**
    *  Return true if Prod toggle must be disabled
    *
-   *  @function
+   *  @function isDisabledProd
    *  @returns {Boolean}
    */
   isDisabledProd: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
     var user = this.get('vm.user');
     var quotaProd = user.get('quotaprod');
     var countVmsProd = user.get('vms').filterBy('is_prod', true).length;
@@ -395,7 +408,7 @@ export default Ember.Component.extend({
       return true;
     }
     // admin users have complete rights on all vms
-    if (access_level === 50) {
+    if (accessLevel === 50) {
       return false;
     }
     // user can disable prod "flag" in any conditions
@@ -416,13 +429,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin, lead, or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) {
+    if (accessLevel >= 30) {
       return true;
     }
 
@@ -432,7 +445,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure uris array is not empty
    *
-   *  @function
+   *  @function errorUris
    *  @returns {Boolean} if no valid uris array
    */
   errorUris: function() {
@@ -450,22 +463,22 @@ export default Ember.Component.extend({
     });
 
     return errorUris;
-  }.property('vm.uris'),
+  }.property('vm.uris.@each'),
 
   /**
    *  Return true if Backup toggle must be disabled
    *
-   *  @function
+   *  @function isDisabledBackup
    *  @returns {Boolean}
    */
   isDisabledBackup: function() {
     if (!this.get('vm')) { return true; }
 
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
     var user = this.get('vm.user');
 
     // only admin can manage admin vms
-    if (access_level !== 50 &&
+    if (accessLevel !== 50 &&
         parseInt(user.get('group.access_level')) === 50) {
           return true;
     }
@@ -493,7 +506,7 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
@@ -503,7 +516,7 @@ export default Ember.Component.extend({
   /**
    *  Reset component variables
    *
-   *  @function
+   *  @method reInit
    */
   reInit: function() {
     this.set('loadingModal', false);
@@ -528,7 +541,8 @@ export default Ember.Component.extend({
   /**
    *  Switch between settings modal and uri settings submodal
    *
-   *  @function
+   *  @method showSubModal
+   *  @param {Boolean} show
    */
   showSubModal: function(show) {
     var self = this;

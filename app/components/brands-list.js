@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages the list of brands
  *
- *  @module components/brands-list
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class BrandsList
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Change the current page of the list
      *
-     *  @function
+     *  @event changePage
      *  @param {Integer} cp The new page number
      */
     changePage: function(cp) {
@@ -22,7 +25,7 @@ export default Ember.Component.extend({
     /**
      *  Close deletes modal
      *
-     *  @function
+     *  @event closeDeleteModal
      */
     closeDeleteModal: function() {
       this.set('isShowingDeleteConfirmation', false);
@@ -32,7 +35,7 @@ export default Ember.Component.extend({
     /**
      *  Submit delete event
      *
-     *  @function
+     *  @event deleteItems
      */
     deleteItems: function() {
       var router = this.get('router');
@@ -87,7 +90,7 @@ export default Ember.Component.extend({
     /**
      *  Display delete confirmation modal
      *
-     *  @function
+     *  @event showDeleteConfirmation
      */
     showDeleteConfirmation: function() {
       var items = this.get('brands').filterBy('todelete', true);
@@ -98,6 +101,7 @@ export default Ember.Component.extend({
       }
 
       if (deleteItems.length > 0) {
+        this.set('isBusy', true);
         this.set('deleteItems', deleteItems);
         this.set('isShowingDeleteConfirmation', true);
       }
@@ -106,7 +110,7 @@ export default Ember.Component.extend({
     /**
      *  Go to brand creation form
      *
-     *  @function
+     *  @event newItem
      */
     newItem: function() {
       var router = this.get('router');
@@ -117,6 +121,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the delete confirm modal
    *
+   *  @property isShowingDeleteConfirmation
    *  @type {Boolean}
    */
   isShowingDeleteConfirmation: false,
@@ -124,31 +129,35 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin
    *
-   *  @function
+   *  @function isAdmin
    *  @returns {Boolean} True if admin
    */
   isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) { return true; }
+    if (accessLevel === 50) { return true; }
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
-    this.cleanModel();
-    this.prepareList();
+
+    // avoid recompute list during user change
+    if (!this.get('isBusy')) {
+      this.cleanModel();
+      this.prepareList();
+    }
   },
 
   /**
    *  Prepare and format brands list
    *
-   *  @function
+   *  @method prepareList
    */
   prepareList: function() {
     var search = this.get('search');
@@ -157,12 +166,21 @@ export default Ember.Component.extend({
     var ncp2 = 0;
     var ibp = 0;
     var j = 1;
-    var current_user_id = this.get('session').get('data.authenticated.user.id');
-    var ibpmax = this.get('store').peekRecord('user', current_user_id).get('nbpages');
+    var currentUserId = this.get('session').get('data.authenticated.user.id');
+    var ibpmax = this.get('store').peekRecord('user', currentUserId).get('nbpages');
     var pages = [];
     var pagesLine = [];
 
     this.get('brands').map(function(model){
+      // reset delete state
+      model.set('todelete', false);
+
+      // can be deleted state
+      model.set('canBeDeleted', false);
+      if (model.get('projects').toArray().length === 0) {
+        model.set('canBeDeleted', true);
+      }
+
       // Filtering item display with search field and paging system
       model.set('isShow', true);
       if (search) {
@@ -189,7 +207,7 @@ export default Ember.Component.extend({
      }
     });
 
-    // Set paging numbers with no more 8 paging numbers
+    // Set paging list with no more 8 paging numbers
     this.set('previousPage', false);
     this.set('nextPage', false);
     if (pages.length > 1) {
@@ -236,7 +254,7 @@ export default Ember.Component.extend({
   /**
    *  Delete records unsaved or deleted
    *
-   *  @function
+   *  @method cleanModel
    */
   cleanModel: function() {
     var self = this;

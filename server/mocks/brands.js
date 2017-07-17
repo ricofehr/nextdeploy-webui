@@ -1,8 +1,20 @@
-/*jshint node:true*/
+/**
+ *  Brands mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Brand
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var brandsRouter = express.Router();
 
+  /**
+   *  Mock brands list request
+   *
+   *  @method get:/
+   */
   brandsRouter.get('/', function(req, res) {
     res.send({
       'brands':[
@@ -13,6 +25,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock new brand request
+   *
+   *  @method post:/
+   */
   brandsRouter.post('/', function(req, res) {
     var brand = req.body.brand;
 
@@ -26,6 +43,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock show brand request
+   *
+   *  @method get:/$id
+   */
   brandsRouter.get('/:id', function(req, res) {
     res.send({
       'brand':{
@@ -34,6 +56,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock change brand request
+   *
+   *  @method put:/$id
+   */
   brandsRouter.put('/:id', function(req, res) {
     var brand = req.body.brand;
 
@@ -47,6 +74,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock delete brand request
+   *
+   *  @method delete:/$id
+   */
   brandsRouter.delete('/:id', function(req, res) {
     res.status(204).end();
   });

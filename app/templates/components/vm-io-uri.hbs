@@ -18,7 +18,7 @@
           selected=export_branchs
           placeholder="Targets for export"
           dropdownClass="inmodal"
-          onchange=(action 'changeProperty' 'export_branchs')
+          onchange=(action (mut export_branchs))
           as |branch|
         }}
           {{branch}}

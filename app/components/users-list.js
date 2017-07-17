@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages users list
  *
- *  @module components/users-list
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class UsersList
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Change the current page of the list
      *
-     *  @function
+     *  @event changePage
      *  @param {Integer} cp The new page number
      */
     changePage: function(cp) {
@@ -22,7 +25,7 @@ export default Ember.Component.extend({
     /**
      *  Close deletes modal
      *
-     *  @function
+     *  @event closeDeleteModal
      */
     closeDeleteModal: function() {
       this.set('isShowingDeleteConfirmation', false);
@@ -32,7 +35,7 @@ export default Ember.Component.extend({
     /**
      *  Submit delete event
      *
-     *  @function
+     *  @event deleteItems
      */
     deleteItems: function() {
       var router = this.get('router');
@@ -85,13 +88,13 @@ export default Ember.Component.extend({
     /**
      *  Display delete confirmation modal
      *
-     *  @function
+     *  @event showDeleteConfirmation
      */
     showDeleteConfirmation: function() {
       var items = this.get('users').filterBy('todelete', true);
       var deleteItems = [];
 
-      for(var i=0; i<items.length; i++) {
+      for(var i = 0; i < items.length; i++) {
         deleteItems.push(items[i].get('email') + ' - ' + items[i].get('firstname') + ' ' + items[i].get('lastname'));
       }
 
@@ -105,7 +108,7 @@ export default Ember.Component.extend({
     /**
      *  Go to user creation form
      *
-     *  @function
+     *  @event newItem
      */
     newItem: function() {
       var router = this.get('router');
@@ -116,6 +119,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the delete confirm modal
    *
+   *  @property isShowingDeleteConfirmation
    *  @type {Boolean}
    */
   isShowingDeleteConfirmation: false,
@@ -123,7 +127,7 @@ export default Ember.Component.extend({
   /**
    *  Return the current user in session
    *
-   *  @function
+   *  @function currentUser
    *  @returns {User} the session user object
    */
   currentUser: function() {
@@ -133,13 +137,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin
    *
-   *  @function
+   *  @function isAdmin
    *  @returns {Boolean} True if admin
    */
   isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) {
+    if (accessLevel === 50) {
       return true;
     }
 
@@ -149,13 +153,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin or lead
    *
-   *  @function
+   *  @function isLead
    *  @returns {Boolean} True if admin or lead
    */
   isLead: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 40) {
+    if (accessLevel >= 40) {
       return true;
     }
 
@@ -165,13 +169,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin or lead or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin or lead or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) {
+    if (accessLevel >= 30) {
       return true;
     }
 
@@ -181,13 +185,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, dev, or ProjectManager
    *
-   *  @function
+   *  @function isPM
    *  @returns {Boolean} True if admin, lead, dev, or pm
    */
   isPM: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 20) {
+    if (accessLevel >= 20) {
       return true;
     }
 
@@ -197,13 +201,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user can create user
    *
-   *  @function
+   *  @function isUserCreate
    *  @returns {Boolean} True if he can
    */
   isUserCreate: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) {
+    if (accessLevel === 50) {
       return true;
     }
 
@@ -213,18 +217,22 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
-    this.cleanModel();
-    this.prepareList();
+
+    // avoid recompute list during user change
+    if (!this.get('isBusy')) {
+      this.cleanModel();
+      this.prepareList();
+    }
   },
 
   /**
    *  Prepare and format users list
    *
-   *  @function
+   *  @method prepareList
    */
   prepareList: function() {
     var groupId = parseInt(this.get('groupId'));
@@ -238,19 +246,28 @@ export default Ember.Component.extend({
     var j = 1;
     var pages = [];
     var pagesLine = [];
-    var current_id = this.get('session').get('data.authenticated.user.id');
-    var access_level = this.get('session').get('data.authenticated.access_level');
-    var current_user_id = this.get('session').get('data.authenticated.user.id');
-    var ibpmax = this.get('store').peekRecord('user', current_user_id).get('nbpages');
+    var currentId = this.get('session').get('data.authenticated.user.id');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
+    var currentUserId = this.get('session').get('data.authenticated.user.id');
+    var ibpmax = this.get('store').peekRecord('user', currentUserId).get('nbpages');
 
-    firstUser = this.store.peekRecord('user', current_id);
+    firstUser = this.store.peekRecord('user', currentId);
     if (firstUser) {
       this.get('users').removeObject(firstUser);
       this.get('users').unshiftObject(firstUser);
     }
 
     this.get('users').map(function(model){
-      var user_id = parseInt(model.get('id'));
+      var userId = parseInt(model.get('id'));
+
+      // reset delete state
+      model.set('todelete', false);
+
+      // can be deleted state
+      model.set('canBeDeleted', false);
+      if (model.get('vms').toArray().length === 0) {
+        model.set('canBeDeleted', true);
+      }
 
       // check if current model is reliable
       if (!model.get('group') ||
@@ -283,7 +300,7 @@ export default Ember.Component.extend({
       }
 
       // filtering for other users than admin
-      if (access_level !== 50) {
+      if (accessLevel !== 50) {
         if (!model.get('projects').toArray().length) {
           model.set('isShow', false);
         }
@@ -314,10 +331,10 @@ export default Ember.Component.extend({
         }
       }
 
-      model.set('isCurrent', (user_id === current_id));
+      model.set('isCurrent', (userId === currentId));
     });
 
-    // Set paging numbern with no more 8 paging numbers
+    // Set paging list with no more 8 paging numbers
     this.set('previousPage', false);
     this.set('nextPage', false);
     if (pages.length > 1) {
@@ -364,7 +381,7 @@ export default Ember.Component.extend({
   /**
    *  Delete records unsaved or deleted
    *
-   *  @function
+   *  @method cleanModel
    */
   cleanModel: function() {
     var self = this;

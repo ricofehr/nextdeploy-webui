@@ -133,7 +133,7 @@
       <label>
         {{x-toggle
             value=endpoint.is_ssl
-            onToggle=(action 'toggleSslFlag' isLocal)
+            onToggle=(mut endpoint.is_ssl)
             onLabel='true'
             offLabel='false'
             disabled=isLocal}}
@@ -147,7 +147,7 @@
       <label>
         {{x-toggle
             value=endpoint.is_sh
-            onToggle=(action 'toggleShFlag' isExist)
+            onToggle=(mut endpoint.is_sh)
             onLabel='true'
             offLabel='false'
             disabled=isExist}}
@@ -161,7 +161,7 @@
       <label>
         {{x-toggle
             value=endpoint.is_import
-            onToggle=(action 'toggleImportFlag' isExist)
+            onToggle=(mut endpoint.is_import)
             onLabel='true'
             offLabel='false'
             disabled=isExist}}
@@ -175,7 +175,9 @@
       {{#if isExist}}
       <button class="pull-right btn btn-primary" {{action 'deleteEndpoint'}}>Delete</button>
       {{else}}
-      <button class="pull-right btn btn-primary" {{action 'addEndpoint'}}>Add</button>
+        {{#if isFormValid}}
+        <button class="pull-right btn btn-primary" {{action 'addEndpoint'}}>Add</button>
+        {{/if}}
       {{/if}}
     </div>
   </div>

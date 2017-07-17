@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages vm uris form modal
  *
- *  @module components/vm-form-uri
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmFormUri
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Normalize ipfilter attribute
      *
-     *  @function
+     *  @event checkIpfilter
      */
     checkIpfilter: function() {
       var ipFilter = this.get('uri.ipfilter');
@@ -33,7 +36,8 @@ export default Ember.Component.extend({
     /**
      *  Update is_sh flag
      *
-     *  @function
+     *  @event toggleShFlag
+     *  @param {Toggle} toggle
      */
     toggleShFlag: function(toggle) {
       this.set('uri.is_sh', toggle.newValue);
@@ -43,7 +47,8 @@ export default Ember.Component.extend({
     /**
      *  Update is_ssl flag
      *
-     *  @function
+     *  @event toggleSslFlag
+     *  @param {Toggle} toggle
      */
     toggleSslFlag: function(toggle) {
       this.set('uri.is_ssl', toggle.newValue);
@@ -53,7 +58,8 @@ export default Ember.Component.extend({
     /**
      *  Update is_redir_alias flag
      *
-     *  @function
+     *  @event toggleRedirectFlag
+     *  @param {Toggle} toggle
      */
     toggleRedirectFlag: function(toggle) {
       this.set('uri.is_redir_alias', toggle.newValue);
@@ -63,7 +69,7 @@ export default Ember.Component.extend({
     /**
      *  Set focused flag to true
      *
-     *  @function
+     *  @event displayFocus
      */
     displayFocus: function() {
       this.set('uriFocused', true);
@@ -72,14 +78,14 @@ export default Ember.Component.extend({
     /**
      *  Submit form for create or update current object
      *
-     *  @function
+     *  @event postItem
      */
     postItem: function() {
       var router = this.get('router');
       var self = this;
 
       // check if form is valid
-      if (!this.formIsValid()) {
+      if (!this.get('isFormValid')) {
         return;
       }
 
@@ -103,6 +109,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display some extra fields
    *
+   *  @property uriFocused
    *  @type {Boolean}
    */
   uriFocused: false,
@@ -110,6 +117,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show loading modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -117,7 +125,8 @@ export default Ember.Component.extend({
   /**
    *  Manage bootstrap classnames for modal or vm form display
    *
-   *  @function
+   *  @function colSmLeft
+   *  @returns {String}
    */
   colSmLeft: function() {
     if (this.get('isPopin')) {
@@ -131,7 +140,8 @@ export default Ember.Component.extend({
   /**
    *  Manage bootstrap classnames for modal or vm form display
    *
-   *  @function
+   *  @function colSmRight
+   *  @returns {String}
    */
   colSmRight: function() {
     if (this.get('isPopin')) {
@@ -145,7 +155,8 @@ export default Ember.Component.extend({
   /**
    *  Manage bootstrap classnames for modal or vm form display
    *
-   *  @function
+   *  @function colSmOffsetSubmit
+   *  @returns {String}
    */
   colSmOffsetSubmit: function() {
     if (this.get('isPopin')) {
@@ -160,19 +171,19 @@ export default Ember.Component.extend({
    *  Return true if local nextdeploy install
    *  In local install, ssl endpoints are forbidden
    *
-   *  @function
+   *  @function isLocal
    *  @returns {Boolean} true if local install (or endpoint already exists)
    */
   isLocal: function() {
-    var vm_name = this.get('vm.name');
+    var vmName = this.get('vm.name');
     // HACK verify a local install from the vm name
-    return vm_name.match(/os\.nextdeploy$/);
+    return vmName.match(/os\.nextdeploy$/);
   }.property('vm.name'),
 
   /**
    *  Ensure absolute attribute is filled and normalized
    *
-   *  @function
+   *  @function errorAbsolute
    *  @returns {Boolean} true if no valid field
    */
   errorAbsolute: function() {
@@ -232,7 +243,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure aliases attribute is filled and normalized
    *
-   *  @function
+   *  @function errorAliases
    *  @returns {Boolean} true if no valid field
    */
   errorAliases: function() {
@@ -298,7 +309,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure port attribute is filled and normalized
    *
-   *  @function
+   *  @function errorPort
    *  @returns {Boolean} true if no valid field
    */
   errorPort: function() {
@@ -316,30 +327,30 @@ export default Ember.Component.extend({
   /**
    *  Ensures all form fields are valids before submit
    *
-   *  @function
+   *  @function isFormValid
+   *  @returns {Boolean}
    */
-  formIsValid: function() {
-    var uri_path = this.get('uri.path');
+  isFormValid: function() {
+    var uriPath = this.get('uri.path');
 
     if (!this.get('errorAbsolute') &&
         !this.get('errorAliases') &&
         !this.get('errorPort')) {
-      this.get('checkListUris').set(uri_path, false);
+      this.get('checkListUris').set(uriPath, false);
       return true;
     }
 
-    this.get('checkListUris').set(uri_path, true);
+    this.get('checkListUris').set(uriPath, true);
     return false;
-  },
+  }.property('errorAbsolute', 'errorAliases', 'errorPort', 'uri.path'),
 
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this.set('loadingModal', false);
     this.set('uriFocused', false);
-    this.formIsValid();
   }
 });

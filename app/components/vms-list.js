@@ -4,15 +4,18 @@ import config from '../config/environment';
 /**
  *  This component manages vms list
  *
- *  @module components/vm-io-uri
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmsList
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Hide users list for all vms lines
      *
-     *  @function
+     *  @event hideAllUsersList
      */
     hideAllUsersList: function() {
       this.get('vms').map(function(model){
@@ -23,7 +26,7 @@ export default Ember.Component.extend({
     /**
      *  Change the current page of the list
      *
-     *  @function
+     *  @event changePage
      *  @param {Integer} cp The new page number
      */
     changePage: function(cp) {
@@ -34,7 +37,7 @@ export default Ember.Component.extend({
     /**
      *  Display the users list for a targetted vm
      *
-     *  @function
+     *  @event showUserList
      *  @param {Vm} the vm object targetted
      */
     showUserList: function(vm) {
@@ -48,7 +51,7 @@ export default Ember.Component.extend({
     /**
      *  Change user for the targetted vm
      *
-     *  @function
+     *  @event changeUser
      *  @param {Vm} the vm object targetted
      *  @param {user} the new user associated with the vm
      */
@@ -74,7 +77,7 @@ export default Ember.Component.extend({
     /**
      *  Display the details modal for a targetted vm
      *
-     *  @function
+     *  @event showDetails
      *  @param {Vm} the vm object targetted
      */
     showDetails: function(vm) {
@@ -90,7 +93,7 @@ export default Ember.Component.extend({
     /**
      *  Display the settings modal for a targetted vm
      *
-     *  @function
+     *  @event showSettings
      *  @param {Vm} the vm object targetted
      */
     showSettings: function(vm) {
@@ -106,7 +109,7 @@ export default Ember.Component.extend({
     /**
      *  Display rollover message for a targetted vm
      *
-     *  @function
+     *  @event showHover
      *  @param {vmId} the vm id targetted
      */
     showHover: function(vmId) {
@@ -116,7 +119,7 @@ export default Ember.Component.extend({
     /**
      *  Hide rollover message
      *
-     *  @function
+     *  @event closeHover
      */
     closeHover: function() {
       this.set('isShowingHovers', -1);
@@ -125,7 +128,7 @@ export default Ember.Component.extend({
     /**
      *  Display the uris & tools modal for a targetted vm
      *
-     *  @function
+     *  @event showUris
      *  @param {Vm} the vm object targetted
      */
     showUris: function(vm) {
@@ -142,7 +145,7 @@ export default Ember.Component.extend({
     /**
      *  Display the io (import/export) modal from targetted vm
      *
-     *  @function
+     *  @event showIO
      *  @param {Vm} the vm object targetted
      */
     showIO: function(vm) {
@@ -154,7 +157,7 @@ export default Ember.Component.extend({
     /**
      *  Display the monitor modal from targetted vm
      *
-     *  @function
+     *  @event showMonitor
      *  @param {Vm} the vm object targetted
      */
     showMonitor: function(vm) {
@@ -166,7 +169,7 @@ export default Ember.Component.extend({
     /**
      *  Display the supervise modal from targetted vm
      *
-     *  @function
+     *  @event showSupervise
      *  @param {Vm} the vm object targetted
      */
     showSupervise: function(vm) {
@@ -178,7 +181,7 @@ export default Ember.Component.extend({
     /**
      *  Display the vnc terminal modal from targetted vm
      *
-     *  @function
+     *  @event openVnc
      *  @param {Vm} the vm object targetted
      */
     openVnc: function(vm) {
@@ -202,7 +205,7 @@ export default Ember.Component.extend({
     /**
      *  Close deletes modal
      *
-     *  @function
+     *  @event closeDeleteModal
      */
     closeDeleteModal: function() {
       this.set('isShowingDeleteConfirmation', false);
@@ -212,7 +215,7 @@ export default Ember.Component.extend({
     /**
      *  Request the running status of a vm
      *
-     *  @function
+     *  @event checkStatus
      *  @param {Vm} the vm object targetted
      */
     checkStatus: function(vm) {
@@ -275,7 +278,7 @@ export default Ember.Component.extend({
     /**
      *  Submit delete event
      *
-     *  @function
+     *  @event deleteItems
      */
     deleteItems: function() {
       var items = this.get('vms').filterBy('todelete', true);
@@ -298,19 +301,18 @@ export default Ember.Component.extend({
       // close confirm modal
       this.set('isBusy', false);
       this.set('isShowingDeleteConfirmation', false);
-      this.set('isAllDelete', false);
     },
 
     /**
      *  Display delete confirmation modal
      *
-     *  @function
+     *  @event showDeleteConfirmation
      */
     showDeleteConfirmation: function() {
       var items = this.get('vms').filterBy('todelete', true);
       var deleteItems = [];
 
-      for(var i=0; i<items.length; i++) {
+      for(var i = 0; i < items.length; i++) {
         deleteItems.push(items[i].get('name') + ", user:" + items[i].get('user').get('email'));
       }
 
@@ -324,7 +326,7 @@ export default Ember.Component.extend({
     /**
      *  Go to vm creation form
      *
-     *  @function
+     *  @event newItem
      */
     newItem: function() {
       var router = this.get('router');
@@ -340,6 +342,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the delete confirm modal
    *
+   *  @property isShowingDeleteConfirmation
    *  @type {Boolean}
    */
   isShowingDeleteConfirmation: false,
@@ -347,6 +350,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the vnc terminal modal
    *
+   *  @property isShowingVnc
    *  @type {Boolean}
    */
   isShowingVnc: false,
@@ -354,6 +358,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the uris modal
    *
+   *  @property isShowingUris
    *  @type {Boolean}
    */
   isShowingUris: false,
@@ -361,6 +366,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the import/export modal
    *
+   *  @property isShowingIO
    *  @type {Boolean}
    */
   isShowingIO: false,
@@ -368,6 +374,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the graph monitor modal
    *
+   *  @property isShowingMonitor
    *  @type {Boolean}
    */
   isShowingMonitor: false,
@@ -375,6 +382,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the details vm modal
    *
+   *  @property isShowingDetails
    *  @type {Boolean}
    */
   isShowingDetails: false,
@@ -382,6 +390,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the settings vm modal
    *
+   *  @property isShowingSettings
    *  @type {Boolean}
    */
   isShowingSettings: false,
@@ -389,6 +398,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the supervise vm modal
    *
+   *  @property isShowingSupervise
    *  @type {Boolean}
    */
   isShowingSupervise: false,
@@ -396,6 +406,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set a reload state record for a vm
    *
+   *  @property isReload
    *  @type {Boolean}
    */
   isReload: false,
@@ -403,6 +414,7 @@ export default Ember.Component.extend({
   /**
    *  Store the current selected vm object
    *
+   *  @property vmSelected
    *  @type {Vm}
    */
   vmSelected: null,
@@ -410,6 +422,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the loading modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -417,6 +430,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set the statusloop running state
    *
+   *  @property checkStatusLoop
    *  @type {Boolean}
    */
   checkStatusLoop: false,
@@ -424,70 +438,70 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin
    *
-   *  @function
+   *  @function isAdmin
    *  @returns {Boolean} True if admin
    */
   isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) { return true; }
+    if (accessLevel === 50) { return true; }
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
    *  Check if current user is admin or lead
    *
-   *  @function
+   *  @function isLead
    *  @returns {Boolean} True if admin or lead
    */
   isLead: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 40) { return true; }
+    if (accessLevel >= 40) { return true; }
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
    *  Check if current user is admin, lead, or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin, lead, or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) { return true; }
+    if (accessLevel >= 30) { return true; }
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
    *  Check if current user is admin, lead, dev, or ProjectManager
    *
-   *  @function
+   *  @function isPM
    *  @returns {Boolean} True if admin, lead, dev, or pm
    */
   isPM: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 20) { return true; }
+    if (accessLevel >= 20) { return true; }
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
    *  Check if current user can launch vm
    *
-   *  @function
+   *  @function isVm
    *  @returns {Boolean}
    */
   isVm: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-    var is_jenkins = this.get('isJenkins');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
+    var isJenkins = this.get('isJenkins');
 
-    if (is_jenkins && access_level >= 40) {
+    if (isJenkins && accessLevel >= 40) {
       return true;
     }
 
-    if (!is_jenkins && access_level >= 20) {
+    if (!isJenkins && accessLevel >= 20) {
       return true;
     }
 
@@ -497,13 +511,13 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
 
     // avoid recompute list during user change
-    if (!this.get('loadingModal') || !this.get('isBusy')) {
+    if (!this.get('loadingModal') && !this.get('isBusy')) {
       this.cleanModel();
       this.prepareList();
     }
@@ -516,7 +530,7 @@ export default Ember.Component.extend({
   /**
    *  Delete records unsaved or deleted
    *
-   *  @function
+   *  @method cleanModel
    */
   cleanModel: function() {
     var self = this;
@@ -591,7 +605,7 @@ export default Ember.Component.extend({
   /**
    *  Prepare and format vms list
    *
-   *  @function
+   *  @method prepareList
    */
   prepareList: function() {
     var userId = parseInt(this.get('userId'));
@@ -601,8 +615,8 @@ export default Ember.Component.extend({
     var ncp = 1;
     var ibp = 0;
     var j = 1;
-    var current_user_id = this.get('session').get('data.authenticated.user.id');
-    var ibpmax = this.get('store').peekRecord('user', current_user_id).get('nbpages');
+    var currentUserId = this.get('session').get('data.authenticated.user.id');
+    var ibpmax = this.get('store').peekRecord('user', currentUserId).get('nbpages');
     var pages = [];
     var pagesLine = [];
     var ncp2;
@@ -748,7 +762,7 @@ export default Ember.Component.extend({
       }
     });
 
-    // Set paging number with no more 8 paging numbers
+    // Set paging list with no more 8 paging numbers
     this.set('previousPage', false);
     this.set('nextPage', false);
     if (pages.length > 1) {
@@ -795,7 +809,7 @@ export default Ember.Component.extend({
   /**
    *  Loop function who update vms status
    *
-   *  @function
+   *  @method checkAllStatus
    */
   checkAllStatus: function() {
     var self = this;
@@ -882,7 +896,7 @@ export default Ember.Component.extend({
   /**
    *  Reload from server the selected vm object
    *
-   *  @function
+   *  @method reloadVm
    */
   reloadVm: function() {
     var self = this;
@@ -907,7 +921,7 @@ export default Ember.Component.extend({
   /**
    *  Hide the users list for a targetted vm
    *
-   *  @function
+   *  @method hideUserList
    *  @param {Vm} the vm object targetted
    */
   hideUserList: function(vm) {

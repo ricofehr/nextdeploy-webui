@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages vm details modal
  *
- *  @module components/vm-details
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmDetails
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Close the modal, reset component variables
      *
-     *  @function
+     *  @event closedDetails
      */
     closedDetails: function() {
       this.set('isBusy', false);
@@ -23,7 +26,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if is running state
    *
-   *  @function
+   *  @function isRunning
    *  @returns {Boolean}
    */
   isRunning: function() {
@@ -37,7 +40,7 @@ export default Ember.Component.extend({
   /**
    *  Get shortly vm name
    *
-   *  @function
+   *  @function vmName
    *  @returns {String}
    */
   vmName: function() {

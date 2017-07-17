@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages the sshkey form
  *
- *  @module components/sshkey-form
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class SshkeyForm
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Submit form for create current object
      *
-     *  @function
+     *  @event postItem
      */
     postItem: function() {
       var router = this.get('router');
@@ -28,7 +31,7 @@ export default Ember.Component.extend({
       };
 
       // check if form is valid
-      if (!this.formIsValid()) {
+      if (!this.get('isFormValid')) {
         return;
       }
 
@@ -39,19 +42,9 @@ export default Ember.Component.extend({
   },
 
   /**
-   *  Trigger when receives models
-   *
-   *  @function
-   */
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.formIsValid();
-  },
-
-  /**
    *  Ensure name is filled and normalize it
    *
-   *  @function
+   *  @function errorName
    *  @returns {Boolean} true if no valid field
    */
   errorName: function() {
@@ -79,7 +72,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure key is filled
    *
-   *  @function
+   *  @function errorKey
    *  @returns {Boolean} true if no valid field
    */
   errorKey: function() {
@@ -95,16 +88,13 @@ export default Ember.Component.extend({
   /**
    *  Ensures all form fields are valids before submit
    *
-   *  @function
+   *  @function isFormValid
    */
-  formIsValid: function() {
-    this.checkName();
-    this.checkKey();
-
+  isFormValid: function() {
     if (!this.get('errorName') &&
         !this.get('errorKey')) {
       return true;
     }
     return false;
-  }
+  }.property('errorName', 'errorKey')
 });

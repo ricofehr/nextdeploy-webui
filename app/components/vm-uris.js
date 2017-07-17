@@ -4,19 +4,22 @@ import config from '../config/environment';
 /**
  *  This component manages uris modal for vm
  *
- *  @module components/vm-uris
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmUris
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Send a request to the api for executing a tool into the vm
      *
-     *  @function
+     *  @event requestTool
      */
     requestTool: function(request) {
       var self = this;
-      var current_id = this.get('vm').get('id');
+      var currentId = this.get('vm').get('id');
 
       this.set('requestRunning', true);
       this.set('message', null);
@@ -29,7 +32,7 @@ export default Ember.Component.extend({
       }
 
       Ember.$.ajax({
-        url: config.APP.APIHost + "/api/v1/vms/" + current_id + "/" + request,
+        url: config.APP.APIHost + "/api/v1/vms/" + currentId + "/" + request,
         method: "POST",
         global: false,
         headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
@@ -45,7 +48,7 @@ export default Ember.Component.extend({
             self.set('message2', message2);
           }
         } else {
-          self.showSubModal(false);
+          self.set('message', 'Request is finished on remote VM (silently return).');
         }
       })
       .fail(function() {
@@ -60,7 +63,7 @@ export default Ember.Component.extend({
     /**
      *  Close the modal and reset component variables
      *
-     *  @function
+     *  @event closedUris
      */
     closedUris: function() {
       if (!this.get('subModal')) {
@@ -73,7 +76,7 @@ export default Ember.Component.extend({
     /**
      *  Close the loading/cmd modal
      *
-     *  @function
+     *  @event closedLoading
      */
     closedLoading: function() {
       this.showSubModal(false);
@@ -83,6 +86,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the loading modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -90,6 +94,7 @@ export default Ember.Component.extend({
   /**
    *  Flag on request running state
    *
+   *  @property requestRunning
    *  @type {Boolean}
    */
   requestRunning: false,
@@ -97,6 +102,7 @@ export default Ember.Component.extend({
   /**
    *  Message to display for user
    *
+   *  @property message
    *  @type {String}
    */
   message: null,
@@ -104,6 +110,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the postinstall confirm
    *
+   *  @property viewPostinstall
    *  @type {Boolean}
    */
   viewPostinstall: false,
@@ -111,6 +118,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the submodal (for cmd return)
    *
+   *  @property subModal
    *  @type {Boolean}
    */
   subModal: false,
@@ -118,6 +126,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to enable the fade effect on modal
    *
+   *  @property fadeUris
    *  @type {Boolean}
    */
   fadeUris: true,
@@ -125,7 +134,8 @@ export default Ember.Component.extend({
   /**
    *  Inverse of isrunning
    *
-   *  @function
+   *  @function closeModal
+   *  @returns {Boolean}
    */
   closeModal: function() {
     if (this.get('requestRunning')) {
@@ -137,7 +147,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm is in running state
    *
-   *  @function
+   *  @function isRunning
    *  @returns {Boolean}
    */
   isRunning: function() {
@@ -150,7 +160,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a web server techno
    *
-   *  @function
+   *  @function isWeb
    *  @returns {Boolean}
    */
   isWeb: function() {
@@ -170,13 +180,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin, lead, or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) {
+    if (accessLevel >= 30) {
       return true;
     }
 
@@ -186,13 +196,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, dev, or ProjectManager
    *
-   *  @function
+   *  @function isPM
    *  @returns {Boolean} True if admin, lead, dev, or pm
    */
   isPM: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 20) {
+    if (accessLevel >= 20) {
       return true;
     }
 
@@ -202,7 +212,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a mysql techno
    *
-   *  @function
+   *  @function isMysql
    *  @returns {Boolean}
    */
   isMysql: function() {
@@ -219,7 +229,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a cms/framework using composer
    *
-   *  @function
+   *  @function isComposer
    *  @returns {Boolean}
    */
   isComposer: function() {
@@ -239,7 +249,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a Drupal cms
    *
-   *  @function
+   *  @function isDrupal
    *  @returns {Boolean}
    */
   isDrupal: function() {
@@ -256,7 +266,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a Drupal8 cms
    *
-   *  @function
+   *  @function isDrupal8
    *  @returns {Boolean}
    */
   isDrupal8: function() {
@@ -273,7 +283,7 @@ export default Ember.Component.extend({
   /**
    *  Generates URIS array
    *
-   *  @function
+   *  @function URIS
    *  @returns {String[]}
    */
   URIS: function () {
@@ -313,19 +323,19 @@ export default Ember.Component.extend({
    *  Return true if local nextdeploy install
    *  In local install, ssl endpoints are forbidden
    *
-   *  @function
+   *  @function isLocal
    *  @returns {Boolean} true if local install (or endpoint already exists)
    */
   isLocal: function() {
-    var vm_name = this.get('vm.name');
+    var vmName = this.get('vm.name');
     // HACK verify a local install from the vm name
-    return vm_name.match(/os.nextdeploy$/);
+    return vmName.match(/os.nextdeploy$/);
   }.property('vm'),
 
   /**
    *  Return jenkins uri for the vm
    *
-   *  @function
+   *  @function jenkinsURI
    *  @returns {String}
    */
   jenkinsURI: function() {
@@ -335,7 +345,7 @@ export default Ember.Component.extend({
   /**
    *  Return sonar uri for the vm
    *
-   *  @function
+   *  @function sonarURI
    *  @returns {String}
    */
   sonarURI: function() {
@@ -345,7 +355,7 @@ export default Ember.Component.extend({
   /**
    *  Return doc uri for the vm
    *
-   *  @function
+   *  @function pmdocURI
    *  @returns {String}
    */
   pmdocURI: function() {
@@ -355,7 +365,7 @@ export default Ember.Component.extend({
   /**
    *  Return phpmyadmin uri for the vm
    *
-   *  @function
+   *  @function pmaURI
    *  @returns {String}
    */
   pmaURI: function() {
@@ -365,7 +375,7 @@ export default Ember.Component.extend({
   /**
    *  Return logs uri for the vm
    *
-   *  @function
+   *  @function tailURI
    *  @returns {String}
    */
   tailURI: function() {
@@ -375,7 +385,7 @@ export default Ember.Component.extend({
   /**
    *  Return phpinfo uri for the vm
    *
-   *  @function
+   *  @function pminfoURI
    *  @returns {String}
    */
   pminfoURI: function() {
@@ -385,7 +395,7 @@ export default Ember.Component.extend({
   /**
    *  Return (sf) logs uri for the vm
    *
-   *  @function
+   *  @function sflogsURI
    *  @returns {String}
    */
   sflogsURI: function() {
@@ -395,7 +405,7 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
@@ -404,7 +414,7 @@ export default Ember.Component.extend({
   /**
    *  Switch between uris modal and cmd submodal
    *
-   *  @function
+   *  @method showSubModal
    */
   showSubModal: function(show) {
     var self = this;
@@ -428,51 +438,53 @@ export default Ember.Component.extend({
   /**
    *  Generates an absolute URI for an endpoint into the vm
    *
-   *  @function
+   *  @function getURI
+   *  @returns {String}
    */
-  getURI: function(uri, is_ssl) {
+  getURI: function(uri, isSsl) {
     var login = this.get('vm.htlogin');
     var password = this.get('vm.htpassword');
     var authcreds = login + ":" + password + "@";
-    var is_auth = this.get('vm.is_auth');
-    var uri_with_creds = '';
-    var uri_xmlhttp_req = '';
-    // var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-    var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
-    var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
+    var isAuth = this.get('vm.is_auth');
+    var uriWithCreds = '';
+    var uriXmlHttpReq = '';
+    // var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    var isFF = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var isIphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
+    var isIpad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
     var scheme = 'http';
 
-    if (is_ssl) {
+    if (isSsl) {
       scheme = 'https';
     }
 
-    uri_with_creds = scheme + '://' + authcreds + uri + '/';
-    uri_xmlhttp_req = scheme + '://' + uri + '/';
+    uriWithCreds = scheme + '://' + authcreds + uri + '/';
+    uriXmlHttpReq = scheme + '://' + uri + '/';
 
-    if (is_auth && (is_ff || is_iphone || is_ipad)) {
-      return uri_with_creds;
+    if (isAuth && (isFF || isIphone || isIpad)) {
+      return uriWithCreds;
     } else {
-      return uri_xmlhttp_req;
+      return uriXmlHttpReq;
     }
   },
 
   /**
    *  Generates an absolute URI for a Tool
    *
-   *  @function
+   *  @function getTOOL
+   *  @returns {String}
    */
   getTOOL: function(uritype) {
     var login = this.get('vm.htlogin');
     var password = this.get('vm.htpassword');
     var authcreds = login + ":" + password + "@";
     var uri = this.get('vm.name');
-    var uri_with_creds = '';
-    var uri_xmlhttp_req = '';
-    // var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-    var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
-    var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
+    var uriWithCreds = '';
+    var uriXmlHttpReq = '';
+    // var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    var isFF = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var isIphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
+    var isIpad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
     var scheme = 'https';
 
     // HACK force http for local install
@@ -480,32 +492,33 @@ export default Ember.Component.extend({
       scheme = 'http';
     }
 
-    uri_with_creds = scheme + '://' + authcreds + 'pmtools-' + uri + '/' + uritype + '/';
-    uri_xmlhttp_req = scheme + '://pmtools-' + uri + '/' + uritype + '/';
+    uriWithCreds = scheme + '://' + authcreds + 'pmtools-' + uri + '/' + uritype + '/';
+    uriXmlHttpReq = scheme + '://pmtools-' + uri + '/' + uritype + '/';
 
-    if (is_ff || is_iphone || is_ipad) {
-      return uri_with_creds;
+    if (isFF || isIphone || isIpad) {
+      return uriWithCreds;
     } else {
-      return uri_xmlhttp_req;
+      return uriXmlHttpReq;
     }
   },
 
   /**
    *  Generates an absolute URI for a CI Tool
    *
-   *  @function
+   *  @function getCITOOL
+   *  @returns {String}
    */
   getCITOOL: function(uritype) {
     var login = this.get('vm.htlogin');
     var password = this.get('vm.htpassword');
     var authcreds = login + ":" + password + "@";
     var uri = this.get('vm.name');
-    var uri_with_creds = '';
-    var uri_xmlhttp_req = '';
-    // var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-    var is_ff = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
-    var is_iphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
-    var is_ipad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
+    var uriWithCreds = '';
+    var uriXmlHttpReq = '';
+    // var isChrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+    var isFF = navigator.userAgent.toLowerCase().indexOf('firefox') > -1;
+    var isIphone = navigator.userAgent.toLowerCase().indexOf('iphone') > -1;
+    var isIpad = navigator.userAgent.toLowerCase().indexOf('ipad') > -1;
     var scheme = 'https';
 
     // HACK force http for local install
@@ -513,13 +526,13 @@ export default Ember.Component.extend({
       scheme = 'http';
     }
 
-    uri_with_creds = scheme + '://' + authcreds + uritype + '-' + uri + '/';
-    uri_xmlhttp_req = scheme + '://' + uritype + '-' + uri + '/';
+    uriWithCreds = scheme + '://' + authcreds + uritype + '-' + uri + '/';
+    uriXmlHttpReq = scheme + '://' + uritype + '-' + uri + '/';
 
-    if (is_ff || is_iphone || is_ipad) {
-      return uri_with_creds;
+    if (isFF || isIphone || isIpad) {
+      return uriWithCreds;
     } else {
-      return uri_xmlhttp_req;
+      return uriXmlHttpReq;
     }
   }
 });

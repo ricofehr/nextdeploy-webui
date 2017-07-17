@@ -1,15 +1,10 @@
-/*jshint node:true*/
-
-// To use it create some files under `mocks/`
-// e.g. `server/mocks/ember-hamsters.js`
-//
-// module.exports = function(app) {
-//   app.get('/ember-hamsters', function(req, res) {
-//     res.send('hello');
-//   });
-// };
-
-module.exports = function(app) {
+/**
+ *  Define and launch the server for mocks
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @module mocks/index
+ */
+ module.exports = function(app) {
   var globSync   = require('glob').sync;
   var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);
   var proxies    = globSync('./proxies/**/*.js', { cwd: __dirname }).map(require);

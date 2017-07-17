@@ -1,71 +1,425 @@
-/*jshint node:true*/
+/**
+ *  users mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class User
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var usersRouter = express.Router();
   var signinRouter = express.Router();
 
+  /**
+   *  Mock users list request
+   *
+   *  @method get:/
+   */
   usersRouter.get('/', function(req, res) {
     res.send({
       'users':[
-        {"id":1,"email":"usera@os.nextdeploy","authentication_token":"Ue1maDFV-NQzrD4eKrVn","is_project_create":true,"is_user_create":true,"is_recv_vms":true,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"usera","lastname":"usera","shortname":"U. Usera","created_at":"2016-06-07T22:31:35.000+02:00","vms":[4],"sshkeys":[1],"group":1,"projects":[1,2,3,4,5,6],"own_projects":[1,2,3,4,5,6], "nbpages": 11},
-        {"id":2,"email":"userl@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":true,"is_recv_vms":true,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userl","lastname":"userl","shortname":"U. Userl","created_at":"2016-06-07T22:31:42.000+02:00","vms":[2,5],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":3,"email":"userd@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userd","lastname":"userd","shortname":"U. Userd","created_at":"2016-06-07T22:31:43.000+02:00","vms":[1,3],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":4,"email":"userp@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userp","lastname":"userp","shortname":"U. Userp","created_at":"2016-06-07T22:31:44.000+02:00","vms":[6],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":5,"email":"userg@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userg","lastname":"userg","shortname":"U. Userg","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
+        {
+          "id":1,"email":"usera@os.nextdeploy","authentication_token":"Ue1maDFV-NQzrD4eKrVn",
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":true,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"usera","lastname":"usera","shortname":"U. Usera",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[4],"sshkeys":[1],
+          "group":1,"projects":[1,2,3,4,5,6],"own_projects":[1,2,3,4,5,6], "nbpages": 11
+        },
+        {
+          "id":2,"email":"userl@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":true,"is_recv_vms":true,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userl","lastname":"userl","shortname":"U. Userl",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[2,5],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":3,"email":"userd@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userd","lastname":"userd","shortname":"U. Userd",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[1,3],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":4,"email":"userp@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userp","lastname":"userp","shortname":"U. Userp",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[6],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":5,"email":"userg@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userg","lastname":"userg","shortname":"U. Userg",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":6,"email":"userb@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":7,"email":"userc@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":8,"email":"usere@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":9,"email":"userf@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":10,"email":"userh@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
 
-        {"id":6,"email":"userb@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":7,"email":"userc@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":8,"email":"usere@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":9,"email":"userf@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":10,"email":"userh@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":11,"email":"useri@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":12,"email":"userj@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":13,"email":"userk@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":14,"email":"userm@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":15,"email":"usern@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":16,"email":"usero@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":17,"email":"userq@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":18,"email":"userr@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":19,"email":"users@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":20,"email":"usert@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":21,"email":"usero@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":22,"email":"userq@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":23,"email":"userr@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":24,"email":"users@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":25,"email":"usert@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":26,"email":"userbo@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":27,"email":"userbq@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":28,"email":"userbr@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":29,"email":"usersb@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":30,"email":"userbt@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":31,"email":"userco@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":32,"email":"usercq@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":33,"email":"usercr@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":34,"email":"usercs@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":35,"email":"userct@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":36,"email":"userdo@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":37,"email":"userdq@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":38,"email":"userdr@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":39,"email":"userds@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":40,"email":"userdt@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":41,"email":"userfo@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":42,"email":"userfq@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":43,"email":"userfr@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":44,"email":"userfs@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":45,"email":"userft@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
-
-        {"id":46,"email":"usereo@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":false,"company":"My Company","quotavm":0,"quotaprod":0,"layout":"us","firstname":"userb","lastname":"userb","shortname":"U. Userb","created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":47,"email":"usereq@os.nextdeploy","authentication_token":null,"is_project_create":true,"is_user_create":true,"is_recv_vms":true,"company":"My Company","quotavm":10,"quotaprod":4,"layout":"us","firstname":"userc","lastname":"userc","shortname":"U. Userc","created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],"group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11},
-        {"id":48,"email":"userer@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"usere","lastname":"usere","shortname":"U. Usere","created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],"group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11},
-        {"id":49,"email":"useres@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":5,"quotaprod":0,"layout":"us","firstname":"userf","lastname":"userf","shortname":"U. Userf","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":4,"projects":[1],"own_projects":[], "nbpages": 11},
-        {"id":50,"email":"useret@os.nextdeploy","authentication_token":null,"is_project_create":false,"is_user_create":false,"is_recv_vms":false,"company":"My Company","quotavm":3,"quotaprod":0,"layout":"us","firstname":"userh","lastname":"userh","shortname":"U. Userh","created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],"group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11},
+        {
+          "id":11,"email":"useri@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":12,"email":"userj@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":13,"email":"userk@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":14,"email":"userm@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":15,"email":"usern@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":16,"email":"usero@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":17,"email":"userq@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":18,"email":"userr@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":19,"email":"users@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":20,"email":"usert@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":21,"email":"usero@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":22,"email":"userq@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":23,"email":"userr@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":24,"email":"users@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":25,"email":"usert@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":26,"email":"userbo@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":27,"email":"userbq@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":28,"email":"userbr@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":29,"email":"usersb@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":30,"email":"userbt@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":31,"email":"userco@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":32,"email":"usercq@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":33,"email":"usercr@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":34,"email":"usercs@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":35,"email":"userct@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":36,"email":"userdo@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":37,"email":"userdq@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":38,"email":"userdr@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":39,"email":"userds@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":40,"email":"userdt@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":41,"email":"userfo@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":42,"email":"userfq@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":43,"email":"userfr@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":44,"email":"userfs@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":45,"email":"userft@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":46,"email":"usereo@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":false,
+          "company":"My Company","quotavm":0,"quotaprod":0,"layout":"us",
+          "firstname":"userb","lastname":"userb","shortname":"U. Userb",
+          "created_at":"2016-06-07T22:31:35.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1,2,3,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":47,"email":"usereq@os.nextdeploy","authentication_token":null,
+          "is_project_create":true,"is_user_create":true,"is_recv_vms":true,
+          "company":"My Company","quotavm":10,"quotaprod":4,"layout":"us",
+          "firstname":"userc","lastname":"userc","shortname":"U. Userc",
+          "created_at":"2016-06-07T22:31:42.000+02:00","vms":[],"sshkeys":[],
+          "group":2,"projects":[1,4,5,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":48,"email":"userer@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"usere","lastname":"usere","shortname":"U. Usere",
+          "created_at":"2016-06-07T22:31:43.000+02:00","vms":[],"sshkeys":[],
+          "group":3,"projects":[1,2,3,4,6],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":49,"email":"useres@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":5,"quotaprod":0,"layout":"us",
+          "firstname":"userf","lastname":"userf","shortname":"U. Userf",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":4,"projects":[1],"own_projects":[], "nbpages": 11
+        },
+        {
+          "id":50,"email":"useret@os.nextdeploy","authentication_token":null,
+          "is_project_create":false,"is_user_create":false,"is_recv_vms":false,
+          "company":"My Company","quotavm":3,"quotaprod":0,"layout":"us",
+          "firstname":"userh","lastname":"userh","shortname":"U. Userh",
+          "created_at":"2016-06-07T22:31:44.000+02:00","vms":[],"sshkeys":[],
+          "group":5,"projects":[1,2,5],"own_projects":[], "nbpages": 11
+        },
       ]
     });
   });
@@ -99,6 +453,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock new user request
+   *
+   *  @method post:/
+   */
   signinRouter.post('', function(req, res) {
     /* check password */
     if (req.body.user.password != 'word123123') {
@@ -124,9 +483,13 @@ module.exports = function(app) {
         default:
           res.send(401);
     }
-
   });
 
+  /**
+   *  Mock show user request
+   *
+   *  @method get:/$id
+   */
   usersRouter.get('/:id', function(req, res) {
     res.send({
       'user':{
@@ -135,6 +498,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock change user request
+   *
+   *  @method put:/$id
+   */
   usersRouter.put('/:id', function(req, res) {
     var user = req.body.user;
 
@@ -164,10 +532,20 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock delete user request
+   *
+   *  @method delete:/$id
+   */
   usersRouter.delete('/:id', function(req, res) {
     res.status(204).end();
   });
 
+  /**
+   *  Mock valid change email for an user
+   *
+   *  @method get:/$id/email/$email
+   */
   usersRouter.get('/:id/email/:email', function(req, res) {
     res.status(200).end();
   });

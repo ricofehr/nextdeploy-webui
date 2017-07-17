@@ -51,7 +51,17 @@ Babel (25)                                    | 46028ms (1841 ms)
 * "userp@os.nextdeploy" (Project Manager)
 * "userg@os.nextdeploy" (Guest)
 
-
 ### Building
 
-* `ember build` (development)
+* `ember build -e production|development`
+
+## YUIDOC
+
+Generates YUIDOC documentation into /docs folder
+```
+$ ember ember-cli-yuidoc
+info: Scanning for yuidoc.json file.
+warn: Skipping node_modules directory while scanning for yuidoc.json
+info: Loading package.json data from: package.json
+info: Loading yuidoc.json data from: yuidoc.json
+```

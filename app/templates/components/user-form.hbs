@@ -70,39 +70,39 @@
      </div>
   </div>
 
-  {{#if is_project_create_display}}
+  {{#if isProjectCreateDisplay}}
   <div class="form-group">
       <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">Project Creation</label>
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
             value=user.is_project_create
-            disabled=is_project_create_ro
+            disabled=isProjectCreateRo
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'toggleFlagUser' is_project_create_ro 'is_project_create')}}
+            onToggle=(mut user.is_project_create)}}
       </label>
     </div>
   </div>
   {{/if}}
 
-  {{#if is_user_create_display}}
+  {{#if isUserCreateDisplay}}
   <div class="form-group">
       <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">User Creation</label>
     <div class="col-md-3 col-sm-5 col-xs-6">
       <label>
         {{x-toggle
             value=user.is_user_create
-            disabled=is_user_create_ro
+            disabled=isUserCreateRo
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'toggleFlagUser' is_user_create_ro 'is_user_create')}}
+            onToggle=(mut user.is_user_create)}}
       </label>
     </div>
   </div>
   {{/if}}
 
-  {{#if is_recv_vms_display}}
+  {{#if isRecvVmsDisplay}}
   <div class="form-group">
       <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4">New Vm Alerts</label>
     <div class="col-md-3 col-sm-5 col-xs-6">
@@ -112,7 +112,7 @@
             disabled=isDisable
             onLabel='true'
             offLabel='false'
-            onToggle=(action 'toggleFlagUser' false 'is_recv_vms')}}
+            onToggle=(mut user.is_recv_vms)}}
       </label>
     </div>
   </div>
@@ -127,7 +127,7 @@
       searchEnabled=false
       disabled=isDisableRealAdmin
       placeholder="Set a quota"
-      onchange=(action 'changeProperty' 'user.quotavm')
+      onchange=(action (mut user.quotavm))
       as |quota|
     }}
       {{quota}}
@@ -145,7 +145,7 @@
       searchEnabled=false
       disabled=isDisableRealAdmin
       placeholder="Set a quota"
-      onchange=(action 'changeProperty' 'user.quotaprod')
+      onchange=(action (mut user.quotaprod))
       as |quota|
     }}
       {{quota}}
@@ -163,7 +163,7 @@
       searchEnabled=false
       disabled=isDisable
       placeholder="Set items count by Page"
-      onchange=(action 'changeProperty' 'user.nbpages')
+      onchange=(action (mut user.nbpages))
       as |nbpage|
     }}
       {{nbpage}}
@@ -180,7 +180,7 @@
       searchEnabled=false
       disabled=isDisable
       placeholder="Set Layout"
-      onchange=(action 'changeProperty' 'user.layout')
+      onchange=(action (mut user.layout))
       as |layout|
     }}
       {{layout}}
@@ -252,9 +252,9 @@
       searchPlaceholder="Type to filter..."
       searchEnabled=true
       disabled=isDisableProjectList
-      selected=user_projects
+      selected=user.projects
       placeholder="Select projects"
-      onchange=(action 'changeProperty' 'user_projects')
+      onchange=(action (mut user.projects))
       as |project|
     }}
       {{project.name}} ({{project.brand.name}})
@@ -263,11 +263,13 @@
   </div>
   {{/if}}
 
+  {{#if isFormValid}}
   <div class="form-group">
     <div class="col-md-2 col-sm-3 col-xs-4">
       <button type="submit" class="pull-right btn btn-primary">Submit</button>
     </div>
   </div>
+  {{/if}}
 </form>
 
 {{#if isSSH}}

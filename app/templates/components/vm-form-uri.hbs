@@ -170,11 +170,13 @@
 
     {{#if uri.id}}
       {{#if uriFocused}}
-      <div class="form-group">
-        <div class="{{colSmRight}} {{colSmOffsetSubmit}}">
-            <button type="submit" class="btn btn-primary">Submit</button>
+        {{#if isFormValid}}
+        <div class="form-group">
+          <div class="{{colSmRight}} {{colSmOffsetSubmit}}">
+              <button type="submit" class="btn btn-primary">Submit</button>
+          </div>
         </div>
-      </div>
+        {{/if}}
       {{/if}}
     {{/if}}
 {{/if}}

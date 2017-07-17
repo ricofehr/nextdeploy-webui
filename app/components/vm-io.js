@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages export/import for vms
  *
- *  @module components/vm-io
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmIo
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Close the modal, reset component variables
      *
-     *  @function
+     *  @event closedIO
      */
     closedIO: function() {
       this.set('isBusy', false);
@@ -23,6 +26,7 @@ export default Ember.Component.extend({
   /**
    *  Display the loading modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -30,6 +34,7 @@ export default Ember.Component.extend({
   /**
    *  Flag setted during an import
    *
+   *  @property importRunning
    *  @type {Boolean}
    */
   importRunning: false,
@@ -37,6 +42,7 @@ export default Ember.Component.extend({
   /**
    *  Flag setted during an export
    *
+   *  @property exportRunning
    *  @type {Boolean}
    */
   exportRunning: false,
@@ -44,6 +50,7 @@ export default Ember.Component.extend({
   /**
    *  Flag setted if errors occurs
    *
+   *  @property errorIO
    *  @type {Boolean}
    */
   errorIO: null,
@@ -51,7 +58,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm is on running state
    *
-   *  @function
+   *  @function isRunning
    *  @returns {Boolean}
    */
   isRunning: function() {
@@ -66,7 +73,7 @@ export default Ember.Component.extend({
   /**
    *  Get shorter vm name
    *
-   *  @function
+   *  @function vmName
    *  @returns {String}
    */
   vmName: function() {
@@ -80,7 +87,7 @@ export default Ember.Component.extend({
   /**
    *  Check if we have import flag for uris
    *
-   *  @function
+   *  @function isIO
    *  @returns {Boolean}
    */
   isIO: function() {
@@ -104,7 +111,7 @@ export default Ember.Component.extend({
   /**
    *  Generates branchs list array
    *
-   *  @function
+   *  @function branchs
    *  @returns {String[]}
    */
   branchs: function() {
@@ -157,7 +164,7 @@ export default Ember.Component.extend({
   /**
    *  Reset component variables
    *
-   *  @function
+   *  @method resetFlags
    */
   resetFlags: function() {
     this.set('errorIO', null);

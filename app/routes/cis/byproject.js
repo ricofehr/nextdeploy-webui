@@ -1,9 +1,26 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
+/**
+ *  Define the (authenticated) ci vms list route filter by project
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class CisByProject
+ *  @namespace route
+ *  @module nextdeploy
+ *  @augments Ember/Route
+ */
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
+  /**
+   *  Return the model for ci vms list
+   *    - vms arrays with jenkins state and sorted by status, id
+   *    - project id
+   *
+   *  @function model
+   *  @param {Hash} params String => String (with project id)
+   *  @returns {Hash} a RSVP hash included vms and project id
+   */
   model(params) {
-
     return Ember.RSVP.hash({
       vms: this.store.peekAll('vm').toArray().filterBy('is_jenkins', true).sort(function(a, b) {
         var status_a = parseInt(a.get('status'));
@@ -29,12 +46,22 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     });
   },
 
-  // Same template than the standard list of vms
+  /**
+   *  Define the template
+   *
+   *  @method renderTemplate
+   */
   renderTemplate:function () {
     this.render('cis/list');
   },
 
-  // Setup the controller for vms.list with this model
+  /**
+   *  Setup the controller with the model
+   *
+   *  @method setupController
+   *  @param {Controller}
+   *  @param {model} the model
+   */
   setupController: function(controller, model) {
     this.controllerFor('cis.list').setProperties({model: model,
                                                   ciVms: true,

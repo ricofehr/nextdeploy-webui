@@ -1,11 +1,25 @@
 import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 
+/**
+ *  Define the (authenticated) vms list route
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmsList
+ *  @namespace route
+ *  @module nextdeploy
+ *  @augments Ember/Route
+ */
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
+  /**
+   *  Return the model for vms list
+   *    - vms arrays with no jenkins state and sorted by is_prod, status and id
+   *
+   *  @function model
+   *  @returns {Hash} a RSVP hash included users and project id
+   */
   model() {
-
     return Ember.RSVP.hash({
-      // sort by status, prod flag and id
       vms: this.store.peekAll('vm').toArray().filterBy('is_jenkins', false).sort(function(a, b) {
         var prod_a = a.get('is_prod') ? 1 : 0;
         var prod_b = b.get('is_prod') ? 1 : 0;
@@ -36,7 +50,13 @@ export default Ember.Route.extend(AuthenticatedRouteMixin, {
     });
   },
 
-  // Setup the controller for vms.list with this model
+  /**
+   *  Setup the controller with the model
+   *
+   *  @method setupController
+   *  @param {Controller}
+   *  @param {model} the model
+   */
   setupController: function(controller, model) {
     this.controllerFor('vms.list').setProperties({model: model,
                                                   ciVms: true,

@@ -4,13 +4,17 @@ import config from '../config/environment';
 /**
  *  This component manages the project form
  *
- *  @module components/project-form
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class ProjectForm
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   /**
    *  Sort property for brands / technos / systems / frameworks list
    *
+   *  @attribute computeSorting
    *  @type {String[]}
    */
   computeSorting: ['name'],
@@ -18,6 +22,7 @@ export default Ember.Component.extend({
   /**
    *  Sort property for vmsizes list
    *
+   *  @attribute vmsizeSorting
    *  @type {String[]}
    */
   vmsizeSorting: ['title:desc'],
@@ -25,6 +30,7 @@ export default Ember.Component.extend({
   /**
    *  Sort property for users list
    *
+   *  @attribute emailSorting
    *  @type {String[]}
    */
   emailSorting: ['email'],
@@ -32,6 +38,7 @@ export default Ember.Component.extend({
   /**
    *  Array of frameworks sorted
    *
+   *  @attribute frameworksSort
    *  @type {Framework[]}
    */
   frameworksSort: Ember.computed.sort('frameworks', 'computeSorting'),
@@ -39,6 +46,7 @@ export default Ember.Component.extend({
   /**
    *  Array of brands sorted
    *
+   *  @attribute brandsSort
    *  @type {Brand[]}
    */
   brandsSort: Ember.computed.sort('brands', 'computeSorting'),
@@ -46,6 +54,7 @@ export default Ember.Component.extend({
   /**
    *  Array of vmsizes sorted
    *
+   *  @attribute vmsizesSort
    *  @type {Vmsize[]}
    */
   vmsizesSort: Ember.computed.sort('vmsizes', 'vmsizeSorting'),
@@ -53,6 +62,7 @@ export default Ember.Component.extend({
   /**
    *  Array of technos sorted
    *
+   *  @attribute technosSort
    *  @type {Techno[]}
    */
   technosSort: Ember.computed.sort('technos', 'computeSorting'),
@@ -60,6 +70,7 @@ export default Ember.Component.extend({
   /**
    *  Array of systems sorted
    *
+   *  @attribute systemsSort
    *  @type {Systemimage[]}
    */
   systemsSort: Ember.computed.sort('systems', 'computeSorting'),
@@ -67,6 +78,7 @@ export default Ember.Component.extend({
   /**
    *  Array of users sorted
    *
+   *  @attribute usersSort
    *  @type {User[]}
    */
   usersSort: Ember.computed.sort('users', 'emailSorting'),
@@ -75,7 +87,7 @@ export default Ember.Component.extend({
     /**
      *  Change the "new endpoint" flag
      *
-     *  @function
+     *  @event toggleNewFlag
      */
     toggleNewFlag: function() {
       if (this.get('newFlag')) {
@@ -86,36 +98,16 @@ export default Ember.Component.extend({
     },
 
     /**
-     *  Change the htaccess flag
-     *
-     *  @function
-     *  @param {Boolean} disabled true if disabled field
-     *  @param {Boolean} toggle the new flag value
-     */
-    toggleHtFlag: function(disabled, toggle) {
-      if (disabled) {
-        return;
-      }
-
-      this.set('project.is_ht', toggle.newValue);
-    },
-
-    /**
      *  Show a technos list after toggled a technotype
      *
-     *  @function
-     *  @param {Boolean} disabled true if disabled field
+     *  @event displayTechno
      *  @param {Boolean} toggle true if the technotype toggle is setted
      */
-    displayTechno: function(disabled, toggle) {
+    displayTechno: function(toggle) {
       var selected = null;
       var self = this;
       var isToggled = toggle.newValue;
       var technoTypeId = toggle.context.name;
-
-      if (disabled) {
-        return;
-      }
 
       self.get('project_technotypes').map(function (model) {
         if (parseInt(model.get('technotype').id) === parseInt(technoTypeId)) {
@@ -132,20 +124,9 @@ export default Ember.Component.extend({
     },
 
     /**
-     *  Change property on power-select
-     *
-     *  @function
-     *  @param {String} property
-     *  @param {String} value
-     */
-    changeProperty: function(property, value) {
-      this.set(property, value);
-    },
-
-    /**
      *  Submit form for create or update current object
      *
-     *  @function
+     *  @event postItem
      */
     postItem: function() {
       var router = this.get('router');
@@ -153,13 +134,17 @@ export default Ember.Component.extend({
       var nbEndpoints = parseInt(this.get('project.endpoints.length'));
       var readytoList = 0;
 
+      this.checkAdminUsers();
+      this.checkVarnishAndWebTechnos();
+      this.checkNodeTechnos();
+
       // check if form is valid
-      if (!this.formIsValid()) {
+      if (!this.get('isFormValid')) {
         return;
       }
 
       // set model properties from temporary buffer
-      this.flushBuffer();
+      this.flushTechnosList();
 
       // return to projects list after adding a new one
       var projectslist = function() {
@@ -197,6 +182,7 @@ export default Ember.Component.extend({
   /**
    *  Project Saving action flag
    *
+   *  @property projectSave
    *  @type {Boolean}
    */
   projectSave: false,
@@ -204,6 +190,7 @@ export default Ember.Component.extend({
   /**
    *  New Endpoint flag
    *
+   *  @property newFlag
    *  @type {Boolean}
    */
   newFlag: false,
@@ -211,7 +198,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure brand is filled
    *
-   *  @function
+   *  @function errorBrand
    *  @returns {Boolean} true if no valid field
    */
   errorBrand: function() {
@@ -228,7 +215,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure name is filled and normalize it
    *
-   *  @function
+   *  @function errorName
    *  @returns {Boolean} true if no valid field
    */
   errorName: function() {
@@ -256,23 +243,23 @@ export default Ember.Component.extend({
   /**
    *  Ensure the name attribute is unique
    *
-   *  @function
+   *  @function errorNameUnique
    *  @returns {Boolean} true if no valid field
    */
   errorNameUnique: function() {
     var projects = this.get('projects');
     var name = this.get('project.name');
-    var current_id = this.get('project.id');
+    var currentId = this.get('project.id');
     var errorName = false;
 
     // set id to 0 if we create a new project
-    if (current_id === null || isNaN(current_id)) {
-      current_id = 0;
+    if (currentId === null || isNaN(currentId)) {
+      currentId = 0;
     }
 
     if (!projects || projects.length === 0) {
       Ember.$.ajax({
-          url: config.APP.APIHost + "/api/v1/projects/" + current_id + "/name/" + name,
+          url: config.APP.APIHost + "/api/v1/projects/" + currentId + "/name/" + name,
           global: false,
           headers: { 'Authorization': 'Token token=' + this.get('session').get('data.authenticated.token') }
         })
@@ -284,7 +271,7 @@ export default Ember.Component.extend({
         });
     } else {
       projects.forEach(function(item) {
-        if (item.id && item.id !== current_id) {
+        if (item.id && item.id !== currentId) {
           if (item.get('name') === name) {
             errorName = true;
           }
@@ -298,7 +285,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure the name attribute has good length
    *
-   *  @function
+   *  @function errorNameLength
    *  @returns {Boolean} true if no valid field
    */
   errorNameLength: function() {
@@ -314,7 +301,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure login is filled
    *
-   *  @function
+   *  @function errorLogin
    *  @returns {Boolean} true if no valid field
    */
   errorLogin: function() {
@@ -330,7 +317,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure password is filled
    *
-   *  @function
+   *  @function errorPassword
    *  @returns {Boolean} true if no valid field
    */
   errorPassword: function() {
@@ -346,7 +333,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure endpoints array is not empty
    *
-   *  @function
+   *  @function errorEndpoints
    *  @returns {Boolean} true if no valid field
    */
   errorEndpoints: function() {
@@ -362,28 +349,28 @@ export default Ember.Component.extend({
     }
 
     return errorEndpoints;
-  }.property('project.endpoints'),
+  }.property('project.endpoints.@each'),
 
   /**
    *  Ensure systems array is not empty
    *
-   *  @function
+   *  @function errorSystem
    *  @returns {Boolean} true if no valid field
    */
   errorSystem: function() {
-    var systems = this.get('project_systemimages');
+    var systems = this.get('project.systemimages');
 
     if (systems && systems.toArray().length > 0) {
       return false;
     }
 
     return true;
-  }.property('project_systemimages'),
+  }.property('project.systemimages.@each'),
 
   /**
    *  Ensure technos array is not empty
    *
-   *  @function
+   *  @function errorTechnos
    *  @returns {Boolean} true if no valid field
    */
   errorTechnos: function() {
@@ -394,44 +381,44 @@ export default Ember.Component.extend({
     }
 
     return true;
-  }.property('project.technos'),
+  }.property('project.technos.@each'),
 
   /**
    *  Ensure vmsizes array is not empty
    *
-   *  @function
+   *  @function errorVmsizes
    *  @returns {Boolean} true if no valid field
    */
   errorVmsizes: function() {
-    var vmsizes = this.get('project_vmsizes');
+    var vmsizes = this.get('project.vmsizes');
 
     if (vmsizes && vmsizes.toArray().length > 0) {
       return false;
     }
 
     return true;
-  }.property('project_vmsizes'),
+  }.property('project.vmsizes.@each'),
 
   /**
    *  Ensure users array is not empty
    *
-   *  @function
+   *  @function errorUsers
    *  @returns {Boolean} true if no valid field
    */
   errorUsers: function() {
-    var users = this.get('project_users');
+    var users = this.get('project.users');
 
     if (users && users.toArray().length > 0) {
       return false;
     }
 
     return true;
-  }.property('project_users'),
+  }.property('project.users.@each'),
 
   /**
    *  gitpath computed property from brand name and project name
    *
-   *  @function
+   *  @function gitPath
    *  @returns {String} project.gitpath attribute
    */
   gitPath: function() {
@@ -461,7 +448,7 @@ export default Ember.Component.extend({
   /**
    *  Check if current user can create project
    *
-   *  @function
+   *  @function isProjectCreate
    *  @returns {Boolean} True if he can
    */
   isProjectCreate: function() {
@@ -471,7 +458,7 @@ export default Ember.Component.extend({
   /**
    *  Disable state if item already recorded
    *
-   *  @function
+   *  @function isDisableEdit
    *  @returns {Boolean} True if disabled
    */
   isDisableEdit: function() {
@@ -485,13 +472,13 @@ export default Ember.Component.extend({
   /**
    *  Disabled state if current user is no admin
    *
-   *  @function
+   *  @function isDisableAdmin
    *  @returns {Boolean} True if disabled
    */
   isDisableAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 50) {
+    if (accessLevel >= 50) {
       return false;
     }
 
@@ -501,13 +488,13 @@ export default Ember.Component.extend({
   /**
    *  Disabled state if current user is no admin or current item already recorded
    *
-   *  @function
+   *  @function isDisableEditAdmin
    *  @returns {Boolean} True if disabled
    */
   isDisableEditAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level < 50) {
+    if (accessLevel < 50) {
       return true;
     }
 
@@ -521,18 +508,18 @@ export default Ember.Component.extend({
   /**
    *  Disabled state if current user is neither admin, neither project owner
    *
-   *  @function
+   *  @function isDisableCreate
    *  @returns {Boolean} True if disabled
    */
   isDisableCreate: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-    var user_id = this.get('session').get('data.authenticated.user.id');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
+    var userId = this.get('session').get('data.authenticated.user.id');
 
-    if (access_level >= 50) {
+    if (accessLevel >= 50) {
       return false;
     }
 
-    if (parseInt(this.get('project.owner.id')) === user_id) {
+    if (parseInt(this.get('project.owner.id')) === userId) {
       return false;
     }
 
@@ -540,23 +527,48 @@ export default Ember.Component.extend({
   }.property('session.data.authenticated.user.id'),
 
   /**
+   *  Ensures all form fields are valids before submit
+   *
+   *  @function isFormValid
+   *  @returns {Boolean} true if all fields are valids
+   */
+  isFormValid: function() {
+    if (!this.get('errorBrand') &&
+        !this.get('errorName') &&
+        !this.get('errorNameUnique') &&
+        !this.get('errorNameLength') &&
+        !this.get('errorLogin') &&
+        !this.get('errorPassword') &&
+        !this.get('errorEndpoints') &&
+        !this.get('errorSystem') &&
+        !this.get('errorTechnos') &&
+        !this.get('errorVmsizes') &&
+        !this.get('errorUsers')) {
+          return true;
+    }
+
+    return false;
+  }.property('errorBrand', 'errorName', 'errorNameUnique', 'errorNameLength',
+             'errorLogin', 'errorPassword', 'errorEndpoints', 'errorSystem',
+             'errorTechnos', 'errorVmsizes', 'errorUsers'),
+
+  /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
     this.set('newFlag', false);
     this.set('projectSave', false);
     this.cleanModel();
-    this.initBuffer();
-    this.formIsValid();
+    this.initTechnoToggles();
   },
 
   /**
    *  Delete records unsaved or deleted
    *
-   *  @function
+   *  @method cleanModel
    */
   cleanModel: function() {
     var cleanUsers = this.store.peekAll('user').filterBy('id', null);
@@ -584,19 +596,14 @@ export default Ember.Component.extend({
   },
 
   /**
-   *  Init a buffer for array attributes
-   *  HACK use a buffer to avoid weird issue with power-select
+   *  Manage differents technos list for the form
    *
-   *  @function
+   *  @method initTechnoToggles
    */
-  initBuffer: function() {
+  initTechnoToggles: function() {
     var self = this;
     var selected = null;
     var isToggled = false;
-
-    this.set('project_users', this.get('project').get('users').toArray());
-    this.set('project_vmsizes', this.get('project').get('vmsizes').toArray());
-    this.set('project_systemimages', this.get('project').get('systemimages').toArray());
 
     this.set('project_technotypes', []);
     this.get('technotypes').map(function(model) {
@@ -618,64 +625,35 @@ export default Ember.Component.extend({
   },
 
   /**
-   *  Flush a buffer for array attributes
-   *  HACK use a buffer to avoid weird issue with power-select
+   *  Record the technos list for current object
    *
-   *  @function
+   *  @method flushTechnosList
    */
-  flushBuffer: function() {
-    var project_technos = [];
+  flushTechnosList: function() {
+    var projectTechnos = [];
+
     this.get('project_technotypes').forEach(function(technotype) {
       if (technotype.get('selected')) {
-        project_technos.pushObject(technotype.get('selected'));
+        projectTechnos.pushObject(technotype.get('selected'));
       }
     });
-    this.get('project').set('technos', project_technos);
-    this.get('project').set('users', this.get('project_users'));
-    this.get('project').set('vmsizes', this.get('project_vmsizes'));
-    this.get('project').set('systemimages', this.get('project_systemimages'));
-  },
 
-  /**
-   *  Ensures all form fields are valids before submit
-   *
-   *  @function
-   */
-  formIsValid: function() {
-    this.checkAdminUsers();
-    this.checkVarnishAndWebTechnos();
-    this.checkNodeTechnos();
-
-    if (!this.get('errorBrand') &&
-        !this.get('errorName') &&
-        !this.get('errorNameUnique') &&
-        !this.get('errorNameLength') &&
-        !this.get('errorLogin') &&
-        !this.get('errorPassword') &&
-        !this.get('errorEndpoints') &&
-        !this.get('errorSystem') &&
-        !this.get('errorTechnos') &&
-        !this.get('errorVmsizes') &&
-        !this.get('errorUsers')) {
-          return true;
-    }
-
-    return false;
+    this.get('project').set('technos', projectTechnos);
   },
 
   /**
    *  Ensure admin users or himself are still in users array
    *
-   *  @function
+   *  @method checkAdminUsers
    */
   checkAdminUsers: function() {
     var self = this;
-    var user_id = this.get('session').get('data.authenticated.user.id');
+    var userId = this.get('session').get('data.authenticated.user.id');
 
     this.get('users').forEach(function(user) {
-      if (user.get('group').get('access_level') === 50 || parseInt(user.id) === user_id) {
-        if (!self.get('project_users').contains(user)) {
-          self.get('project_users').pushObject(user);
+      if (user.get('group').get('access_level') === 50 || parseInt(user.id) === userId) {
+        if (!self.get('project.users').contains(user)) {
+          self.get('project.users').pushObject(user);
         }
       }
     });
@@ -684,7 +662,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that varnish or apache is on techno array for a web project
    *
-   *  @function
+   *  @method checkVarnishAndWebTechnos
    */
   checkVarnishAndWebTechnos: function() {
     var varnishTechno = null;
@@ -771,7 +749,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that node is on techno array for a web project
    *
-   *  @function
+   *  @method checkNodeTechnos
    */
   checkNodeTechnos: function() {
     var nodeTechno = null;

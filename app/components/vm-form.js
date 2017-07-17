@@ -3,8 +3,11 @@ import Ember from 'ember';
 /**
  *  This component manages vm form modal
  *
- *  @module components/vm-form
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmForm
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
@@ -12,7 +15,8 @@ export default Ember.Component.extend({
      *  Triggered when branche change
      *  Set default commit
      *
-     *  @function
+     *  @event changeBranche
+     *  @param {Branche} branch
      */
     changeBranche: function(branch) {
       var self = this;
@@ -38,7 +42,7 @@ export default Ember.Component.extend({
     /**
      *  Reset login to default value if empty
      *
-     *  @function
+     *  @event checkLogin
      */
     checkLogin: function() {
       var htlogin = this.get('vm.htlogin');
@@ -51,7 +55,7 @@ export default Ember.Component.extend({
     /**
      *  Reset password to default value if empty
      *
-     *  @function
+     *  @event checkPassword
      */
     checkPassword: function() {
       var htpassword = this.get('vm.htpassword');
@@ -64,7 +68,8 @@ export default Ember.Component.extend({
     /**
      *  Change is_prod flag
      *
-     *  @function
+     *  @event changeProd
+     *  @param {Toggle} toggle
      */
     changeProd: function(toggle) {
       this.set('vm.is_prod', toggle);
@@ -75,7 +80,8 @@ export default Ember.Component.extend({
      *  Triggered when project change
      *  Set default branche, system, and vmsize
      *
-     *  @function
+     *  @event changeProject
+     *  @param {Project} projectSetted
      */
     changeProject: function(projectSetted) {
       var self = this;
@@ -99,14 +105,14 @@ export default Ember.Component.extend({
         }
 
         //first, change users combobox
-        var access_level = self.get('session').get('data.authenticated.access_level');
-        var user_id = self.get('session').get('data.authenticated.user.id');
-        var user_index = 0;
+        var accessLevel = self.get('session').get('data.authenticated.access_level');
+        var userId = self.get('session').get('data.authenticated.user.id');
+        var userIndex = 0;
 
         // remove other users if we arent > ProjectLead right
-        if (access_level < 50) {
+        if (accessLevel < 50) {
           project.get('users').toArray().forEach(function(user) {
-            if (access_level < 40 && user && parseInt(user.id) !== user_id) {
+            if (accessLevel < 40 && user && parseInt(user.id) !== userId) {
               project.get('users').removeObject(user);
             }
           });
@@ -114,8 +120,8 @@ export default Ember.Component.extend({
 
         // set default index in users array
         for (var i = 0; i < project.get('users').toArray().length; i++) {
-          if (project.get('users').toArray()[i].id === user_id) {
-            user_index = i;
+          if (project.get('users').toArray()[i].id === userId) {
+            userIndex = i;
             break;
           }
         }
@@ -127,7 +133,7 @@ export default Ember.Component.extend({
 
         // init default values
         self.set('vm.technos', project.get('technos').toArray());
-        self.set('vm.user', project.get('users').toArray()[user_index]);
+        self.set('vm.user', project.get('users').toArray()[userIndex]);
         self.set('vm.systemimage', project.get('systemimages').toArray()[0]);
 
         if (self.get('isJenkins')) {
@@ -156,7 +162,8 @@ export default Ember.Component.extend({
     /**
      *  Triggered when user is changing in power-select
      *
-     *  @function
+     *  @event changeUser
+     *  @param {User} value
      */
     changeUser: function(value) {
       this.set('vm.user', value);
@@ -166,8 +173,8 @@ export default Ember.Component.extend({
     /**
      *  Trigger when a techno is changed from default value
      *
-     *  @function
-     *  @param {Techno} value the new techno
+     *  @event changeTechno
+     *  @param {Techno} value
      */
     changeTechno: function(value) {
       var technoType = parseInt(value.get('technotype').get('id'));
@@ -185,7 +192,7 @@ export default Ember.Component.extend({
     /**
      *  Submit form for create current object
      *
-     *  @function
+     *  @event createItem
      */
     createItem: function() {
       var router = this.get('router');
@@ -195,7 +202,7 @@ export default Ember.Component.extend({
       var self = this;
 
       // check if form is valid
-      if (!this.formIsValid()) {
+      if (!this.get('isFormValid')) {
         return;
       }
 
@@ -247,7 +254,7 @@ export default Ember.Component.extend({
     /**
      *  Toggle or untoggle advanced-form flag
      *
-     *  @function
+     *  @event toggleAdvanced
      */
     toggleAdvanced: function() {
       if (this.get('advancedForm')) { this.set('advancedForm', false); }
@@ -258,6 +265,7 @@ export default Ember.Component.extend({
   /**
    *  Enable advanced form
    *
+   *  @property advancedForm
    *  @type {Boolean}
    */
   advancedForm: false,
@@ -265,6 +273,7 @@ export default Ember.Component.extend({
   /**
    *  Store the current branche object
    *
+   *  @property branche
    *  @type {Branche}
    */
   branche: null,
@@ -272,21 +281,23 @@ export default Ember.Component.extend({
   /**
    *  Display loading modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
 
   /**
-   *  Uris list taken from uris component
+   *  Uris list taken from uris component and store Uri valid state
    *
-   *  @type {Uri[]}
+   *  @property checkListUris
+   *  @type {Hash} Uri => Boolean
    */
   checkListUris: null,
 
   /**
    *  Ensure that project attribute is filled
    *
-   *  @function
+   *  @function errorProject
    *  @returns {Boolean} true if no valid field
    */
   errorProject: function() {
@@ -302,7 +313,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that user attribute is filled
    *
-   *  @function
+   *  @function errorUser
    *  @returns {Boolean} true if no valid field
    */
   errorUser: function() {
@@ -318,7 +329,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that branch attribute is filled
    *
-   *  @function
+   *  @function errorBranch
    *  @returns {Boolean} true if no valid field
    */
   errorBranch: function() {
@@ -334,7 +345,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that commit attribute is filled
    *
-   *  @function
+   *  @function errorCommit
    *  @returns {Boolean} true if no valid field
    */
   errorCommit: function() {
@@ -350,7 +361,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that systemimage attribute is filled
    *
-   *  @function
+   *  @function errorOs
    *  @returns {Boolean} true if no valid field
    */
   errorOs: function() {
@@ -366,7 +377,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that vmsize attribute is filled
    *
-   *  @function
+   *  @function errorVmsize
    *  @returns {Boolean} true if no valid field
    */
   errorVmsize: function() {
@@ -382,7 +393,7 @@ export default Ember.Component.extend({
   /**
    *  Ensure that uris array is not empty
    *
-   *  @function
+   *  @function errorUris
    *  @returns {Boolean} true if no valid field
    */
   errorUris: function() {
@@ -396,12 +407,12 @@ export default Ember.Component.extend({
     });
 
     return errorUris;
-  }.property('vm.uris'),
+  }.property('vm.uris.@each'),
 
   /**
    *  Ensure that topic attribute is filled
    *
-   *  @function
+   *  @function errorTopic
    *  @returns {Boolean} true if no valid field
    */
   errorTopic: function() {
@@ -415,30 +426,12 @@ export default Ember.Component.extend({
   }.property('vm.topic'),
 
   /**
-   *  Ensures all form fields are valids before submit
-   *
-   *  @function
-   */
-  formIsValid: function() {
-    if (!this.get('errorProject') &&
-        !this.get('errorUser') &&
-        !this.get('errorBranch') &&
-        !this.get('errorCommit') &&
-        !this.get('errorOs') &&
-        !this.get('errorUris') &&
-        !this.get('errorVmsize') &&
-        !this.get('errorTopic')) {
-      return true;
-    }
-    return false;
-  },
-
-  /**
    *  Check in real time if the form is valid
    *
-   *  @function
+   *  @function isFormValid
+   *  @returns {Boolean}
    */
-  isValid: function() {
+  isFormValid: function() {
     if (!this.get('errorProject') &&
         !this.get('errorUser') &&
         !this.get('errorBranch') &&
@@ -456,7 +449,7 @@ export default Ember.Component.extend({
  /**
   *  Check if current user is admin, lead, or dev
   *
-  *  @function
+  *  @function isDev
   *  @returns {Boolean} True if admin, lead, or dev
   */
   isDev: function() {
@@ -472,7 +465,7 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin
    *
-   *  @function
+   *  @function isAdmin
    *  @returns {Boolean} True if admin
    */
   isAdmin: function() {
@@ -488,7 +481,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if BasicAuth toggle must be disabled
    *
-   *  @function
+   *  @function isDisabledAuth
    *  @returns {Boolean}
    */
   isDisabledAuth: function() {
@@ -512,7 +505,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if Prod toggle must be disabled
    *
-   *  @function
+   *  @function isDisabledProd
    *  @returns {Boolean}
    */
   isDisabledProd: function() {
@@ -539,8 +532,7 @@ export default Ember.Component.extend({
   /**
    *  Generates vm name attribute
    *
-   *  @function
-   *  @returns {String}
+   *  @method generateVmName
    */
   generateVmName: function() {
     var vmname = '';
@@ -561,7 +553,7 @@ export default Ember.Component.extend({
   /**
    *  Generates defaults uris endpoints for the vm
    *
-   *  @function
+   *  @method generateUris
    */
   generateUris: function() {
     var endpoints = null;
@@ -631,20 +623,19 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
     this.set('loadingModal', false);
     this.set('checkListUris', Ember.Object.create());
     this.cleanModel();
-    this.formIsValid();
   },
 
   /**
    *  Delete records unsaved or deleted
    *
-   *  @function
+   *  @method cleanModel
    */
   cleanModel: function() {
     var cleanProjects = null;

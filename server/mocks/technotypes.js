@@ -1,8 +1,20 @@
-/*jshint node:true*/
+/**
+ *  technotypes mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Technotype
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var technotypesRouter = express.Router();
 
+  /**
+   *  Mock technotypes list request
+   *
+   *  @method get:/
+   */
   technotypesRouter.get('/', function(req, res) {
     res.send({
       "technotypes":[
@@ -19,6 +31,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock show technotype request
+   *
+   *  @method get:/$id
+   */
   technotypesRouter.get('/:id', function(req, res) {
     res.send({
       'technotype':{

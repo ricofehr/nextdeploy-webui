@@ -2,10 +2,35 @@ import Ember from 'ember';
 import AuthenticatedRouteMixin from 'ember-simple-auth/mixins/authenticated-route-mixin';
 import config from '../../config/environment';
 
+/**
+ *  Define the (authenticated) project new route
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class ProjectsList
+ *  @namespace route
+ *  @module nextdeploy
+ *  @augments Ember/Route
+ */
 export default Ember.Route.extend(AuthenticatedRouteMixin, {
-
-model() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+  /**
+   *  Return the model for new project form
+   *    - brands list
+   *    - frameworks list
+   *    - technos list
+   *    - technotypes list
+   *    - vmsizes list
+   *    - users list
+   *    - systems list
+   *    - groups list
+   *    - projects list
+   *    - a default project model with filled values
+   *
+   *  @function model
+   *  @returns {Hash} a RSVP hash included brands, frameworks, technos, technotypes,
+   *           vmsizes, users, systems, groups, projects and a default new project object
+   */
+  model() {
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
     var self = this;
     var content = this.store.createRecord('project');
     var technoids = [];
@@ -46,21 +71,30 @@ model() {
 
       content.set('endpoints', []);
       self.store.peekAll('framework').forEach(function (framework) {
-
+        // HACK select default framework by his name (dynamic data from api)
         if (framework.get('name') === "Symfony2") {
-          ep = self.store.createRecord('endpoint',
-                            { prefix: '', path: 'server', envvars: '', aliases: '',
+          ep = self.store.createRecord(
+                            'endpoint',
+                            {
+                              prefix: '', path: 'server', envvars: '', aliases: '',
                               port: 8080, ipfilter: '', is_install: true,
-                              is_sh: false, is_import: true, is_ssl: false, framework: framework });
+                              is_sh: false, is_import: true, is_ssl: false, framework: framework
+                            }
+              );
 
           content.get('endpoints').addObject(ep);
         }
 
+        // HACK select default framework by his name (dynamic data from api)
         if (framework.get('name') === "Static") {
-          ep = self.store.createRecord('endpoint',
-                            { prefix: 'html', path: 'html', envvars: '', aliases: '',
+          ep = self.store.createRecord(
+                            'endpoint',
+                            {
+                              prefix: 'html', path: 'html', envvars: '', aliases: '',
                               port: 8080, ipfilter: '', is_install: true,
-                              is_sh: false, is_import: false, is_ssl: false, framework: framework });
+                              is_sh: false, is_import: false, is_ssl: false, framework: framework
+                            }
+               );
 
           content.get('endpoints').addObject(ep);
         }
@@ -94,8 +128,8 @@ model() {
       });
     });
 
-    // Admin (access_level == 50) or project-lead can create a new project
-    if (access_level === 50) {
+    // Admin (accessLevel == 50) or project-lead can create a new project
+    if (accessLevel === 50) {
       return Ember.RSVP.hash({
         brands: this.store.peekAll('brand'),
         frameworks: this.store.peekAll('framework'),

@@ -1,11 +1,25 @@
 import Ember from 'ember';
 import config from './config/environment';
 
+/**
+ *  The Router who defines all endpoints app
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Router
+ *  @namespace app
+ *  @augments ember/Router
+ *  @module nextdeploy
+ */
 const Router = Ember.Router.extend({
   location: config.locationType,
   rootURL: config.rootURL
 });
 
+/**
+ *  Analyse the path and routes to the right controller
+ *
+ *  @method map
+ */
 Router.map(function() {
   this.route('brands', function() {
     this.route('new');

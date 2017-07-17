@@ -3,13 +3,17 @@ import Ember from 'ember';
 /**
  *  This component manages the projects list
  *
- *  @module components/projects-list
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class ProjectsList
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   /**
    *  Sort property for projects list
    *
+   *  @attribute computeSorting
    *  @type {String[]}
    */
   computeSorting: ['created_at:desc'],
@@ -17,6 +21,7 @@ export default Ember.Component.extend({
   /**
    *  Array of projects sorted
    *
+   *  @attribute projectsSort
    *  @type {Project[]}
    */
   projectsSort: Ember.computed.sort('projects', 'computeSorting'),
@@ -25,7 +30,7 @@ export default Ember.Component.extend({
     /**
      *  Change the current page of the list
      *
-     *  @function
+     *  @event changePage
      *  @param {Integer} cp The new page number
      */
     changePage: function(cp) {
@@ -36,7 +41,7 @@ export default Ember.Component.extend({
     /**
      *  Close deletes modal
      *
-     *  @function
+     *  @event closeDeleteModal
      */
     closeDeleteModal: function() {
       this.set('isShowingDeleteConfirmation', false);
@@ -46,8 +51,8 @@ export default Ember.Component.extend({
     /**
      *  Open detail modal for targetted project
      *
-     *  @function
-     *  @param {Project} project Target for details modal
+     *  @event showDetails
+     *  @param {Project} project
      */
     showDetails: function(project) {
       this.set('projectSelected', project);
@@ -58,7 +63,7 @@ export default Ember.Component.extend({
     /**
      *  Submit delete event
      *
-     *  @function
+     *  @event deleteItems
      */
     deleteItems: function() {
       var router = this.get('router');
@@ -103,7 +108,7 @@ export default Ember.Component.extend({
     /**
      *  Display delete confirmation modal
      *
-     *  @function
+     *  @event showDeleteConfirmation
      */
     showDeleteConfirmation: function() {
       var items = this.get('projects').filterBy('todelete', true);
@@ -114,6 +119,7 @@ export default Ember.Component.extend({
       }
 
       if (deleteItems.length > 0) {
+        this.set('isBusy', true);
         this.set('deleteItems', deleteItems);
         this.set('isShowingDeleteConfirmation', true);
       }
@@ -122,7 +128,7 @@ export default Ember.Component.extend({
     /**
      *  Go to project creation form
      *
-     *  @function
+     *  @event newItem
      */
     newItem: function() {
       var router = this.get('router');
@@ -133,6 +139,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the delete confirm modal
    *
+   *  @property isShowingDeleteConfirmation
    *  @type {Boolean}
    */
   isShowingDeleteConfirmation: false,
@@ -140,6 +147,7 @@ export default Ember.Component.extend({
   /**
    *  Project targetted for an action or a modal
    *
+   *  @property projectSelected
    *  @type {Project}
    */
   projectSelected: null,
@@ -147,6 +155,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the project details modal
    *
+   *  @property isShowingDetails
    *  @type {Boolean}
    */
   isShowingDetails: false,
@@ -154,27 +163,28 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin
    *
-   *  @function
+   *  @function isAdmin
    *  @returns {Boolean} True if admin
    */
   isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) {
+    if (accessLevel === 50) {
       return true;
     }
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
-   *  Flag to show the delete confirm modal
+   *  Check if current user is admin or lead
    *
-   *  @type {Boolean}
+   *  @function isLead
+   *  @returns {Boolean} True if admin or lead
    */
   isLead: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 40) {
+    if (accessLevel >= 40) {
       return true;
     }
     return false;
@@ -183,13 +193,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user can create project
    *
-   *  @function
+   *  @function isProjectCreate
    *  @returns {Boolean} True if he can
    */
   isProjectCreate: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) {
+    if (accessLevel === 50) {
       return true;
     }
 
@@ -199,18 +209,22 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
-    this.cleanModel();
-    this.prepareList();
+
+    // avoid recompute list during user change
+    if (!this.get('isBusy')) {
+      this.cleanModel();
+      this.prepareList();
+    }
   },
 
   /**
    *  Prepare and format projects list
    *
-   *  @function
+   *  @method prepareList
    */
   prepareList: function() {
     var userId = parseInt(this.get('userId'));
@@ -227,8 +241,8 @@ export default Ember.Component.extend({
     var ncp2 = 0;
     var ibp = 0;
     var j = 1;
-    var current_user_id = this.get('session').get('data.authenticated.user.id');
-    var ibpmax = this.get('store').peekRecord('user', current_user_id).get('nbpages');
+    var currentUserId = this.get('session').get('data.authenticated.user.id');
+    var ibpmax = this.get('store').peekRecord('user', currentUserId).get('nbpages');
     var pages = [];
     var pagesLine = [];
     var framework = '';
@@ -236,6 +250,9 @@ export default Ember.Component.extend({
 
     // filter projects array only with valid item for current user
     projects.map(function(model){
+      // reset delete state
+      model.set('todelete', false);
+
       // check if current model is reliable
       if (!model.get('brand') ||
           !model.get('brand.id')) {
@@ -245,6 +262,23 @@ export default Ember.Component.extend({
 
       // add prefix to gitpath
       model.set('gitpath_href', "git@" + model.get('gitpath'));
+
+      // check if owner
+      model.set('isOwner', false);
+      if (model.get('owner') &&
+          parseInt(model.get('owner.id')) === currentUserId) {
+        model.set('isOwner', true);
+      }
+
+      // vm counts
+      model.set('countVms', model.get('vms').filterBy('is_jenkins', false).toArray().length);
+      model.set('countCis', model.get('vms').filterBy('is_jenkins', true).toArray().length);
+
+      // can be deleted state
+      model.set('canBeDeleted', false);
+      if (model.get('vms').toArray().length === 0) {
+        model.set('canBeDeleted', true);
+      }
 
       // init date value
       day = model.get('created_at').getDate();
@@ -303,9 +337,6 @@ export default Ember.Component.extend({
 
       // paging system
       if (model.get('isShow')) {
-        model.set('countVms', model.get('vms').filterBy('is_jenkins', false).toArray().length);
-        model.set('countCis', model.get('vms').filterBy('is_jenkins', true).toArray().length);
-
         if (!pages.isAny('cp', ncp)) {
           pages.addObject(Ember.Object.create({cp: ncp, current: ncp === cp}));
         }
@@ -322,7 +353,7 @@ export default Ember.Component.extend({
       }
     });
 
-    // Set paging numbern with no more 8 paging numbers
+    // Set paging list with no more 8 paging numbers
     this.set('previousPage', false);
     this.set('nextPage', false);
     if (pages.length > 1) {
@@ -369,7 +400,7 @@ export default Ember.Component.extend({
   /**
    *  Delete records unsaved or deleted
    *
-   *  @function
+   *  @method cleanModel
    */
   cleanModel: function() {
     var self = this;
@@ -432,7 +463,7 @@ export default Ember.Component.extend({
   /**
    *  Reload from server the selected project
    *
-   *  @function
+   *  @method reloadProject
    */
   reloadProject: function() {
     var self = this;

@@ -4,15 +4,18 @@ import config from '../config/environment';
 /**
  *  This component manages supervises probes modal
  *
- *  @module components/vm-supervise
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmSupervise
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Close the modal, reset component variables
      *
-     *  @function
+     *  @event closedSupervise
      */
     closedSupervise: function() {
       this.set('vm', null);
@@ -23,7 +26,8 @@ export default Ember.Component.extend({
     /**
      *  Show tooltip for reboot features
      *
-     *  @function
+     *  @event showToolTip
+     *  @param {String} type
      */
     showToolTip: function(type) {
       this.set(type + 'ToolTip', true);
@@ -32,7 +36,8 @@ export default Ember.Component.extend({
     /**
      *  Hide tooltip for reboot features
      *
-     *  @function
+     *  @event hideToolTip
+     *  @param {String} type
      */
     hideToolTip: function(type) {
       this.set(type + 'ToolTip', false);
@@ -41,7 +46,7 @@ export default Ember.Component.extend({
     /**
      *  Ask for reboot, disaply confirm modal
      *
-     *  @function
+     *  @event reboot
      */
     reboot: function(type) {
       this.set('typeReboot', type);
@@ -51,7 +56,7 @@ export default Ember.Component.extend({
     /**
      *  Execute the reboot request
      *
-     *  @function
+     *  @event rebootVm
      */
     rebootVm: function() {
       var self = this;
@@ -77,6 +82,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the tooltip for a soft reboot
    *
+   *  @param softToolTip
    *  @type {Boolean}
    */
   softToolTip: false,
@@ -84,6 +90,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the tooltip for a hard reboot
    *
+   *  @param hardToolTip
    *  @type {Boolean}
    */
   hardToolTip: false,
@@ -91,6 +98,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the confirm modal
    *
+   *  @param isShowingRebootConfirmation
    *  @type {Boolean}
    */
   isShowingRebootConfirmation: false,
@@ -98,6 +106,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the waiting modal
    *
+   *  @param loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -105,6 +114,7 @@ export default Ember.Component.extend({
   /**
    *  Reboot type, default ti SOFT
    *
+   *  @param typeReboot
    *  @type {String}
    */
   typeReboot: 'SOFT',
@@ -112,7 +122,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm is on running state
    *
-   *  @function
+   *  @function isRunning
    *  @returns {Boolean}
    */
   isRunning: function() {
@@ -123,13 +133,13 @@ export default Ember.Component.extend({
   /**
    *  Check if current user is admin, lead, or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin, lead, or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) { return true; }
+    if (accessLevel >= 30) { return true; }
     return false;
   }.property('session.data.authenticated.access_level')
 });

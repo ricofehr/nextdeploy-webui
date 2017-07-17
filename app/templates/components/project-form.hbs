@@ -14,7 +14,7 @@
       selected=project.brand
       searchEnabled=false
       placeholder="Select a brand"
-      onchange=(action 'changeProperty' 'project.brand')
+      onchange=(action (mut project.brand))
       as |brand|
     }}
       {{brand.name}}
@@ -94,7 +94,7 @@
       <label>
         {{x-toggle
               value=project.is_ht
-              onToggle=(action 'toggleHtFlag' isDisableCreate)
+              onToggle=(mut project.is_ht)
               onLabel='true'
               offLabel='false'
               disabled=isDisableCreate}}
@@ -139,8 +139,8 @@
       options=vmsizesSort
       searchEnabled=false
       disabled=isDisableAdmin
-      selected=project_vmsizes
-      onchange=(action 'changeProperty' 'project_vmsizes')
+      selected=project.vmsizes
+      onchange=(action (mut project.vmsizes))
       as |size|
     }}
       {{size.title}} ({{size.description}})
@@ -159,9 +159,9 @@
     {{#power-select-multiple
       options=systemsSort
       searchEnabled=false
-      selected=project_systemimages
+      selected=project.systemimages
       placeholder="Select Operating Systems"
-      onchange=(action 'changeProperty' 'project_systemimages')
+      onchange=(action (mut project.systemimages))
       as |system|
     }}
       {{system.name}} ({{system.systemimagetype.name}})
@@ -176,7 +176,7 @@
     <div class="col-md-3 col-sm-5 col-xs-6">
     <label>
       {{x-toggle
-          onToggle=(action 'displayTechno' isDisableCreate)
+          onToggle=(action 'displayTechno')
           value=technoproxy.toggled
           onLabel='true'
           offLabel='false'
@@ -210,8 +210,8 @@
     {{#power-select-multiple
       options=usersSort
       searchField="email"
-      selected=project_users
-      onchange=(action 'changeProperty' 'project_users')
+      selected=project.users
+      onchange=(action (mut project.users))
       as |user|
     }}
       {{user.email}} ({{user.lastname}})
@@ -219,9 +219,11 @@
     </div>
   </div>
 
+  {{#if isFormValid}}
   <div class="form-group">
     <div class="col-md-2 col-sm-3 col-xs-4">
         <button type="submit" class="pull-right btn btn-primary">Submit</button>
     </div>
   </div>
+  {{/if}}
 </form>

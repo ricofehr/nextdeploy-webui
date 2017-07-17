@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages monitor graphs modal on vm
  *
- *  @module components/vm-monitor
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmMonitor
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Toggle collapse a type of graphs
      *
-     *  @function
+     *  @event toggleCollapse
      *  @param {String} property
      */
     toggleCollapse: function(property) {
@@ -21,7 +24,7 @@ export default Ember.Component.extend({
     /**
      *  Change time lapse of all graphs
      *
-     *  @function
+     *  @event changeTime
      *  @param {String} time the new time lapse
      */
     changeTime: function(time) {
@@ -41,7 +44,7 @@ export default Ember.Component.extend({
     /**
      *  Close the modal, reset component variables
      *
-     *  @function
+     *  @event closedMonitor
      */
     closedMonitor: function() {
       this.set('isBusy', false);
@@ -66,6 +69,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collapse system graphs
    *
+   *  @property systemCollapsed
    *  @type {Boolean}
    */
   systemCollapsed: false,
@@ -73,6 +77,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collapse disk graphs
    *
+   *  @property diskCollapsed
    *  @type {Boolean}
    */
   diskCollapsed: true,
@@ -80,6 +85,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collapse apache graphs
    *
+   *  @property apacheCollapsed
    *  @type {Boolean}
    */
   apacheCollapsed: true,
@@ -87,6 +93,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collapse mysql graphs
    *
+   *  @property mysqlCollapsed
    *  @type {Boolean}
    */
   mysqlCollapsed: true,
@@ -94,6 +101,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collapse memcache graphs
    *
+   *  @property memcacheCollapsed
    *  @type {Boolean}
    */
   memcacheCollapsed: true,
@@ -101,6 +109,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collapse redis graphs
    *
+   *  @property redisCollapsed
    *  @type {Boolean}
    */
   redisCollapsed: true,
@@ -108,6 +117,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to collapse elastic graphs
    *
+   *  @property elasticCollapsed
    *  @type {Boolean}
    */
   elasticCollapsed: true,
@@ -115,6 +125,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to refresh graphs
    *
+   *  @property isRefresh
    *  @type {Boolean}
    */
   isRefresh: false,
@@ -122,6 +133,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to display the loading modal
    *
+   *  @property loadingModal
    *  @type {Boolean}
    */
   loadingModal: false,
@@ -129,6 +141,7 @@ export default Ember.Component.extend({
   /**
    *  The no-cache attribute for graphs
    *
+   *  @property nc
    *  @type {Integer}
    */
   nc: 0,
@@ -136,6 +149,7 @@ export default Ember.Component.extend({
   /**
    *  Current time lapse for graphs
    *
+   *  @property timeGraph
    *  @type {String}
    */
   timeGraph: '8h',
@@ -143,6 +157,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 10m timelapse
    *
+   *  @property is10m
    *  @type {Boolean}
    */
   is10m: false,
@@ -150,6 +165,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 1h timelapse
    *
+   *  @property is1h
    *  @type {Boolean}
    */
   is1h: false,
@@ -157,6 +173,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 8h timelapse
    *
+   *  @property is8h
    *  @type {Boolean}
    */
   is8h: true,
@@ -164,6 +181,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 1d timelapse
    *
+   *  @property is1d
    *  @type {Boolean}
    */
   is1d: false,
@@ -171,6 +189,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 7d timelapse
    *
+   *  @property is7d
    *  @type {Boolean}
    */
   is7d: false,
@@ -178,6 +197,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 30d timelapse
    *
+   *  @property is30d
    *  @type {Boolean}
    */
   is30d: false,
@@ -185,6 +205,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 90d timelapse
    *
+   *  @property is90d
    *  @type {Boolean}
    */
   is90d: false,
@@ -192,6 +213,7 @@ export default Ember.Component.extend({
   /**
    *  Flag to set 365d timelapse
    *
+   *  @property is365d
    *  @type {Boolean}
    */
   is365d: false,
@@ -199,7 +221,7 @@ export default Ember.Component.extend({
   /**
    *  Generates grafana host URI
    *
-   *  @function
+   *  @function getGrafanaHost
    *  @returns {String}
    */
   getGrafanaHost: function() {
@@ -210,7 +232,7 @@ export default Ember.Component.extend({
   /**
    *  Generates grafana script URI
    *
-   *  @function
+   *  @function getGrafanaUrl
    *  @returns {String}
    */
   getGrafanaUrl: function() {
@@ -229,7 +251,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a mysql techno
    *
-   *  @function
+   *  @function isMysql
    *  @returns {Boolean}
    */
   isMysql: function() {
@@ -253,7 +275,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes an apache techno
    *
-   *  @function
+   *  @function isApache
    *  @returns {Boolean}
    */
   isApache: function() {
@@ -277,7 +299,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a redis techno
    *
-   *  @function
+   *  @function isRedis
    *  @returns {Boolean}
    */
   isRedis: function() {
@@ -301,7 +323,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes a memcache techno
    *
-   *  @function
+   *  @function isMemcache
    *  @returns {Boolean}
    */
   isMemcache: function() {
@@ -327,7 +349,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm includes an elastic techno
    *
-   *  @function
+   *  @function isElastic
    *  @returns {Boolean}
    */
   isElastic: function() {
@@ -353,7 +375,7 @@ export default Ember.Component.extend({
   /**
    *  Return vm name
    *
-   *  @function
+   *  @function vmName
    *  @returns {String}
    */
   vmName: function() {
@@ -367,7 +389,7 @@ export default Ember.Component.extend({
   /**
    *  Return true if vm is on running state
    *
-   *  @function
+   *  @function isRunning
    *  @returns {Boolean}
    */
   isRunning: function() {
@@ -382,7 +404,7 @@ export default Ember.Component.extend({
   /**
    *  Loading during graphs generation
    *
-   *  @function
+   *  @method waiting
    */
   waiting: function() {
     var self = this;
@@ -400,7 +422,7 @@ export default Ember.Component.extend({
   /**
    *  Reset to fall all time flags
    *
-   *  @function
+   *  @method resetTimeFlags
    */
   resetTimeFlags: function() {
     this.set('is10m', false);
@@ -416,7 +438,7 @@ export default Ember.Component.extend({
   /**
    *  Refresh graphs
    *
-   *  @function
+   *  @method refreshGraphs
    */
   refreshGraphs: function() {
     var self = this;

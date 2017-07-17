@@ -1,4 +1,11 @@
-// Injects the store object in all Ember components
+/**
+ *  Injects the store object in all Ember components
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class ComponentStoreInjector
+ *  @namespace initializer
+ *  @module nextdeploy
+ */
 export function initialize(application) {
   application.inject('component', 'store', 'service:store');
 }

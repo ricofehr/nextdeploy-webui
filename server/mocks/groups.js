@@ -1,8 +1,20 @@
-/*jshint node:true*/
+/**
+ *  Groups mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Group
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var groupsRouter = express.Router();
 
+  /**
+   *  Mock groups list request
+   *
+   *  @method get:/
+   */
   groupsRouter.get('/', function(req, res) {
     res.send({
       'groups':[
@@ -15,6 +27,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock show group request
+   *
+   *  @method get:/$id
+   */
   groupsRouter.get('/:id', function(req, res) {
     res.send({
       'group':{

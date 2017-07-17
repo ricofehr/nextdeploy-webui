@@ -1,8 +1,20 @@
-/*jshint node:true*/
+/**
+ *  vms mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Vm
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var vmsRouter = express.Router();
 
+  /**
+   *  Mock vms list request
+   *
+   *  @method get:/
+   */
   vmsRouter.get('/', function(req, res) {
     res.send({
       'vms':[
@@ -70,6 +82,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock new vm request
+   *
+   *  @method post:/
+   */
   vmsRouter.post('/', function(req, res) {
     var vm = req.body.vm;
 
@@ -108,6 +125,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock show vm request
+   *
+   *  @method get:/$id
+   */
   vmsRouter.get('/:id', function(req, res) {
     res.send({
       'vm':{
@@ -116,6 +138,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock change vm request
+   *
+   *  @method put:/$id
+   */
   vmsRouter.put('/:id', function(req, res) {
     var osid = Math.floor((Math.random() * 899) + 100);
     var ipid = Math.floor((Math.random() * 250) + 2);
@@ -156,68 +183,148 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock setupcomplete request on vm
+   *
+   *  @method get:/$id/setupcomplete
+   */
   vmsRouter.get('/:id/setupcomplete', function(req, res) {
     res.status(401).send("-120");
   });
 
+  /**
+   *  Mock delete vm request
+   *
+   *  @method delete:/$id
+   */
   vmsRouter.delete('/:id', function(req, res) {
     res.status(204).end();
   });
 
+  /**
+   *  Mock change topic request on vm
+   *
+   *  @method put:/$id/topic
+   */
   vmsRouter.put('/:id/topic', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change varnish-cached option request on vm
+   *
+   *  @method post:/$id/togglecached
+   */
   vmsRouter.post('/:id/togglecached', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change basicauth option request on vm
+   *
+   *  @method post:/$id/toggleauth
+   */
   vmsRouter.post('/:id/toggleauth', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change readonly option request on vm
+   *
+   *  @method post:/$id/togglero
+   */
   vmsRouter.post('/:id/togglero', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change htaccess option request on vm
+   *
+   *  @method post:/$id/toggleht
+   */
   vmsRouter.post('/:id/toggleht', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change backup option request on vm
+   *
+   *  @method post:/$id/togglebackup
+   */
   vmsRouter.post('/:id/togglebackup', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change ci option request on vm
+   *
+   *  @method post:/$id/toggleci
+   */
   vmsRouter.post('/:id/toggleci', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change cors option request on vm
+   *
+   *  @method post:/$id/togglecors
+   */
   vmsRouter.post('/:id/togglecors', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change prod option request on vm
+   *
+   *  @method post:/$id/toggleprod
+   */
   vmsRouter.post('/:id/toggleprod', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock change offline option request on vm
+   *
+   *  @method post:/$id/toggleoffline
+   */
   vmsRouter.post('/:id/toggleoffline', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock reboot request on vm
+   *
+   *  @method post:/$id/reboot
+   */
   vmsRouter.post('/:id/reboot', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock postinstall_display request on vm
+   *
+   *  @method post:/$id/postinstall_display
+   */
   vmsRouter.post('/:id/postinstall_display', function(req, res) {
     res.status(200).send('#!/bin/bash\n\n' +
           'VMNAME="$1"\n' +
           'DOCROOT="$(pwd)/server"');
   });
 
+  /**
+   *  Mock postinstall execution request on vm
+   *
+   *  @method post:/$id/postinstall
+   */
   vmsRouter.post('/:id/postinstall', function(req, res) {
     res.status(200).end();
   });
 
+  /**
+   *  Mock gitpull request on vm
+   *
+   *  @method post:/$id/gitpull
+   */
   vmsRouter.post('/:id/gitpull', function(req, res) {
     res.status(200).send('Current branch master is up to date.\n' +
           'tree 12c6796fdqsc09074d0bc6d0a2829dc5861f9f81\n' +
@@ -227,6 +334,11 @@ module.exports = function(app) {
           'Add a new content');
   });
 
+  /**
+   *  Mock logs request on vm
+   *
+   *  @method post:/$id/logs
+   */
   vmsRouter.post('/:id/logs', function(req, res) {
     res.status(200).send('==> /var/log/apache2/access.log <==\n' +
           '127.0.0.1 - - [16/Jan/2017:20:22:02 +0000] "GET / HTTP/1.1" 200 82 "-" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/55.0.2883.87 Safari/537.36"\n' +

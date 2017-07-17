@@ -3,15 +3,19 @@ import Ember from 'ember';
 /**
  *  This component manages the project endpoint form
  *
- *  @module components/project-endpoint
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class ProjectEndpoint
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Set some default value when framework is setted
      *
-     *  @function
+     *  @event changeFramework
+     *  @param {framework} value
      */
     changeFramework: function(value) {
       var frameworkName = '';
@@ -44,7 +48,7 @@ export default Ember.Component.extend({
     /**
      *  Normalize ipfilter attribute
      *
-     *  @function
+     *  @event checkIpfilter
      */
     checkIpfilter: function() {
       var ipFilter = this.get('endpoint.ipfilter');
@@ -64,55 +68,16 @@ export default Ember.Component.extend({
     },
 
     /**
-     *  Update is_sh flag
-     *
-     *  @function
-     */
-    toggleShFlag: function(disabled, toggle) {
-      if (disabled) {
-        return;
-      }
-
-      this.set('endpoint.is_sh', toggle.newValue);
-    },
-
-    /**
-     *  Update is_ssl flag
-     *
-     *  @function
-     */
-    toggleSslFlag: function(disabled, toggle) {
-      if (disabled) {
-        return;
-      }
-
-      this.set('endpoint.is_ssl', toggle.newValue);
-    },
-
-    /**
-     *  Update is_import flag
-     *
-     *  @function
-     */
-    toggleImportFlag: function(disabled, toggle) {
-      if (disabled) {
-        return;
-      }
-
-      this.set('endpoint.is_import', toggle.newValue);
-    },
-
-    /**
      *  Submit the form: creates a new EndPoint
      *
-     *  @function
+     *  @event addEndpoint
      */
     addEndpoint: function() {
       var ep = this.get('endpoint');
       var endpoint = null;
 
       // check if form is valid
-      if (!this.formIsValid()) {
+      if (!this.get('isFormValid')) {
         return;
       }
 
@@ -138,11 +103,13 @@ export default Ember.Component.extend({
     /**
      *  Delete current endpoint
      *
-     *  @function
+     *  @event deleteEndpoint
      */
     deleteEndpoint: function() {
       this.get('project').get('endpoints').removeObject(this.get('endpoint'));
-      if (this.get('project.id')) { this.get('endpoint').destroyRecord(); }
+      if (this.get('project.id')) {
+        this.get('endpoint').destroyRecord();
+      }
     }
   },
 
@@ -150,7 +117,7 @@ export default Ember.Component.extend({
    *  Return true if local nextdeploy install
    *  In local install, ssl endpoints are forbidden
    *
-   *  @function
+   *  @function isLocal
    *  @returns {Boolean} true if local install (or endpoint already exists)
    */
   isLocal: function() {
@@ -161,36 +128,41 @@ export default Ember.Component.extend({
   /**
    *  Test if current user is admin or edit his own project and can make changes
    *
-   *  @function
+   *  @function isDisableCreate
    *  @returns {Boolean} true if cant make changes
    */
   isDisableCreate: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
-    var user_id = this.get('session').get('data.authenticated.user.id');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
+    var userId = this.get('session').get('data.authenticated.user.id');
 
-    if (access_level >= 50) { return false; }
-    if (parseInt(this.get('project.owner.id')) === user_id) { return false; }
+    if (accessLevel >= 50) { return false; }
+    if (parseInt(this.get('project.owner.id')) === userId) {
+      return false;
+    }
+
     return true;
-
   }.property('session.data.authenticated.user.id'),
 
   /**
    *  Check if current user is admin
    *
-   *  @function
+   *  @function isAdmin
    *  @returns {Boolean} True if admin
    */
   isAdmin: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level === 50) { return true; }
+    if (accessLevel === 50) {
+      return true;
+    }
+
     return false;
   }.property('session.data.authenticated.access_level'),
 
   /**
    *  Ensure framework is filled
    *
-   *  @function
+   *  @function errorFramework
    *  @returns {Boolean} true if no valid field
    */
   errorFramework: function() {
@@ -212,7 +184,7 @@ export default Ember.Component.extend({
    *    - normalize it
    *    - is unique
    *
-   *  @function
+   *  @function errorPrefix
    *  @returns {Boolean} true if no valid field
    */
   errorPrefix: function() {
@@ -275,7 +247,7 @@ export default Ember.Component.extend({
    *    - normalize it
    *    - is unique
    *
-   *  @function
+   *  @function errorPath
    *  @returns {Boolean} true if no valid field
    */
   errorPath: function() {
@@ -317,7 +289,7 @@ export default Ember.Component.extend({
    *    - normalize it
    *    - is unique
    *
-   *  @function
+   *  @function errorAliases
    *  @returns {Boolean} true if no valid field
    */
   errorAliases: function() {
@@ -387,7 +359,7 @@ export default Ember.Component.extend({
    *    - not empty
    *    - normalize it
    *
-   *  @function
+   *  @function errorPort
    *  @returns {Boolean} true if no valid field
    */
   errorPort: function() {
@@ -413,9 +385,25 @@ export default Ember.Component.extend({
   }.property('endpoint.port'),
 
   /**
+   *  Ensures all form fields are valids before submit
+   *
+   *  @function isFormValid
+   */
+  isFormValid: function() {
+    if (!this.get('errorFramework') &&
+        !this.get('errorPrefix') &&
+        !this.get('errorPath') &&
+        !this.get('errorPort') &&
+        !this.get('errorAliases')) {
+          return true;
+    }
+    return false;
+  }.property('errorFramework', 'errorPrefix', 'errorPath', 'errorPort', 'errorAliases'),
+
+  /**
    *  Triggered when the project parent form is submitted
    *
-   *  @function
+   *  @method addEndpointOnSubmitProject
    */
   addEndpointOnSubmitProject: function() {
     var ep = this.get('endpoint');
@@ -423,7 +411,7 @@ export default Ember.Component.extend({
     var isMain = false;
 
     // check if form is valid
-    if (!this.get('projectSave') || !this.formIsValid() || ep.get('id')) {
+    if (!this.get('projectSave') || !this.get('isFormValid') || ep.get('id')) {
       return;
     }
 
@@ -452,7 +440,7 @@ export default Ember.Component.extend({
   /**
    *  Trigger when receives models
    *
-   *  @function
+   *  @method didReceiveAttrs
    */
   didReceiveAttrs() {
     this._super(...arguments);
@@ -471,21 +459,5 @@ export default Ember.Component.extend({
         this.get('endpoint').set('is_install', false);
       }
     }
-
-    this.formIsValid();
-  },
-
-  /**
-   *  Ensures all form fields are valids before submit
-   *
-   *  @function
-   */
-  formIsValid: function() {
-    if (!this.get('errorFramework') &&
-        !this.get('errorPrefix') &&
-        !this.get('errorPath') &&
-        !this.get('errorPort') &&
-        !this.get('errorAliases')) { return true; }
-    return false;
   }
 });

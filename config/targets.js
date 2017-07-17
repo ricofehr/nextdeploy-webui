@@ -1,5 +1,11 @@
-/* eslint-env node */
-
+/**
+ *  Browsers List
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Targets
+ *  @namespace config
+ *  @module nextdeploy
+ */
 module.exports = {
   browsers: [
     'ie 9',

@@ -4,15 +4,18 @@ import config from '../config/environment';
 /**
  *  This component manages requests from uris & tools modal
  *
- *  @module components/uri-requests
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class UriRequests
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Must confirm an action
      *
-     *  @function
+     *  @event confirm
      */
     confirm: function(request) {
         this.set('mustConfirm' + request, true);
@@ -21,11 +24,11 @@ export default Ember.Component.extend({
     /**
      *  Launch request to api
      *
-     *  @function
+     *  @event requestTool
      */
     requestTool: function(request, command) {
       var self = this;
-      var current_id = this.get('uri').get('id');
+      var currentId = this.get('uri').get('id');
 
       this.set('requestRunning', true);
       this.set('loadingModal', true);
@@ -33,7 +36,7 @@ export default Ember.Component.extend({
       this.showSubModal(true);
 
       Ember.$.ajax({
-          url: config.APP.APIHost + "/api/v1/uris/" + current_id + "/" + request,
+          url: config.APP.APIHost + "/api/v1/uris/" + currentId + "/" + request,
           method: "POST",
           global: false,
           data: { command: command },
@@ -44,7 +47,7 @@ export default Ember.Component.extend({
           if (plain && plain.length) {
             self.set('message', plain);
           } else {
-            self.set('loadingModal', false);
+            self.set('message', 'Request is finished on remote VM (silently return).');
           }
         })
         .fail(function() {
@@ -60,6 +63,7 @@ export default Ember.Component.extend({
   /**
    *  Array of scripts name
    *
+   *  @property SCRIPTS
    *  @type {String[]}
    */
   SCRIPTS: [],
@@ -67,55 +71,21 @@ export default Ember.Component.extend({
   /**
    *  Flag to show the site-install confirm question
    *
+   *  @property mustConfirmSiteInstall
    *  @type {Boolean}
    */
   mustConfirmSiteInstall: false,
 
   /**
-   *  Trigger when receives models
-   *
-   *  @function
-   */
-  didReceiveAttrs() {
-    this._super(...arguments);
-    this.set('SCRIPTS', []);
-    this.initScripts();
-    this.set('mustConfirmSiteInstall', false);
-  },
-
-  /**
-   *  Switch between modals display
-   *
-   *  @function
-   */
-  showSubModal: function(show) {
-    var self = this;
-
-    this.set('subModal', show);
-    if (show) {
-      this.set('fadeUris', false);
-      this.set('isShowingUris', false);
-      this.set('loadingModal', true);
-    } else {
-      this.set('loadingModal', false);
-      this.set('isShowingUris', true);
-
-      Ember.run.later(function() {
-        self.set('fadeUris', true);
-      }, 500);
-    }
-  },
-
-  /**
    *  Check if current user is admin, lead, or dev
    *
-   *  @function
+   *  @function isDev
    *  @returns {Boolean} True if admin, lead, or dev
    */
   isDev: function() {
-    var access_level = this.get('session').get('data.authenticated.access_level');
+    var accessLevel = this.get('session').get('data.authenticated.access_level');
 
-    if (access_level >= 30) {
+    if (accessLevel >= 30) {
       return true;
     }
     return false;
@@ -124,7 +94,7 @@ export default Ember.Component.extend({
   /**
    *  Check if we have mysql into technos vm
    *
-   *  @function
+   *  @function isMysql
    *  @returns {Boolean}
    */
   isMysql: function() {
@@ -141,7 +111,7 @@ export default Ember.Component.extend({
   /**
    *  Check if we have nodejs into technos vm
    *
-   *  @function
+   *  @function isNpm
    *  @returns {Boolean}
    */
   isNpm: function() {
@@ -149,7 +119,7 @@ export default Ember.Component.extend({
     var isNode = false;
 
     technos.forEach(function (techno) {
-      // HACK techno name test (a dynamic value from api)
+      // HACK technotype name test (a dynamic value from api)
       if (techno.get('technotype').get('name').match(/Node/)) {
         isNode = true;
       }
@@ -161,7 +131,7 @@ export default Ember.Component.extend({
   /**
    *  Check if we have nodejs framework
    *
-   *  @function
+   *  @function isNodejs
    *  @returns {Boolean}
    */
   isNodejs: function() {
@@ -178,7 +148,7 @@ export default Ember.Component.extend({
   /**
    *  Check if we have react framework
    *
-   *  @function
+   *  @function isReactjs
    *  @returns {Boolean}
    */
   isReactjs: function() {
@@ -195,7 +165,7 @@ export default Ember.Component.extend({
   /**
    *  Check if we have a web server into model
    *
-   *  @function
+   *  @function isWeb
    *  @returns {Boolean}
    */
   isWeb: function() {
@@ -203,6 +173,7 @@ export default Ember.Component.extend({
     var isWeb = false;
 
     technos.forEach(function (techno) {
+      // HACK techno name test (a dynamic value from api)
       if (techno.get('technotype').get('name').match(/^Web/)) {
         isWeb = true;
       }
@@ -214,11 +185,13 @@ export default Ember.Component.extend({
   /**
    *  Check if we have sf2 framework
    *
-   *  @function
+   *  @function isSf2
    *  @returns {Boolean}
    */
   isSf2: function() {
     var framework = this.get('uri.framework.name');
+
+    // HACK framework name test (a dynamic value from api)
     if (framework.match(/^Symfony/)) {
       return true;
     }
@@ -229,11 +202,13 @@ export default Ember.Component.extend({
   /**
    *  Check if we have composer with cms/framework
    *
-   *  @function
+   *  @function isComposer
    *  @returns {Boolean}
    */
   isComposer: function() {
     var framework = this.get('uri.framework.name');
+
+    // HACK framework name test (a dynamic value from api)
     if (framework.match(/^Symfony/) ||
         framework.match(/^Drupal/) ||
         framework.match(/^Static/) ||
@@ -247,11 +222,13 @@ export default Ember.Component.extend({
   /**
    *  Check if we have drupal
    *
-   *  @function
+   *  @function isDrupal
    *  @returns {Boolean}
    */
   isDrupal: function() {
     var framework = this.get('uri.framework.name');
+
+    // HACK framework name test (a dynamic value from api)
     if (framework.match(/^Drupal/)) {
       return true;
     }
@@ -262,11 +239,13 @@ export default Ember.Component.extend({
   /**
    *  Check if we have drupal8
    *
-   *  @function
+   *  @function isDrupal8
    *  @returns {Boolean}
    */
   isDrupal8: function() {
     var framework = this.get('uri.framework.name');
+
+    // HACK framework name test (a dynamic value from api)
     if (framework.match(/^Drupal8/)) {
       return true;
     }
@@ -277,26 +256,26 @@ export default Ember.Component.extend({
   /**
    *  Get the scripts list
    *
-   *  @function
+   *  @method initScripts
    */
   initScripts: function() {
     var self = this;
     var uri = this.get('uri');
-    var current_id;
+    var currentId;
 
     if (!uri) {
       return;
     }
 
-    current_id = this.get('uri').get('id');
+    currentId = this.get('uri').get('id');
 
-    if (!current_id) {
+    if (!currentId) {
       return;
     }
 
     if (this.get('uri.is_sh')) {
       Ember.$.ajax({
-        url: config.APP.APIHost + "/api/v1/uris/" + current_id + "/listscript",
+        url: config.APP.APIHost + "/api/v1/uris/" + currentId + "/listscript",
         method: "POST",
         global: false,
         async: false,
@@ -306,11 +285,53 @@ export default Ember.Component.extend({
         if (plain && plain.length) {
           plain.split("\n").forEach(function (scriptLine) {
             if (scriptLine.trim() !== "") {
-              self.get('SCRIPTS').push({sfolder: scriptLine.split(",")[0], sbin: scriptLine.split(",")[1], command: scriptLine});
+              self.get('SCRIPTS').push(
+                {
+                  sfolder: scriptLine.split(",")[0],
+                  sbin: scriptLine.split(",")[1],
+                  command: scriptLine
+                }
+              );
             }
           });
         }
       });
+    }
+  },
+
+  /**
+   *  Trigger when receives models
+   *
+   *  @method didReceiveAttrs
+   */
+  didReceiveAttrs() {
+    this._super(...arguments);
+    this.set('SCRIPTS', []);
+    this.initScripts();
+    this.set('mustConfirmSiteInstall', false);
+  },
+
+  /**
+   *  Switch between modals display
+   *
+   *  @method showSubModal
+   *  @property {Boolean} show is true for submodal display
+   */
+  showSubModal: function(show) {
+    var self = this;
+
+    this.set('subModal', show);
+    if (show) {
+      this.set('fadeUris', false);
+      this.set('isShowingUris', false);
+      this.set('loadingModal', true);
+    } else {
+      this.set('loadingModal', false);
+      this.set('isShowingUris', true);
+
+      Ember.run.later(function() {
+        self.set('fadeUris', true);
+      }, 500);
     }
   }
 });

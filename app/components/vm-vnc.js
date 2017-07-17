@@ -3,15 +3,18 @@ import Ember from 'ember';
 /**
  *  This component manages vnc terminal modal
  *
- *  @module components/vm-vnc
- *  @augments ember/Component
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class VmVnc
+ *  @namespace component
+ *  @augments Ember.Component
+ *  @module nextdeploy
  */
 export default Ember.Component.extend({
   actions: {
     /**
      *  Close the modal, reset component variables
      *
-     *  @function
+     *  @event closedVnc
      */
     closedVnc: function() {
       this.set('vncUrl', '');

@@ -1,8 +1,20 @@
-/*jshint node:true*/
+/**
+ *  vmsizes mock on server side
+ *
+ *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+ *  @class Vmsize
+ *  @namespace mock
+ *  @module nextdeploy
+ */
 module.exports = function(app) {
   var express = require('express');
   var vmsizesRouter = express.Router();
 
+  /**
+   *  Mock vmsizes list request
+   *
+   *  @method get:/
+   */
   vmsizesRouter.get('/', function(req, res) {
     res.send({
       'vmsizes':[
@@ -14,6 +26,11 @@ module.exports = function(app) {
     });
   });
 
+  /**
+   *  Mock show vmsize request
+   *
+   *  @method get:/$id
+   */
   vmsizesRouter.get('/:id', function(req, res) {
     res.send({
       'vmsize':{

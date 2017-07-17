@@ -17,13 +17,17 @@
     {{#if user.isShow}}
     <tr>
       {{#if isAdmin}}
-      <td class="simplify-mobile first-col" title="Check to delete">
-        {{#if user.isCurrent}}
-          &nbsp;
+        {{#unless user.isCurrent}}
+          {{#if user.canBeDeleted}}
+            <td class="simplify-mobile first-col" title="Check to delete">
+              {{input type="checkbox" checked=user.todelete}}
+            </td>
+          {{else}}
+            <td class="simplify-mobile first-col" title="Has vms running, Can't be deleted">&nbsp;</td>
+          {{/if}}
         {{else}}
-          {{input type="checkbox" checked=user.todelete}}
-        {{/if}}
-      </td>
+          <td class="simplify-mobile first-col">&nbsp;</td>
+        {{/unless}}
       {{/if}}
 
       {{#if isAdmin}}
