@@ -65,3 +65,5 @@ warn: Skipping node_modules directory while scanning for yuidoc.json
 info: Loading package.json data from: package.json
 info: Loading yuidoc.json data from: yuidoc.json
 ```
+
+Updated documentation http://doc.nextdeploy.io/webui/code/
