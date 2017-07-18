@@ -228,7 +228,9 @@ export default Ember.Component.extend({
 
       // normalize
       name = name.toLowerCase();
-      name = name.replace(/-/g,'.');
+      name = name.replace(/^[0-9]/g, '');
+      name = name.replace(/-/g, '.');
+      name = name.replace(/[^a-z0-9\.]/g, '');
 
       if (this.get('project.name') !== name) {
           Ember.run.once(function() {
@@ -444,6 +446,61 @@ export default Ember.Component.extend({
 
     return gitpath;
   }.property('project.brand', 'project.name'),
+
+  /**
+   *  Return ftp username for current project
+   *
+   *  @function getFtpUser
+   *  @returns {String} The ftp username
+   */
+  getFtpUser: function() {
+    var gitpath = '';
+
+    if (!this.get('project.id')) {
+      return;
+    }
+
+    gitpath = this.get('project').get('gitpath');
+    if (!gitpath) {
+      return "";
+    }
+
+    // HACK find the ftp username from the gitpath value
+    return gitpath.replace(/.*\//g, "");
+  }.property('project.gitpath'),
+
+  /**
+   *  Return ftp password for current project
+   *
+   *  @function getFtpPassword
+   *  @returns {String} The ftp password
+   */
+  getFtpPassword: function() {
+    var ftppasswd = 'nextdeploy';
+    var password = '';
+
+    if (!this.get('project.id')) {
+      return;
+    }
+
+    password = this.get('project').get('password');
+    if (password && password.length > 0) {
+      ftppasswd = password.substring(0,8);
+    }
+
+    return ftppasswd;
+  }.property('project.password'),
+
+  /**
+   *  Return ftp hostname for current project
+   *
+   *  @function getFtpHost
+   *  @returns {String} The ftp hostname
+   */
+  getFtpHost: function() {
+    // HACK find the ftp host from the WebUI URI
+    return 'f.' + window.location.hostname.replace(/^ui\./,'');
+  }.property('project.id'),
 
   /**
    *  Check if current user can create project

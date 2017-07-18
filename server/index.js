@@ -1,9 +1,11 @@
-/**
- *  Define and launch the server for mocks
- *
- *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
- *  @module mocks/index
- */
+ /**
+  *  Define and launch the server for mocks
+  *
+  *  @author Eric Fehr (ricofehr@nextdeploy.io, github: ricofehr)
+  *  @class Index
+  *  @namespace server
+  *  @module nextdeploy
+  */
  module.exports = function(app) {
   var globSync   = require('glob').sync;
   var mocks      = globSync('./mocks/**/*.js', { cwd: __dirname }).map(require);

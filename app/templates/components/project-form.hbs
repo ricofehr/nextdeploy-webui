@@ -43,7 +43,7 @@
         autocomplete="off"
         value=project.name
         placeholder="Name"
-        disabled=isDisableEdit}}
+        readonly=isDisableEdit}}
      </div>
   </div>
 
@@ -62,7 +62,7 @@
         classNames="form-control"
         value=gitPath
         placeholder="Gitpath"
-        disabled=true}}
+        readonly=true}}
     </div>
   </div>
 
@@ -87,6 +87,29 @@
     {{input type="text" classNames="form-control" maxlength="8" value=project.password placeholder="Password" disabled=isDisableAdmin}}
     </div>
   </div>
+
+  {{#if project.id}}
+  <div class="form-group">
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">FTP Host</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+    {{input type="text" classNames="form-control" autocomplete="off" value=getFtpHost placeholder="FTP Host" readonly=true}}
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">FTP Login</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+    {{input type="text" classNames="form-control" autocomplete="off" value=getFtpUser placeholder="FTP Login" readonly=true}}
+    </div>
+  </div>
+
+  <div class="form-group">
+      <label class="control-label col-md-2 col-sm-3 col-xs-4 alert-success">FTP Password</label>
+    <div class="col-md-3 col-sm-5 col-xs-6">
+    {{input type="text" classNames="form-control" autocomplete="off" value=getFtpPassword placeholder="FTP Login" readonly=true}}
+    </div>
+  </div>
+  {{/if}}
 
   <div class="form-group">
       <label class="control-label alert-success col-md-2 col-sm-3 col-xs-4" title="Permit override apache setting with .htaccess file">Htaccess</label>
