@@ -20,6 +20,7 @@ export default Ember.Component.extend({
       this.set('isBusy', false);
       this.set('vm', null);
       this.set('isShowingIO', false);
+      this.resetFlags();
     },
   },
 
@@ -143,7 +144,7 @@ export default Ember.Component.extend({
       self.store.findRecord('project',
                             vm.get('project.id'),
                             { backgroundReload: false, reload: true }
-                          ).then(function(project) {
+                           ).then(function(project) {
         project.get('branches').then(function(branches) {
           branches.forEach(function(branch) {
             branchs.push(branch.get('name'));
