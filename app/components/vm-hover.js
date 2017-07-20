@@ -28,10 +28,14 @@ export default Ember.Component.extend({
    *  @returns {String} the title
    */
   commitTitle: function() {
-    var ret = this.get('vm.commit.title');
+    var ret = '';
 
-    if (this.get('vm.commit.title') && this.get('vm.commit.title').match(/^Merge/)) {
-      ret = this.get('vm.commit.title').replace(/ of.*/g, '').replace(/ into.*/g, '');
+    if (this.get('vm.commit.title')) {
+      ret = this.get('vm.commit.title');
+
+      if (this.get('vm.commit.title').match(/^Merge/)) {
+        ret = ret.replace(/ of.*/g, '').replace(/ into.*/g, '');
+      }
     }
 
     return ret.replace(/http:\/\/[^ ]+/g, '');

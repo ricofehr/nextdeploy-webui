@@ -113,7 +113,11 @@ export default Ember.Component.extend({
      *  @param {vmId} the vm id targetted
      */
     showHover: function(vmId) {
-      this.set('isShowingHovers', vmId);
+      var self = this;
+
+      Ember.run.once(function() {
+        self.set('isShowingHovers', vmId);
+      });
     },
 
     /**
@@ -122,7 +126,11 @@ export default Ember.Component.extend({
      *  @event closeHover
      */
     closeHover: function() {
-      this.set('isShowingHovers', -1);
+      var self = this;
+
+      Ember.run.once(function() {
+        self.set('isShowingHovers', -1);
+      });
     },
 
     /**
