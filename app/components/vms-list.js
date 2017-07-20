@@ -822,7 +822,8 @@ export default Ember.Component.extend({
   checkAllStatus: function() {
     var self = this;
 
-    if (self) {
+    // HACK check the _state for return if user quit the vms list
+    if (self && self.get('_state') != 'destroying') {
       self.set('checkStatusLoop', true);
     } else {
       return;
