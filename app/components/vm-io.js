@@ -116,8 +116,7 @@ export default Ember.Component.extend({
    *  @returns {String[]}
    */
   branchs: function() {
-    if (!this.get('isShowingIO')) { return false; }
-    if (!this.get('vm')) { return false; }
+    if (!this.get('isShowingIO') || !this.get('vm')) { return; }
 
     var self = this;
     var branchs = ['default'];
@@ -139,27 +138,25 @@ export default Ember.Component.extend({
     // loading waiting
     this.set('loadingModal', true);
 
-    // ensure vm and project objects are reloaded
-    this.get('vm').reload().then(function(vm) {
-      self.store.findRecord('project',
-                            vm.get('project.id'),
-                            { backgroundReload: false, reload: true }
-                           ).then(function(project) {
-        project.get('branches').then(function(branches) {
-          branches.forEach(function(branch) {
-            branchs.push(branch.get('name'));
-          });
+    // ensure project object are reloaded
+    return this.store.findRecord('project',
+                          self.get('vm.project.id'),
+                          { backgroundReload: false, reload: true }
+                          ).then(function(project) {
 
-          // Ensure loader is running at least 1s (avoid flicker)
-          Ember.run.later(function() {
-            self.set('isShowingIO', true);
-            self.set('loadingModal', false);
-          }, 1000);
+      return project.get('branches').then(function(branches) {
+        branches.forEach(function(branch) {
+          branchs.push(branch.get('name'));
         });
+
+        Ember.run.later(function() {
+          self.set('isShowingIO', true);
+          self.set('loadingModal', false);
+        }, 1000);
+
+        return branchs;
       });
     });
-
-    return branchs;
   }.property('vm.project'),
 
   /**
