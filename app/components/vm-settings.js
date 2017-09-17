@@ -83,7 +83,7 @@ export default Ember.Component.extend({
       })
       .done(function() {
         self.set('loadingModal', false);
-        this.set('topicChanged', false);
+        self.set('topicChanged', false);
       })
       .fail(function() {
         self.set('message', 'Error occurs during execution !');
