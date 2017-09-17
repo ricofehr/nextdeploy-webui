@@ -72,7 +72,13 @@ export default Ember.Component.extend({
      *  @param {Toggle} toggle
      */
     changeProd: function(toggle) {
-      this.set('vm.is_prod', toggle);
+      var isProd = toggle.newValue;
+
+      if (isProd === this.get('vm.is_prod')) {
+        return;
+      }
+
+      this.set('vm.is_prod', toggle.newValue);
       this.generateUris();
     },
 
